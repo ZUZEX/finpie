@@ -1,0 +1,177 @@
+﻿name,category
+US Dollar Index(ICE),currency
+Australian Dollar(CME),currency
+British Pound(CME),currency
+Canadian Dollar(CME),currency
+EuroFX(CME),currency
+Japanese Yen(CME),currency
+Swiss Franc(CME),currency
+Mexican Peso(CME),currency
+New Zealand Dollar(CME),currency
+Brazilian Real(CME),currency
+Crude Oil(NYM),energy
+e-miNY Crude Oil(NYM),energy
+NY Harbor ULSD(NYM),energy
+e-miNY NY Harbor ULSD(NYM),energy
+Gasoline(NYM),energy
+e-miNY RBOB Gasoline(NYM),energy
+Natural Gas(NYM),energy
+e-miNY Natural Gas(NYM),energy
+Brent Crude(ICE),energy
+Gas Oil(ICE),energy
+Ethanol(CBOT),energy
+WTI Crude(ICE),energy
+Heating Oil(ICE),energy
+RBOB Gasoline(ICE),energy
+Crude Oil(TOCOM),energy
+Gasoline(TOCOM),energy
+Kerosene(TOCOM),energy
+Brent Crude Oil(ICE),energy
+RBOB Gasoline(NYM),energy
+WTI Crude Oil(ICE),energy
+Cotton(ICE),fiber
+Lumber(CME),fiber
+Corn(CBOT),grain
+Wheat(CBOT),grain
+Wheat(KCBT),grain
+Wheat(MGE),grain
+Oats(CBOT),grain
+Rough Rice(CBOT),grain
+DJIA Index(CBOT),indices
+S & P 500(CME),indices
+S & P 500 E-Mini(Globex),indices
+NASDAQ 100(CME),indices
+NASDAQ 100 E-Mini(Globex),indices
+S & P 400 Midcap(CME),indices
+S & P 600(CME),indices
+Nikkei 225(SGX),indices
+CAC 40(EURONEXT),indices
+Hang Seng Index(HKFE),indices
+DAX Index (EUREX),indices
+FT-SE 100(EURONEXT),indices
+SPI 200(SFE),indices
+GSCI(CME),indices
+Reuters CCI(ICE),indices
+DAX(EUREX),indices
+DJ EuroSTOXX 50(EUREX),indices
+E-mini DJIA Index(CBOT),indices
+FTSE MIB(ISE),indices
+KOSPI 200(KFE),indices
+Mini-DAX(EUREX),indices
+NASDAQ 100 E-Mini(CME),indices
+Nikkei 225 Mini(JPX),indices
+Nikkei 225(CME),indices
+Nikkei 225(CME) Yen,indices
+Nikkei 225(CME) e-Mini Yen,indices
+Nikkei 225(JPX),indices
+Russell 2000 Mini(CME),indices
+S & P 500 E-Mini(CME),indices
+S&P Midcap 400(CME) e-Mini,indices
+Swiss Market Index(EUREX),indices
+Volatility Index(CBOE),indices
+30-Year T-Bonds(CBOT),interest_rates
+10-Year T-Notes(CBOT),interest_rates
+5-Year T-Notes(CBOT),interest_rates
+2-Year T-Notes(CBOT),interest_rates
+3-Month Eurodollars(CME),interest_rates
+3-Month Euro-Yen(CME),interest_rates
+30 Day Federal Funds(CBOT),interest_rates
+30 Day Fed Funds(e-CBOT),interest_rates
+3-Month Euro-Yen(SIMEX),interest_rates
+3-Mth Euro-Yen(SGX),interest_rates
+Japanese Gov't Bonds(SGX),interest_rates
+German Euro-Bund(EUREX),interest_rates
+German Euro-Bobl(EUREX),interest_rates
+Long Gilt(LIFFE),interest_rates
+3-Month Short Sterling(LIFFE),interest_rates
+3-Month Euribor(LIFFE),interest_rates
+3-Month Australian T-Bills(SFE),interest_rates
+10-Year Australian T-Bonds(SFE),interest_rates
+3-Year Australian T-Bonds(SFE),interest_rates
+10-Year Aus T-Bonds(SFE),interest_rates
+2 Year T-Notes(CBOT),interest_rates
+3-Mth Aus T-Bills(SFE),interest_rates
+3-Mth Euribor(EUREX),interest_rates
+3-Mth Euribor(LIFFE),interest_rates
+3-Mth Short Sterling(LIFFE),interest_rates
+3-Year Aus T-Bonds(SFE),interest_rates
+Euro-Bobl(EUREX),interest_rates
+Euro-Bund(EUREX),interest_rates
+Euro-Buxl(EUREX),interest_rates
+Euro-Schatz(EUREX),interest_rates
+Eurodollars(CME),interest_rates
+Japanese Govt Bonds(SGX),interest_rates
+Ultra 10-Yr T-Note(CBOT),interest_rates
+Ultra T-Bond(CBOT),interest_rates
+Live Cattle(CME),meat
+Feeder Cattle(CME),meat
+Lean Hogs(CME),meat
+Pork Bellies(CME),meat
+Class III Milk (CME),meat
+Class III Milk(CME),meat
+Gold(CMX),metal
+Silver(CMX),metal
+Platinum(NYM),metal
+Palladium(NYM),metal
+Copper(CMX),metal
+Aluminum(CMX),metal
+Palladium(NYMEX),metal
+Platinum(NYMEX),metal
+Cocoa(ICE),softs
+"Coffee ""C""(ICE)",softs
+Orange Juice(ICE),softs
+Sugar #11(ICE),softs
+Sugar #14(ICE),softs
+London Cocoa(LCE),softs
+London Sugar(LCE),softs
+Soybeans(CBOT),soybean
+Soybean Oil(CBOT),soybean
+Soybean Meal(CBOT),soybean
+Canola(WCE),soybean
+Russell 2000 Mini(ICE),indices
+Cocoa(NYBOT),softs
+"Coffee ""C""(NYBOT)",softs
+Orange Juice(NYBOT),softs
+Sugar #11(NYBOT),softs
+London Coffee(LCE),softs
+Cotton(NYBOT),softs
+Heating Oil(NYM),energy
+Unleaded Gas(NYM),energy
+Brent Crude Oil(IPE),energy
+Gas Oil(IPE),energy
+US Dollar Index(NYBOT),currency
+Australian Dollar(IMM),currency
+British Pound(IMM),currency
+Canadian Dollar(IMM),currency
+Japanese Yen(IMM),currency
+Swiss Franc(IMM),currency
+EuroFX(IMM),currency
+Mexican Peso(IMM),currency
+Municipal Bonds(CBOT),interest_rates
+3-Mth T-Bills(IMM),interest_rates
+Eurodollars(IMM),interest_rates
+3-Mth Euro-Yen(IMM),interest_rates
+3-Mth Euro-Yen(SIMEX),interest_rates
+Palladium(NYME),metals
+NASDAQ 100 E-Mini(GLOBEX),indices
+NYSE Composite(NYBOT),indices
+S & P Midcap 400(CME),indices
+Russell 2000(CME),indices
+Value Line(KCBT),indices
+Nikkei 225(SIMEX),indices
+CAC 40(MATIF),indices
+DAX Index(EUREX),indices
+FT-SE 100(LIFFE),indices
+Gasoline(NYMEX),energy
+3-Mth Euro-Yen(CME),interest_rates
+BFP Milk Class III(CME),meat
+Sugar #14(NYBOT),softs
+Rough Rice(MCE),grain
+Deutsche Mark(IMM),currency
+Euro Notional Bond(MATIF),interest_rates
+3-Month Euribor(MATIF),interest_rates
+German Gov't Bonds(LIFFE),interest_rates
+All Ordinaries(SFE),indices
+RBOB Gasoline(NYMEX),energy
+Russell 2000 E-Mini(Globex),indices
+e-MiNY RBOB Gasoline(NYMEX),energy
