@@ -14,6 +14,7 @@
 
 #further description
 
+
 ## <div id="0">Documentation</div>
 
 <ol>
@@ -38,18 +39,16 @@
 	</ul>
 
 </li>
-<li>Economic data</li>
-<li>News data</li>
-<li>Other data</li>
-<li><a href="#F2">Index</a>
-</li>
+<li><a href="#D2">Economic data</a></li>
+<li><a href="#E2">News data</a></li>
+<li><a href="#EE2">Other data</a></li>
+<li><a href="#F2">Index</a></li>
+<li><a href="#G2">Sources</a></li>
 </ol>
 
 ## <div id="2">Installation</div>
 
-Python 3 is recommended. Pip install is available.
-
-# Chrome required
+Python 3 is recommended. Pip install is available. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher required.
 
 ```python
 $ pip install jippy
@@ -1130,9 +1129,20 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <br>
 
 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+## <div id="EE2">Other data</div>
+
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<br>
+
+
+
 ## <div id="F2"> Index </div>
 
-<ul><b>Fundamental data</b>
+<ul><b>Company fundamentals</b>
 <li> <a href='#f1'> get_valuation_metrics( ticker ) </a> </li>
 <li> get_ratios( ticker )</li>
 <li> get_income_statement( ticker )</li>
@@ -1144,21 +1154,46 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li> get_earnings_history( ticker )</li>
 <li> get_revenue_estimates( ticker )</li>
 <li> get_growth_estimates( ticker )</li>
-
+<b>ESG data</b>
+<li> get_esg_data( ticker )</li>
+<li> get_corporate_governance_score( ticker )</li>
+<b>Company profile</b>
+<li> get_profile( ticker )</li>
+<li> get_executives_info( ticker )</li>
 <b>Price data</b>
 <li> get_yahoo_prices( ticker )</li>
 <li> get_investing_com( url )</li>
 <li> get_alpha_vantage_ts( ticker )</li>
 <li> get_quandl( ticker )</li>
 <li> get_iex_prices( ticker )</li>
-
-<b>ESG data</b>
-<li> get_esg_data( ticker )</li>
-<li> get_corporate_governance_score( ticker )</li>
-
-<b>Company profile</b>
-<li> get_profile( ticker )</li>
-<li> get_executives_info( ticker )</li>
+<b>Economic data</b>
+<li> </li>
+<li> </li>
+<b>News data</b>
+<li> </li>
+<li> </li>
+<b>Other data</b>
+<li> </li>
+<li> </li>
 </ul>
 
 <div align="right"><a href="#0">Back to top</a> </div>
+
+## <div id="G2"> Sources </div>
+<li>Yahoo Finance, www.finance.yahoo.com </li>
+<li>Investing.com, www.investing.com </li>
+<li>MarketWatch, marketwatch.com </li>
+<li>Finviz, finviz.com</li>
+<li>Moore Research Center, www.mrci.com </li>
+<li>OECD, data.oecd.org </li>
+<li>NASDAQ, www.nasdaq.com</li>
+<li>Gurufocus, www.gurufocus.com</li>
+<li></li>
+<li>Newspapers...</li>
+<li>SEC...?</li>
+<li>CBOE...?</li>
+<li>VixCentral...?</li>
+
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
