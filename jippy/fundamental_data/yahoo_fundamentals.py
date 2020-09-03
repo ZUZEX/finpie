@@ -7,17 +7,17 @@ import datetime as dt
 
 '''
     Functions:
-        get_valuation_metrics(ticker) ->
-        get_ratios(ticker) ->
-        get_all_statements(ticker) ->
-        get_balance_sheet(ticker) ->
-        get_income_statement(ticker) ->
-        get_cashflow_statement(ticker) ->
+        yahoo_valuation_metrics(ticker) ->
+        yahoo_ratios(ticker) ->
+        yahoo_all_statements(ticker) ->
+        yahoo_balance_sheet(ticker) ->
+        yahoo_income_statement(ticker) ->
+        yahoo_cashflow_statement(ticker) ->
 
         # To do: add quarterly statements function with selenium
 '''
 
-def get_valuation_metrics(ticker):
+def yahoo_valuation_metrics(ticker):
     '''
 
     '''
@@ -31,30 +31,20 @@ def get_valuation_metrics(ticker):
                     if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                         for c in df.iloc[0][1:].values.tolist()]
     df = df[1:]
-    for col in df.columns:
-        df[col][df[col].str.contains('T')] = (df[col][df[col].str.contains('T')] \
-                                                .replace('T', '', regex = True) \
-                                                .astype('float') * 1000000000000).astype('str')
-        df[col][df[col].str.contains('B')] = (df[col][df[col].str.contains('B', case=True)] \
-                                                .replace('B', '', regex = True) \
-                                                .astype('float') * 1000000000).astype('str')
-        df[col][df[col].str.contains('M')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                .replace('T', '', regex = True) \
-                                                .astype('float') * 1000000).astype('str')
-        df[col][df[col].str.contains('K')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                .replace('T', '', regex = True) \
-                                                .astype('float') * 1000).astype('str')
+
+    df = col_to_float(df)
+
     df.replace(',', '', regex = True, inplace = True)
     df.replace('-', np.nan, regex = True, inplace = True)
 
     df[df.columns[1:]] = df[df.columns[1:]].astype('float')
     df.replace('Current', '', regex = True, inplace = True) # replace as of date as well ?
 
-    df['Ticker'] = ticker
+    df['ticker'] = ticker
     return df
 
 
-def get_ratios(ticker):
+def yahoo_ratios(ticker):
     '''
 
     '''
@@ -71,31 +61,14 @@ def get_ratios(ticker):
                     if c.strip()[-1].isdigit() else c.strip() \
                         .replace(' ', '_').replace('/', '')  for c in df.columns ]
 
-    for col in df.columns:
-        try:
-            df[col][df[col].str.contains('T')] = (df[col][df[col].str.contains('T')] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000000000).astype('str')
-            df[col][df[col].str.contains('B')] = (df[col][df[col].str.contains('B', case=True)] \
-                                                    .replace('B', '', regex = True) \
-                                                    .astype('float') * 1000000000).astype('str')
-            df[col][df[col].str.contains('M')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000).astype('str')
-            df[col][df[col].str.contains('K')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000).astype('str')
-            df[col][df[col].str.contains('%')] = (df[col][df[col].str.contains('%', case=True)] \
-                                                    .replace('%', '', regex = True) \
-                                                    .astype('float') / 100).astype('str')
-        except:
-            continue
+    df = col_to_float(df)
+
     df['Date'] = dt.datetime.today().date()
-    df['Ticker'] = ticker
+    df['ticker'] = ticker
     return df
 
 
-def get_statement(ticker, url):
+def yahoo_statement(ticker, url):
     '''
 
     '''
@@ -115,51 +88,54 @@ def get_statement(ticker, url):
     df = df.loc[:,~df.columns.duplicated()]
     df.replace(',','', regex = True, inplace = True)
     df.replace('-', np.nan, inplace = True)
+
+    df['ticker'] = ticker
+
     df.columns = [ col.replace(',','').replace('(','').replace(')','') \
-                    .replace('&','and').replace('/','_').replace(' ', '_' )
-                        for col in df.columns ]
-    df['Ticker'] = ticker
+                        .replace('&','and').replace('/','_').replace(' ', '_' )
+                            for col in df.columns ]
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
 
     return df
 
 
-def get_cashflow_statement(ticker):
+def yahoo_cashflow_statement(ticker):
     url = "https://finance.yahoo.com/quote/" + ticker + "/cash-flow?p=" + ticker
     try:
-        df = get_statement(ticker, url)
+        df = yahoo_statement(ticker, url)
     except:
         print(f'Ticker {ticker} may not be available.')
     return df
 
 
-def get_income_statement(ticker):
+def yahoo_income_statement(ticker):
     url = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
     try:
-        df = get_statement(ticker, url)
+        df = yahoo_statement(ticker, url)
     except:
         print(f'Ticker {ticker} may not be available.')
     return df
 
 
-def get_balance_sheet(ticker):
+def yahoo_balance_sheet(ticker):
     url = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
     try:
-        df = get_statement(ticker, url)
+        df = yahoo_statement(ticker, url)
     except:
         print(f'Ticker {ticker} may not be available.')
     return df
 
 
-def get_all_statements(ticker):
+def yahoo_all_statements(ticker):
     '''
 
     '''
-    incomeStatement = get_income_statement(ticker)
-    balanceSheet = get_balance_sheet(ticker)
-    cashflowStatement = get_cashflow_statement(ticker)
+    incomeStatement = yahoo_income_statement(ticker)
+    balanceSheet = yahoo_balance_sheet(ticker)
+    cashflowStatement = yahoo_cashflow_statement(ticker)
     return incomeStatement, balanceSheet, cashflowStatement
 
-def get_earnings_estimate(ticker):
+def yahoo_earnings_estimate(ticker):
     url = f'https://finance.yahoo.com/quote/{ticker}/analysis'
     session = HTMLSession()
     r = session.get(url)
@@ -174,9 +150,11 @@ def get_earnings_estimate(ticker):
     df = df[1:]
     df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
 
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+
     return df
 
-def get_earnings_history(ticker):
+def yahoo_earnings_history(ticker):
     url = f'https://finance.yahoo.com/quote/{ticker}/analysis'
     session = HTMLSession()
     r = session.get(url)
@@ -188,29 +166,15 @@ def get_earnings_history(ticker):
                     if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                         for c in df.iloc[0][1:].values.tolist()]
     df = df[1:]
-    for col in df.columns:
-        try:
-            df[col][df[col].str.contains('T')] = (df[col][df[col].str.contains('T')] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000000000).astype('str')
-            df[col][df[col].str.contains('B')] = (df[col][df[col].str.contains('B', case=True)] \
-                                                    .replace('B', '', regex = True) \
-                                                    .astype('float') * 1000000000).astype('str')
-            df[col][df[col].str.contains('M')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000).astype('str')
-            df[col][df[col].str.contains('K')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000).astype('str')
-            df[col][df[col].str.contains('%')] = (df[col][df[col].str.contains('%', case=True)] \
-                                                    .replace('%', '', regex = True) \
-                                                    .astype('float') / 100).astype('str')
-        except:
-            continue
+
+    df = col_to_float(df)
+
     df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
     return df
 
-def get_revenue_estimates(ticker):
+def yahoo_revenue_estimates(ticker):
     url = f'https://finance.yahoo.com/quote/{ticker}/analysis'
     session = HTMLSession()
     r = session.get(url)
@@ -223,29 +187,14 @@ def get_revenue_estimates(ticker):
                         for c in df.iloc[0][1:].values.tolist()]
     df = df[1:]
 
-    for col in df.columns:
-        try:
-            df[col][df[col].str.contains('T')] = (df[col][df[col].str.contains('T')] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000000000).astype('str')
-            df[col][df[col].str.contains('B')] = (df[col][df[col].str.contains('B', case=True)] \
-                                                    .replace('B', '', regex = True) \
-                                                    .astype('float') * 1000000000).astype('str')
-            df[col][df[col].str.contains('M')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000).astype('str')
-            df[col][df[col].str.contains('K')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000).astype('str')
-            df[col][df[col].str.contains('%')] = (df[col][df[col].str.contains('%', case=True)] \
-                                                    .replace('%', '', regex = True) \
-                                                    .astype('float') / 100).astype('str')
-        except:
-            continue
+    df = col_to_float(df)
+
     df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
     return df
 
-def get_growth_estimates(ticker):
+def yahoo_growth_estimates(ticker):
     url = f'https://finance.yahoo.com/quote/{ticker}/analysis'
     session = HTMLSession()
     r = session.get(url)
@@ -259,29 +208,12 @@ def get_growth_estimates(ticker):
 
     df = df[1:]
     df = df.astype('str')
-    for col in df.columns:
-        try:
-            df[col][df[col].str.contains('T')] = (df[col][df[col].str.contains('T')] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000000000).astype('str')
-            df[col][df[col].str.contains('B')] = (df[col][df[col].str.contains('B', case=True)] \
-                                                    .replace('B', '', regex = True) \
-                                                    .astype('float') * 1000000000).astype('str')
-            df[col][df[col].str.contains('M')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000000).astype('str')
-            df[col][df[col].str.contains('K')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
-                                                    .astype('float') * 1000).astype('str')
-            df[col][df[col].str.contains('%')] = (df[col][df[col].str.contains('%', case=True)] \
-                                                    .replace('%', '', regex = True) \
-                                                    .astype('float') / 100).astype('str')
-        except:
-            continue
+    df = col_to_float(df)
     df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
     return df
 
-def get_earnings_estimate_trends(ticker):
+def yahoo_earnings_estimate_trends(ticker):
     url = f'https://finance.yahoo.com/quote/{ticker}/analysis'
     session = HTMLSession()
     r = session.get(url)
@@ -293,24 +225,34 @@ def get_earnings_estimate_trends(ticker):
                     if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                         for c in df.iloc[0][1:].values.tolist()]
     df = df[1:]
+    df = col_to_float(df)
+    df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+    return df
+
+
+def col_to_float(df):
+    '''
+    Converts string columns to floats replacing percentage signs and T, B, M, k
+    to trillions, billions, millions and thousands.
+    '''
     for col in df.columns:
         try:
-            df[col][df[col].str.contains('T')] = (df[col][df[col].str.contains('T')] \
-                                                    .replace('T', '', regex = True) \
+            df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
+                                                    .replace('T', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000000000000).astype('str')
-            df[col][df[col].str.contains('B')] = (df[col][df[col].str.contains('B', case=True)] \
-                                                    .replace('B', '', regex = True) \
+            df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
+                                                    .replace('B', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000000000).astype('str')
-            df[col][df[col].str.contains('M')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
+            df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
+                                                    .replace('M', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000000).astype('str')
-            df[col][df[col].str.contains('K')] = (df[col][df[col].str.contains('T', case=True)] \
-                                                    .replace('T', '', regex = True) \
+            df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
+                                                    .replace('k', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000).astype('str')
-            df[col][df[col].str.contains('%')] = (df[col][df[col].str.contains('%', case=True)] \
-                                                    .replace('%', '', regex = True) \
+            df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
+                                                    .replace('%', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') / 100).astype('str')
         except:
             continue
-    df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
     return df

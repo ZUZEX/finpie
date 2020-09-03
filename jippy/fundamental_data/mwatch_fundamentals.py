@@ -5,15 +5,17 @@ from requests_html import HTMLSession
 import pandas as pd
 import numpy as np
 
-
+sheet = 'cash-flow'
+ticker = 'AAPL'
+freq = 'q'
 def mwatch_download(ticker, sheet, freq = 'annual'):
     '''
 
 
     '''
-    if freq == 'annual':
+    if freq.lower() == 'annual' or freq.lower() == 'a':
         url = f'https://www.marketwatch.com/investing/stock/{ticker}/financials/{sheet}'
-    elif freq == 'quarterly':
+    elif freq.lower() == 'quarterly' or freq.lower() == 'q':
         url = f'https://www.marketwatch.com/investing/stock/{ticker}/financials/{sheet}/quarter'
     else:
         print('Please specify annual or quartlery frequency.')
@@ -30,7 +32,7 @@ def mwatch_download(ticker, sheet, freq = 'annual'):
     df.columns = df.iloc[0]
     df = df[1:]
     df.columns.name = ''
-    df.replace('-', np.nan, regex = True, inplace = True)
+    df.replace('-', np.nan, inplace = True)
     df.replace('\(', '-', regex = True, inplace = True)
     df.replace('\)', '', regex = True, inplace = True)
     # rename duplicate columns
@@ -40,25 +42,24 @@ def mwatch_download(ticker, sheet, freq = 'annual'):
     for col in df.columns:
         try:
             df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
-                                                    .replace('T', '', regex = True) \
+                                                    .replace('T', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000000000000).astype('str')
             df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
-                                                    .replace('B', '', regex = True) \
+                                                    .replace('B', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000000000).astype('str')
             df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
-                                                    .replace('M', '', regex = True) \
+                                                    .replace('M', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000000).astype('str')
             df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
-                                                    .replace('k', '', regex = True) \
+                                                    .replace('k', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') * 1000).astype('str')
             df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
-                                                    .replace('%', '', regex = True) \
+                                                    .replace('%', '', regex = True).replace(',', '', regex = True) \
                                                     .astype('float') / 100).astype('str')
         except:
             continue
-    df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('&', 'and').lower() for col in df.columns ]
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
     return df.astype('float')
-
 
 def mwatch_income_statement(ticker, freq = 'annual'):
     '''

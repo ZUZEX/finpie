@@ -6,7 +6,7 @@ import numpy as np
 import datetime as dt
 
 
-def get_profile(ticker):
+def yahoo_profile(ticker):
    session = HTMLSession()
    url = f'https://finance.yahoo.com/quote/{ticker}/profile?p={ticker}'
    r = session.get(url)
@@ -20,7 +20,7 @@ def get_profile(ticker):
    return df
 
 
-def get_executives_info(ticker):
+def yahoo_executives_info(ticker):
    '''
 
    '''

@@ -5,7 +5,7 @@ import numpy as np
 import datetime as dt
 
 
-def get_esg_data(ticker):
+def yahoo_esg_data(ticker):
   '''
 
   '''
@@ -26,7 +26,7 @@ def get_esg_data(ticker):
   return df
 
 
-def get_corporate_governance_score(ticker):
+def yahoo_corporate_governance_score(ticker):
   '''
 
   '''

@@ -5,10 +5,6 @@ import pandas as pd
 # - - - - - - - - - - - - oced current account  - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
-df = oecd_current_account('USA', percent_of_gdp = True)
-
-df.head(5).to_markdown()
-
 
 def oecd_current_account(country_code = 'all', percent_of_gdp = False):
     if percent_of_gdp:
@@ -54,9 +50,14 @@ def oecd_services_balance(country_code = 'all', xm = 'balance'):
     return df
 
 
+
+
+
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - oced financial account  - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
+
+
 
 def oecd_financial_account(country_code = 'all', currency = 'dollar', assets_or_liabs = None):
     '''
@@ -107,6 +108,7 @@ def oecd_reserve_assets(country_code = 'all', currency = 'dollar' ):
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - -  oecd composite leading indicators - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
+
 
 def oecd_cli(country_code = 'all', subject = 'amplitude'):
     '''
@@ -170,6 +172,8 @@ def oecd_bci(country_code = 'all'):
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - -oecd business tendency survey - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
+
+
 
 def oecd_survey_economic_situation( country_code = 'all', freq = 'M' ):
 
@@ -277,6 +281,7 @@ def consumer_opinion_survey( country_code = 'all', measure = 'national', freq = 
 # financial indicator
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
+
 def monetary_aggregates_m1(country_code = 'all', freq = 'M'):
     '''
     Check national currency or non national currency
@@ -328,7 +333,7 @@ def share_prices_industrials(country_code = 'all', freq = 'M'):
     return main_indicator_helper(code1, code2, country_code)
 
 def usd_exchange_rates_spot(country_code = 'all', freq = 'M'):
-    code1 = 'SPINTT01'
+    code1 = ''
     code2 = f'.ST+STSA+IXOB+IXOBSA+NCCU+NCCUSA+CXCU+CXCUSA.{freq}'
     return main_indicator_helper(code1, code2, country_code)
 
@@ -357,11 +362,6 @@ def imports_value(country_code = 'all', freq = 'M'):
     code2 = f'.NCML+NCMLSA+CXML+CXMLSA+GYSA.{freq}'
     return main_indicator_helper(code1, code2, country_code)
 
-def net_trade_value(country_code = 'all', freq = 'M'):
-    code1 = 'XTNTVA01M'
-    code2 = f'.NCML+NCMLSA+CXML+CXMLSA+GYSA.{freq}'
-    return main_indicator_helper(code1, code2, country_code)
-
 
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 # labour indicators
@@ -376,6 +376,7 @@ def unemployment_rate(country_code = 'all', freq = 'M'):
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 # price indices
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
+
 
 def cpi_total(country_code = 'all', freq = 'M'):
     code1 = 'CPALTT01'
@@ -401,6 +402,14 @@ def cpi_energy(country_code = 'all', freq = 'M'):
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 # national accounts
 # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
+
+
+df = gdp_deflator( 'all', freq = 'Q')
+
+df.head(5).to_markdown()
+
+df[df.Country == 'Australia'].tail()
+
 
 def gdp_deflator(country_code = 'all', freq = 'Q'):
     code1 = 'NAGIGP01'
