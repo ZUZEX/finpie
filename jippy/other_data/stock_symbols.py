@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup as bs
 import pandas as pd
 from tqdm import tqdm
 
-def get_gurufocus_tickers():
+def global_tickers():
     '''
 
     '''
@@ -26,7 +26,7 @@ def get_gurufocus_tickers():
     df = df.iloc[:,:3]
     return df
 
-def get_nasdaq_symbols():
+def nasdaq_tickers():
     '''
 
     '''

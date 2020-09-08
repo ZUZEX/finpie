@@ -4,30 +4,34 @@
 
 
 
-# jippy - simple library to download some financial data
+# jippy - a simple library to download some financial data
 
-<p style="text-align: center; color: red">
+<p>
 
 
-<b>For recreational use only. Made for finance students for personal educational purposes to have easier access to some financial data.</b>
+<b>For recreational use only. Made for finance students for personal educational purposes to have easier access to some financial and finance related data.</b>
 
 
 </p>
 
-<p>This library is an ongoing project designed to facilitate access to some financial data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <span style="color:red">function index for more information on issues of data availability and run time.</span></p> 
+<p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#F2">function index </a> for more information on issues of data availability and run time.</p> 
 <p>
-The company fundamentals include functions to retrive data from Yahoo Finance, MarketWatch and Finviz. The price data module retrieves data from Yahoo Finance, Investing.com and also includes a wrapper for price data APIs including Alpha-Vantage, IEX Cloud and Tiingo which require a (free) api-key from the respective provider. The economic data is solely pulled from the OECD database at this point and the news module enables historical news collection from the FT, NYT, WSJ, Barrons, Seeking Alpha, Bloomberg and Reuters. The library also provides a function to get Nasdaq-listed stock tickers as well as worldwide stock symbols (needs some cleaning still once retrieved).
+The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code> and <code>Finviz</code>. The price data module retrieves data from <code>Yahoo Finance</code>, <code>Investing.com</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).
 </p>
 
 <p>
-To do list:
+<i>To do list:</i>
 <ul>
-<li> Object oriented implementation of economic and fundamental data (similiar to the news module) to simplify and add more structure to the library. Refactor code base in general</li>
+<li> Object oriented implementation especially of economic and fundamental data (similiar to the news module) to simplify and add more structure to the library. Refactor code base in general</li>
 <li> Add a section for SEC filings </li>
 <li> Add an earnings transcript section </li>
-<li> Add EIA and USDA data, potentially add weather data sources (heating degree days, cooling degree days, etc.) </li>
-<li> Add social media data (Twitter, Stocktwits, Weibo, Reddit?) </li>
+<li> Add EIA and USDA data, CFTC COT and potentially add weather data sources (heating degree days, cooling degree days, etc.) </li>
+<li> Add social media data (Twitter, Stocktwits, Weibo, Reddit WSB?) </li>
 </ul>
+</p>
+
+<p>
+If there are any issues or recommendations please contact xxx@xxxx.com.
 </p>
 
 <br>

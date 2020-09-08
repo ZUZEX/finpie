@@ -11,7 +11,7 @@ from tqdm import tqdm
 import os
 os.getcwd()
 
-def get_futures_prices(date):
+def futures_prices(date):
     '''
     input: datetime object
     output: pandas dataframe with prices for all available futures for the

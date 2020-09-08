@@ -161,13 +161,13 @@ class CleanText():
 
 
 
-class NewsScrape(CleanText):
-    def __init__(self, ticker, keywords):
+class newsData(CleanText):
+    def __init__(self, ticker, keywords, head = False, verbose = False):
         super().__init__()
         self.ticker = ticker
         self.keywords = keywords
-        self.head = False
-
+        self.head = head
+        self.verbose = verbose
     #########################################################################
     # initial news scrapes
     #########################################################################
@@ -181,7 +181,7 @@ class NewsScrape(CleanText):
         driver.set_page_load_timeout(1800)
         return driver
 
-    def ft_news( self, verbose = False ):
+    def ft( self, ):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     #                            Financial Times
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -339,7 +339,7 @@ class NewsScrape(CleanText):
         data = self._clean_dates(data)
         # write to parquet file with ticker as partition
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -347,7 +347,7 @@ class NewsScrape(CleanText):
 
 
 
-    def wsj_news( self, verbose = False ):
+    def wsj( self ):
 
         source = 'wsj'
 
@@ -455,7 +455,7 @@ class NewsScrape(CleanText):
         data = self._clean_dates(data)
         # write to parquet file with ticker as partition
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -463,7 +463,7 @@ class NewsScrape(CleanText):
         return data
 
 
-    def seeking_alpha_news(self, verbose = False):
+    def seeking_alpha(self):
         # Note: might be stopping scrape too early
 
         source = 'sa'
@@ -571,7 +571,7 @@ class NewsScrape(CleanText):
         data = self._clean_dates(data)
 
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -579,7 +579,7 @@ class NewsScrape(CleanText):
         return data
 
 
-    def barrons_news(self, verbose = False):
+    def barrons(self):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Barrons
@@ -662,7 +662,7 @@ class NewsScrape(CleanText):
         data = self._clean_dates(data)
 
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -670,7 +670,7 @@ class NewsScrape(CleanText):
         return data
 
 
-    def bloomberg_news(self, verbose = False):
+    def bloomberg(self):
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Bloomberg
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -802,7 +802,7 @@ class NewsScrape(CleanText):
         data = self._clean_dates(data)
 
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -810,7 +810,7 @@ class NewsScrape(CleanText):
         return data
 
 
-    def reuters_news(self, verbose = False):
+    def reuters(self):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Reuters
@@ -884,7 +884,7 @@ class NewsScrape(CleanText):
 
         data = self._clean_dates(data)
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -892,7 +892,7 @@ class NewsScrape(CleanText):
         return data
 
 
-    def cnbc_news(self, datestop = False, verbose = False):
+    def cnbc(self, datestop = False):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            CNBC
@@ -1047,7 +1047,7 @@ class NewsScrape(CleanText):
 
         data = self._clean_dates(data)
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
@@ -1055,7 +1055,7 @@ class NewsScrape(CleanText):
         return data
 
 
-    def nyt_news(self, verbose = False):
+    def nyt(self):
 
         source = 'nyt'
 
@@ -1166,7 +1166,7 @@ class NewsScrape(CleanText):
         data = self._clean_dates(data)
 
 
-        if verbose:
+        if self.verbose:
             print('-' * 78)
             print(source.upper(), 'done.', len(data), 'articles collected.')
             print('-' * 78)
