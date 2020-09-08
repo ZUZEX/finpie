@@ -6,14 +6,31 @@
 
 # jippy - simple library to download some financial data
 
-<center><big>
+<p style="text-align: center; color: red">
 
-<span style="color:red">For recreational use only. Made for finance students for personal educational purposes to have easier access to some financial data.</span>
 
-</big></center>
+<b>For recreational use only. Made for finance students for personal educational purposes to have easier access to some financial data.</b>
 
-#further description
 
+</p>
+
+<p>This library is an ongoing project designed to facilitate access to some financial data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <span style="color:red">function index for more information on issues of data availability and run time.</span></p> 
+<p>
+The company fundamentals include functions to retrive data from Yahoo Finance, MarketWatch and Finviz. The price data module retrieves data from Yahoo Finance, Investing.com and also includes a wrapper for price data APIs including Alpha-Vantage, IEX Cloud and Tiingo which require a (free) api-key from the respective provider. The economic data is solely pulled from the OECD database at this point and the news module enables historical news collection from the FT, NYT, WSJ, Barrons, Seeking Alpha, Bloomberg and Reuters. The library also provides a function to get Nasdaq-listed stock tickers as well as worldwide stock symbols (needs some cleaning still once retrieved).
+</p>
+
+<p>
+To do list:
+<ul>
+<li> Object oriented implementation of economic and fundamental data (similiar to the news module) to simplify and add more structure to the library. Refactor code base in general</li>
+<li> Add a section for SEC filings </li>
+<li> Add an earnings transcript section </li>
+<li> Add EIA and USDA data, potentially add weather data sources (heating degree days, cooling degree days, etc.) </li>
+<li> Add social media data (Twitter, Stocktwits, Weibo, Reddit?) </li>
+</ul>
+</p>
+
+<br>
 
 ## <div id="0">Documentation</div>
 

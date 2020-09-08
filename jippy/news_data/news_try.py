@@ -7,9 +7,9 @@ os.chdir('/Users/PeterlaCour/Documents/Research.nosync/financial_data_project/ji
 from NEWS_SCRAPE_CLASS import *
 
 ns = NewsScrape('XOM', 'exxon mobil')
-ns.head = False
+ns.head = True
 
-data = ns.reuters_news(verbose = True)
+data = ns.wsj_news(verbose = True)
 
 
 data.head()

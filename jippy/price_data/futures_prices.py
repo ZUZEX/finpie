@@ -8,6 +8,8 @@ import dask.dataframe as dd
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 
+import os
+os.getcwd()
 
 def get_futures_prices(date):
     '''
@@ -16,6 +18,8 @@ def get_futures_prices(date):
             specified date
     '''
     errors = []
+    if type(date) == type('str'):
+        date = pd.to_datetime(date, format = '%Y-%m-%d')
     y = str(date.year)
     if len(str(date.month)) == 2:
         m = str(date.month)
@@ -31,7 +35,7 @@ def get_futures_prices(date):
         r = session.get(url)
         soup = bs(r.content, 'html5lib')
         df = pd.read_html( str(soup.find('map').find_next('table')) )[0]
-        futures_lookup = pd.read_csv('futures_lookup.csv').name.tolist()
+        futures_lookup = pd.read_csv('./jippy/price_data/futures_lookup.csv').name.tolist()
         indices = [ i for i, j in enumerate(df.iloc[:,0]) if j in futures_lookup ]
         columns = ['month', 'date', 'open', 'high', 'low', 'close', 'change', 'volume', 'open_interest', 'change_in_oi' ]
         if len(df.columns) == 11:
@@ -80,3 +84,10 @@ def futures_historical_prices(date_range):
     df_out = dd.concat( [ i for i in res if type(i) != type([0]) ], axis = 0 )
     df_out = df_out.compute()
     return df_out
+
+
+df = futures_historical_prices( pd.date_range( '2016-01-01', '2020-01-01' ) )
+
+df
+
+get_futures_prices('2010-01-04')
