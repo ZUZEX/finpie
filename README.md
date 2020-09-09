@@ -49,7 +49,7 @@ If there are any issues or recommendations please contact xxx@xxxx.com.
 	<li><a href="#A23">Earnings and revenue estimates</a></li>
 	<li><a href = "">Insider transactions and analyst ratings</a></li>
 	<li><a href = "">Earnings conference calls</a></li>
-	<li><a href = "">ESG data</a></li>
+	<li><a href = "">ESG scores</a></li>
 	<li><a href = "">Company profile</a></li>
 	</ul>
 </li>
@@ -92,112 +92,114 @@ $ pip install jippy
 |:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
 |<u>Valuation metrics and financial ratios</u>|||
-|<li> <a href='#f1'>yahoo.valuation\_metrics()</a> </li>|5 quarters|Fast|
-|<li> <a href='#f2'>yahoo.ratios()</a> </li>|Today's data|Fast|
+|<li> <a id='i1' href='#f1'>yahoo.valuation\_metrics()</a> </li>|5 quarters|Fast|
+|<li> <a id='i2' href='#f2'>yahoo.ratios()</a> </li>|Today's data|Fast|
 |<u>Financial statements</u>|||
-|<li> <a href='#f3'>yahoo.income\_statement()</a> </li>|4 years / quarters|Fast|
-|<li> <a href='#f4'>yahoo.balance\_sheet()</a> </li>|4 years / quarters|Fast|
-|<li> <a href='#f5'>yahoo.cashflow\_statement()</a> </li>|4 years / quarters|Fast|
-|<li> <a href='#f6'>yahoo.statements()</a> </li>|4 years / quarters|Fast|
-|<li> <a href='#f7'>mwatch.income\_statement()</a> </li>|5 years / quarters|Fast|
-|<li> <a href='#f8'>mwatch.balance\_sheet()</a> </li>|5 years / quarters|Fast|
-|<li> <a href='#f9'>mwatch.cashflow\_statement()</a> </li>|5 years / quarters|Fast|
-|<li> <a href='#f10'>mwatch.statements()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i3' href='#f3'>yahoo.income\_statement()</a> </li>|4 years / quarters|Fast|
+|<li> <a id='i4' href='#f4'>yahoo.balance\_sheet()</a> </li>|4 years / quarters|Fast|
+|<li> <a id='i5' href='#f5'>yahoo.cashflow\_statement()</a> </li>|4 years / quarters|Fast|
+|<li> <a id='i6' href='#f6'>yahoo.statements()</a> </li>|4 years / quarters|Fast|
+|<li> <a id='i7' href='#f7'>mwatch.income\_statement()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i8' href='#f8'>mwatch.balance\_sheet()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i9' href='#f9'>mwatch.cashflow\_statement()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i10' href='#f10'>mwatch.statements()</a> </li>|5 years / quarters|Fast|
 |<u>Earnings and revenue estimates</u>|||
-|<li> <a href='#f11'>yahoo.earnings\_estimates()</a> </li>|Today's data|Fast|
-|<li> <a href='#f12'>yahoo.earnings\_history()</a> </li>|4 quarters|Fast|
-|<li> <a href='#f13'>yahoo.revenue\_estimates()</a> </li>|Today's data|Fast|
-|<li> <a href='#f14'>yahoo.growth\_estimates()</a> </li>|Today's data|Fast|
+|<li> <a id='i11' href='#f11'>yahoo.earnings\_estimates()</a> </li>|Today's data|Fast|
+|<li> <a id='i12' href='#f12'>yahoo.earnings\_estimates\_trends()</a> </li>|Recent trend||
+|<li> <a id='i13' href='#f13'>yahoo.earnings\_history()</a> </li>|4 quarters|Fast|
+|<li> <a id='i14' href='#f14'>yahoo.revenue\_estimates()</a> </li>|Today's data|Fast|
+|<li> <a id='i15' href='#f15'>yahoo.growth\_estimates()</a> </li>|Today's data|Fast|
 |<u>Insider transactions and analyst ratings</u>|||
-|<li> <a href='#f15'>finviz.insider\_transactions()</a> </li>|Last year|Fast|
-|<li> <a href='#f16'>finviz.analyst\_ratings()</a> </li>|Most recent ratings|Fast|
+|<li> <a id='i16' href='#f16'>finviz.insider\_transactions()</a> </li>|Last year|Fast|
+|<li> <a id='i17' href='#f17'>finviz.analyst\_ratings()</a> </li>|Most recent ratings|Fast|
 |<u>ESG data</u>|||
-|<li> <a href='#f17'>yahoo.esg\_score()</a> </li>|Today's data|Fast|
-|<li> <a href='#f18'>yahoo.corporate\_governance\_score()</a> </li>|Today's data|Fast|
+|<li> <a id='i18' href='#f18'>yahoo.esg\_score()</a> </li>|Today's data|Fast|
+|<li> <a id='i19' href='#f19'>yahoo.corporate\_governance\_score()</a> </li>|Today's data|Fast|
 |<u>Company profile</u>|||
-|<li> <a href='#f19'>yahoo.profile()</a> </li>|Today's data|Fast|
-|<li> <a href='#f20'>yahoo.exceutives\_info()</a> </li>|Today's data|Fast|
+|<li> <a id='i20' href='#f20'>yahoo.profile()</a> </li>|Today's data|Fast|
+|<li> <a id='i21' href='#f21'>yahoo.exceutives\_info()</a> </li>|Today's data|Fast|
 |<b>Price data</b>|||
-|<li> <a href='#f21'>yahoo\_prices(ticker)</a> </li>|Timeseries|Slow|
-|<li> <a href='#f22'>investing\_com\_prices(url)</a> </li>|Timeseries|Slow|
-|<li> <a href='#f23'>alpha\_vantage\_prices(ticker,api\_token)</a> </li>|Timeseries|Fast|
-|<li> <a href='#f24'>iex_intraday(ticker, api\_token)</a> </li>|Timeseries|Depends on timeframe|
-|<li> <a href='#f25'>tingo\_prices(ticker, api\_token, start\_date, end\_date, freq)</a> </li>|Timeseries|Depends on timeframe|
-|<li> <a href='#f26'>yahoo\_option\_chain(ticker)</a> </li>|Today's data|Slow|
-|<li> <a href='#f27'>futures\_historical\_prices(date\_range)</a> </li>|Timeseries|Very slow|
-|<li> <a href='#f28'>futures\_prices(date)</a> </li>|Any date|Fast|
+|<li> <a id='i22' href='#f22'>yahoo\_prices(ticker)</a> </li>|Timeseries|Slow|
+|<li> <a id='i23' href='#f23'>investing\_com\_prices(url)</a> </li>|Timeseries|Slow|
+|<li> <a id='i24' href='#f24'>alpha\_vantage\_prices(ticker,api\_token)</a> </li>|Timeseries|Fast|
+|<li> <a id='i25' href='#f25'>iex_intraday(ticker, api\_token)</a> </li>|Timeseries|Depends on timeframe|
+|<li> <a id='i26' href='#f26'>tingo\_prices(ticker, api\_token, start\_date, end\_date, freq)</a> </li>|Timeseries|Depends on timeframe|
+|<li> <a id='i27' href='#f27'>yahoo\_option\_chain(ticker)</a> </li>|Today's data|Slow|
+|<li> <a id='i28' href='#f28'>futures\_historical\_prices(date\_range)</a> </li>|Timeseries|Very slow|
+|<li> <a id='i29' href='#f29'>futures\_prices(date)</a> </li>|Any date|Fast|
 |<b>Economic data</b>|||
 |<u>Composite leading indicators</u>|||
-|<li> <a href='#f29'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f30'>oecd.cci()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f31'>oecd.bci()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i30' href='#f30'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i31' href='#f31'>oecd.cci()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i32' href='#f32'>oecd.bci()</a> </li>|Timeseries|Not that slow|
 |<u>Financial indicators</u>|||
-|<li> <a href='#f32'>oecd.monetary\_aggregates\_m1()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f33'>oecd.monetary\_aggregates\_m3()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f34'>oecd.interbank\_rates()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f35'>oecd.short\_term\_rates()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f36'>oecd.long\_term\_rates()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f37'>oecd.all\_share\_prices( )</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f38'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f39'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f40'>oecd.usd\_exchange\_rates\_spot()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f41'>oecd.usd\_exchange\_rates\_average( )</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f42'>oecd.rer\_overall()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i33' href='#f33'>oecd.monetary\_aggregates\_m1()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i34' href='#f34'>oecd.monetary\_aggregates\_m3()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i35' href='#f35'>oecd.interbank\_rates()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i36' href='#f36'>oecd.short\_term\_rates()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i37' href='#f37'>oecd.long\_term\_rates()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i38' href='#f38'>oecd.all\_share\_prices( )</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i39' href='#f39'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i40' href='#f40'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i41' href='#f41'>oecd.usd\_exchange\_rates\_spot()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i42' href='#f42'>oecd.usd\_exchange\_rates\_average( )</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i43' href='#f43'>oecd.rer\_overall()</a> </li>|Timeseries|Not that slow|
 |<u>Trade indicators</u>|||
-|<li> <a href='#f43'>oecd.exports\_value()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f44'>oecd.imports\_value( )</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<b>Labour market indicators</b>|||
-|<li> <a href='#f45'>oecd.unemployment\_rate( )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i44' href='#f44'>oecd.exports\_value()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i45' href='#f45'>oecd.imports\_value( )</a> </li>|Timeseries|Not that slow|
+|<u>Labour market indicators</u>|||
+|<li> <a id='i46' href='#f46'>oecd.unemployment\_rate( )</a> </li>|Timeseries|Not that slow|
 |<u>Price indices</u>|||
-|<li> <a href='#f46'>oecd.cpi\_total()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f47'>oecd.cpi\_city\_total( )</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f48'>oecd.cpi\_non\_food\_non\_energy()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f49'>oecd.cpi\_energy( )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i47' href='#f47'>oecd.cpi\_total()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i48' href='#f48'>oecd.cpi\_city\_total( )</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i49' href='#f49'>oecd.cpi\_non\_food\_non\_energy()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i50' href='#f50'>oecd.cpi\_energy( )</a> </li>|Timeseries|Not that slow|
 |<u>Business tendency and consumer opinion </u>|||
-|<li> <a href='#f50'>oecd.business\_tendency\_survey( sector )</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f51'>oecd.consumer\_opinion\_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i51' href='#f51'>oecd.business\_tendency\_survey( sector )</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i52' href='#f52'>oecd.consumer\_opinion\_survey( measure = ‘national' )</a> </li>|Timeseries|Not that slow|
 |<u>National accounts </u>|||
-|<li> <a href='#f52'>oecd.gdp\_deflator()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f53'>oecd.gdp\_total()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f54'>oecd.gdp\_final\_consumption()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f55'>oecd.gdp\_government\_consumption()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f56'>oecd.gdp\_fixed\_capital\_formation()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f57'>oecd.gdp\_exports()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f58'>oecd.gdp\_imports()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i53' href='#f53'>oecd.gdp\_deflator()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i54' href='#f54'>oecd.gdp\_total()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i55' href='#f55'>oecd.gdp\_final\_consumption()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i56' href='#f56'>oecd.gdp\_government\_consumption()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i57' href='#f57'>oecd.gdp\_fixed\_capital\_formation()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i58' href='#f58'>oecd.gdp\_exports()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i59' href='#f59'>oecd.gdp\_imports()</a> </li>|Timeseries|Not that slow|
 |<u>Production and sales </u>|||
-|<li> <a href='#f59'>oecd.total\_manufacturing\_index()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f60'>oecd.total\_industry\_production\_ex\_construction()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f61'>oecd.total\_construction()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f62'>oecd.total\_retail\_trade()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f63'>oecd.passenger\_car\_registration()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f64'>oecd.construction\_permits\_issued()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i60' href='#f60'>oecd.total\_manufacturing\_index()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i61' href='#f61'>oecd.total\_industry\_production\_ex\_construction()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i62' href='#f62'>oecd.total\_construction()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i63' href='#f63'>oecd.total\_retail\_trade()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i64' href='#f64'>oecd.passenger\_car\_registration()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i65' href='#f65'>oecd.construction\_permits\_issued()</a> </li>|Timeseries|Not that slow|
 |<u>OECD Business Tendency Survey </u>|||
-|<li> <a href='#f65'>oecd.business\_tendency\_survey(sector)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f66'>oecd.consumer\_opinion\_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i66' href='#f66'>oecd.economice\_situation\_survey(sector)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i67' href='#f67'>oecd.consumer\_confidence\_survey()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i68' href='#f68'>oecd.consumer\_prices\_inflation\_survey()</a> </li>|Timeseries|Not that slow|
 |<u>OECD Balance of Payments </u>|||
 |<i>Current Account</i>|||
-|<li> <a href='#f67'>oecd.current\_account(percent\_of\_gdp = False)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f68'>oecd.goods\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f69'>oecd.services\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i69' href='#f69'>oecd.current\_account(percent\_of\_gdp = False)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i70' href='#f70'>oecd.goods\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i71' href='#f71'>oecd.services\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not that slow|
 |<i>Financial account</i>|||
-|<li> <a href='#f70'>oecd.financial\_account(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f71'>oecd.direct\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f72'>oecd.portfolio\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f73'>oecd.other\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f74'>oecd.financial\_derivatives()</a> </li>|Timeseries|Not slow, depends on # of countries|
-|<li> <a href='#f75'>oecd.reserve\_assets()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a id='i72' href='#f72'>oecd.financial\_account(assets\_or\_liabs = None)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i73' href='#f73'>oecd.direct\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i74' href='#f74'>oecd.portfolio\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i75' href='#f75'>oecd.other\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i76' href='#f76'>oecd.financial\_derivatives()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i77' href='#f77'>oecd.reserve\_assets()</a> </li>|Timeseries|Not that slow|
 |<b>News data</b>|||
-|<li> <a href='#f76'>news.barrons()</a> </li>|Timeseries|Not that slow|
-|<li> <a href='#f77'>news.bloomberg()</a> </li>|Timeseries|Very slow|
-|<li> <a href='#f78'>news.cnbc(datestop = False)</a> </li>|Timeseries|Very slow|
-|<li> <a href='#f79'>news.ft()</a> </li>|Timeseries|Slow|
-|<li> <a href='#f80'>news.nyt()</a> </li>|Timeseries|Slow|
-|<li> <a href='#f81'>news.reuters()</a> </li>|Timeseries|Very slow|
-|<li> <a href='#f82'>news.seeking\_alpha()</a> </li>|Timeseries|Not that slow|
-|<li> <a href='#f83'>news.wsj()</a> </li>|Timeseries|Slow|
+|<li> <a id='i78' href='#f78'>news.barrons()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i79' href='#f79'>news.bloomberg()</a> </li>|Timeseries|Very slow|
+|<li> <a id='i80' href='#f80'>news.cnbc(datestop = False)</a> </li>|Timeseries|Very slow|
+|<li> <a id='i81' href='#f81'>news.ft()</a> </li>|Timeseries|Slow|
+|<li> <a id='i82' href='#f82'>news.nyt()</a> </li>|Timeseries|Slow|
+|<li> <a id='i83' href='#f83'>news.reuters()</a> </li>|Timeseries|Very slow|
+|<li> <a id='i84' href='#f84'>news.seeking\_alpha()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i85' href='#f85'>news.wsj()</a> </li>|Timeseries|Slow|
 |<b>Other data</b>|||
-|<li> <a href='#f84'>nasdaq\_tickers()</a> </li>|List of stock tickers|Fast|
-|<li> <a href='#f85'>global\_tickers()</a> </li>|List of stock tickers|Very slow|
+|<li> <a id='i86' href='#f86'>nasdaq\_tickers()</a> </li>|List of stock tickers|Fast|
+|<li> <a id='i87' href='#f87'>global\_tickers()</a> </li>|List of stock tickers|Very slow|
 
 -----
 
@@ -266,12 +268,12 @@ yahoo.valuation_metrics()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i1">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahooData(ticker).ratios()</i>
+#### <div id="f2"><i>yahooData(ticker).ratios()</i></div>
 
 <ul>
 <li>Returns a dataframe with current key statistics and financial ratios.</li>
@@ -293,7 +295,7 @@ yahoo_ratios('AAPL')
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i2">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -305,7 +307,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>mwatchData(ticker).income\_statement( freq = 'annual' )</i>
+#### <div id="f7"><i>mwatchData(ticker).income\_statement( freq = 'annual' )</i></div>
 
 <i>Arguments:</i>
 	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code>
@@ -335,12 +337,12 @@ mwatch.income_statement('q')
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i7">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>mwatchData(ticker).balance\_sheet( freq = 'annual' )</i>
+#### <div id="f8"><i>mwatchData(ticker).balance\_sheet( freq = 'annual' )</i></div>
 
 <i>Arguments:</i>
 	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
@@ -369,11 +371,11 @@ mwatch.balance_sheet('q')
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i8">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>mwatchData(ticker).cashflow\_statement( freq = 'annual' )</i>
+#### <div id="f9"><i>mwatchData(ticker).cashflow\_statement( freq = 'annual' )</i></div>
 
 <i>Arguments:</i>
 	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
@@ -405,18 +407,18 @@ mwatch.cashflow_statement('q')
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i9">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>mwatchData(ticker).statements( freq = 'annual' )</i>
+#### <div id="f10"><i>mwatchData(ticker).statements( freq = 'annual' )</i></div>
 
 <ul>
 <li>Returns <code>mwatchData(ticker).income_statement(freq = 'annual')</code>, <code>mwatchData(ticker).balance_sheet(freq = 'annual')</code> and <code>mwatchData(ticker).cashflow_statement(freq = 'annual')</code> for the given company.</li>
 </ul> 
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i10">To index</a> </div>
 
 
 <br>
@@ -426,7 +428,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <i>yahooData( ticker ).income\_statement()</i>
+#### <div id = "f3" ><i>yahooData( ticker ).income\_statement()</i></div>
 
 <ul>
 <li>Returns annual income statement for the past 4 years.</li>
@@ -453,12 +455,12 @@ yahoo.income_statement()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i3">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahooData( ticker ).balance\_sheet()</i>
+#### <div id = "f4" ><i>yahooData( ticker ).balance\_sheet()</i></div>
 
 <ul>
 <li>Returns annual balance sheet for the past 4 years.</li>
@@ -485,12 +487,12 @@ yahoo.balance_sheet()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i4">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahooData( ticker ).cashflow\_statement()</i>
+#### <div id = "f5" ><i>yahooData( ticker ).cashflow\_statement()</i></div>
 
 <ul>
 <li>Returns annual cashflow statement for the past 4 years.</li>
@@ -517,18 +519,18 @@ yahoo.cashflow_statement()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i5">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahooData( ticker ).statements()</i>
+#### <div id = "f6" ><i>yahooData( ticker ).statements()</i></div>
 
 <ul>
 <li>Returns <code>yahooData(ticker).income_statement()</code>, <code>yahooData(ticker).balance_sheet()</code> and <code>yahooData(ticker).cashflow_statement()</code> for the given company.</li>
 </ul> 
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i6">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -542,7 +544,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <i>yahooData( ticker ).earnings\_estimates()</i>
+#### <div id = "f11" ><i>yahooData( ticker ).earnings\_estimates()</i></div>
 
 <ul>
 <li>Returns current earnings estimates for the current quarter, next quarter, current year and the next year.</li>
@@ -567,12 +569,12 @@ yahoo.earnings_estimates('AAPL')
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i11">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahooData( ticker ).earnings\_estimate\_trends()</i>
+#### <div id = "f12" ><i> yahooData( ticker ).earnings\_estimate\_trends()</i></div>
 
 <ul>
 <li>Returns earnings estimates for the current quarter, next quarter, current year and the next year for the current date, 7 days ago, 30 days ago, 60 days ago and 90 days ago.</li>
@@ -598,12 +600,12 @@ yahoo.earnings_estimate_trends()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i12">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahooData( ticker ).earnings\_history()</i>
+#### <div id = "f13" ><i> yahooData( ticker ).earnings\_history()</i></div>
 
 <ul>
 <li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
@@ -629,12 +631,12 @@ yahoo.earnings_history()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i13">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahooData(ticker)._revenue\_estimates()</i>
+#### <div id = "f14" ><i> yahooData(ticker)._revenue\_estimates()</i></div>
 
 <ul>
 <li>Returns revenue estimates for the current quarter, next quarter, current year and the next year.</li>
@@ -660,12 +662,12 @@ yahoo.revenue_estimates()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i14">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahooData( ticker ).growth\_estimates()</i>
+#### <div id = "f15" ><i> yahooData( ticker ).growth\_estimates()</i></div>
 
 <ul>
 <li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
@@ -694,7 +696,7 @@ yahoo.growth_estimates()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i15">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -705,7 +707,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i> finvizData( ticker ).insider\_transactions()</i>
+#### <div id = "f16" ><i> finvizData( ticker ).insider\_transactions()</i></div>
 
 <ul>
 <li>Returns company insider transactions for the past year.</li>
@@ -733,11 +735,11 @@ finviz.insider_transactions()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i16">To index</a> </div>
 
 -----
 
-#### <i> finvizData( ticker ).analyst\_ratings()</i>
+#### <div id = "f17" ><i> finvizData( ticker ).analyst\_ratings()</i></div>
 
 <ul>
 <li>Returns recent history of analyst ratings.</li>
@@ -766,7 +768,7 @@ finviz.analyst_ratings()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i17">To index</a> </div>
 
 -----
 
@@ -784,7 +786,7 @@ finviz.analyst_ratings()
 
 <br>
 
-###	 <div id="A21"> <li> Yahoo ESG data<hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A21"> <li> Yahoo ESG scores<hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -800,7 +802,7 @@ from jippy.esg.yahoo_esg import *
 ----
 
 
-#### <i>yahooData( ticker ).esg\_score()</i>
+#### <div id = "f18" ><i>yahooData( ticker ).esg\_score()</i></div>
 
 <ul>
 <li>Returns current ESG scores from XXXX published on Yahoo Finance.</li>
@@ -823,11 +825,11 @@ yahoo.esg_score()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i18">To index</a> </div>
 
 ----
 
-#### <i>yahooData( ticker ).corporate\_governance\_score()</i>
+#### <div id = "f19" ><i>yahooData( ticker ).corporate\_governance\_score()</i></div>
 
 <ul>
 <li>Returns current corporate governance scores from XXXX published on Yahoo Finance.</li>
@@ -850,7 +852,7 @@ yahoo.corporate_governance_score()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i19">To index</a> </div>
 
 ----
 
@@ -863,7 +865,7 @@ yahoo.corporate_governance_score()
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>yahooData( ticker ).profile()</i>
+#### <div id = "f20" ><i>yahooData( ticker ).profile()</i></div>
 
 <ul>
 <li>Returns company sector, industry, current number of employees and a company description.</li>
@@ -886,12 +888,12 @@ yahoo.profile()
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i20">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahooData( ticker ).executives_info()</i>
+#### <div id = "f21" ><i>yahooData( ticker ).executives_info()</i></div>
 
 <ul>
 <li>Returns current company executives with name, title, salary, age and their gender.</li>
@@ -919,7 +921,7 @@ yahoo.executives_info()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i21">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -936,7 +938,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 from jippy.price_data.yahoo_price_data import *
 ```
 
-#### <i>yahoo\_prices( ticker )</i>
+#### <div id="f22"><i>yahoo\_prices( ticker )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -964,11 +966,11 @@ yahoo_prices('AAPL')
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i22">To index</a> </div>
 
 ----
 
-#### <i>investing\_com\_prices( url, start_date = None, end_date = None )</i>
+#### <div id="f23"><i>investing\_com\_prices( url, start_date = None, end_date = None )</i></div>
 
 <ul>
 <li></li>
@@ -996,13 +998,13 @@ investing_com_prices('https://www.investing.com/etfs/spdr-s-p-500', start_date =
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i23">To index</a> </div>
 
 
 ----
 
 
-#### <i>alpha\_vantage\_prices( ticker, api_token, start_date = None )</i>
+#### <div id="f24"><i>alpha\_vantage\_prices( ticker, api_token, start_date = None )</i></div>
 
 <ul>
 <li></li>
@@ -1031,11 +1033,11 @@ alpha_vantage_prices('AAPL', <api_token>)
 </small></small></center>
 
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i24">To index</a> </div>
 
 ------
 
-#### <i>iex\_intraday( ticker, api\_token, start\_date = None, end\_date = None )</i>
+#### <div id="f25"><i>iex\_intraday( ticker, api\_token, start\_date = None, end\_date = None )</i></div>
 
 <ul>
 <li></li>
@@ -1064,14 +1066,14 @@ iex_intraday('AAPL', <api_token>)
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i25">To index</a> </div>
 
 
 
 -----
 
 
-#### <i>tingo\_prices( ticker, api\_token, start\_date = None, end\_date = None, freq = '1min' )</i>
+#### <div id="f26"><i>tingo\_prices( ticker, api\_token, start\_date = None, end\_date = None, freq = '1min' )</i></div>
 
 <ul>
 <li></li>
@@ -1099,7 +1101,7 @@ tingo_prices('AAPL', <api_key>)
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i26">To index</a> </div>
 
 ----
 
@@ -1109,7 +1111,7 @@ tingo_prices('AAPL', <api_key>)
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>yahoo\_option_chain( ticker )</i>
+#### <div id="f27"><i>yahoo\_option_chain( ticker )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1153,7 +1155,7 @@ calls, puts = yahoo_option_chain('AAPL')
 
 
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i27">To index</a> </div>
 
 
 
@@ -1162,7 +1164,7 @@ calls, puts = yahoo_option_chain('AAPL')
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>futures\_historical\_prices( date_range )</i>
+#### <div id="f28"><i>futures\_historical\_prices( date_range )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1184,12 +1186,12 @@ futures_historical_prices(pd.date_range('2000-01-01', '2020-01-01'))
 
 
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i28">To index</a> </div>
 
 ----
 
 
-#### <i>get\_futures\_prices( date )</i>
+#### <div id="f29"><i>futures\_prices( date )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1212,7 +1214,7 @@ get_futures_prices('2020-09-01')
 
 
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i29">To index</a> </div>
 
 ------
 
@@ -1237,7 +1239,7 @@ from jippy.economic_data.oecd_data import *
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_cli(country\_code = 'all', subject = 'amplitude')</i>
+#### <div id = "f30"><i>oecdData( country\_code, **args ).cli( subject = 'amplitude' )</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1267,11 +1269,11 @@ oecd_cli(country_code = 'USA', subject = 'amplitude')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i30">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_cci(country\_code = 'all')</i>
+#### <div id = "f31"><i>oecdData( country\_code, **args ).cci()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1301,11 +1303,11 @@ oecd_cci(country_code = 'USA')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i31">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_bci(country\_code = 'all')</i>
+#### <div id = "f32"><i>oecdData( country\_code, **args ).bci()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1335,7 +1337,7 @@ oecd_bci(country_code = 'USA')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i32">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -1354,7 +1356,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>monetary\_aggregates\_m1( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f33"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m1()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1383,11 +1385,11 @@ monetary_aggregates_m1( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i33">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>monetary\_aggregates\_m3( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f34"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m3()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1416,11 +1418,11 @@ monetary_aggregates_m3( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i34">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>interbank\_rates( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f35"><i>oecdData( country\_code, **args ).interbank\_rates()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1449,11 +1451,11 @@ interbank_rates( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i35">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>short\_term\_rates( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f36"><i>oecdData( country\_code, **args ).short\_term\_rates()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1482,11 +1484,11 @@ short_term_rates( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i36">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>long\_term\_rates( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f37"><i>oecdData( country\_code, **args ).long\_term\_rates()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1515,12 +1517,12 @@ long_term_rates( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i37">To index</a> </div>
 
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>all\_share\_prices( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f38"><i>oecdData( country\_code, **args ).all\_share\_prices()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1549,11 +1551,11 @@ all_share_prices( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i38">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>share\_prices\_industrials( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f39"><i>oecdData( country\_code, **args ).share\_prices\_industrials()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1582,11 +1584,11 @@ share_prices_industrials( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i39">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>share\_prices\_industrials( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f40"><i>oecdData( country\_code, **args ).share\_prices\_industrials()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1615,11 +1617,11 @@ share_prices_industrials( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i40">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>usd\_exchange\_rates\_spot( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f41"><i>oecdData( country\_code, **args ).usd\_exchange\_rates\_spot()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1643,11 +1645,11 @@ usd_exchange_rates_spot( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i41">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>usd\_exchange\_rates\_average( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f42"><i>oecdData( country\_code, **args ).usd\_exchange\_rates\_average()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1676,11 +1678,11 @@ usd_exchange_rates_average( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i42">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>rer\_overall( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f43"><i>oecdData( country\_code, **args ).rer\_overall()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1709,7 +1711,7 @@ rer_overall( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i43">To index</a> </div>
 
 
 
@@ -1720,7 +1722,7 @@ rer_overall( country_code = 'all', freq = 'M' )
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>exports\_value( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f44"><i>oecdData( country\_code, **args ).exports\_value()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1749,11 +1751,11 @@ exports_value( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i44">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>imports\_value( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f45"><i>oecdData( country\_code, **args ).imports\_value()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1782,7 +1784,7 @@ exports_value( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i45">To index</a> </div>
 
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1795,7 +1797,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>unemployment\_rate( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f46"><i>oecdData( country\_code, **args ).unemployment\_rate()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1823,7 +1825,7 @@ unemployment_rate( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i46">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -1834,7 +1836,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <i>cpi\_total( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f47"><i>oecdData( country\_code, **args ).cpi\_total()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1856,11 +1858,11 @@ unemployment_rate( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i47">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>cpi\_city\_total( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f48"><i>oecdData( country\_code, **args ).cpi\_city\_total()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1888,11 +1890,11 @@ cpi_city_total( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i48">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>cpi\_non\_food\_non_energy( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f49"><i>oecdData( country\_code, **args ).cpi\_non\_food\_non_energy()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1920,11 +1922,11 @@ cpi_non_food_non_energy( country_code = 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i49">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>cpi\_energy( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f50"><i>oecdData( country\_code, **args ).cpi\_energy()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1953,7 +1955,7 @@ cpi_energy( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i50">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -1965,7 +1967,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>business\_tendency\_survey( sector, country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f51"><i>oecdData( country\_code, **args ).business\_tendency\_survey( sector )</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -1994,11 +1996,11 @@ business_tendency_survey('retail', 'all', freq = 'M')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i51">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>consumer\_opinion\_survey( country\_code = 'all', measure = 'national', freq = 'M' )</i>
+#### <div id = "f52"><i>oecdData( country\_code, **args ).consumer\_opinion\_survey( measure = 'national' )</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2027,7 +2029,7 @@ consumer_opinion_survey( 'all', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i52">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
  
@@ -2038,7 +2040,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f53"><i>oecdData( country\_code, **args ).gdp\_deflator()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2061,11 +2063,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i53">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f54"><i>oecdData( country\_code, **args ).gdp\_total()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2088,42 +2090,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
-
-<ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
-</ul>
-
-<i> Example </i>
-
-```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-
-| ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
-
-</small></small></center>
-
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i54">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f55"><i>oecdData( country\_code, **args ).gdp\_final\_consumption()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2146,13 +2119,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i55">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f56"><i>oecdData( country\_code, **args ).gdp\_government\_consumption()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2175,13 +2148,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i56">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f57"><i>oecdData( country\_code, **args ).gdp\_fixed\_capital\_formation()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2204,13 +2177,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i57">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f58"><i>oecdData( country\_code, **args ).gdp\_exports()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2233,7 +2206,36 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i58">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+#### <div id = "f59"><i>oecdData( country\_code, **args ).gdp\_imports()</i>
+
+<ul>
+<li>The input is a valid company ticker.</li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+
+| ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
+
+</small></small></center>
+
+<div align = "right">  <a href="#i59">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2247,7 +2249,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f60"><i>oecdData( country\_code, **args ).total\_manufacturing\_index()</i>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2267,7 +2269,127 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i60">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id = "f61"><i>oecdData( country\_code, **args ).total\_industry\_production\_ex\_construction()</i>
+
+<ul>
+<li>The input is a valid company ticker.</li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+</small></small></center>
+
+<div align = "right">  <a href="#i61">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id = "f62"><i>oecdData( country\_code, **args ).total\_construction()</i>
+
+<ul>
+<li>The input is a valid company ticker.</li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+</small></small></center>
+
+<div align = "right">  <a href="#i62">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id = "f63"><i>oecdData( country\_code, **args ).total\_retail\_trade()</i>
+
+<ul>
+<li>The input is a valid company ticker.</li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+</small></small></center>
+
+<div align = "right">  <a href="#i63">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id = "f64"><i>oecdData( country\_code, **args ).passenger\_car\_registrations()</i>
+
+<ul>
+<li>The input is a valid company ticker.</li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+</small></small></center>
+
+<div align = "right">  <a href="#i64">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id = "f65"><i>oecdData( country\_code, **args ).construction\_permits\_issued()</i>
+
+<ul>
+<li>The input is a valid company ticker.</li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+</small></small></center>
+
+<div align = "right">  <a href="#i65">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2281,7 +2403,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <i>oecd\_survey\_economic\_situation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f66" ><i>oecdData( country\_code, **args ).economic\_situation\_survey()</i> </div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2310,11 +2432,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i66">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_survey\_consumer\_confidence( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f67" ><i>oecdData( country\_code, **args ).consumer\_confidence\_survey()</i> </div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2343,11 +2465,11 @@ oecd_survey_consumer_confidence( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i67">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_survey\_consumer\_price_inflation( country\_code = 'all', freq = 'M' )</i>
+#### <div id = "f68" ><i>oecdData( country\_code, **args ).consumer\_price_inflation\_survey()</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2376,7 +2498,7 @@ oecd_survey_consumer_price_inflation( country_code = 'USA', freq = 'M' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i68">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2394,7 +2516,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_current_account(country\_code = 'all', percent\_of\_gdp = False)</i>
+#### <div id = "f69" ><i>oecdData( country\_code, **args ).current_account( percent\_of\_gdp = False )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2420,12 +2542,12 @@ oecd_current_account(country_code = 'USA', percent_of_gdp = True)
 
 </small></small></center>
 
-<div align="right"> <a href="#F2">To index</a> </div>
+<div align="right"> <a href="#i69">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>oecd\_goods\_balance(country\_code, xm = 'balance')</i>
+#### <div id = "f70" ><i>oecdData( country\_code, **args ).goods\_balance( xm = 'balance' )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2456,12 +2578,12 @@ oecd_goods_balance(country_code = 'USA', xm = 'exports')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i70">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>oecd\_services\_balance(country\_code, xm = 'balance')</i>
+#### <div id = "f71" ><i>oecdData( country\_code, **args ).services\_balance( xm = 'balance' )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2491,7 +2613,7 @@ oecd_goods_balance(country_code = 'USA', xm = 'balance')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i71">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2500,7 +2622,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_financial\_account(country\_code = 'all', currency = 'dollar', assets\_or\_liabs = None)</i>
+#### <div id = "f72" ><i>oecdData( country\_code, **args ).financial\_account( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2530,12 +2652,12 @@ oecd_financial_account(country_code = 'USA', currency = 'dollar')
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i72">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>oecd\_direct\_investment(country\_code = 'all', currency = 'dollar', assets\_or\_liabs = None):</i>
+#### <div id = "f73" ><i>oecdData( country\_code, **args ).direct\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2564,12 +2686,12 @@ oecd_direct_investment(country_code = 'USA', currency = 'dollar', assets_or_liab
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i73">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>oecd\_portfolio\_investment(country\_code = 'all', currency = 'dollar', assets\_or\_liabs = None):</i>
+#### <div id = "f74" ><i>oecdData( country\_code, **args ).portfolio\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2598,12 +2720,12 @@ oecd_portfolio_investment(country_code = 'USA', currency = 'dollar', assets_or_l
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i74">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>oecd\_other\_investment(country\_code = 'all', currency = 'dollar', assets\_or\_liabs = None):</i>
+#### <div id = "f75" ><i>oecdData( country\_code, **args ).other\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2632,12 +2754,12 @@ oecd_other_investment(country_code = 'USA', currency = 'dollar', assets_or_liabs
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i75">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>oecd\_financial\_derivatives(country\_code = 'all', currency = 'dollar'):</i>
+#### <div id = "f76" ><i>oecdData( country\_code, **args ).financial\_derivatives()</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2667,11 +2789,11 @@ oecd_direct_investment(country_code = 'USA', currency = 'dollar', assets_or_liab
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i76">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>oecd\_reserve\_assets(country\_code = 'all', currency = 'dollar'):</i>
+#### <div id = "f77" ><i>oecdData( country\_code, **args ).reserve\_assets()</i></div>
 
 <ul>
 <li>The input is a valid company ticker.</li>
@@ -2700,7 +2822,7 @@ oecd_reserve_assets(country_code = 'USA', currency = 'dollar' )
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i77">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2716,7 +2838,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 -----
 
-#### <i>NewsScrape.barrons\_news( verbose = False ):</i>
+#### <div id = "f78" ><i>newsData(ticker, keywords).barrons()</i></div>
 
 <ul>
 <li></li>
@@ -2750,12 +2872,12 @@ data = ns.filter_data(data)
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i78">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>NewsScrape.bloomberg\_news( verbose = False ):</i>
+#### <div id = "f79" ><i>newsData(ticker, keywords).bloomberg()</i></div>
 
 <ul>
 <li></li>
@@ -2786,12 +2908,12 @@ df = ns.bloomberg_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i79">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>NewsScrape.cnbc\_news( verbose = False ):</i>
+#### <div id = "f80" ><i>newsData(ticker, keywords).cnbc()</i></div>
 
 <ul>
 <li></li>
@@ -2821,12 +2943,12 @@ df = ns.cnbc_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i80">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>NewsScrape.ft\_news( verbose = False ):</i>
+#### <div id = "f81" ><i>newsData(ticker, keywords).ft()</i></div>
 
 <ul>
 <li></li>
@@ -2862,12 +2984,12 @@ df = ns.ft_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i81">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>NewsScrape.nyt\_news( verbose = False ):</i>
+#### <div id = "f82" ><i>newsData(ticker, keywords).nyt()</i></div>
 
 <ul>
 <li></li>
@@ -2889,12 +3011,12 @@ df = ns.nyt_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i82">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>NewsScrape.reuters\_news( verbose = False ):</i>
+#### <div id = "f83" ><i>newsData(ticker, keywords).reuters()</i></div>
 
 <ul>
 <li></li>
@@ -2916,12 +3038,12 @@ df = ns.reuters_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i83">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>NewsScrape.seeking\_alpha\_news( verbose = False ):</i>
+#### <div id = "f84" ><i>newsData(ticker, keywords).seeking\_alpha()</i></div>
 
 <ul>
 <li></li>
@@ -2953,11 +3075,11 @@ df = ns.seeking_alpha_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i84">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>NewsScrape.wsj\_news( verbose = False ):</i>
+#### <div id = "f85" ><i>newsData(ticker, keywords).wsj()</i></div>
 
 <ul>
 <li></li>
@@ -2979,7 +3101,7 @@ df = ns.wsj_news()
 
 </small></small></center>
 
-<div align = "right">  <a href="#F2">To index</a> </div>
+<div align = "right">  <a href="#i85">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2989,18 +3111,58 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-<br>
+
+#### <div id = "f86" ><i>nasdaq\_tickers()</i></div>
+
+<ul>
+<li></li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+ns = NewsScrape('ticker', 'keywords')
+df = ns.wsj_news()
+```
+
+<i> Output </i>
 
 
-stock symbols
-- world
-- nasdaq
-cik symbol
-weather data
-- heating and cooling degree days
-- eia
-- usda
+<center><small><small>
 
+
+</small></small></center>
+
+<div align = "right">  <a href="#i86">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id = "f87" ><i>global\_tickers()</i></div>
+
+<ul>
+<li></li>
+<li> </li>
+</ul>
+
+<i> Example </i>
+
+```python
+ns = NewsScrape('ticker', 'keywords')
+df = ns.wsj_news()
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+
+</small></small></center>
+
+<div align = "right">  <a href="#i87">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
@@ -3028,10 +3190,6 @@ weather data
 
 <br>
 
-<li>SEC...?</li>
-<li>CBOE...?</li>
-<li>VixCentral...?</li>
-<li>SeekingAlpha...?</li>
 
 
 <div align="right"><a href="#0">Back to top</a> </div>
