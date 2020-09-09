@@ -89,121 +89,115 @@ $ pip install jippy
 ## <div id="3"> Index </div>
 
 |Output|Data Output|Runtime|
-|:-----|:-----------------------------------------------|:-----:|
+|:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
-|<i>yahoo = yahooData(ticker)</i>|Yahoo class|-|
-|<i>mwatch = mwatchData(ticker)</i>|MarketWatch class|-|
-|<i>finviz = finvizData(ticker)</i>|Finviz class|-|
 |<u>Valuation metrics and financial ratios</u>|||
-|<li> <a href='#f1'>yahoo.valuation_metrics()</a> </li>|Last 5 quarters|Fast|
-|<li> <a href='#f2'>yahoo.ratios()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f1'>yahoo.valuation\_metrics()</a> </li>|5 quarters|Fast|
+|<li> <a href='#f2'>yahoo.ratios()</a> </li>|Today's data|Fast|
 |<u>Financial statements</u>|||
-|<li> <a href='#f3'>yahoo.income_statement()</a> </li>|Last 4 years / quarters|Fast|
-|<li> <a href='#f4'>yahoo.balance_sheet()</a> </li>|Last 4 years / quarters|Fast|
-|<li> <a href='#f5'>yahoo.cashflow_statement()</a> </li>|Last 4 years / quarters|Fast|
-|<li> <a href='#f6'>yahoo.statements()</a> </li>|Last 4 years / quarters|Fast|
-|<li> <a href='#f7'>mwatch.income_statement()</a> </li>|Last 5 years / quarters|Fast|
-|<li> <a href='#f8'>mwatch.balance_sheet()</a> </li>|Last 5 years / quarters|Fast|
-|<li> <a href='#f9'>mwatch.cashflow_statement()</a> </li>|Last 5 years / quarters|Fast|
-|<li> <a href='#f10'>mwatch.statements()</a> </li>|Last 5 years / quarters|Fast|
+|<li> <a href='#f3'>yahoo.income\_statement()</a> </li>|4 years / quarters|Fast|
+|<li> <a href='#f4'>yahoo.balance\_sheet()</a> </li>|4 years / quarters|Fast|
+|<li> <a href='#f5'>yahoo.cashflow\_statement()</a> </li>|4 years / quarters|Fast|
+|<li> <a href='#f6'>yahoo.statements()</a> </li>|4 years / quarters|Fast|
+|<li> <a href='#f7'>mwatch.income\_statement()</a> </li>|5 years / quarters|Fast|
+|<li> <a href='#f8'>mwatch.balance\_sheet()</a> </li>|5 years / quarters|Fast|
+|<li> <a href='#f9'>mwatch.cashflow\_statement()</a> </li>|5 years / quarters|Fast|
+|<li> <a href='#f10'>mwatch.statements()</a> </li>|5 years / quarters|Fast|
 |<u>Earnings and revenue estimates</u>|||
-|<li> <a href='#f11'>yahoo.earnings_estimates()</a> </li>|Point in time (today's data only)|Fast|
-|<li> <a href='#f12'>yahoo.earnings_history()</a> </li>|Last 4 quarters|Fast|
-|<li> <a href='#f13'>yahoo.revenue_estimates()</a> </li>|Point in time (today's data only)|Fast|
-|<li> <a href='#f14'>yahoo.growth_estimates()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f11'>yahoo.earnings\_estimates()</a> </li>|Today's data|Fast|
+|<li> <a href='#f12'>yahoo.earnings\_history()</a> </li>|4 quarters|Fast|
+|<li> <a href='#f13'>yahoo.revenue\_estimates()</a> </li>|Today's data|Fast|
+|<li> <a href='#f14'>yahoo.growth\_estimates()</a> </li>|Today's data|Fast|
 |<u>Insider transactions and analyst ratings</u>|||
-|<li> <a href='#f15'>finviz.insider_transactions()</a> </li>|Last year|Fast|
-|<li> <a href='#f16'>finviz.analyst_ratings()</a> </li>|Most recent ratings|Fast|
+|<li> <a href='#f15'>finviz.insider\_transactions()</a> </li>|Last year|Fast|
+|<li> <a href='#f16'>finviz.analyst\_ratings()</a> </li>|Most recent ratings|Fast|
 |<u>ESG data</u>|||
-|<li> <a href='#f17'>yahoo.esg_score()</a> </li>|Point in time (today's data only)|Fast|
-|<li> <a href='#f18'>yahoo.corporate_governance_score()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f17'>yahoo.esg\_score()</a> </li>|Today's data|Fast|
+|<li> <a href='#f18'>yahoo.corporate\_governance\_score()</a> </li>|Today's data|Fast|
 |<u>Company profile</u>|||
-|<li> <a href='#f19'>yahoo.profile()</a> </li>|Point in time (today's data only)|Fast|
-|<li> <a href='#f20'>yahoo.exceutives_info()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f19'>yahoo.profile()</a> </li>|Today's data|Fast|
+|<li> <a href='#f20'>yahoo.exceutives\_info()</a> </li>|Today's data|Fast|
 |<b>Price data</b>|||
-|<li> <a href='#f21'>yahoo_prices(ticker)</a> </li>|Timeseries|Slow|
-|<li> <a href='#f22'>investing_com_prices(url)</a> </li>|Timeseries|Slow|
-|<li> <a href='#f23'>alpha_vantage_prices(ticker,api_token)</a> </li>|Timeseries|Fast|
-|<li> <a href='#f24'>iex_intraday(ticker, api_token)</a> </li>|Timeseries|Depends on timeframe|
-|<li> <a href='#f25'>tingo_prices(ticker, api_token, start_date, end_date, freq)</a> </li>|Timeseries|Depends on timeframe|
-|<li> <a href='#f26'>yahoo_option_chain(ticker)</a> </li>|Point in time (today's data only)|Slow|
-|<li> <a href='#f27'>futures_historical_prices(date_range)</a> </li>|Timeseries|Very slow|
-|<li> <a href='#f28'>futures_prices(date)</a> </li>|Point in time (anytime)|Fast|
+|<li> <a href='#f21'>yahoo\_prices(ticker)</a> </li>|Timeseries|Slow|
+|<li> <a href='#f22'>investing\_com\_prices(url)</a> </li>|Timeseries|Slow|
+|<li> <a href='#f23'>alpha\_vantage\_prices(ticker,api\_token)</a> </li>|Timeseries|Fast|
+|<li> <a href='#f24'>iex_intraday(ticker, api\_token)</a> </li>|Timeseries|Depends on timeframe|
+|<li> <a href='#f25'>tingo\_prices(ticker, api\_token, start\_date, end\_date, freq)</a> </li>|Timeseries|Depends on timeframe|
+|<li> <a href='#f26'>yahoo\_option\_chain(ticker)</a> </li>|Today's data|Slow|
+|<li> <a href='#f27'>futures\_historical\_prices(date\_range)</a> </li>|Timeseries|Very slow|
+|<li> <a href='#f28'>futures\_prices(date)</a> </li>|Any date|Fast|
 |<b>Economic data</b>|||
-|<i>oecd = oecdData(country_code = 'all', freq = 'Q', currency_code = 'CXCU')</i>|OECD class|-|
 |<u>Composite leading indicators</u>|||
-|<li> <a href='#f29'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f30'>oecd.cci()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f31'>oecd.bci()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f29'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f30'>oecd.cci()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f31'>oecd.bci()</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>Financial indicators</u>|||
-|<li> <a href='#f32'>oecd.monetary_aggregates_m1()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f33'>oecd.monetary_aggregates_m3()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f34'>oecd.interbank_rates()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f35'>oecd.short_term_rates()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f36'>oecd.long_term_rates()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f37'>oecd.all_share_prices( )</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f38'>oecd.share_prices_industrials()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f39'>oecd.share_prices_industrials()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f40'>oecd.usd_exchange_rates_spot()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f41'>oecd.usd_exchange_rates_average( )</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f42'>oecd.rer_overall()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f32'>oecd.monetary\_aggregates\_m1()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f33'>oecd.monetary\_aggregates\_m3()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f34'>oecd.interbank\_rates()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f35'>oecd.short\_term\_rates()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f36'>oecd.long\_term\_rates()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f37'>oecd.all\_share\_prices( )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f38'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f39'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f40'>oecd.usd\_exchange\_rates\_spot()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f41'>oecd.usd\_exchange\_rates\_average( )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f42'>oecd.rer\_overall()</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>Trade indicators</u>|||
-|<li> <a href='#f43'>oecd.exports_value()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f44'>oecd.imports_value( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f43'>oecd.exports\_value()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f44'>oecd.imports\_value( )</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<b>Labour market indicators</b>|||
-|<li> <a href='#f45'>oecd.unemployment_rate( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f45'>oecd.unemployment\_rate( )</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>Price indices</u>|||
-|<li> <a href='#f46'>oecd.cpi_total()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f47'>oecd.cpi_city_total( )</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f48'>oecd.cpi_non_food_non_energy()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f49'>oecd.cpi_energy( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f46'>oecd.cpi\_total()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f47'>oecd.cpi\_city\_total( )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f48'>oecd.cpi\_non\_food\_non\_energy()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f49'>oecd.cpi\_energy( )</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>Business tendency and consumer opinion </u>|||
-|<li> <a href='#f50'>oecd.business_tendency_survey( sector )</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f51'>oecd.consumer_opinion_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f50'>oecd.business\_tendency\_survey( sector )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f51'>oecd.consumer\_opinion\_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>National accounts </u>|||
-|<li> <a href='#f52'>oecd.gdp_deflator()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f53'>oecd.gdp_total()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f54'>oecd.gdp_final_consumption()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f55'>oecd.gdp_government_consumption()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f56'>oecd.gdp_fixed_capital_formation()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f57'>oecd.gdp_exports()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f58'>oecd.gdp_imports()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f52'>oecd.gdp\_deflator()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f53'>oecd.gdp\_total()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f54'>oecd.gdp\_final\_consumption()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f55'>oecd.gdp\_government\_consumption()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f56'>oecd.gdp\_fixed\_capital\_formation()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f57'>oecd.gdp\_exports()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f58'>oecd.gdp\_imports()</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>Production and sales </u>|||
-|<li> <a href='#f59'>oecd.total_manufacturing_index()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f60'>oecd.total_industry_production_ex_construction()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f61'>oecd.total_construction()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f62'>oecd.total_retail_trade()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f63'>oecd.passenger_car_registration()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f64'>oecd.construction_permits_issued()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f59'>oecd.total\_manufacturing\_index()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f60'>oecd.total\_industry\_production\_ex\_construction()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f61'>oecd.total\_construction()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f62'>oecd.total\_retail\_trade()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f63'>oecd.passenger\_car\_registration()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f64'>oecd.construction\_permits\_issued()</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<u>OECD Business Tendency Survey </u>|||
-|<li> <a href='#f65'>oecd.business_tendency_survey(sector)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f66'>oecd.consumer_opinion_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<b>OECD Balance of Payments </b>|||
+|<li> <a href='#f65'>oecd.business\_tendency\_survey(sector)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f66'>oecd.consumer\_opinion\_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<u>OECD Balance of Payments </u>|||
 |<i>Current Account</i>|||
-|<li> <a href='#f67'>oecd.current_account(percent_of_gdp = False)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f68'>oecd.goods_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f69'>oecd.services_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f67'>oecd.current\_account(percent\_of\_gdp = False)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f68'>oecd.goods\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f69'>oecd.services\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<i>Financial account</i>|||
-|<li> <a href='#f70'>oecd.financial_account(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f71'>oecd.direct_investment(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f72'>oecd.portfolio_investment(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f73'>oecd.other_investment(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f74'>oecd.financial_derivatives()</a> </li>|Timeseries|Not slow, depends on number of countries|
-|<li> <a href='#f75'>oecd.reserve_assets()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f70'>oecd.financial\_account(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f71'>oecd.direct\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f72'>oecd.portfolio\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f73'>oecd.other\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f74'>oecd.financial\_derivatives()</a> </li>|Timeseries|Not slow, depends on # of countries|
+|<li> <a href='#f75'>oecd.reserve\_assets()</a> </li>|Timeseries|Not slow, depends on # of countries|
 |<b>News data</b>|||
-|<i>news = newsData(ticker, keywords)</i>|News class|-|
 |<li> <a href='#f76'>news.barrons()</a> </li>|Timeseries|Not that slow|
 |<li> <a href='#f77'>news.bloomberg()</a> </li>|Timeseries|Very slow|
 |<li> <a href='#f78'>news.cnbc(datestop = False)</a> </li>|Timeseries|Very slow|
 |<li> <a href='#f79'>news.ft()</a> </li>|Timeseries|Slow|
 |<li> <a href='#f80'>news.nyt()</a> </li>|Timeseries|Slow|
 |<li> <a href='#f81'>news.reuters()</a> </li>|Timeseries|Very slow|
-|<li> <a href='#f82'>news.seeking_alpha()</a> </li>|Timeseries|Not that slow|
+|<li> <a href='#f82'>news.seeking\_alpha()</a> </li>|Timeseries|Not that slow|
 |<li> <a href='#f83'>news.wsj()</a> </li>|Timeseries|Slow|
 |<b>Other data</b>|||
-|<li> <a href='#f84'>nasdaq_tickers()</a> </li>|List of stock tickers|Fast|
-|<li> <a href='#f85'>global_tickers()</a> </li>|List of stock tickers|Very slow|
-<div align="right"><a href="#0">Back to top</a> </div>
+|<li> <a href='#f84'>nasdaq\_tickers()</a> </li>|List of stock tickers|Fast|
+|<li> <a href='#f85'>global\_tickers()</a> </li>|List of stock tickers|Very slow|
 
 -----
 
