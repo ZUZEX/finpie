@@ -14,7 +14,7 @@
 
 </p>
 
-<p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#F2">function index </a> for more information on issues of data availability and run time.</p> 
+<p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#3">function index </a> for more information on issues of data availability and run time.</p> 
 <p>
 The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code> and <code>Finviz</code>. The price data module retrieves data from <code>Yahoo Finance</code>, <code>Investing.com</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).
 </p>
@@ -22,10 +22,9 @@ The company fundamentals module includes functions to retrive data from <code>Ya
 <p>
 <i>To do list:</i>
 <ul>
-<li> Object oriented implementation especially of economic and fundamental data (similiar to the news module) to simplify and add more structure to the library. Refactor code base in general</li>
-<li> Add a section for SEC filings </li>
+<li> Add a section for SEC filings and CIK finder </li>
 <li> Add an earnings transcript section </li>
-<li> Add EIA and USDA data, CFTC COT and potentially add weather data sources (heating degree days, cooling degree days, etc.) </li>
+<li> Add EIA and USDA data, CFTC COT and potentially add weather data sources (e.g. heating degree days, cooling degree days in NE USA) </li>
 <li> Add social media data (Twitter, Stocktwits, Weibo, Reddit WSB?) </li>
 </ul>
 </p>
@@ -42,26 +41,27 @@ If there are any issues or recommendations please contact xxx@xxxx.com.
 <li>
 <a href="#2">Installation</a>
 </li>
-<li><a href="#F2">Function index</a></li>
+<li><a href="#3">Function index</a></li>
 <li>
-<a href="#A2">Company fundamental data</a><ul>
+<a href="#4">Company fundamental data</a><ul>
 	<li><a href="#A21">Valuation metrics and financial ratios</a></li>
 	<li><a href="#A22">Financial statements</a></li>
 	<li><a href="#A23">Earnings and revenue estimates</a></li>
 	<li><a href = "">Insider transactions and analyst ratings</a></li>
+	<li><a href = "">Earnings conference calls</a></li>
 	<li><a href = "">ESG data</a></li>
 	<li><a href = "">Company profile</a></li>
 	</ul>
 </li>
 <li>
-<a href="#B2">Price data</a><ul>
+<a href="#5">Price data</a><ul>
 	<li><a href="">Stock prices</a></li>
 	<li><a href="">Option prices</a></li>
 	<li><a href="#A23">Futures prices</a></li>
 	</ul>
 
 </li>
-<li><a href="#D2">Economic data</a></li>
+<li><a href="#6">Economic data</a></li>
 <ul>
 <li><a href = "">OECD composite leading indicators</a></li>
 <li><a href = "">OECD business tendency survey</a></li>
@@ -69,9 +69,9 @@ If there are any issues or recommendations please contact xxx@xxxx.com.
 <li><a href = "">OECD balance of payment</a></li>
 
 </ul>
-<li><a href="#E2">News data</a></li>
-<li><a href="#EE2">Other data</a></li>
-<li><a href="#G2">Sources</a></li>
+<li><a href="#7">News data</a></li>
+<li><a href="#8">Other data</a></li>
+<li><a href="#9">Sources</a></li>
 </ol>
 
 ## <div id="2">Installation</div>
@@ -86,50 +86,130 @@ $ pip install jippy
 
 
 
-## <div id="F2"> Index </div>
+## <div id="3"> Index </div>
 
-<ul><b>Company fundamentals</b>
-<li> <a href='#f1'> yahoo_valuation_metrics( ticker ) </a> </li>
-<li> yahoo_ratios( ticker )</li>
-<li> yahoo_income_statement( ticker )</li>
-<li> yahoo_balance_sheet( ticker )</li>
-<li> yahoo_cashflow_statement( ticker )</li>
-<li> yahoo_statements( ticker )</li>
-<li> yahoo_earnings_estimates( ticker )</li>
-<li> yahoo_earnings_estimate_trends( ticker )</li>
-<li> yahoo_earnings_history( ticker )</li>
-<li> yahoo_revenue_estimates( ticker )</li>
-<li> yahoo_growth_estimates( ticker )</li>
-<b>ESG data</b>
-<li> yahoo_esg_data( ticker )</li>
-<li> yahoo_corporate_governance_score( ticker )</li>
-<b>Company profile</b>
-<li> yahoo_profile( ticker )</li>
-<li> yahoo_executives_info( ticker )</li>
-<b>Price data</b>
-<li> yahoo_prices( ticker )</li>
-<li> investing_com_prices( url )</li>
-<li> alpha_vantage_ts( ticker )</li>
-<li> quandl_prices( ticker )</li>
-<li> iex_prices( ticker )</li>
-<b>Economic data</b>
-<li> </li>
-<li> </li>
-<b>News data</b>
-<li> </li>
-<li> </li>
-<b>Other data</b>
-<li> </li>
-<li> </li>
-</ul>
-
+|Output|Data Output|Runtime|
+|:-----|:-----------------------------------------------|:-----:|
+|<b>Company Fundamentals</b>|||
+|<i>yahoo = yahooData(ticker)</i>|Yahoo class|-|
+|<i>mwatch = mwatchData(ticker)</i>|MarketWatch class|-|
+|<i>finviz = finvizData(ticker)</i>|Finviz class|-|
+|<u>Valuation metrics and financial ratios</u>|||
+|<li> <a href='#f1'>yahoo.valuation_metrics()</a> </li>|Last 5 quarters|Fast|
+|<li> <a href='#f2'>yahoo.ratios()</a> </li>|Point in time (today's data only)|Fast|
+|<u>Financial statements</u>|||
+|<li> <a href='#f3'>yahoo.income_statement()</a> </li>|Last 4 years / quarters|Fast|
+|<li> <a href='#f4'>yahoo.balance_sheet()</a> </li>|Last 4 years / quarters|Fast|
+|<li> <a href='#f5'>yahoo.cashflow_statement()</a> </li>|Last 4 years / quarters|Fast|
+|<li> <a href='#f6'>yahoo.statements()</a> </li>|Last 4 years / quarters|Fast|
+|<li> <a href='#f7'>mwatch.income_statement()</a> </li>|Last 5 years / quarters|Fast|
+|<li> <a href='#f8'>mwatch.balance_sheet()</a> </li>|Last 5 years / quarters|Fast|
+|<li> <a href='#f9'>mwatch.cashflow_statement()</a> </li>|Last 5 years / quarters|Fast|
+|<li> <a href='#f10'>mwatch.statements()</a> </li>|Last 5 years / quarters|Fast|
+|<u>Earnings and revenue estimates</u>|||
+|<li> <a href='#f11'>yahoo.earnings_estimates()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f12'>yahoo.earnings_history()</a> </li>|Last 4 quarters|Fast|
+|<li> <a href='#f13'>yahoo.revenue_estimates()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f14'>yahoo.growth_estimates()</a> </li>|Point in time (today's data only)|Fast|
+|<u>Insider transactions and analyst ratings</u>|||
+|<li> <a href='#f15'>finviz.insider_transactions()</a> </li>|Last year|Fast|
+|<li> <a href='#f16'>finviz.analyst_ratings()</a> </li>|Most recent ratings|Fast|
+|<u>ESG data</u>|||
+|<li> <a href='#f17'>yahoo.esg_score()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f18'>yahoo.corporate_governance_score()</a> </li>|Point in time (today's data only)|Fast|
+|<u>Company profile</u>|||
+|<li> <a href='#f19'>yahoo.profile()</a> </li>|Point in time (today's data only)|Fast|
+|<li> <a href='#f20'>yahoo.exceutives_info()</a> </li>|Point in time (today's data only)|Fast|
+|<b>Price data</b>|||
+|<li> <a href='#f21'>yahoo_prices(ticker)</a> </li>|Timeseries|Slow|
+|<li> <a href='#f22'>investing_com_prices(url)</a> </li>|Timeseries|Slow|
+|<li> <a href='#f23'>alpha_vantage_prices(ticker,api_token)</a> </li>|Timeseries|Fast|
+|<li> <a href='#f24'>iex_intraday(ticker, api_token)</a> </li>|Timeseries|Depends on timeframe|
+|<li> <a href='#f25'>tingo_prices(ticker, api_token, start_date, end_date, freq)</a> </li>|Timeseries|Depends on timeframe|
+|<li> <a href='#f26'>yahoo_option_chain(ticker)</a> </li>|Point in time (today's data only)|Slow|
+|<li> <a href='#f27'>futures_historical_prices(date_range)</a> </li>|Timeseries|Very slow|
+|<li> <a href='#f28'>futures_prices(date)</a> </li>|Point in time (anytime)|Fast|
+|<b>Economic data</b>|||
+|<i>oecd = oecdData(country_code = 'all', freq = 'Q', currency_code = 'CXCU')</i>|OECD class|-|
+|<u>Composite leading indicators</u>|||
+|<li> <a href='#f29'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f30'>oecd.cci()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f31'>oecd.bci()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>Financial indicators</u>|||
+|<li> <a href='#f32'>oecd.monetary_aggregates_m1()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f33'>oecd.monetary_aggregates_m3()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f34'>oecd.interbank_rates()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f35'>oecd.short_term_rates()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f36'>oecd.long_term_rates()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f37'>oecd.all_share_prices( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f38'>oecd.share_prices_industrials()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f39'>oecd.share_prices_industrials()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f40'>oecd.usd_exchange_rates_spot()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f41'>oecd.usd_exchange_rates_average( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f42'>oecd.rer_overall()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>Trade indicators</u>|||
+|<li> <a href='#f43'>oecd.exports_value()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f44'>oecd.imports_value( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<b>Labour market indicators</b>|||
+|<li> <a href='#f45'>oecd.unemployment_rate( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>Price indices</u>|||
+|<li> <a href='#f46'>oecd.cpi_total()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f47'>oecd.cpi_city_total( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f48'>oecd.cpi_non_food_non_energy()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f49'>oecd.cpi_energy( )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>Business tendency and consumer opinion </u>|||
+|<li> <a href='#f50'>oecd.business_tendency_survey( sector )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f51'>oecd.consumer_opinion_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>National accounts </u>|||
+|<li> <a href='#f52'>oecd.gdp_deflator()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f53'>oecd.gdp_total()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f54'>oecd.gdp_final_consumption()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f55'>oecd.gdp_government_consumption()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f56'>oecd.gdp_fixed_capital_formation()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f57'>oecd.gdp_exports()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f58'>oecd.gdp_imports()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>Production and sales </u>|||
+|<li> <a href='#f59'>oecd.total_manufacturing_index()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f60'>oecd.total_industry_production_ex_construction()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f61'>oecd.total_construction()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f62'>oecd.total_retail_trade()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f63'>oecd.passenger_car_registration()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f64'>oecd.construction_permits_issued()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<u>OECD Business Tendency Survey </u>|||
+|<li> <a href='#f65'>oecd.business_tendency_survey(sector)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f66'>oecd.consumer_opinion_survey( measure = ‘national' )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<b>OECD Balance of Payments </b>|||
+|<i>Current Account</i>|||
+|<li> <a href='#f67'>oecd.current_account(percent_of_gdp = False)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f68'>oecd.goods_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f69'>oecd.services_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<i>Financial account</i>|||
+|<li> <a href='#f70'>oecd.financial_account(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f71'>oecd.direct_investment(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f72'>oecd.portfolio_investment(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f73'>oecd.other_investment(assets_or_liabs = None)</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f74'>oecd.financial_derivatives()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<li> <a href='#f75'>oecd.reserve_assets()</a> </li>|Timeseries|Not slow, depends on number of countries|
+|<b>News data</b>|||
+|<i>news = newsData(ticker, keywords)</i>|News class|-|
+|<li> <a href='#f76'>news.barrons()</a> </li>|Timeseries|Not that slow|
+|<li> <a href='#f77'>news.bloomberg()</a> </li>|Timeseries|Very slow|
+|<li> <a href='#f78'>news.cnbc(datestop = False)</a> </li>|Timeseries|Very slow|
+|<li> <a href='#f79'>news.ft()</a> </li>|Timeseries|Slow|
+|<li> <a href='#f80'>news.nyt()</a> </li>|Timeseries|Slow|
+|<li> <a href='#f81'>news.reuters()</a> </li>|Timeseries|Very slow|
+|<li> <a href='#f82'>news.seeking_alpha()</a> </li>|Timeseries|Not that slow|
+|<li> <a href='#f83'>news.wsj()</a> </li>|Timeseries|Slow|
+|<b>Other data</b>|||
+|<li> <a href='#f84'>nasdaq_tickers()</a> </li>|List of stock tickers|Fast|
+|<li> <a href='#f85'>global_tickers()</a> </li>|List of stock tickers|Very slow|
 <div align="right"><a href="#0">Back to top</a> </div>
 
 -----
 
 <br>
 
-## <div id="A2"> Company Fundamental data</a>
+## <div id="4"> Company Fundamental data</a>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -162,17 +242,17 @@ from jippy.fundamental_data.yahoo_profile import *
 
 
 
-#### <div id="f1"><i>yahoo\_valuation\_metrics( ticker )</i></div>
+#### <div id="f1"><i>yahooData(ticker).valuation\_metrics()</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns dataframe with valuation metrics for the last five quarters and for the current date including trailing P/E, PEG ratio, P/S, etc.</li>
+<li>Returns a dataframe with valuation metrics for the last five quarters and for the current date including trailing P/E, PEG ratio, P/S, etc.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_valuation_metrics('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.valuation_metrics()
 ```
 
 <i> Output </i>
@@ -197,11 +277,10 @@ yahoo_valuation_metrics('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahoo\_ratios( ticker )</i>
+#### <i>yahooData(ticker).ratios()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns dataframe with current twelve months trailing cashflow statement and the previous 4 annual cashflow statements.</li>
+<li>Returns a dataframe with current key statistics and financial ratios.</li>
 </ul>
 
 <i> Example </i>
@@ -232,17 +311,21 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>mwatch\_income\_statement( ticker, freq = 'annual' )</i>
+#### <i>mwatchData(ticker).income\_statement( freq = 'annual' )</i>
+
+<i>Arguments:</i>
+	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns earnings estimates for the given company.</li>
+<li><code>freq = 'annual'</code>: Returns annual income statement for the past 5 years.</li>
+<li><code>freq = 'quarterly'</code>: Returns quarterly income statement for the past 5 quarters.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-mwatch_income_statement('AAPL', freq = 'q')
+mwatch = mwatchData('AAPL')
+mwatch.income_statement('q')
 ```
 <i> Output </i>
 <center><small><small>
@@ -263,17 +346,18 @@ mwatch_income_statement('AAPL', freq = 'q')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>mwatch\_balance\_sheet( ticker, freq = 'annual' )</i>
+#### <i>mwatchData(ticker).balance\_sheet( freq = 'annual' )</i>
 
-<ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns earnings estimates for the given company.</li>
+<i>Arguments:</i>
+	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
+<ul><li><code>freq = 'annual'</code>: Returns annual balance sheet for the past 5 years.</li><li><code>freq = 'quarterly'</code>: Returns quarterly balance sheet for the past 5 quarters.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-mwatch_balance_sheet('AAPL', freq = 'q')
+mwatch = mwatchData('AAPL')
+mwatch.balance_sheet('q')
 ```
 <i> Output </i>
 <center><small><small>
@@ -295,19 +379,25 @@ mwatch_balance_sheet('AAPL', freq = 'q')
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <i>mwatch\_cashflow\_statement( ticker, freq = 'annual' )</i>
+#### <i>mwatchData(ticker).cashflow\_statement( freq = 'annual' )</i>
 
+<i>Arguments:</i>
+	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
+	
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns earnings estimates for the given company.</li>
+<li><code>freq = 'annual'</code>: Returns annual cashflow statement for the past 5 years.</li>
+<li><code>freq = 'quarterly'</code>: Returns quarterly cashflow statement for the past 5 quarters.</li>
 </ul>
 
-<i> Example </i>
+
+<i> Example: </i>
 
 ```python
-mwatch_cashflow_statement('AAPL', freq = 'q')
+mwatch = mwatchData('AAPL')
+mwatch.cashflow_statement('q')
 ```
-<i> Output </i>
+
+<i> Output: </i>
 <center><small><small>
 
 | date        |   net\_income\_before\_extraordinaries |   net\_income\_growth |   depreciation\_depletion\_and\_amortization |   depreciation\_and\_depletion |   ... |
@@ -326,11 +416,10 @@ mwatch_cashflow_statement('AAPL', freq = 'q')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>mwatch\_statements( ticker, freq = 'annual' )</i>
+#### <i>mwatchData(ticker).statements( freq = 'annual' )</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns <code>mwatch_income_statement(ticker, freq = 'annual')</code>, <code>mwatch_balance_sheet(ticker, freq = 'annual')</code> and <code>mwatch_cashflow_statement(ticker, freq = 'annual')</code> for the given company.</li>
+<li>Returns <code>mwatchData(ticker).income_statement(freq = 'annual')</code>, <code>mwatchData(ticker).balance_sheet(freq = 'annual')</code> and <code>mwatchData(ticker).cashflow_statement(freq = 'annual')</code> for the given company.</li>
 </ul> 
 
 <div align="right"> <a href="#F2">To index</a> </div>
@@ -343,16 +432,17 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <i>yahoo\_income\_statement( ticker )</i>
+#### <i>yahooData( ticker ).income\_statement()</i>
+
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns dataframe with current twelve months trailing income statement and the previous 4 annual income statements.</li>
+<li>Returns annual income statement for the past 4 years.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_income_statement('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.income_statement()
 ```
 
 <i> Output </i>
@@ -374,17 +464,17 @@ yahoo_income_statement('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahoo\_balance\_sheet( ticker )</i>
+#### <i>yahooData( ticker ).balance\_sheet()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns dataframe with current twelve months trailing balance sheet and the previous 4 annual balance sheets.</li>
+<li>Returns annual balance sheet for the past 4 years.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_balance_sheet('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.balance_sheet()
 ```
 
 <i> Output </i>
@@ -406,17 +496,17 @@ yahoo_balance_sheet('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahoo\_cashflow\_statement( ticker )</i>
+#### <i>yahooData( ticker ).cashflow\_statement()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns dataframe with current twelve months trailing cashflow statement and the previous 4 annual cashflow statements.</li>
-</ul> 
+<li>Returns annual cashflow statement for the past 4 years.</li>
+</ul>
 
 <i> Example </i>
 
 ```python
-yahoo_cashflow_statement('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.cashflow_statement()
 ```
 
 <i> Output </i>
@@ -438,11 +528,10 @@ yahoo_cashflow_statement('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahoo\_statements( ticker )</i>
+#### <i>yahooData( ticker ).statements()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns <code>yahoo_income_statement(ticker)</code>, <code>yahoo_balance_sheet(ticker)</code> and <code>yahoo_cashflow_statement(ticker)</code> for the given company.</li>
+<li>Returns <code>yahooData(ticker).income_statement()</code>, <code>yahooData(ticker).balance_sheet()</code> and <code>yahooData(ticker).cashflow_statement()</code> for the given company.</li>
 </ul> 
 
 <div align="right"> <a href="#F2">To index</a> </div>
@@ -459,18 +548,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <i>yahoo\_earnings\_estimates( ticker )</i>
+#### <i>yahooData( ticker ).earnings\_estimates()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li>Returns earnings estimates for the given company.</li>
+<li>Returns current earnings estimates for the current quarter, next quarter, current year and the next year.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_earnings_estimates('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.earnings_estimates('AAPL')
 ```
+
 <i> Output </i>
 <center><small><small>
 
@@ -488,17 +578,17 @@ yahoo_earnings_estimates('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahoo\_earnings\_estimate\_trends( ticker )</i>
+#### <i> yahooData( ticker ).earnings\_estimate\_trends()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns earnings estimates for the current quarter, next quarter, current year and the next year for the current date, 7 days ago, 30 days ago, 60 days ago and 90 days ago.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_earnings_estimate_trend('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.earnings_estimate_trends()
 ```
 
 <i> Output </i>
@@ -519,17 +609,17 @@ yahoo_earnings_estimate_trend('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahoo\_earnings\_history( ticker )</i>
+#### <i> yahooData( ticker ).earnings\_history()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_earnings_history('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.earnings_history()
 ```
 
 <i> Output </i>
@@ -550,17 +640,17 @@ yahoo_earnings_history('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahoo\_revenue\_estimates( ticker )</i>
+#### <i> yahooData(ticker)._revenue\_estimates()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns revenue estimates for the current quarter, next quarter, current year and the next year.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_revenue_estimates('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.revenue_estimates()
 ```
 
 <i> Output </i>
@@ -581,29 +671,32 @@ yahoo_revenue_estimates('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i> yahoo\_growth\_estimates( ticker )</i>
+#### <i> yahooData( ticker ).growth\_estimates()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_growth_estimates('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.growth_estimates()
 ```
 
 <i> Output </i>
 
 <center><small><small>
 
-|    | date      |   current\_qtr |   next\_qtr |   current\_year |   next\_year |   next\_5\_years\_(per\_annum) |   past\_5\_years\_(per\_annum) |
-|---:|:----------|---------------:|------------:|---------------:|------------:|---------------------------:|---------------------------:|
-|  1 | AAPL      |         -0.076 |       0.092 |          0.091 |       0.197 |                     0.1246 |                     0.0842 |
-|  2 | Industry  |        nan     |     nan     |        nan     |     nan     |                   nan      |                   nan      |
-|  3 | Sector(s) |        nan     |     nan     |        nan     |     nan     |                   nan      |                   nan      |
-|  4 | S&P 500   |        nan     |     nan     |        nan     |     nan     |                   nan      |                   nan      |
+|                          |    aapl |   industry |   sector(s) |   sandp_500 |
+|:-------------------------|--------:|-----------:|------------:|------------:|
+| Current\_Qtr.             | -0.079  |        nan |         nan |         nan |
+| Next\_Qtr.                |  0.088  |        nan |         nan |         nan |
+| Current_Year             |  0.088  |        nan |         nan |         nan |
+| Next_Year                |  0.195  |        nan |         nan |         nan |
+| Next\_5\_Years\_(per\_annum) |  0.1246 |        nan |         nan |         nan |
+| Past\_5\_Years\_(per\_annum) |  0.0842 |        nan |         nan |         nan |
+
 
 </small></small></center>
 
@@ -618,17 +711,17 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i> finviz\_insider\_transactions( ticker )</i>
+#### <i> finvizData( ticker ).insider\_transactions()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns company insider transactions for the past year.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-finviz_insider_transactions('AAPL')
+finviz = finvizData('AAPL')
+finviz.insider_transactions()
 ```
 
 <i> Output </i>
@@ -650,17 +743,17 @@ finviz_insider_transactions('AAPL')
 
 -----
 
-#### <i> finviz\_analyst\_ratings( ticker )</i>
+#### <i> finvizData( ticker ).analyst\_ratings()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns recent history of analyst ratings.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-finviz_analyst_ratings('AAPL')
+finviz = finvizData('AAPL')
+finviz.analyst_ratings()
 ```
 
 <i> Output </i>
@@ -674,9 +767,22 @@ finviz_analyst_ratings('AAPL')
 | 2020-08-31 00:00:00 | Reiterated | Monness Crespi & Hardt | Buy        | $117.50 → $144 |
 | 2020-08-26 00:00:00 | Reiterated | Wedbush                | Outperform | $515 → $600    |
 | 2020-08-25 00:00:00 | Reiterated | Cowen                  | Outperform | $470 → $530    |
+| ...| ... | ...                  | ... | ...    |
 
 
 </small></small></center>
+
+<div align="right"> <a href="#F2">To index</a> </div>
+
+-----
+
+<br>
+
+###	 <div id="A21"> <li> Earnings conference calls <hr style="border:0.5px solid gray"> </hr> </li> </div>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+
 
 <div align="right"> <a href="#F2">To index</a> </div>
 
@@ -700,17 +806,17 @@ from jippy.esg.yahoo_esg import *
 ----
 
 
-#### <i>yahoo\_esg\_data( ticker )</i>
+#### <i>yahooData( ticker ).esg\_score()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns current ESG scores from XXXX published on Yahoo Finance.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_esg_data('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.esg_score()
 ```
 
 <i> Output </i>
@@ -727,17 +833,17 @@ yahoo_esg_data('AAPL')
 
 ----
 
-#### <i>yahoo\_corporate\_governance\_score( ticker )</i>
+#### <i>yahooData( ticker ).corporate\_governance\_score()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns current corporate governance scores from XXXX published on Yahoo Finance.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_corporate_governance_score('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.corporate_governance_score()
 ```
 
 <i> Output </i>
@@ -763,17 +869,17 @@ yahoo_corporate_governance_score('AAPL')
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <i>yahoo\_profile( ticker )</i>
+#### <i>yahooData( ticker ).profile()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns company sector, industry, current number of employees and a company description.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_profile('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.profile()
 ```
 
 <i> Output </i>
@@ -791,17 +897,17 @@ yahoo_profile('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <i>yahoo\_executives_info( ticker )</i>
+#### <i>yahooData( ticker ).executives_info()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns current company executives with name, title, salary, age and their gender.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-yahoo_executives_info('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.executives_info()
 ```
 
 <i> Output </i>
@@ -825,7 +931,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-## <div id="B2"> Price data </div>
+## <div id="5"> Price data </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -868,7 +974,7 @@ yahoo_prices('AAPL')
 
 ----
 
-#### <i>investing\_com\_prices( url )</i>
+#### <i>investing\_com\_prices( url, start_date = None, end_date = None )</i>
 
 <ul>
 <li></li>
@@ -878,20 +984,21 @@ yahoo_prices('AAPL')
 <i> Example </i>
 
 ```python
-investing_com_prices( 'https://www.investing.com/etfs/powershares-qqqq-historical-data' )
+investing_com_prices('https://www.investing.com/etfs/spdr-s-p-500', start_date = '2000-01-01')
 ```
 
 <i> Output </i>
 
 <center><small><small>
 
-| date                |   price |   open |   high |   low |   volume |
-|:--------------------|--------:|-------:|-------:|------:|---------:|
-| 1999-03-10 00:00:00 |   50.85 |  50.91 |  50.94 | 50.07 | 5.23e+06 |
-| 1999-03-11 00:00:00 |   51.1  |  51.22 |  51.52 | 50.1  | 9.69e+06 |
-| 1999-03-12 00:00:00 |   49.86 |  50.91 |  50.94 | 49.45 | 8.74e+06 |
-| 1999-03-15 00:00:00 |   51.29 |  50.23 |  51.35 | 49.7  | 6.37e+06 |
-| 1999-03-16 00:00:00 |   51.72 |  51.5  |  51.94 | 50.94 | 4.91e+06 |
+| date                |   price |   open |   high |    low |    volume |
+|:--------------------|--------:|-------:|-------:|-------:|----------:|
+| 2000-01-03 00:00:00 |  145.44 | 148.25 | 148.25 | 143.88 | 8.16e+06  |
+| 2000-01-04 00:00:00 |  139.75 | 143.53 | 144.06 | 139.64 | 8.09e+06  |
+| 2000-01-05 00:00:00 |  140    | 139.94 | 141.53 | 137.25 | 1.218e+07 |
+| 2000-01-06 00:00:00 |  137.75 | 139.62 | 141.5  | 137.75 | 6.23e+06  |
+| 2000-01-07 00:00:00 |  145.75 | 140.31 | 145.75 | 140.06 | 8.07e+06  |
+| ...|  ... | ... | ... | ... | ...  |
 
 </small></small></center>
 
@@ -1115,7 +1222,7 @@ get_futures_prices('2020-09-01')
 
 ------
 
-## <div id="D2">Economic data</div>
+## <div id="6">Economic data</div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2603,7 +2710,7 @@ oecd_reserve_assets(country_code = 'USA', currency = 'dollar' )
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-## <div id="E2">News data</div>
+## <div id="7">News data</div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2883,7 +2990,7 @@ df = ns.wsj_news()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-## <div id="EE2">Other data</div>
+## <div id="8">Other data</div>
 
 
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -2904,17 +3011,29 @@ weather data
 <br>
 
 
-## <div id="G2"> Sources </div>
-<li>Yahoo Finance, www.finance.yahoo.com </li>
-<li>Investing.com, www.investing.com </li>
-<li>MarketWatch, marketwatch.com </li>
-<li>Finviz, finviz.com</li>
-<li>Moore Research Center, www.mrci.com </li>
-<li>OECD, data.oecd.org </li>
-<li>NASDAQ, www.nasdaq.com</li>
+## <div id="9"> Sources </div>
+
+<li>Alpha-Vantage, www.alphavantage.co</li>
+<li>Barrons, www.barrons.com</li>
+<li>Bloomberg, www.bloomberg.com</li>
+<li>CNBC, www.cnbc.com</li>
+<li>Financial Times, www.ft.com</li>
+<li>Finviz, www.finviz.com</li>
 <li>Gurufocus, www.gurufocus.com</li>
-<li></li>
-<li>Newspapers...</li>
+<li>IEX Cloud, www.iexcloud.io</li>
+<li>Investing.com, www.investing.com </li>
+<li>MarketWatch, www.marketwatch.com </li>
+<li>Moore Research Center, www.mrci.com </li>
+<li>NASDAQ, www.nasdaq.com</li>
+<li>OECD, www.oecd.org</li>
+<li>Reuters, www.reuters.com</li>
+<li>Seeking Alpha, www.seekingalpha.com</li>
+<li>Tiingo, www.tiingo.com</li>
+<li>Wall Street Journal, www.wsj.com</li>
+<li>Yahoo Finance, www.finance.yahoo.com </li>
+
+<br>
+
 <li>SEC...?</li>
 <li>CBOE...?</li>
 <li>VixCentral...?</li>

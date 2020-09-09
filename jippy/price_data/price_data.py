@@ -73,7 +73,9 @@ def tingo_prices( ticker, api_token, start_date = None, end_date = None, freq = 
     df.drop('date', axis = 1, inplace = True)
     return df
 
+
 '''
+
 def tingo_forex_intraday( currency_pair, api_token, start_date, end_date = None, freq = '1min' ):
 
     if end_date == None:
@@ -88,19 +90,33 @@ def tingo_forex_intraday( currency_pair, api_token, start_date, end_date = None,
     df = dd.from_pandas(df, npartitions = 1)
     while last.date.iloc[0].date() > pd.to_datetime(start_date):
         headers = {'Content-Type': 'application/json' }
-        requestResponse = requests.get(f"https://api.tiingo.com/tiingo/fx/{currency_pair}/prices?endDate={ (last.date.iloc[0] + dt.timedelta(1)).date().strftime('%Y-%m-%d')}&resampleFreq={freq}&token={api_token}", headers=headers)
-        temp = pd.DataFrame(requestResponse.json())
-        temp.date = pd.to_datetime(temp.date)
-        if last.iloc[0,0] == temp.iloc[0,0]:
-            break
-        last = temp.copy()
-        df = df.append(dd.from_pandas(temp, npartitions = 1))
+        requestResponse = requests.get(f"https://api.tiingo.com/tiingo/fx/{currency_pair}/prices?endDate={(last.date.iloc[0]).date().strftime('%Y-%m-%d')}&resampleFreq={freq}&token={api_token}", headers=headers)
+        try:
+            temp = pd.DataFrame(requestResponse.json())
+            temp.date = pd.to_datetime(temp.date)
+            if last.iloc[0,0] == temp.iloc[0,0]:
+                break
+            last = temp.copy()
+            df = df.append(dd.from_pandas(temp, npartitions = 1))
+        except:
+            last.date.iloc[0] -= dt.timedelta(1)
+            headers = {'Content-Type': 'application/json' }
+            requestResponse = requests.get(f"https://api.tiingo.com/tiingo/fx/{currency_pair}/prices?endDate={(last.date.iloc[0]).date().strftime('%Y-%m-%d')}&resampleFreq={freq}&token={api_token}", headers=headers)
+            temp = pd.DataFrame(requestResponse.json())
+            temp.date = pd.to_datetime(temp.date)
+            if last.iloc[0,0] == temp.iloc[0,0]:
+                break
+            last = temp.copy()
+            df = df.append(dd.from_pandas(temp, npartitions = 1))
+
     df = df.compute()
     df.sort_values('date', ascending = True, inplace = True)
     df.index = df.date
     df.drop('date', axis = 1, inplace = True)
     return df
 '''
+
+
 
 
 def iex_intraday(ticker, api_token, start_date = None, end_date = None):
@@ -250,6 +266,8 @@ def yahoo_option_chain( ticker):
             return ticker
 
 
+url = 'https://www.investing.com/indices/us-spx-500-futures-historical-data'
+
 def investing_com_prices(url):
     '''
         For popup:
@@ -270,7 +288,7 @@ def investing_com_prices(url):
     last_date = today
 
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     driver = webdriver.Chrome( executable_path=r'/Users/PeterlaCour/Documents/Research.nosync/financial_data_project/jippy/jippy/price_data/chromedriver', options=options)
     driver.get(url)
     time.sleep(2)
@@ -314,10 +332,29 @@ def investing_com_prices(url):
             prev_date = last_date
             last_date = prev_date - dt.timedelta(10 * 360)
 
+            try:
+                driver.find_element_by_xpath('//i[@class="popupCloseIcon largeBannerCloser"]').click()
+            except:
+                pass
+            try:
+                driver.find_element_by_xpath('//i[@class="popupCloseIcon largeBannerCloser"]').click()
+            except:
+                pass
+
             element = driver.find_element_by_xpath( '//div[@class="datePickerWrap calendarDatePicker"]' )
             driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
             ActionChains(driver).move_to_element(element).click().perform()
             time.sleep(3)
+            
+            try:
+                driver.find_element_by_xpath('//i[@class="popupCloseIcon largeBannerCloser"]').click()
+            except:
+                pass
+            try:
+                driver.find_element_by_xpath('//i[@class="popupCloseIcon largeBannerCloser"]').click()
+            except:
+                pass
+
             element = driver.find_element_by_xpath('//input[@id="startDate"]')
             element.clear()
             element.send_keys(last_date.strftime('%m/%d/%Y'))
@@ -352,10 +389,11 @@ def investing_com_prices(url):
             else:
                 contents.append(driver.page_source)
                 check = bs(driver.page_source, 'lxml').find('table', class_ = 'historicalTbl')
+        driver.quit()
     except:
         print('Failed.')
         driver.quit()
-        return None
+        #return None
 
     date, price, open, high, low, vol, change = [], [], [], [], [], [], []
     for content in contents:

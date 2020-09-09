@@ -46,6 +46,9 @@ class yahooData(object):
         df.replace('Current', '', regex = True, inplace = True) # replace as of date as well ?
 
         df['ticker'] = self.ticker
+
+        df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+
         return df
 
 
@@ -70,10 +73,12 @@ class yahooData(object):
 
         df['Date'] = dt.datetime.today().date()
         df['ticker'] = self.ticker
+
+        df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return df
 
 
-    def statement(self, url):
+    def _download(self, url):
         '''
 
         '''
@@ -107,7 +112,7 @@ class yahooData(object):
     def cashflow_statement(self):
         url = "https://finance.yahoo.com/quote/" + self.ticker + "/cash-flow?p=" + self.ticker
         try:
-            df = self.statement(url)
+            df = self._download(url)
         except:
             print(f'ticker {self.ticker} may not be available.')
         return df
@@ -116,7 +121,7 @@ class yahooData(object):
     def income_statement(self):
         url = "https://finance.yahoo.com/quote/" + self.ticker + "/financials?p=" + self.ticker
         try:
-            df = self.statement(self.ticker, url)
+            df = self._download(url)
         except:
             print(f'ticker {self.ticker} may not be available.')
         return df
@@ -125,13 +130,13 @@ class yahooData(object):
     def balance_sheet(self):
         url = "https://finance.yahoo.com/quote/" + self.ticker + "/balance-sheet?p=" + self.ticker
         try:
-            df = self.statement(self.ticker, url)
+            df = self._download(url)
         except:
             print(f'ticker {self.ticker} may not be available.')
         return df
 
 
-    def all_statements(self):
+    def statements(self):
         '''
 
         '''
@@ -215,6 +220,11 @@ class yahooData(object):
         df = df.astype('str')
         df = self._col_to_float(df)
         df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+
+        df = df.transpose()
+        df.columns = df.iloc[0]
+        df = df[1:]
+
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return df
 
@@ -258,13 +268,16 @@ class yahooData(object):
                 df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
                                                         .replace('%', '', regex = True).replace(',', '', regex = True) \
                                                         .astype('float') / 100).astype('str')
+                df.loc[df[col].str.contains('K'), col] = (df[col][df[col].str.contains('K', case=True)] \
+                                                     .replace('K', '', regex = True) \
+                                                     .astype('float') * 1000).astype('str')
             except:
                 continue
         return df
 
 
 
-    def esg_data(self):
+    def esg_score(self):
       '''
 
       '''
@@ -290,15 +303,14 @@ class yahooData(object):
 
       '''
       session = HTMLSession()
-      url = f'https://finance.yahoo.com/quote/{ticker}/profile?p={ticker}'
+      url = f'https://finance.yahoo.com/quote/{self.ticker}/profile?p={self.ticker}'
       r = session.get(url)
       soup = bs( r.content, "html.parser" )
-
 
       temp = { i.split(':')[0].replace('The pillar scores are', '').strip(): i.split(':')[1].replace('.', '').strip() for i in soup.find_all('section')[-1].find_all('span')[3].text.split(';')  }
       temp['quality_score'] = soup.find_all('section')[-1].find_all('span')[1].text.replace('.','')[-2:].strip()
       df = pd.DataFrame(temp, index = [0])
-      df['ticker'] = ticker
+      df['ticker'] = self.ticker
       df['date'] = dt.datetime.today().date()
       df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
 

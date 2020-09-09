@@ -6,7 +6,7 @@ import numpy as np
 class mwatchData(object):
 
     def __init__(self, ticker):
-        self.self.ticker = ticker
+        self.ticker = ticker
 
     def _download(self, sheet, freq = 'annual'):
         '''
@@ -65,21 +65,21 @@ class mwatchData(object):
         '''
 
         '''
-        return self._mwatch_download('income', freq)
+        return self._download('income', freq)
 
 
     def balance_sheet(self, freq = 'annual'):
         '''
 
         '''
-        return self._mwatch_download('balance-sheet', freq)
+        return self._download('balance-sheet', freq)
 
 
     def cashflow_statement(self, freq = 'annual'):
         '''
 
         '''
-        return self._mwatch_download('cash-flow', freq)
+        return self._download('cash-flow', freq)
 
     def statements(self, freq = 'annual'):
         '''
