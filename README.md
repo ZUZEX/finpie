@@ -1361,13 +1361,30 @@ futures_prices('2020-01-06')
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
+The functions below retrieve economic data from the OECD database. The available economic timeseries so far include the OECD composite leading indicators, OECD business surveys, OECD main economic indicators and OECD balance of payments. 
 
-<br>
-
+The data can be accessed by country or for list of countries and for timeseries specific keyword arguments. Not all timeseries are available for all countries at all frequencies.
 
 ```python
-from jippy.economic_data.oecd_data import *
+from jippy.economic_data import oecd_data
+
+# Example for instantiating class for Australia and the USA at monthly frequency with national currencies
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M', currency_code = 'NXCU')
+
+# Example for instantiating class for all available countries at quarterly frequency with dollar converted currencies
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q', currency_code = 'CXCU')
+
 ```
+
+<i> Available keyword arguments: </i>
+
+
+x
+x
+x
+x
+x
+x
 
 <br>
 
@@ -1382,14 +1399,27 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f30"><i>oecdData( country\_code, **args ).cli( subject = 'amplitude' )</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the OECD composite leading indicator with a given measure.</li>
+<li><i>Subject options:</i></li>
+	<ul>
+		<li>(default) amplitude adjusted</li>
+		<li>LOLITONO - normalised</li>
+		<li>LOLITOTR_STSA - trend restored </li>
+		<li>LOLITOTR_GYSA - 12-month rate of change of the trend restored </li>
+		<li>BSCICP03 - OECD standardised BCI, amplitude adjusted </li>
+		<li>CSCICP03 - OECD standardised CCI, amplitude adjusted </li>
+		<li>LORSGPRT - ratio to trend (gdp) </li>
+		<li>LORSGPNO - normalised ( gdp ) </li>
+		<li>LORSGPTD - trend ( gdp ) </li>
+		<li>LORSGPOR_IXOBSA - original seasonally adjusted (gdp) </li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_cli(country_code = 'USA', subject = 'amplitude')
+oecd = oecd_data.oecdData( country_code = 'USA' )
+oecd.cli(subject = 'amplitude')
 ```
 
 <i> Output </i>
@@ -1416,14 +1446,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f31"><i>oecdData( country\_code, **args ).cci()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the OECD consumer confidence indicator.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_cci(country_code = 'USA')
+oecd = oecd_data.oecdData( country_code = 'USA' )
+oecd.cci()
 ```
 
 <i> Output </i>
@@ -1450,14 +1480,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f32"><i>oecdData( country\_code, **args ).bci()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the OECD business confidence indicator.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_bci(country_code = 'USA')
+oecd = oecd_data.oecdData( country_code = 'USA' )
+oecd.bci()
 ```
 
 <i> Output </i>
@@ -1504,14 +1534,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f33"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m1()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the M1 monetary aggregate. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-monetary_aggregates_m1( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.monetary_aggregates_m1()
 ```
 
 <i> Output </i>
@@ -1537,14 +1567,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f34"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m3()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the M3 monetary aggregate. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-monetary_aggregates_m3( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.monetary_aggregates_m3()
 ```
 
 <i> Output </i>
@@ -1570,14 +1600,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f35"><i>oecdData( country\_code, **args ).interbank\_rates()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns interbank interest rates. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-interbank_rates( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.interbank_rates()
 ```
 
 <i> Output </i>
@@ -1603,14 +1633,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f36"><i>oecdData( country\_code, **args ).short\_term\_rates()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns short-term interest rates. Not avaialable for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-short_term_rates( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.short_term_rates()
 ```
 
 <i> Output </i>
@@ -1636,14 +1666,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f37"><i>oecdData( country\_code, **args ).long\_term\_rates()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns long-term interest rates. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-long_term_rates( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.long_term_rates()
 ```
 
 <i> Output </i>
@@ -1655,9 +1685,7 @@ long_term_rates( country_code = 'all', freq = 'M' )
 |:--------------------|:----------|:-----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
 | 1969-07-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-07 | PC          |                0 |    5.8  |
 | 1969-08-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-08 | PC          |                0 |    5.79 |
-| 1969-09-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-09 | PC          |                0 |    5.81 |
-| 1969-10-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-10 | PC          |                0 |    5.83 |
-| 1969-11-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-11 | PC          |                0 |    5.85 |
+| 1969-09-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main 
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1670,14 +1698,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f38"><i>oecdData( country\_code, **args ).all\_share\_prices()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns aggregate share prices of a given country. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-all_share_prices( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.all_share_prices()
 ```
 
 <i> Output </i>
@@ -1689,9 +1717,7 @@ all_share_prices( country_code = 'all', freq = 'M' )
 |:--------------------|:----------|:------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
 | 1958-01-01 00:00:00 | SPASTT01  | Share Prices > All shares/broad > Total > Total | Australia | M           | 1958-01 | IDX         |                0 | 2.46886 |
 | 1958-02-01 00:00:00 | SPASTT01  | Share Prices > All shares/broad > Total > Total | Australia | M           | 1958-02 | IDX         |                0 | 2.55808 |
-| 1958-03-01 00:00:00 | SPASTT01  | Share Prices > All shares/broad > Total > Total | Australia | M           | 1958-03 | IDX         |                0 | 2.56718 |
-| 1958-04-01 00:00:00 | SPASTT01  | Share Prices > All shares/broad > Total > Total | Australia | M           | 1958-04 | IDX         |                0 | 2.55626 |
-| 1958-05-01 00:00:00 | SPASTT01  | Share Prices > All shares/broad > Total > Total | Australia | M           | 1958-05 | IDX         |                0 | 2.50163 |
+| 1958-03-01 00:00:00 | SPASTT01  | Share Prices > All shares/broad > Total > Total | Australia | M           
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1703,14 +1729,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f39"><i>oecdData( country\_code, **args ).share\_prices\_industrials()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns aggregate share prices of industrial companies from a given country. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-share_prices_industrials( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.share_prices_industrials()
 ```
 
 <i> Output </i>
@@ -1723,8 +1749,6 @@ share_prices_industrials( country_code = 'all', freq = 'M' )
 | 1955-01-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-01 | IDX         |                0 | 2.38957 |
 | 1955-02-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-02 | IDX         |                0 | 2.29226 |
 | 1955-03-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-03 | IDX         |                0 | 2.34632 |
-| 1955-04-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-04 | IDX         |                0 | 2.36795 |
-| 1955-05-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-05 | IDX         |                0 | 2.27063 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1733,50 +1757,17 @@ share_prices_industrials( country_code = 'all', freq = 'M' )
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f40"><i>oecdData( country\_code, **args ).share\_prices\_industrials()</i>
-
-<ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
-</ul>
-
-<i> Example </i>
-
-```python
-share_prices_industrials( country_code = 'all', freq = 'M' )
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-| TIME                | SUBJECT   | Subject                                    | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:-------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1955-01-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-01 | IDX         |                0 | 2.38957 |
-| 1955-02-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-02 | IDX         |                0 | 2.29226 |
-| 1955-03-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-03 | IDX         |                0 | 2.34632 |
-| 1955-04-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-04 | IDX         |                0 | 2.36795 |
-| 1955-05-01 00:00:00 | SPINTT01  | Share Prices > Industrials > Total > Total | Norway    | M           | 1955-05 | IDX         |                0 | 2.27063 |
-| ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
-
-</small></small></center>
-
-<div align = "right">  <a href="#i40">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
 #### <div id = "f41"><i>oecdData( country\_code, **args ).usd\_exchange\_rates\_spot()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns USD spot exchange rates at end of month/quarter.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-usd_exchange_rates_spot( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+usd_exchange_rates_spot()
 ```
 
 <i> Output </i>
@@ -1801,14 +1792,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f42"><i>oecdData( country\_code, **args ).usd\_exchange\_rates\_average()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns monthly/quarterly average USD exchange rates.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-usd_exchange_rates_average( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.usd_exchange_rates_average()
 ```
 
 <i> Output </i>
@@ -1821,8 +1812,6 @@ usd_exchange_rates_average( country_code = 'all', freq = 'M' )
 | 1957-01-01 00:00:00 | CCUSMA02  | Currency Conversions > US$ exchange rate > Average of daily rates > National currency:USD | Australia | M           | 1957-01 | AUD         |                0 | 0.598516 |
 | 1957-02-01 00:00:00 | CCUSMA02  | Currency Conversions > US$ exchange rate > Average of daily rates > National currency:USD | Australia | M           | 1957-02 | AUD         |                0 | 0.598015 |
 | 1957-03-01 00:00:00 | CCUSMA02  | Currency Conversions > US$ exchange rate > Average of daily rates > National currency:USD | Australia | M           | 1957-03 | AUD         |                0 | 0.599125 |
-| 1957-04-01 00:00:00 | CCUSMA02  | Currency Conversions > US$ exchange rate > Average of daily rates > National currency:USD | Australia | M           | 1957-04 | AUD         |                0 | 0.599988 |
-| 1957-05-01 00:00:00 | CCUSMA02  | Currency Conversions > US$ exchange rate > Average of daily rates > National currency:USD | Australia | M           | 1957-05 | AUD         |                0 | 0.599556 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1834,14 +1823,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f43"><i>oecdData( country\_code, **args ).rer\_overall()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns overall real exchange rates.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-rer_overall( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.rer_overall()
 ```
 
 <i> Output </i>
@@ -1854,8 +1843,6 @@ rer_overall( country_code = 'all', freq = 'M' )
 | 1972-01-01 00:00:00 | CCRETT01  | Currency Conversions > Real effective exchange rates > Overall Economy > CPI | Australia | M           | 1972-01 | IDX         |                0 | 110.762 |
 | 1972-02-01 00:00:00 | CCRETT01  | Currency Conversions > Real effective exchange rates > Overall Economy > CPI | Australia | M           | 1972-02 | IDX         |                0 | 109.613 |
 | 1972-03-01 00:00:00 | CCRETT01  | Currency Conversions > Real effective exchange rates > Overall Economy > CPI | Australia | M           | 1972-03 | IDX         |                0 | 108.894 |
-| 1972-04-01 00:00:00 | CCRETT01  | Currency Conversions > Real effective exchange rates > Overall Economy > CPI | Australia | M           | 1972-04 | IDX         |                0 | 109.391 |
-| 1972-05-01 00:00:00 | CCRETT01  | Currency Conversions > Real effective exchange rates > Overall Economy > CPI | Australia | M           | 1972-05 | IDX         |                0 | 108.884 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1874,14 +1861,14 @@ rer_overall( country_code = 'all', freq = 'M' )
 #### <div id = "f44"><i>oecdData( country\_code, **args ).exports\_value()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns value of exports in national currency or dollar converted, etc..</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-exports_value( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', currency_code = 'CXCU' )
+oecd.exports_value()
 ```
 
 <i> Output </i>
@@ -1894,8 +1881,6 @@ exports_value( country_code = 'all', freq = 'M' )
 | 1955-01-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-01 | AUD         |                9 |  0.1287 |
 | 1955-02-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-02 | AUD         |                9 |  0.1358 |
 | 1955-03-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-03 | AUD         |                9 |  0.1642 |
-| 1955-04-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-04 | AUD         |                9 |  0.1164 |
-| 1955-05-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-05 | AUD         |                9 |  0.1368 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1907,14 +1892,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f45"><i>oecdData( country\_code, **args ).imports\_value()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns value of imports in national currency or dollar converted, etc..</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-exports_value( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', currency_code = 'CXCU' )
+oecd.imports_value()
 ```
 
 <i> Output </i>
@@ -1927,8 +1912,6 @@ exports_value( country_code = 'all', freq = 'M' )
 | 1955-01-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-01 | AUD         |                9 |  0.1495 |
 | 1955-02-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-02 | AUD         |                9 |  0.1367 |
 | 1955-03-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-03 | AUD         |                9 |  0.152  |
-| 1955-04-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-04 | AUD         |                9 |  0.1444 |
-| 1955-05-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-05 | AUD         |                9 |  0.1547 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1949,14 +1932,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f46"><i>oecdData( country\_code, **args ).unemployment\_rate()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns unemployment rates.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-unemployment_rate( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.unemployment_rate()
 ```
 
 <i> Output </i>
@@ -1968,8 +1951,6 @@ unemployment_rate( country_code = 'all', freq = 'M' )
 | 1978-02-01 00:00:00 | LRHUTTTT  | Labour Force Survey - quarterly rates > Harmonised unemployment - monthly rates > Total > All persons | Australia | M           | 1978-02 | PC          |                0 | 6.64535 |
 | 1978-03-01 00:00:00 | LRHUTTTT  | Labour Force Survey - quarterly rates > Harmonised unemployment - monthly rates > Total > All persons | Australia | M           | 1978-03 | PC          |                0 | 6.30344 |
 | 1978-04-01 00:00:00 | LRHUTTTT  | Labour Force Survey - quarterly rates > Harmonised unemployment - monthly rates > Total > All persons | Australia | M           | 1978-04 | PC          |                0 | 6.26811 |
-| 1978-05-01 00:00:00 | LRHUTTTT  | Labour Force Survey - quarterly rates > Harmonised unemployment - monthly rates > Total > All persons | Australia | M           | 1978-05 | PC          |                0 | 6.21017 |
-| 1978-06-01 00:00:00 | LRHUTTTT  | Labour Force Survey - quarterly rates > Harmonised unemployment - monthly rates > Total > All persons | Australia | M           | 1978-06 | PC          |                0 | 6.30418 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1988,14 +1969,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f47"><i>oecdData( country\_code, **args ).cpi\_total()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the consumer price index.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-unemployment_rate( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.cpi_total()
 ```
 
 <i> Output </i>
@@ -2018,14 +1999,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f48"><i>oecdData( country\_code, **args ).cpi\_city\_total()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the consumer price index for cities.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-cpi_city_total( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.cpi_city_total()
 ```
 
 <i> Output </i>
@@ -2037,8 +2018,6 @@ cpi_city_total( country_code = 'all', freq = 'M' )
 | 1961-01-01 00:00:00 | CPALCY01  | Consumer Price Index > All items > All items: City > Total | Canada    | M           | 1961-01 | IDX         |                0 | 13.4288 |
 | 1961-02-01 00:00:00 | CPALCY01  | Consumer Price Index > All items > All items: City > Total | Canada    | M           | 1961-02 | IDX         |                0 | 13.4288 |
 | 1961-03-01 00:00:00 | CPALCY01  | Consumer Price Index > All items > All items: City > Total | Canada    | M           | 1961-03 | IDX         |                0 | 13.3779 |
-| 1961-04-01 00:00:00 | CPALCY01  | Consumer Price Index > All items > All items: City > Total | Canada    | M           | 1961-04 | IDX         |                0 | 13.3439 |
-| 1961-05-01 00:00:00 | CPALCY01  | Consumer Price Index > All items > All items: City > Total | Canada    | M           | 1961-05 | IDX         |                0 | 13.259  |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2050,14 +2029,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f49"><i>oecdData( country\_code, **args ).cpi\_non\_food\_non_energy()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns non-food and non-energy consumer price index .</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-cpi_non_food_non_energy( country_code = 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.cpi_non_food_non_energy()
 ```
 
 <i> Output </i>
@@ -2069,8 +2048,6 @@ cpi_non_food_non_energy( country_code = 'all', freq = 'M' )
 | 1966-01-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-01 | IDX         |                0 | 18.3463 |
 | 1966-02-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-02 | IDX         |                0 | 18.3966 |
 | 1966-03-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-03 | IDX         |                0 | 18.4262 |
-| 1966-04-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-04 | IDX         |                0 | 18.4286 |
-| 1966-05-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-05 | IDX         |                0 | 18.4671 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2082,14 +2059,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f50"><i>oecdData( country\_code, **args ).cpi\_energy()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns consumer price index for energy (fuel, electricity, etc.).</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-cpi_energy( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.cpi_energy()
 ```
 
 <i> Output </i>
@@ -2102,8 +2079,6 @@ cpi_energy( country_code = 'USA', freq = 'M' )
 | 1966-01-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-01 | IDX         |                0 | 17.8956 |
 | 1966-02-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-02 | IDX         |                0 | 17.9295 |
 | 1966-03-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-03 | IDX         |                0 | 17.9295 |
-| 1966-04-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-04 | IDX         |                0 | 17.9295 |
-| 1966-05-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-05 | IDX         |                0 | 17.8277 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2123,14 +2098,21 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f51"><i>oecdData( country\_code, **args ).business\_tendency\_survey( sector )</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns national business tendency survey for given sector.</li>
+<li><i>Sector arguments:</i></li>
+<ul>
+	<li> (default) retail</li>
+	<li> construction </li>
+	<li> services </li>
+	<li> manufacturing </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-business_tendency_survey('retail', 'all', freq = 'M')
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.business_tendency_survey('retail')
 ```
 
 <i> Output </i>
@@ -2142,8 +2124,6 @@ business_tendency_survey('retail', 'all', freq = 'M')
 | 1996-01-01 00:00:00 | BRCICP02  | Business tendency surveys (retail trade) > Confidence indicators > Composite indicators > National indicator | Austria   | M           | 1996-01 | PC          |                0 |   -19.4 |
 | 1996-02-01 00:00:00 | BRCICP02  | Business tendency surveys (retail trade) > Confidence indicators > Composite indicators > National indicator | Austria   | M           | 1996-02 | PC          |                0 |   -15.1 |
 | 1996-03-01 00:00:00 | BRCICP02  | Business tendency surveys (retail trade) > Confidence indicators > Composite indicators > National indicator | Austria   | M           | 1996-03 | PC          |                0 |   -13.4 |
-| 1996-04-01 00:00:00 | BRCICP02  | Business tendency surveys (retail trade) > Confidence indicators > Composite indicators > National indicator | Austria   | M           | 1996-04 | PC          |                0 |    -7   |
-| 1996-05-01 00:00:00 | BRCICP02  | Business tendency surveys (retail trade) > Confidence indicators > Composite indicators > National indicator | Austria   | M           | 1996-05 | PC          |                0 |   -20.3 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 
@@ -2156,14 +2136,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f52"><i>oecdData( country\_code, **args ).consumer\_opinion\_survey( measure = 'national' )</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns national consumer opinion survey.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-consumer_opinion_survey( 'all', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all' )
+oecd.consumer_opinion_survey()
 ```
 
 <i> Output </i>
@@ -2175,8 +2155,6 @@ consumer_opinion_survey( 'all', freq = 'M' )
 | 1974-09-01 00:00:00 | CSCICP02  | Consumer opinion surveys > Confidence indicators > Composite indicators > National indicator | Australia | M           | 1974-09 | PC          |                0 |      -9 |
 | 1974-10-01 00:00:00 | CSCICP02  | Consumer opinion surveys > Confidence indicators > Composite indicators > National indicator | Australia | M           | 1974-10 | PC          |                0 |      -9 |
 | 1974-11-01 00:00:00 | CSCICP02  | Consumer opinion surveys > Confidence indicators > Composite indicators > National indicator | Australia | M           | 1974-11 | PC          |                0 |      -8 |
-| 1974-12-01 00:00:00 | CSCICP02  | Consumer opinion surveys > Confidence indicators > Composite indicators > National indicator | Australia | M           | 1974-12 | PC          |                0 |      -8 |
-| 1975-01-01 00:00:00 | CSCICP02  | Consumer opinion surveys > Confidence indicators > Composite indicators > National indicator | Australia | M           | 1975-01 | PC          |                0 |       0 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 
@@ -2188,7 +2166,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
  
 <br>
 
-###	 <div id="A626"> <li> <i>National accounts </i><hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A626"> <li> <i>National accounts</i><hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2196,14 +2174,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f53"><i>oecdData( country\_code, **args ).gdp\_deflator()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the quarterly GDP deflator. Not available for all countries.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_deflator()
 ```
 
 <i> Output </i>
@@ -2227,14 +2205,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f54"><i>oecdData( country\_code, **args ).gdp\_total()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns total GDP at constant prices.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_total()
 ```
 
 <i> Output </i>
@@ -2260,14 +2238,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f55"><i>oecdData( country\_code, **args ).gdp\_final\_consumption()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns GDP final consumption at constant prices.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_final_consumption()
 ```
 
 <i> Output </i>
@@ -2293,14 +2271,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f56"><i>oecdData( country\_code, **args ).gdp\_government\_consumption()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns government consumption at constant prices.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_government_consumption()
 ```
 
 <i> Output </i>
@@ -2326,14 +2304,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f57"><i>oecdData( country\_code, **args ).gdp\_fixed\_capital\_formation()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns fixed capital formation at constant prices.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_fixed_capital_formation()
 ```
 
 <i> Output </i>
@@ -2359,14 +2337,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f58"><i>oecdData( country\_code, **args ).gdp\_exports()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns export value for GDP calculation.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_exports()
 ```
 
 <i> Output </i>
@@ -2392,14 +2370,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f59"><i>oecdData( country\_code, **args ).gdp\_imports()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns import value for GDP calculation.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd.gdp_imports()
 ```
 
 <i> Output </i>
@@ -2433,14 +2411,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f60"><i>oecdData( country\_code, **args ).total\_manufacturing\_index()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns total manufacturing index.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd.total_manufacturing_index()
 ```
 
 <i> Output </i>
@@ -2462,14 +2440,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f61"><i>oecdData( country\_code, **args ).total\_industry\_production\_ex\_construction()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns total industry production excluding construction.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd.total_industrial_production_ex_construction()
 ```
 
 <i> Output </i>
@@ -2494,14 +2472,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f62"><i>oecdData( country\_code, **args ).total\_construction()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns total construction index.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd.total_construction()
 ```
 
 <i> Output </i>
@@ -2525,14 +2503,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f63"><i>oecdData( country\_code, **args ).total\_retail\_trade()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns total retail trade index.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd.total_retail_trade()
 ```
 
 <i> Output </i>
@@ -2556,14 +2534,15 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f64"><i>oecdData( country\_code, **args ).passenger\_car\_registrations()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
+<li>Returns index for passenger car registrations.</li>
 <li> </li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd.passenger_car_registrations()
 ```
 
 <i> Output </i>
@@ -2587,14 +2566,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f65"><i>oecdData( country\_code, **args ).construction\_permits\_issued()</i>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns index for construction permits issued.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd.construction_permits_issued()
 ```
 
 <i> Output </i>
@@ -2627,14 +2606,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f66" ><i>oecdData( country\_code, **args ).economic\_situation\_survey()</i> </div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns national economic situation survey.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M' )
+oecd.economic_situation_survey()
 ```
 
 <i> Output </i>
@@ -2647,8 +2626,6 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 | 1978-01-01 00:00:00 | CSESFT    | Future tendency | United States | M           | 1978-01 | PC          |                0 |       8 |
 | 1978-02-01 00:00:00 | CSESFT    | Future tendency | United States | M           | 1978-02 | PC          |                0 |      11 |
 | 1978-03-01 00:00:00 | CSESFT    | Future tendency | United States | M           | 1978-03 | PC          |                0 |      -3 |
-| 1978-04-01 00:00:00 | CSESFT    | Future tendency | United States | M           | 1978-04 | PC          |                0 |       3 |
-| 1978-05-01 00:00:00 | CSESFT    | Future tendency | United States | M           | 1978-05 | PC          |                0 |      -1 |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
@@ -2660,14 +2637,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f67" ><i>oecdData( country\_code, **args ).consumer\_confidence\_survey()</i> </div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns national consumer confidence survey.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_consumer_confidence( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M' )
+oecd.consumer_confidence_survey()
 ```
 
 <i> Output </i>
@@ -2680,8 +2657,6 @@ oecd_survey_consumer_confidence( country_code = 'USA', freq = 'M' )
 | 1960-01-01 00:00:00 | CSCICP02  | National indicator | United States | M           | 1960-01 | PC          |                0 | 107.594 |
 | 1960-02-01 00:00:00 | CSCICP02  | National indicator | United States | M           | 1960-02 | PC          |                0 | 105.191 |
 | 1960-03-01 00:00:00 | CSCICP02  | National indicator | United States | M           | 1960-03 | PC          |                0 | 102.788 |
-| 1960-04-01 00:00:00 | CSCICP02  | National indicator | United States | M           | 1960-04 | PC          |                0 | 100.385 |
-| 1960-05-01 00:00:00 | CSCICP02  | National indicator | United States | M           | 1960-05 | PC          |                0 | 101.784 |
 | ... | ...  | ... | ... | ...          | ... | ...          |                ... | ... |
 
 </small></small></center>
@@ -2693,14 +2668,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f68" ><i>oecdData( country\_code, **args ).consumer\_price_inflation\_survey()</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns consumer price inflation survey.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_survey_consumer_price_inflation( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M' )
+oecd.consumer_price_inflation_survey()
 ```
 
 <i> Output </i>
@@ -2713,8 +2688,6 @@ oecd_survey_consumer_price_inflation( country_code = 'USA', freq = 'M' )
 | 1978-01-01 00:00:00 | CSINFT    | Future tendency | United States | M           | 1978-01 | PC          |                0 |     6.1 |
 | 1978-02-01 00:00:00 | CSINFT    | Future tendency | United States | M           | 1978-02 | PC          |                0 |     8.5 |
 | 1978-03-01 00:00:00 | CSINFT    | Future tendency | United States | M           | 1978-03 | PC          |                0 |     7.5 |
-| 1978-04-01 00:00:00 | CSINFT    | Future tendency | United States | M           | 1978-04 | PC          |                0 |     8   |
-| 1978-05-01 00:00:00 | CSINFT    | Future tendency | United States | M           | 1978-05 | PC          |                0 |     8.9 |
 | ... | ...    | ... | ... | ...         | ...| ...          |                ... |     ... |
 
 </small></small></center>
@@ -2740,14 +2713,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f69" ><i>oecdData( country\_code, **args ).current_account( percent\_of\_gdp = False )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the current account as value or as percent of GDP.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_current_account(country_code = 'USA', percent_of_gdp = True)
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q' )
+oecd.current_account(percent_of_gdp = True)
 ```
 
 <i> Output </i>
@@ -2759,7 +2732,7 @@ oecd_current_account(country_code = 'USA', percent_of_gdp = True)
 | 1960-01-01 00:00:00 | B6BLTT02  | Current account balance as % of GDP | United States | STSA      | Indicators in percentage | Q           | 1960-Q1 | PC          |                0 | 0.257994 |
 | 1960-04-01 00:00:00 | B6BLTT02  | Current account balance as % of GDP | United States | STSA      | Indicators in percentage | Q           | 1960-Q2 | PC          |                0 | 0.391809 |
 | 1960-07-01 00:00:00 | B6BLTT02  | Current account balance as % of GDP | United States | STSA      | Indicators in percentage | Q           | 1960-Q3 | PC          |                0 | 0.612899 |
-
+| ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
 
@@ -2771,14 +2744,20 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f70" ><i>oecdData( country\_code, **args ).goods\_balance( xm = 'balance' )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the imported, exported goods or good balance of the current account.</li>
+<li><i>xm arguments:</i></li>
+<ul>
+<li> (default) balance </li>
+<li> exports </li>
+<li> imports </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_goods_balance(country_code = 'USA', xm = 'exports')
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q' )
+oecd.goods_balance(xm = 'exports')
 ```
 
 <i> Output </i>
@@ -2792,8 +2771,6 @@ oecd_goods_balance(country_code = 'USA', xm = 'exports')
 | 1960-01-01 00:00:00 | B6CRTD01  | Goods, credits (exports) | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |    4664 |
 | 1960-04-01 00:00:00 | B6CRTD01  | Goods, credits (exports) | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |    5058 |
 | 1960-07-01 00:00:00 | B6CRTD01  | Goods, credits (exports) | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |    4736 |
-| 1960-10-01 00:00:00 | B6CRTD01  | Goods, credits (exports) | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |    5192 |
-| 1961-01-01 00:00:00 | B6CRTD01  | Goods, credits (exports) | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |    5062 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 
@@ -2807,14 +2784,20 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f71" ><i>oecdData( country\_code, **args ).services\_balance( xm = 'balance' )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the imported, exported services or services balance of the current account.</li>
+<li><i>xm arguments:</i></li>
+<ul>
+<li> (default) balance </li>
+<li> exports </li>
+<li> imports </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_goods_balance(country_code = 'USA', xm = 'balance')
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q' )
+oecd.goods_balance(xm = 'balance')
 ```
 
 <i> Output </i>
@@ -2827,8 +2810,6 @@ oecd_goods_balance(country_code = 'USA', xm = 'balance')
 | 1960-01-01 00:00:00 | B6BLSE01  | Services, balance | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |    -239 |
 | 1960-04-01 00:00:00 | B6BLSE01  | Services, balance | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |    -205 |
 | 1960-07-01 00:00:00 | B6BLSE01  | Services, balance | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |    -758 |
-| 1960-10-01 00:00:00 | B6BLSE01  | Services, balance | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |    -183 |
-| 1961-01-01 00:00:00 | B6BLSE01  | Services, balance | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |    -306 |
 | ... | ...  | ... | ... | ...      | ...| ...           | ... | ...         | ... |    ... |
 
 
@@ -2846,14 +2827,20 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f72" ><i>oecdData( country\_code, **args ).financial\_account( assets\_or\_liabs = None )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the assets, liabilities or net financial account in specified currency.</li>
+<li><i>assets\_or\_liabs arguments:</i></li>
+<ul>
+<li> (default) None </li>
+<li> assets </li>
+<li> liabs </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_financial_account(country_code = 'USA', currency = 'dollar')
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd.financial_account(assets_or_liabs = None)
 ```
 
 <i> Output </i>
@@ -2866,8 +2853,6 @@ oecd_financial_account(country_code = 'USA', currency = 'dollar')
 | 1960-01-01 00:00:00 | B6FATT01  | Financial account, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |     358 |
 | 1960-04-01 00:00:00 | B6FATT01  | Financial account, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |     414 |
 | 1960-07-01 00:00:00 | B6FATT01  | Financial account, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |     159 |
-| 1960-10-01 00:00:00 | B6FATT01  | Financial account, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |     874 |
-| 1961-01-01 00:00:00 | B6FATT01  | Financial account, net | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |    1131 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 
@@ -2881,14 +2866,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f73" ><i>oecdData( country\_code, **args ).direct\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the assets, liabilities or net direct investment of the financial account.</li>
+<ul>
+<li> (default) None </li>
+<li> assets </li>
+<li> liabs </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_direct_investment(country_code = 'USA', currency = 'dollar', assets_or_liabs = None)
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd.direct_investment(assets_or_liabs = None)
 ```
 
 <i> Output </i>
@@ -2901,8 +2891,6 @@ oecd_direct_investment(country_code = 'USA', currency = 'dollar', assets_or_liab
 | 1960-01-01 00:00:00 | B6FADI01  | Direct investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |     591 |
 | 1960-04-01 00:00:00 | B6FADI01  | Direct investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |     560 |
 | 1960-07-01 00:00:00 | B6FADI01  | Direct investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |     595 |
-| 1960-10-01 00:00:00 | B6FADI01  | Direct investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |     879 |
-| 1961-01-01 00:00:00 | B6FADI01  | Direct investment, net | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |     715 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
@@ -2915,14 +2903,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f74" ><i>oecdData( country\_code, **args ).portfolio\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the assets, liabilities or net portfolio investment of the financial account.</li>
+<ul>
+<li> (default) None </li>
+<li> assets </li>
+<li> liabs </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_portfolio_investment(country_code = 'USA', currency = 'dollar', assets_or_liabs = None)
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd.portfolio_investment(assets_or_liabs = None)
 ```
 
 <i> Output </i>
@@ -2935,8 +2928,6 @@ oecd_portfolio_investment(country_code = 'USA', currency = 'dollar', assets_or_l
 | 1960-01-01 00:00:00 | B6FAPI10  | Portfolio investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |      69 |
 | 1960-04-01 00:00:00 | B6FAPI10  | Portfolio investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |     139 |
 | 1960-07-01 00:00:00 | B6FAPI10  | Portfolio investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |     -27 |
-| 1960-10-01 00:00:00 | B6FAPI10  | Portfolio investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |     -91 |
-| 1961-01-01 00:00:00 | B6FAPI10  | Portfolio investment, net | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |      47 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
@@ -2949,14 +2940,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f75" ><i>oecdData( country\_code, **args ).other\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the assets, liabilities or net other investments of the financial account.</li>
+<ul>
+<li> (default) None </li>
+<li> assets </li>
+<li> liabs </li>
+</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_other_investment(country_code = 'USA', currency = 'dollar', assets_or_liabs = None)
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd.other_investment(assets_or_liabs = None)
 ```
 
 <i> Output </i>
@@ -2969,8 +2965,6 @@ oecd_other_investment(country_code = 'USA', currency = 'dollar', assets_or_liabs
 | 1960-01-01 00:00:00 | B6FAOI01  | Other investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |    -143 |
 | 1960-04-01 00:00:00 | B6FAOI01  | Other investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |    -110 |
 | 1960-07-01 00:00:00 | B6FAOI01  | Other investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |     331 |
-| 1960-10-01 00:00:00 | B6FAOI01  | Other investment, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |    1157 |
-| 1961-01-01 00:00:00 | B6FAOI01  | Other investment, net | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |     740 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
@@ -2983,14 +2977,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f76" ><i>oecdData( country\_code, **args ).financial\_derivatives()</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the net financial derivatives of the financial account.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_direct_investment(country_code = 'USA', currency = 'dollar', assets_or_liabs = None)
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd.financial_derivatives()
 ```
 
 <i> Output </i>
@@ -3003,8 +2997,6 @@ oecd_direct_investment(country_code = 'USA', currency = 'dollar', assets_or_liab
 | 1960-01-01 00:00:00 | B6FAFD01  | Financial derivatives, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |       0 |
 | 1960-04-01 00:00:00 | B6FAFD01  | Financial derivatives, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |       0 |
 | 1960-07-01 00:00:00 | B6FAFD01  | Financial derivatives, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |       0 |
-| 1960-10-01 00:00:00 | B6FAFD01  | Financial derivatives, net | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |       0 |
-| 1961-01-01 00:00:00 | B6FAFD01  | Financial derivatives, net | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |       0 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 
@@ -3017,14 +3009,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f77" ><i>oecdData( country\_code, **args ).reserve\_assets()</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li> </li>
+<li>Returns the net reserve assets of the financial account.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd_reserve_assets(country_code = 'USA', currency = 'dollar' )
+oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd.reserve_assets()
 ```
 
 <i> Output </i>
@@ -3037,8 +3029,6 @@ oecd_reserve_assets(country_code = 'USA', currency = 'dollar' )
 | 1960-01-01 00:00:00 | B6FARA01  | Reserve assets, net acquisition of financial assets | United States | CXCU      | US-Dollar converted | Q           | 1960-Q1 | USD         |                6 |    -159 |
 | 1960-04-01 00:00:00 | B6FARA01  | Reserve assets, net acquisition of financial assets | United States | CXCU      | US-Dollar converted | Q           | 1960-Q2 | USD         |                6 |    -175 |
 | 1960-07-01 00:00:00 | B6FARA01  | Reserve assets, net acquisition of financial assets | United States | CXCU      | US-Dollar converted | Q           | 1960-Q3 | USD         |                6 |    -740 |
-| 1960-10-01 00:00:00 | B6FARA01  | Reserve assets, net acquisition of financial assets | United States | CXCU      | US-Dollar converted | Q           | 1960-Q4 | USD         |                6 |   -1071 |
-| 1961-01-01 00:00:00 | B6FARA01  | Reserve assets, net acquisition of financial assets | United States | CXCU      | US-Dollar converted | Q           | 1961-Q1 | USD         |                6 |    -371 |
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
@@ -3062,19 +3052,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f78" ><i>newsData(ticker, keywords).barrons()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from Barrons.com for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
 # retrieve news article for a given search term
-ns = NewsScrape('XOM', 'exxon mobil')
-df = ns.barrons_news()
-# filter news articles with a keyword list
+news = newsData('XOM', 'exxon mobil')
+df = news.barrons()
+# filter news headlines with a keyword list
 ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
-data = ns.filter_data(data)
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3101,15 +3090,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f79" ><i>newsData(ticker, keywords).bloomberg()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from Bloomberg.com for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.bloomberg_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.bloomberg()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3137,15 +3129,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f80" ><i>newsData(ticker, keywords).cnbc()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from CNBC for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.cnbc_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.cnbc()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3172,15 +3167,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f81" ><i>newsData(ticker, keywords).ft()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from the Financial Times for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewScrape('ticker', 'keywords')
-df = ns.ft_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.ft()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3213,15 +3211,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f82" ><i>newsData(ticker, keywords).nyt()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from the New York Times for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.nyt_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.nyt()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3242,15 +3243,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f83" ><i>newsData(ticker, keywords).reuters()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from Reuters for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.reuters_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.reuters()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3271,17 +3275,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f84" ><i>newsData(ticker, keywords).seeking\_alpha()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from Seeking Alpha for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('XOM', 'exxon mobil')
-df = ns.seeking_alpha_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.seeking_alpha()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
-
 <i> Output </i>
 
 
@@ -3307,15 +3313,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f85" ><i>newsData(ticker, keywords).wsj()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns the news headlines from the Wall Street Journal for the specified keywords.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.wsj_news()
+# retrieve news article for a given search term
+news = newsData('XOM', 'exxon mobil')
+df = news.wsj()
+# filter news headlines with a keyword list
+ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+df = news.filter_data(df)
 ```
 
 <i> Output </i>
@@ -3324,7 +3333,7 @@ df = ns.wsj_news()
 <center><small><small>
 
 
-'|    | Link                                                                                                                    | Headline                                                            | Date                     | Description                                                                                                                                                                                                             | Author                       | Tag                      | Date_Retrieved             | Ticker   | Newspaper   | Search_term   | ID                                                                                                                                                                                            |   Comments | Source   | Datetime   |\n|---:|:------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------|:-------------------------|:---------------------------|:---------|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------:|:---------|:-----------|\n|  0 | /articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                 | Oil Major BP Gives a Taste of How It Will Go Green                  | Sep. 10, 2020 9:47 am ET | A deal to buy into wind farms off the coast of New York and Massachusetts showcases the British company’s ambitions in the clean-energy sector—and the risks it is taking.                                              | Rochelle Toplensky           | Heard on the Street      | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Major BP Gives a Taste of How It Will Go Green/articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                                  |        nan | wsj      | 10/09/2020 |\n|  1 | /articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                    | Oil Prices Tumble on Faltering Recovery in Demand                   | Sep. 8, 2020 3:32 pm ET  | Oil prices slumped to their lowest level in nearly three months, under pressure from a stalling recovery in demand and planned production expansions by OPEC that threaten to add to an existing glut of crude.         | Joe Wallace                  | Oil Markets              | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Prices Tumble on Faltering Recovery in Demand/articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                                      |        nan | wsj      | 08/09/2020 |\n|  2 | /articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 | Oil Industry Is Fading Away in Land of the World’s Richest Reserves | Sep. 4, 2020 7:03 pm ET  | Venezuela sees its production dwindle after decades of graft and mismanagement under Chávez and Maduro regimes, and now the burden of U.S. sanctions. The last drilling rig in the country has shut down.               | Ginette González, Kejal Vyas | World                    | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Industry Is Fading Away in Land of the World’s Richest Reserves/articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 |        nan | wsj      | 04/09/2020 |\n|  3 | /articles/apple-still-wears-the-market-crown-it-can-easily-slip-11599231617?mod=searchresults&page=1&pos=4              | Apple Still Wears the Market Crown. It Can Easily Slip.             | Sep. 4, 2020 11:00 am ET | Many investors seem to believe that today’s giant technology companies will dominate the stock market for decades to come. Years, maybe. Decades, probably not.                                                         | Jason Zweig                  | The Intelligent Investor | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJApple Still Wears the Market Crown. It Can Easily Slip./articles/apple-still-wears-the-market-crown-it-can-easily-slip-11599231617?mod=searchresults&page=1&pos=4                          |        nan | wsj      | 04/09/2020 |\n|  4 | /articles/the-economy-is-limping-but-wall-street-is-booming-11599158494?mod=searchresults&page=1&pos=5                  | The Economy Is Limping, but Wall Street Is Booming                  | Sep. 3, 2020 2:41 pm ET  | Investment-banking and trading revenues hit an eight-year high in the first half, a counterintuitive boom that shows the heavy hand of the Federal Reserve and the gulf between financial markets and the real economy. | Liz Hoffman                  | Markets                  | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJThe Economy Is Limping, but Wall Street Is Booming/articles/the-economy-is-limping-but-wall-street-is-booming-11599158494?mod=searchresults&page=1&pos=5                                   |        nan | wsj      | 03/09/2020 |'
+|    | Link                                                                                                                    | Headline                                                            | Date                     | Description                                                                                                                                                                                                             | Author                       | Tag                      | Date_Retrieved             | Ticker   | Newspaper   | Search_term   | ID                                                                                                                                                                                            |   Comments | Source   | Datetime   |\n|---:|:------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------|:-------------------------|:---------------------------|:---------|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------:|:---------|:-----------|\n|  0 | /articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                 | Oil Major BP Gives a Taste of How It Will Go Green                  | Sep. 10, 2020 9:47 am ET | A deal to buy into wind farms off the coast of New York and Massachusetts showcases the British company’s ambitions in the clean-energy sector—and the risks it is taking.                                              | Rochelle Toplensky           | Heard on the Street      | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Major BP Gives a Taste of How It Will Go Green/articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                                  |        nan | wsj      | 10/09/2020 |\n|  1 | /articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                    | Oil Prices Tumble on Faltering Recovery in Demand                   | Sep. 8, 2020 3:32 pm ET  | Oil prices slumped to their lowest level in nearly three months, under pressure from a stalling recovery in demand and planned production expansions by OPEC that threaten to add to an existing glut of crude.         | Joe Wallace                  | Oil Markets              | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Prices Tumble on Faltering Recovery in Demand/articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                                      |        nan | wsj      | 08/09/2020 |\n|  2 | /articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 | Oil Industry Is Fading Away in Land of the World’s Richest Reserves | Sep. 4, 2020 7:03 pm ET  | Venezuela sees its production dwindle after decades of graft and mismanagement under Chávez and Maduro regimes, and now the burden of U.S. sanctions. The last drilling rig in the country has shut down.               | Ginette González, Kejal Vyas | World                    | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Industry Is Fading Away in Land of the World’s Richest Reserves/articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 |        nan | wsj      | 04/09/2020 |\n|  3 | /articles/apple-still-wears-the-market-crown-it-can-easily-slip-11599231617?mod=searchresults&page=1&pos=4              | Apple Still Wears the Market Crown. It Can Easily Slip.             | Sep. 4, 2020 11:00 am ET | Many investors seem to believe that today’s giant technology companies will dominate the stock market for decades to come. Years, maybe. Decades, probably not.                                                         | Jason Zweig                  | The Intelligent Investor | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJApple Still Wears the Market Crown. It Can Easily Slip./articles/apple-still-wears-the-market-crown-it-can-easily-slip-11599231617?mod=searchresults&page=1&pos=4                          |        nan | wsj      | 04/09/2020 |\n|  4 | /articles/the-economy-is-limping-but-wall-street-is-booming-11599158494?mod=searchresults&page=1&pos=5                  | The Economy Is Limping, but Wall Street Is Booming                  | Sep. 3, 2020 2:41 pm ET  | Investment-banking and trading revenues hit an eight-year high in the first half, a counterintuitive boom that shows the heavy hand of the Federal Reserve and the gulf between financial markets and the real economy. | Liz Hoffman                  | Markets                  | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJThe Economy Is Limping, but Wall Street Is Booming/articles/the-economy-is-limping-but-wall-street-is-booming-11599158494?mod=searchresults&page=1&pos=5                                   |        nan | wsj      | 03/09/2020 |
 
 
 </small></small></center>
@@ -3343,15 +3352,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f86" ><i>nasdaq\_tickers()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns dataframe of tickers traded on the Nasdaq exchange.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.wsj_news()
+nasdaq_tickers()
 ```
 
 <i> Output </i>
@@ -3359,7 +3366,14 @@ df = ns.wsj_news()
 
 <center><small><small>
 
-'|    | Symbol   | Security Name                                                                                    |\n|---:|:---------|:-------------------------------------------------------------------------------------------------|\n|  0 | AACG     | ATA Creativity Global - American Depositary Shares, each representing two common shares          |\n|  1 | AACQ     | Artius Acquisition Inc. - Class A Common Stock                                                   |\n|  2 | AACQU    | Artius Acquisition Inc. - Unit consisting of one ordinary share and one third redeemable warrant |\n|  3 | AACQW    | Artius Acquisition Inc. - Warrant                                                                |\n|  4 | AAL      | American Airlines Group, Inc. - Common Stock                                                     |'
+|    | Symbol   | Security Name                                                                                    |
+|---:|:---------|:-------------------------------------------------------------------------------------------------|
+|  0 | AACG     | ATA Creativity Global - American Depositary Shares, each representing two common shares          |
+|  1 | AACQ     | Artius Acquisition Inc. - Class A Common Stock                                                   |
+|  2 | AACQU    | Artius Acquisition Inc. - Unit consisting of one ordinary share and one third redeemable warrant |
+|  3 | AACQW    | Artius Acquisition Inc. - Warrant                                                                |
+|  4 | AAL      | American Airlines Group, Inc. - Common Stock                                                     |
+|  ... | ...    | ...        				                                                                           |
 
 
 </small></small></center>
@@ -3371,15 +3385,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f87" ><i>global\_tickers()</i></div>
 
 <ul>
-<li></li>
-<li> </li>
+<li>Returns 100.000+ global tickers from Gurufocus.com. Note that companies are listed in different countries or exchanges with different ticker symbols. </li>
 </ul>
 
 <i> Example </i>
 
 ```python
-ns = NewsScrape('ticker', 'keywords')
-df = ns.wsj_news()
+global_tickers()
 ```
 
 <i> Output </i>
@@ -3387,8 +3399,19 @@ df = ns.wsj_news()
 
 <center><small><small>
 
-'|    | Symbol        | Company                      |\n|---:|:--------------|:-----------------------------|\n|  0 | QNCO.Israel   | (Y.Z) Queenco Ltd            |\n|  1 | ONE.Canada    | 01 Communique Laboratory Inc |\n|  2 | DFK.Germany   | 01 Communique Laboratory Inc |\n|  3 | OCQLF         | 01 Communique Laboratory Inc |\n|  4 | 01C.Poland    | 01Cyberaton SA               |\n|  5 | 1PG.Australia | 1 Page Ltd                   |\n|  6 | I8Y.Germany   | 1 Page Ltd                   |\n|  7 | I8Y.Germany   | 1 Page Ltd                   |\n|  8 | 8458.Taiwan   | 1 Production Film Co         |\n|  9 | DRI.Austria   | 1&1 Drillisch AG             |'
-
+|    | Symbol          | Company                      |
+|---:|:----------------|:-----------------------------|
+|  0 | QNCO.Israel     | (Y.Z) Queenco Ltd            |
+|  1 | ONE.Canada      | 01 Communique Laboratory Inc |
+|  2 | DFK.Germany     | 01 Communique Laboratory Inc |
+|  3 | OCQLF           | 01 Communique Laboratory Inc |
+|  4 | 01C.Poland      | 01Cyberaton SA               |
+|  5 | 1PG.Australia   | 1 Page Ltd                   |
+|  6 | I8Y.Germany     | 1 Page Ltd                   |
+|  8 | 8458.Taiwan     | 1 Production Film Co         |
+|  9 | DRI.Austria     | 1&1 Drillisch AG             |
+| 10 | DRI.Switzerland | 1&1 Drillisch AG             |
+|  ... | ...    | ...        				    |
 
 </small></small></center>
 

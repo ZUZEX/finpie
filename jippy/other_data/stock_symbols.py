@@ -24,6 +24,8 @@ def global_tickers():
         else:
             df = df.append( pd.read_html( str(soup.find_all('table')[1]) )[0] )
     df = df.iloc[:,:3]
+    df.drop('Price', inplace = True, axis = 1)
+    df.drop_duplicates('Symbol', inplace = True)
     return df
 
 def nasdaq_tickers():
@@ -38,3 +40,46 @@ def nasdaq_tickers():
     df1 = df1.append(df2)
     df1.reset_index(inplace = True, drop = True)
     return df1
+
+
+
+'''http://www.eoddata.com/stocklist/AMEX/B.htm
+http://www.eoddata.com/stocklist/ASX/2.htm
+http://www.eoddata.com/stocklist/CBOT/B.htm
+http://www.eoddata.com/stocklist/CFE.htm
+http://www.eoddata.com/stocklist/COMEX/G.htm
+http://www.eoddata.com/stocklist/EUREX/D.htm
+http://www.eoddata.com/stocklist/FOREX/C.htm
+http://www.eoddata.com/stocklist/HKEX.htm
+http://www.eoddata.com/stocklist/INDEX/B.htm
+http://www.eoddata.com/stocklist/kcbt.htm
+http://www.eoddata.com/stocklist/LIFFE/C.htm
+http://www.eoddata.com/stocklist/LSE.htm
+http://www.eoddata.com/stocklist/MGEX/I.htm
+http://www.eoddata.com/stocklist/NASDAQ/B.htm
+http://www.eoddata.com/stocklist/NYBOT/C.htm
+http://www.eoddata.com/stocklist/NYSE/E.htm
+http://www.eoddata.com/stocklist/OTCBB/D.htm
+http://www.eoddata.com/stocklist/SGX/B.htm
+http://www.eoddata.com/stocklist/TSX/G.htm
+http://www.eoddata.com/stocklist/TSXV/G.htm
+http://www.eoddata.com/stocklist/USMF/H.htm
+http://www.eoddata.com/stocklist/WCE.htm
+
+
+import string
+
+dfs = []
+chars = string.ascii_lowercase + ''.join( [ str(i) for i in range(0,10) ] )
+for i in chars:
+    url = f'http://www.eoddata.com/stocklist/AMEX/{i.upper()}.htm'
+    session = HTMLSession()
+    url = 'https://www.gurufocus.com/stock_list.php?p=0&n=100'
+    r = session.get(url)
+    soup = bs(r.content, 'html5lib')
+    dfs.append( pd.read_html( str( soup.find('table', class_ = 'quotes') ) )
+
+
+
+def exchange_symbols(exchange):
+    pass'''

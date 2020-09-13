@@ -8,7 +8,7 @@ import dask.dataframe as dd
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 
-def futures_historical_prices(date_range):
+def historical_futures_contracts(date_range):
     '''
         Function to retrieve historical futures prices of all available futures contracts,
         including currency, interest rate, energy, meat, metals, softs, grains, soybeans,
@@ -28,7 +28,7 @@ def futures_historical_prices(date_range):
     return df_out
 
 
-def futures_prices(date):
+def futures_contracts(date):
     return _download_prices(date).compute()
 
 
