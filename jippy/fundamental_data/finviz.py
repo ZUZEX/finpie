@@ -5,13 +5,15 @@ from requests_html import HTMLSession
 import pandas as pd
 import numpy as np
 
+from jippy.fundamental_data.fundamental_base import Fundamental
 
-class finvizData(object):
+
+class finvizData(Fundamental):
 
     def __init__(self, ticker):
         self.ticker = ticker
 
-    def finviz_insider_transactions(self):
+    def insider_transactions(self):
         '''
 
         '''
@@ -28,7 +30,7 @@ class finvizData(object):
         return df
 
 
-    def finviz_analyst_ratings(self):
+    def analyst_ratings(self):
         '''
 
         '''
@@ -43,3 +45,18 @@ class finvizData(object):
         df.drop('date', inplace = True, axis = 1)
         df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('&', 'and').lower() for col in df.columns ]
         return df
+
+    def key_metrics( self ):
+
+        url = f'https://finviz.com/quote.ashx?t={self.ticker}'
+        session = HTMLSession()
+        r = session.get(url)
+        soup = bs(r.content, 'html5lib')
+        df = pd.read_html( str( soup.find('table', class_ = 'snapshot-table2') ) )[0]
+        columns = list( range(0,len(df.columns), 2) )
+        values = list( range(1,len(df.columns), 2) )
+        columns = np.array( [ df[i].values for i in columns ] ).flatten().tolist()
+        values = np.array( [ df[i].values for i in values ] ).flatten()
+        df = pd.DataFrame( values.reshape(1,-1), columns = columns, index = [0])
+        df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('&', 'and').lower() for col in df.columns ]
+        return self._col_to_float(df)

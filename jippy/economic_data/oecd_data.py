@@ -40,7 +40,7 @@ class oecdData(object):
             BLSA, balanced level seasonally adjusted
         '''
 
-        self.country_code = self.country_code
+        self.country_code = country_code
         self.freq = freq
         self.currency_code = currency_code
 
@@ -241,7 +241,7 @@ class oecdData(object):
         return df
 
 
-    def survey_consumer_price_inflation_survey( self ):
+    def consumer_price_inflation_survey( self ):
         code1 = 'CSINFT'
         code2 = f'.BLSA.{self.freq.upper()}'
 
@@ -264,21 +264,6 @@ class oecdData(object):
     #          https://stats.oecd.org/Index.aspx?DataSetCode=MEI_CLI#
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
-    def _main_indicator_helper(self, code1, code2):
-        if self.country_code == 'all':
-            df = self._get_oecd(f'MEI/AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF.{code1}{code2}',
-                            measure = False)
-        else:
-            df = self._get_oecd(f'MEI/{code1}.{self.country_code.upper()}{code2}',
-                            measure = False)
-        return df
-
-
-    '''
-    main economic indicators
-    'https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/MEI/AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU28+G4E+G-7+NAFTA+OECDE+G-20+OECD+SDR+ONM+A5M+NMEC+ARG+BRA+BGR+CHN+CRI+CYP+IND+IDN+MLT+ROU+RUS+SAU+ZAF.LO+LORS+LORSGP+LORSGPRT+LORSGPNO+LORSGPTD+LORSGPOR+LOLI+LOLITO+LOLITOAA+LOLITONO+LOLITOTR+LOCO+LOCOPA+LOCOPANO+LOCOPAOR+LOCOAB+LOCOABNO+LOCOABOR+LOCOBS+LOCOBSNO+LOCOBSOR+LOCOBU+LOCOBUNO+LOCOBUOR+LOCOBD+LOCOBDNO+LOCOBDOR+LOCOBE+LOCOBENO+LOCOBEOR+LOCOBX+LOCOBXNO+LOCOBXOR+LOCOBF+LOCOBFNO+LOCOBFOR+LOCOBO+LOCOBONO+LOCOBOOR+LOCOBI+LOCOBINO+LOCOBIOR+LOCOBP+LOCOBPNO+LOCOBPOR+LOCOBC+LOCOBCNO+LOCOBCOR+LOCOBK+LOCOBKNO+LOCOBKOR+LOCOVR+LOCOVRNO+LOCOVROR+LOCODW+LOCODWNO+LOCODWOR+LOCOPC+LOCOPCNO+LOCOPCOR+LOCOCI+LOCOCINO+LOCOCIOR+LOCOCE+LOCOCENO+LOCOCEOR+LOCOEX+LOCOEXNO+LOCOEXOR+LOCOEM+LOCOEMNO+LOCOEMOR+LOCOTX+LOCOTXNO+LOCOTXOR+LOCOXG+LOCOXGNO+LOCOXGOR+LOCOHS+LOCOHSNO+LOCOHSOR+LOCOTM+LOCOTMNO+LOCOTMOR+LOCOMG+LOCOMGNO+LOCOMGOR+LOCOIS+LOCOISNO+LOCOISOR+LOCOLT+LOCOLTNO+LOCOLTOR+LOCOMA+LOCOMANO+LOCOMAOR+LOCONT+LOCONTNO+LOCONTOR+LOCOOD+LOCOODNO+LOCOODOR+LOCOPP+LOCOPPNO+LOCOPPOR+LOCOPB+LOCOPBNO+LOCOPBOR+LOCOPE+LOCOPENO+LOCOPEOR+LOCOPG+LOCOPGNO+LOCOPGOR+LOCOPQ+LOCOPQNO+LOCOPQOR+LOCOPM+LOCOPMNO+LOCOSL+LOCOSLNO+LOCOSLOR+LOCOSP+LOCOSPNO+LOCOSPOR+LOCOST+LOCOSTNO+LOCOSTOR+LOCOSI+LOCOSINO+LOCOSIOR+LOCOSK+LOCOSKNO+LOCOSKOR+LOCOTT+LOCOTTNO+LOCOTTOR+LOCOTA+LOCOTANO+LOCOTAOR.ST+STSA+IXOB+IXOBSA+GY+GYSA.{self.freq}+M'
-
-    '''
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
     # business tendency and consumer opinion
@@ -371,19 +356,19 @@ class oecdData(object):
         return self._main_indicator_helper(code1, code2)
 
     def usd_exchange_rates_spot(self):
-        code1 = ''
+        code1 = 'CCUSSP01'
         code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def usd_exchange_rates_average(self):
         code1 = 'CCUSMA02'
         code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def rer_overall(self):
         code1 = 'CCRETT01'
         code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
@@ -393,12 +378,12 @@ class oecdData(object):
     def exports_value(self):
         code1 = 'XTEXVA01'
         code2 = f'.NCML+NCMLSA+CXML+CXMLSA+GYSA.{self.freq}' # other currency codes
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def imports_value(self):
         code1 = 'XTIMVA01'
         code2 = f'.NCML+NCMLSA+CXML+CXMLSA+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
@@ -408,7 +393,7 @@ class oecdData(object):
     def unemployment_rate(self):
         code1 = 'LRHUTTTT'
         code2 = f'.STSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
@@ -419,22 +404,22 @@ class oecdData(object):
     def cpi_total(self):
         code1 = 'CPALTT01'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def cpi_city_total(self):
         code1 = 'CPALCY01'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def cpi_non_food_non_energy(self):
         code1 = 'CPGRLE01'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def cpi_energy(self):
         code1 = 'CPGREN01'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
@@ -445,38 +430,38 @@ class oecdData(object):
     def gdp_deflator(self):
         code1 = 'NAGIGP01'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def gdp_total(self):
         code1 = 'NAEXKP01'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def gdp_final_consumption(self):
         code1 = 'NAEXKP02'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def gdp_government_consumption(self):
         code1 = 'NAEXKP03'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     def gdp_fixed_capital_formation(self):
         code1 = 'NAEXKP04'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def gdp_exports(self):
         code1 = 'NAEXKP06'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def gdp_imports(self):
         code1 = 'NAEXKP07'
         code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
@@ -490,7 +475,7 @@ class oecdData(object):
         '''
         code1 = 'PRMNTO01'
         code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
-        self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
     def total_industry_production_ex_construction(self):
         '''
@@ -498,7 +483,7 @@ class oecdData(object):
         '''
         code1 = 'PRINTO01'
         code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
-        self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     def total_construction(self):
@@ -507,7 +492,7 @@ class oecdData(object):
         '''
         code1 = 'PRCNTO01'
         code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     def total_retail_trade(self, measure = 'value'):
@@ -519,7 +504,7 @@ class oecdData(object):
         else:
             code1 = 'SLRTTO02' # default value measure
         code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     def passenger_car_registration(self):
@@ -528,7 +513,7 @@ class oecdData(object):
         '''
         code1 = 'SLRTCR03'
         code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
+        return self._main_indicator_helper(code1, code2)
 
 
     def construction_permits_issued(self):
@@ -537,9 +522,7 @@ class oecdData(object):
         '''
         code1 = 'ODCNPI03'
         code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
-        return self._main_indicator_helper(code1, code2, self.country_code)
-
-
+        return self._main_indicator_helper(code1, code2)
 
 
 
@@ -584,3 +567,20 @@ class oecdData(object):
         else:
             df = self._get_oecd(f'MEI_BOP6/{code1}.{self.country_code.upper()}{code2}')
         return df
+
+
+    def _main_indicator_helper(self, code1, code2):
+        if self.country_code == 'all':
+            df = self._get_oecd(f'MEI/AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF.{code1}{code2}',
+                            measure = False)
+        else:
+            df = self._get_oecd(f'MEI/{code1}.{self.country_code.upper()}{code2}',
+                            measure = False)
+        return df
+
+
+        '''
+        main economic indicators
+        'https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/MEI/AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU28+G4E+G-7+NAFTA+OECDE+G-20+OECD+SDR+ONM+A5M+NMEC+ARG+BRA+BGR+CHN+CRI+CYP+IND+IDN+MLT+ROU+RUS+SAU+ZAF.LO+LORS+LORSGP+LORSGPRT+LORSGPNO+LORSGPTD+LORSGPOR+LOLI+LOLITO+LOLITOAA+LOLITONO+LOLITOTR+LOCO+LOCOPA+LOCOPANO+LOCOPAOR+LOCOAB+LOCOABNO+LOCOABOR+LOCOBS+LOCOBSNO+LOCOBSOR+LOCOBU+LOCOBUNO+LOCOBUOR+LOCOBD+LOCOBDNO+LOCOBDOR+LOCOBE+LOCOBENO+LOCOBEOR+LOCOBX+LOCOBXNO+LOCOBXOR+LOCOBF+LOCOBFNO+LOCOBFOR+LOCOBO+LOCOBONO+LOCOBOOR+LOCOBI+LOCOBINO+LOCOBIOR+LOCOBP+LOCOBPNO+LOCOBPOR+LOCOBC+LOCOBCNO+LOCOBCOR+LOCOBK+LOCOBKNO+LOCOBKOR+LOCOVR+LOCOVRNO+LOCOVROR+LOCODW+LOCODWNO+LOCODWOR+LOCOPC+LOCOPCNO+LOCOPCOR+LOCOCI+LOCOCINO+LOCOCIOR+LOCOCE+LOCOCENO+LOCOCEOR+LOCOEX+LOCOEXNO+LOCOEXOR+LOCOEM+LOCOEMNO+LOCOEMOR+LOCOTX+LOCOTXNO+LOCOTXOR+LOCOXG+LOCOXGNO+LOCOXGOR+LOCOHS+LOCOHSNO+LOCOHSOR+LOCOTM+LOCOTMNO+LOCOTMOR+LOCOMG+LOCOMGNO+LOCOMGOR+LOCOIS+LOCOISNO+LOCOISOR+LOCOLT+LOCOLTNO+LOCOLTOR+LOCOMA+LOCOMANO+LOCOMAOR+LOCONT+LOCONTNO+LOCONTOR+LOCOOD+LOCOODNO+LOCOODOR+LOCOPP+LOCOPPNO+LOCOPPOR+LOCOPB+LOCOPBNO+LOCOPBOR+LOCOPE+LOCOPENO+LOCOPEOR+LOCOPG+LOCOPGNO+LOCOPGOR+LOCOPQ+LOCOPQNO+LOCOPQOR+LOCOPM+LOCOPMNO+LOCOSL+LOCOSLNO+LOCOSLOR+LOCOSP+LOCOSPNO+LOCOSPOR+LOCOST+LOCOSTNO+LOCOSTOR+LOCOSI+LOCOSINO+LOCOSIOR+LOCOSK+LOCOSKNO+LOCOSKOR+LOCOTT+LOCOTTNO+LOCOTTOR+LOCOTA+LOCOTANO+LOCOTAOR.ST+STSA+IXOB+IXOBSA+GY+GYSA.{self.freq}+M'
+
+        '''

@@ -1,29 +1,6 @@
 #!/bin/python3
 
-################################################################################
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-## Project:      Sentiment
-## Title:        Tweets Retrieval
-## Author:       Peter la Cour
-## Email:        peter.lacour@student.unisg.ch
-## Place, Time:  St. Gallen, 05.05.19
-
-## Description:
-##
-##
-
-## Improvements:
-## Last changes:
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-################################################################################
-
-################################################################################
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#                                 Setup
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-################################################################################
 
 # Import files
 
@@ -40,23 +17,17 @@ import  time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 #from selenium.webdriver.firefox.options import Options
 
 import dask.dataframe as dd
+import sys
+import os
 
-################################################################################
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#                               Functions
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-################################################################################
 
-# None
 
-################################################################################
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#                            Start of Script
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-################################################################################
+
 
 class CleanText():
     def __init__(self):
@@ -168,20 +139,43 @@ class newsData(CleanText):
         self.keywords = keywords
         self.head = head
         self.verbose = verbose
+        
     #########################################################################
     # initial news scrapes
     #########################################################################
 
-    def _load_driver(self):
+    def _get_chromedriver(self):
+
+        filepath = os.path.dirname(__file__)
+        if '/' in filepath:
+            filepath = '/'.join( filepath.split('/')[:-1]) + '/webdrivers/'
+        elif '\\' in filepath:
+            filepath = '\\'.join( filepath.split('\\')[:-1]) + '\\webdrivers\\'
+
+        if sys.platform == 'darwin':
+            return  filepath + 'chromedriver_mac'
+        elif 'win' in sys.platform:
+            return filepath + 'chromedriver_windows'
+
+
+    def _load_driver(self, caps = None):
         options = webdriver.ChromeOptions()
         if not self.head:
             options.add_argument('--headless')
-        driver = webdriver.Chrome( executable_path=r'/Users/PeterlaCour/Documents/Research.nosync/financial_data_project/jippy/jippy/price_data/chromedriver', options = options ) # chromedriver
+
+        print(self._get_chromedriver())
+
+        if caps != None:
+            driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
+        else:
+            driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options ) # chromedriver
         driver.set_window_size(1400,1000)
         driver.set_page_load_timeout(1800)
+        driver.delete_all_cookies()
+
         return driver
 
-    def ft( self, ):
+    def ft( self ):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     #                            Financial Times
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -347,7 +341,7 @@ class newsData(CleanText):
 
 
 
-    def wsj( self ):
+    def wsj( self, datestop = False ):
 
         source = 'wsj'
 
@@ -361,10 +355,16 @@ class newsData(CleanText):
 
         url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + start_date + '&max-date=' + end_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
 
-        driver = self._load_driver()
+        caps = DesiredCapabilities().CHROME
+        caps["pageLoadStrategy"] = "none"
+
+        driver = self._load_driver(caps)
 
         # Set and retrive url
         driver.get(url)
+        time.sleep(3)
+        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
+
         contents = []
         max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
         contents.append(driver.page_source)
@@ -372,40 +372,67 @@ class newsData(CleanText):
             try:
                 time.sleep(random.randint(0,2))
                 driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
                 contents.append(driver.page_source)
             except:
-                driver.refresh()
-                driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
-                contents.append(driver.page_source)
+                try:
+                    driver.refresh()
+                    driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                    element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
+                    contents.append(driver.page_source)
+                except:
+                    driver.refresh()
+                    contents.append(driver.page_source)
+
+        if datestop:
+            stop = pd.to_datetime(datestop)
+            if td_1 < stop:
+                bool = False
             # Record progress
             #_print_progress(i, max-1)
         contents.append(driver.page_source)
 
         bool = True
         while bool:
-            try:
-                td_2 = td_1
-                y, m, d = self._format_date(td_2)
-                start_date = y + '/' + m + '/' + d
-                td_1 = td_1 - dt.timedelta(days = 320)
-                y, m, d = self._format_date(td_1)
-                end_date = y + '/' + m + '/' + d
+            #try:
+            td_2 = td_1
+            y, m, d = self._format_date(td_2)
+            start_date = y + '/' + m + '/' + d
+            td_1 = td_1 - dt.timedelta(days = 320)
+            y, m, d = self._format_date(td_1)
+            end_date = y + '/' + m + '/' + d
 
-                url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + end_date + '&max-date=' + start_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
-                driver.get(url)
-                max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
-                contents.append(driver.page_source)
-                for i in range(max-1):
+
+            url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + end_date + '&max-date=' + start_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
+            driver.get(url)
+
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]')))
+
+            max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
+            contents.append(driver.page_source)
+
+            for i in range(max-1):
+                try:
+                    time.sleep(random.randint(0,2))
+                    driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                    element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
+                    contents.append(driver.page_source)
+                except:
                     try:
-                        time.sleep(random.randint(0,2))
+                        driver.refresh()
                         driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
                         contents.append(driver.page_source)
                     except:
                         driver.refresh()
-                        driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
                         contents.append(driver.page_source)
-            except:
-                bool = False
+            if datestop:
+                stop = pd.to_datetime(datestop)
+                if td_1 < stop:
+                    bool = False
+            #except:
+            #    bool = False
 
         driver.close()
         driver.quit()
@@ -451,6 +478,7 @@ class newsData(CleanText):
             if col not in data.columns:
                 data[col] = 'nan'
 
+        data['Source'] = source
 
         data = self._clean_dates(data)
         # write to parquet file with ticker as partition
@@ -810,11 +838,13 @@ class newsData(CleanText):
         return data
 
 
-    def reuters(self):
+    def reuters(self, datestop):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Reuters
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', \
+                       'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' }
 
         source = 'reuters'
         url =  'https://www.reuters.com/search/news?blob=' + self.keywords.replace(' ', '+' ) +  '&sortBy=date&dateRange=all'
@@ -827,6 +857,8 @@ class newsData(CleanText):
         time.sleep(2)
         driver.find_element_by_xpath('//button[@id="_evidon-banner-acceptbutton"]').click()
 
+        #_evidon-barrier-wrapper
+
         bool = True
         while bool: #newnumber != oldnumber:
             # do it with xpath
@@ -836,7 +868,14 @@ class newsData(CleanText):
                 driver.execute_script("arguments[0].scrollIntoView();", element)
                 ActionChains(driver).move_to_element( element).click().perform()
                 time.sleep(random.randint(1,2))
-                time.sleep(5)
+                time.sleep(2)
+
+                if datestop != None:
+                    d = driver.find_elements_by_xpath('//h5[@class="search-result-timestamp"]')[-1].text.split(' ')
+
+                    if dt.datetime(int(d[2]), int(months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
+                        bool = False
+
             except:
                 bool = False
             #newnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
@@ -1055,7 +1094,7 @@ class newsData(CleanText):
         return data
 
 
-    def nyt(self):
+    def nyt(self, datestop = None):
 
         source = 'nyt'
 
@@ -1093,22 +1132,29 @@ class newsData(CleanText):
                     content = driver.page_source
                     contents.append( content )
 
-                    try:
-                        last_date = driver.find_elements_by_tag_name('time')[-1].text
-                        y = last_date.split(' ')[-1]
-                        m = months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
-                        if len(last_date.split(' ')[1].replace(',', '')) < 2:
-                            d = '0' + last_date.split(' ')[1].replace(',', '')
-                        else:
-                            d = last_date.split(' ')[1].replace(',', '')
-                        url = 'https://www.nytimes.com/search?dropmab=true&endDate=' + y + m + d + '&query=' + self.keywords.replace(' ', '%20') + '&sort=newest&startDate=' + '20000101'
-                        driver.get(url)
-                        time.sleep(1)
-                        newnumber = len( driver.find_elements_by_tag_name('li') )
-                        k = 0
-                        t = 25
-                    except:
-                        bool = False
+                    #try:
+                    #last_date = driver.find_elements_by_tag_name('time')[-1].text
+                    last_date = driver.find_elements_by_xpath('//div[@data-testid="todays-date"]')[-1].text
+
+                    y = last_date.split(' ')[-1]
+                    m = months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
+                    if len(last_date.split(' ')[1].replace(',', '')) < 2:
+                        d = '0' + last_date.split(' ')[1].replace(',', '')
+                    else:
+                        d = last_date.split(' ')[1].replace(',', '')
+
+                    if datestop != None:
+                        if dt.datetime(int(y),int(m),int(d)) < pd.to_datetime(datestop):
+                            bool = False
+
+                    url = 'https://www.nytimes.com/search?dropmab=true&endDate=' + y + m + d + '&query=' + self.keywords.replace(' ', '%20') + '&sort=newest&startDate=' + '20000101'
+                    driver.get(url)
+                    time.sleep(1)
+                    newnumber = len( driver.find_elements_by_tag_name('li') )
+                    k = 0
+                    #t = 25
+                    #except:
+                    #    bool = False
             except:
                 content = driver.page_source
                 contents.append( content )
@@ -1124,7 +1170,7 @@ class newsData(CleanText):
             for article in articles:
                 link.append( article.find('a').get('href') )
                 headline.append( article.find('h4').text )
-                date.append( article.find('time').text )
+                date.append( article.find('div', attrs = { 'data-testid': 'todays-date'}).text )
                 try:
                     description.append( article.find('p', class_ = 'css-16nhkrn').text )
                 except:

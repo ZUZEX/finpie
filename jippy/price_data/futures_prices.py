@@ -8,10 +8,31 @@ import dask.dataframe as dd
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 
-import os
-os.getcwd()
+def futures_historical_prices(date_range):
+    '''
+        Function to retrieve historical futures prices of all available futures contracts,
+        including currency, interest rate, energy, meat, metals, softs, grains, soybeans,
+        fiber and index futures.
+
+        Notice that the download is not very fast and 20 years of data takes around 2 hours
+        to download and contains around 2 million rows.
+
+        input: pandas date range, e.g. pd.date_range('2000-01-01', '2020-01-01')
+        output: pandas dataframe with prices for all available futures for the
+                specified time period
+    '''
+    with ThreadPoolExecutor(4) as pool:
+        res = list( tqdm( pool.map(_download_prices, date_range), total = len(date_range) ))
+    df_out = dd.concat( [ i for i in res if type(i) != type([0]) ], axis = 0 )
+    df_out = df_out.compute()
+    return df_out
+
 
 def futures_prices(date):
+    return _download_prices(date).compute()
+
+
+def _download_prices(date):
     '''
     input: datetime object
     output: pandas dataframe with prices for all available futures for the
@@ -64,30 +85,3 @@ def futures_prices(date):
     out.replace('unch', np.nan, inplace = True)
 
     return dd.from_pandas(out, npartitions = 1)
-
-
-def futures_historical_prices(date_range):
-    '''
-        Function to retrieve historical futures prices of all available futures contracts,
-        including currency, interest rate, energy, meat, metals, softs, grains, soybeans,
-        fiber and index futures.
-
-        Notice that the download is not very fast and 20 years of data takes around 2 hours
-        to download and contains around 2 million rows.
-
-        input: pandas date range, e.g. pd.date_range('2000-01-01', '2020-01-01')
-        output: pandas dataframe with prices for all available futures for the
-                specified time period
-    '''
-    with ThreadPoolExecutor(4) as pool:
-        res = list( tqdm( pool.map(get_futures_prices, date_range), total = len(date_range) ))
-    df_out = dd.concat( [ i for i in res if type(i) != type([0]) ], axis = 0 )
-    df_out = df_out.compute()
-    return df_out
-
-
-df = futures_historical_prices( pd.date_range( '2016-01-01', '2020-01-01' ) )
-
-df
-
-get_futures_prices('2010-01-04')

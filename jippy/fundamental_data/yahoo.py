@@ -4,6 +4,7 @@ from requests_html import HTMLSession
 import pandas as pd
 import numpy as np
 import datetime as dt
+from jippy.fundamental_data.fundamental_base import Fundamental
 
 '''
     Functions:
@@ -17,7 +18,7 @@ import datetime as dt
         # To do: add quarterly statements function with selenium
 '''
 
-class yahooData(object):
+class yahooData( Fundamental ):
 
     def __init__(self, ticker):
         self.ticker = ticker
@@ -52,7 +53,7 @@ class yahooData(object):
         return df
 
 
-    def ratios(self):
+    def key_metrics(self):
         '''
 
         '''
@@ -246,37 +247,6 @@ class yahooData(object):
         return df
 
 
-    def _col_to_float(self, df):
-        '''
-        Converts string columns to floats replacing percentage signs and T, B, M, k
-        to trillions, billions, millions and thousands.
-        '''
-        for col in df.columns:
-            try:
-                df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
-                                                        .replace('T', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000000000).astype('str')
-                df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
-                                                        .replace('B', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000000).astype('str')
-                df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
-                                                        .replace('M', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000).astype('str')
-                df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
-                                                        .replace('k', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000).astype('str')
-                df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
-                                                        .replace('%', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') / 100).astype('str')
-                df.loc[df[col].str.contains('K'), col] = (df[col][df[col].str.contains('K', case=True)] \
-                                                     .replace('K', '', regex = True) \
-                                                     .astype('float') * 1000).astype('str')
-            except:
-                continue
-        return df
-
-
-
     def esg_score(self):
       '''
 
@@ -322,13 +292,18 @@ class yahooData(object):
        url = f'https://finance.yahoo.com/quote/{self.ticker}/profile?p={self.ticker}'
        r = session.get(url)
        soup = bs( r.content, "html.parser" )
+       try:
+           no_of_employees = np.int( soup.find('span', string = 'Full Time Employees').find_next('span').text.replace(',', '') )
+       except:
+           no_of_employees = np.nan
        df = pd.DataFrame( { 'company_name': soup.find_all('section')[1].find('h3').text,
                             'sector': soup.find('span', string = 'Sector(s)').find_next('span').text,
                             'industry': soup.find('span', string = 'Industry').find_next('span').text,
-                            'number_of_employees': np.int( soup.find('span', string = 'Full Time Employees').find_next('span').text.replace(',', '') ),
+                            'number_of_employees': no_of_employees,
                             'description': soup.find('h2', string = 'Description').find_next('p').text,
                             'ticker': self.ticker }, index = [0] )
        return df
+
 
     def executives_info(self):
        '''

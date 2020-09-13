@@ -9,14 +9,14 @@
 <p>
 
 
-<b>For recreational use only. Made for finance students for personal educational purposes to have easier access to some financial and finance related data.</b>
+<b>For recreational use. Made for finance students for personal educational purposes to have easier access to some financial and finance related data.</b>
 
 
 </p>
 
 <p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#3">function index </a> for more information on issues of data availability and run time.</p> 
 <p>
-The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code> and <code>Finviz</code>. The price data module retrieves data from <code>Yahoo Finance</code>, <code>Investing.com</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).
+The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code> and <code>Finviz</code>. The price data module retrieves data from <code>Yahoo Finance</code>, <code>Investing.com</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).
 </p>
 
 <p>
@@ -39,42 +39,42 @@ If there are any issues or recommendations please contact xxx@xxxx.com.
 
 <ol>
 <li>
-<a href="#2">Installation</a>
+<a href="#A2">Installation</a>
 </li>
-<li><a href="#3">Function index</a></li>
+<li><a href="#A3">Function index</a></li>
 <li>
-<a href="#4">Company fundamental data</a><ul>
-	<li><a href="#A21">Valuation metrics and financial ratios</a></li>
-	<li><a href="#A22">Financial statements</a></li>
-	<li><a href="#A23">Earnings and revenue estimates</a></li>
-	<li><a href = "">Insider transactions and analyst ratings</a></li>
-	<li><a href = "">Earnings conference calls</a></li>
-	<li><a href = "">ESG scores</a></li>
-	<li><a href = "">Company profile</a></li>
+<a href="#A4">Company fundamental data</a><ul>
+	<li><a href="#A41">Valuation metrics and financial ratios</a></li>
+	<li><a href="#A42">Financial statements</a></li>
+	<li><a href="#A43">Earnings and revenue estimates</a></li>
+	<li><a href = "#A44">Insider transactions and analyst ratings</a></li>
+	<li><a href = "#A45">Earnings conference calls</a></li>
+	<li><a href = "#A46">ESG scores</a></li>
+	<li><a href = "#A47">Company profile</a></li>
 	</ul>
 </li>
 <li>
-<a href="#5">Price data</a><ul>
-	<li><a href="">Stock prices</a></li>
-	<li><a href="">Option prices</a></li>
-	<li><a href="#A23">Futures prices</a></li>
+<a href="#A5">Price data</a><ul>
+	<li><a href="#A51">Stock prices</a></li>
+	<li><a href="#A52">Option prices</a></li>
+	<li><a href="#A53">Futures prices</a></li>
 	</ul>
 
 </li>
-<li><a href="#6">Economic data</a></li>
+<li><a href="#A6">Economic data</a></li>
 <ul>
-<li><a href = "">OECD composite leading indicators</a></li>
-<li><a href = "">OECD business tendency survey</a></li>
-<li><a href = "">OECD main economic indicators</a></li>
-<li><a href = "">OECD balance of payment</a></li>
+<li><a href = "#A61">OECD composite leading indicators</a></li>
+<li><a href = "#A62">OECD business tendency survey</a></li>
+<li><a href = "#A63">OECD main economic indicators</a></li>
+<li><a href = "#A64">OECD balance of payment</a></li>
 
 </ul>
-<li><a href="#7">News data</a></li>
-<li><a href="#8">Other data</a></li>
-<li><a href="#9">Sources</a></li>
+<li><a href="#A7">News data</a></li>
+<li><a href="#A8">Other data</a></li>
+<li><a href="#A9">Sources</a></li>
 </ol>
 
-## <div id="2">Installation</div>
+## <div id="A2">Installation</div>
 
 Python3 is required. Pip install is available. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher required for some functions.
 
@@ -86,10 +86,10 @@ $ pip install jippy
 
 
 
-## <div id="3"> Index </div>
+## <div id="A3"> Index </div>
 
 |Output|Data Output|Runtime|
-|:-----|:-----|:-----:|
+|:-----|:-----:|:-----:|
 |<b>Company Fundamentals</b>|||
 |<u>Valuation metrics and financial ratios</u>|||
 |<li> <a id='i1' href='#f1'>yahoo.valuation\_metrics()</a> </li>|5 quarters|Fast|
@@ -205,35 +205,32 @@ $ pip install jippy
 
 <br>
 
-## <div id="4"> Company Fundamental data</a>
+## <div id="A4"> Company Fundamental data</a>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
+The functions below enable you to download financial statements, valuation ratios and key financial statistics as well as analyst ratings, insider transactions, ESG scores and company profiles.
 
-
+The data is pulled from <code>Yahoo Finance</code>, <code>Marketwatch.com</code> , <code>Finviz.com</code> and <code>Macrotrends.com</code>. The macrotrends scrape runs on Selenium and the website might sometimes fail to load. The function may just need to be re-run to work (assuming the ticker is available on the website). As a remedy it might sometimes help to set <code>macrotrends().head = True</code> which will then open a browser window while scraping the data.
 
 
 ```python
-# Yahoo financial statements, valuation metrics and earnings estimates
-from jippy.fundamental_data.yahoo_fundamentals import *
+# Yahoo financial statements, key statistics, earnings estimates, ESG scores, company profiles
+from jippy.fundamental_data import yahoo
 
 # Marketwatch financial statements
-from jippy.fundamental_data.mwatch_fundamentals import *
+from jippy.fundamental_data import mwatch
 
-# Finviz insider transactions and ratings
-from jippy.fundamental_data.insider_transactions_and_ratings import *
+# Finviz insider transactions, analyst ratings, key statistics
+from jippy.fundamental_data import finviz
 
-# Yahoo ESG data
-from jippy.fundamental_data.yahoo_esg import *
-
-# Yahoo company profile
-from jippy.fundamental_data.yahoo_profile import *
-
+# Macrotrends (long-term) financial statements and ratios
+from jippy.fundamental_data import macrotrends
 ```
 
 <br>
 
-###	 <div id="A21"> <li> Yahoo valuation metrics and financial ratios <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A41"> <li>Valuation metrics and financial ratios <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 
 
@@ -273,7 +270,7 @@ yahoo.valuation_metrics()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id="f2"><i>yahooData(ticker).ratios()</i></div>
+#### <div id="f2"><i>yahooData(ticker).key\_metrics()</i></div>
 
 <ul>
 <li>Returns a dataframe with current key statistics and financial ratios.</li>
@@ -282,7 +279,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo_ratios('AAPL')
+yahoo = yahooData('AAPL')
+yahoo.key_metrics('AAPL')
 ```
 
 <i> Output </i>
@@ -299,10 +297,71 @@ yahoo_ratios('AAPL')
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
+
+#### <div id=""><i>finvizData(ticker).key\_metrics()</i></div>
+
+<ul>
+<li>Returns a dataframe with today's key financial metrics.</li>
+</ul>
+
+<i> Example </i>
+
+```python
+finviz = finvizData('AAPL')
+finviz.key_metrics()
+```
+
+<i> Output </i>
+
+<center><small><small>
+
+|    | index       |   market_cap |    income |      sales |   book\_to\_sh | .. |
+|---:|:------------|-------------:|----------:|-----------:|-------------:| ---: |
+|  0 | DJIA S&P500 |  1.94097e+12 | 5.842e+10 | 2.7386e+11 |         4.19 | ... |
+
+
+</small></small></center>
+
+<div align="right"> <a href="">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+#### <div id=""><i>macrotrendsData(ticker).ratios(freq = 'A')</i></div>
+
+<ul>
+<li>Returns a dataframe with annual or quarterly financial ratios up to 2005.</li>
+</ul>
+
+<i> Example </i>
+
+```python
+mt = macrotrendsData('AAPL')
+mt.ratios()
+```
+
+<i> Output </i>
+
+<center><small><small>
+
+|                     |   current\_ratio |   longterm\_debt\_to\_capital |   debt\_to\_equity\_ratio |   gross\_margin |   operating\_margin | ... |
+|:--------------------|----------------:|---------------------------:|-----------------------:|---------------:|-------------------:| ---: |
+| 2005-09-30 |          2.9538 |                        nan |                    nan |        29.0144 |            11.7938 | ... |
+| 2006-09-30 |          2.2519 |                        nan |                    nan |        28.9827 |            12.7    | ... |
+| 2007-09-30 |          2.3659 |                        nan |                    nan |        33.1679 |            17.9307 | ... |
+| 2008-09-30 |          2.6411 |                        nan |                    nan |        35.2005 |            22.2107 | ... |
+| 2009-09-30 |          2.7425 |                        nan |                    nan |        40.1399 |            27.3628 | ... |
+| ... |          ... |                        ... |                    ... |        ... |            ... | ... |
+
+
+</small></small></center>
+
+<div align="right"> <a href="">To index</a> </div>
+
+
 <br>
 
 
-###	 <div id="A21"> <li> MarketWatch financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A42"> <li> Financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -421,12 +480,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"> <a href="#i10">To index</a> </div>
 
 
-<br>
-
-
-###	 <div id="A21"> <li> Yahoo financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
-
-<div align="right"><a href="#0">Back to top</a> </div>
+-------
 
 #### <div id = "f3" ><i>yahooData( ticker ).income\_statement()</i></div>
 
@@ -534,12 +588,116 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
+
+#### <div id=""><i>macrotrendsData(ticker).income\_statement(freq = 'A')</i></div>
+
+<ul>
+<li>Returns a dataframe with annual or quarterly income statements up to 2005.</li>
+</ul>
+
+<i> Example </i>
+
+```python
+mt = macrotrendsData('AAPL')
+mt.income_statement()
+```
+
+<i> Output </i>
+
+<center><small><small>
+
+|                     |   revenue |   cost\_of\_goods\_sold |   gross_profit |   research\_and\_development\_expenses |   sganda\_expenses | ... |
+|:--------------------|----------:|---------------------:|---------------:|------------------------------------:|------------------:| ---: |
+| 2005-09-30 |     13931 |                 9889 |           4042 |                                 535 |              1864 | ... |
+| 2006-09-30 |     19315 |                13717 |           5598 |                                 712 |              2433 | ... |
+| 2007-09-30  |     24578 |                16426 |           8152 |                                 782 |              2963 | ... |
+| 2008-09-30  |     37491 |                24294 |          13197 |                                1109 |              3761 | ... |
+| 2009-09-30  |     42905 |                25683 |          17222 |                                1333 |              4149 | ... |
+| ... |     ... |                ... |          ... |                                1333 |              4149 | ... |
+
+
+
+
+</small></small></center>
+
+<div align="right"> <a href="">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+#### <div id=""><i>macrotrendsData(ticker).balance_sheet(freq = 'A')</i></div>
+
+<ul>
+<li>Returns a dataframe with annual or quarterly balance sheets up to 2005.</li>
+</ul>
+
+<i> Example </i>
+
+```python
+mt = macrotrendsData('AAPL')
+mt.balance_sheet()
+```
+
+<i> Output </i>
+
+<center><small><small>
+
+|                     |   cash\_on\_hand |   receivables |   inventory |   prepaid\_expenses |   other\_current\_assets | ... |
+|:--------------------|---------------:|--------------:|------------:|-------------------:|-----------------------:| --- |
+| 2005-09-30 00:00:00 |           8261 |           895 |         165 |                nan |                    648 | ... |
+| 2006-09-30 00:00:00 |          10110 |          1252 |         270 |                nan |                   2270 | ... |
+| 2007-09-30 00:00:00 |          15386 |          1637 |         346 |                nan |                   3805 | ... |
+| 2008-09-30 00:00:00 |          22111 |          2422 |         509 |                nan |                   3920 | ... |
+| 2009-09-30 00:00:00 |          23464 |          5057 |         455 |                nan |                   1444 | ... |
+| ... |                 ... |                                             ... |                  ... |                  ... |   ... | ... |
+
+
+</small></small></center>
+
+<div align="right"> <a href="">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+#### <div id=""><i>macrotrendsData(ticker).cashflow_statement(freq = 'A')</i></div>
+
+<ul>
+<li>Returns a dataframe with annual or quarterly cashflow statements up to 2005.</li>
+</ul>
+
+<i> Example </i>
+
+```python
+mt = macrotrendsData('AAPL')
+mt.cashflow_statement()
+```
+
+<i> Output </i>
+
+<center><small><small>
+
+|                     |   net\_income\_to\_loss |   total\_depreciation\_and\_amortization\_cash\_flow |   other\_noncash\_items |   total\_noncash\_items |   change\_in\_accounts\_receivable | ... |
+|:--------------------|---------------------:|-------------------------------------------------:|----------------------:|----------------------:|--------------------------------:| ----: |
+| 2005-09-30 |                 1328 |                                              179 |                   536 |                   715 |                             121 | ... |
+| 2006-09-30 |                 1989 |                                             225 |                   231 |                   456 |                             357 | ... |
+| 2007-09-30 |                 3495 |                                            327 |                   327 |                   654 |                             385 | ... |
+| 2008-09-30 |                 6119 |                                           496 |                   936 |                  1432 |                             785 | ... |
+| 2009-09-30 |                 8235 |                                             734 |                  1750 |                  2484 |                             939 | ... |
+| ... |                 ... |                                             ... |                  ... |                  ... |                             ... | ... |
+
+
+</small></small></center>
+
+<div align="right"> <a href="">To index</a> </div>
+
+
+
 <br>
 
 
 
 
-###	 <div id="A21"> <li>Yahoo Earnings and revenue estimates<hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A43"> <li>Earnings and revenue estimates<hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -702,7 +860,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-###	 <div id="A21"> <li> Finviz insider transactions and analyst ratings <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A44"> <li>Insider transactions and analyst ratings <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -774,7 +932,7 @@ finviz.analyst_ratings()
 
 <br>
 
-###	 <div id="A21"> <li> Earnings conference calls <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A45"> <li> Earnings conference calls <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -786,20 +944,10 @@ finviz.analyst_ratings()
 
 <br>
 
-###	 <div id="A21"> <li> Yahoo ESG scores<hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A46"> <li> Yahoo ESG scores<hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-<br>
-
-
-```python
-from jippy.esg.yahoo_esg import *
-```
-
-<br>
-
-----
 
 
 #### <div id = "f18" ><i>yahooData( ticker ).esg\_score()</i></div>
@@ -859,7 +1007,7 @@ yahoo.corporate_governance_score()
 <br>
 
 
-###	 <div id="A21"> <li> Yahoo company info<hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A47"> <li>Company info<hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -927,22 +1075,34 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-## <div id="5"> Price data </div>
+## <div id="A5"> Price data </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
+The functions below help to retrieve daily historical price data from <code>Yahoo Finance</code> and <code>AlphaVantage</code> as well as intraday historical data from the <code>IEX Cloud</code> and <code>Tiingo</code>. Tiingo also gets their data from the IEX Cloud but their timeseries are sometimes longer although they only give OHLC data while the download from the IEX Cloud includes volume, number of trades etc..
 
-###	 <div id="A21"> <li> Stock and ETF prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
+For <code>AlphaVantage</code> and <code>Tiingo</code> and the <code>IEX Cloud</code> free API keys are available but IEX has a monthly free download limit unfortunately.
+
+The <code>yahoo\_option\_chain</code> function only retrives the option chain from the last available date from Yahoo Finance.
+
+The <code>historical\_futures\_contracts</code> function enables a bulk download of historical monthly futures contracts up to the year 2000 for currencies, indices, interest rates and commodities including energy, metals and agricultural contracts. The data is downloaded from <code>www.mrci.com</code> but the data is not completely cleaned (yet).
 
 ```python
-from jippy.price_data.yahoo_price_data import *
+# Price data from Yahoo Finance, AlphaVantage, IEX Cloud or Tiingo 
+from jippy.price_data import price_data
+
+# Futures prices bulk-download..
+from jippy.price_data import futures_prices
 ```
+
+###	 <div id="A51"> <li> Stock and ETF prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
+
 
 #### <div id="f22"><i>yahoo\_prices( ticker )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns dataframe with daily historical prices from Yahoo Finance.</li>
+
 </ul>
 
 <i> Example </i>
@@ -968,53 +1128,19 @@ yahoo_prices('AAPL')
 
 <div align="right"> <a href="#i22">To index</a> </div>
 
-----
+--------
 
-#### <div id="f23"><i>investing\_com\_prices( url, start_date = None, end_date = None )</i></div>
+
+#### <div id="f24"><i>alpha\_vantage\_prices( ticker, api\_key, start_date = None )</i></div>
 
 <ul>
-<li></li>
-<li></li>
+<li>Returns dataframe with daily historical prices using the AlphaVantage API.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-investing_com_prices('https://www.investing.com/etfs/spdr-s-p-500', start_date = '2000-01-01')
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-| date                |   price |   open |   high |    low |    volume |
-|:--------------------|--------:|-------:|-------:|-------:|----------:|
-| 2000-01-03 00:00:00 |  145.44 | 148.25 | 148.25 | 143.88 | 8.16e+06  |
-| 2000-01-04 00:00:00 |  139.75 | 143.53 | 144.06 | 139.64 | 8.09e+06  |
-| 2000-01-05 00:00:00 |  140    | 139.94 | 141.53 | 137.25 | 1.218e+07 |
-| 2000-01-06 00:00:00 |  137.75 | 139.62 | 141.5  | 137.75 | 6.23e+06  |
-| 2000-01-07 00:00:00 |  145.75 | 140.31 | 145.75 | 140.06 | 8.07e+06  |
-| ...|  ... | ... | ... | ... | ...  |
-
-</small></small></center>
-
-<div align="right"> <a href="#i23">To index</a> </div>
-
-
-----
-
-
-#### <div id="f24"><i>alpha\_vantage\_prices( ticker, api_token, start_date = None )</i></div>
-
-<ul>
-<li></li>
-<li></li>
-</ul>
-
-<i> Example </i>
-
-```python
-alpha_vantage_prices('AAPL', <api_token>)
+alpha_vantage_prices('AAPL', <api_key>)
 ```
 
 <i> Output </i>
@@ -1037,18 +1163,17 @@ alpha_vantage_prices('AAPL', <api_token>)
 
 ------
 
-#### <div id="f25"><i>iex\_intraday( ticker, api\_token, start\_date = None, end\_date = None )</i></div>
+#### <div id="f25"><i>iex\_intraday( ticker, api\_key, start\_date = None, end\_date = None )</i></div>
 
 <ul>
-<li></li>
-<li></li>
+<li>Returns dataframe with historical intraday price data from the IEX Cloud using the IEX Cloud API.</li>
 </ul>
 
 
 <i> Example </i>
 
 ```python
-iex_intraday('AAPL', <api_token>)
+iex_intraday('AAPL', <api_key>)
 ```
 
 <i> Output </i>
@@ -1076,8 +1201,7 @@ iex_intraday('AAPL', <api_token>)
 #### <div id="f26"><i>tingo\_prices( ticker, api\_token, start\_date = None, end\_date = None, freq = '1min' )</i></div>
 
 <ul>
-<li></li>
-<li></li>
+<li>Returns dataframe with historical intraday prices using the Tiingo API. Concatenates API calls for given date range. If no date range is given all available data for the given ticker is returned.</li>
 </ul>
 
 <i> Example </i>
@@ -1107,15 +1231,14 @@ tingo_prices('AAPL', <api_key>)
 
 <br>
 
-###	 <div id="A21"> <li> Option prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A52"> <li> Option prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
 #### <div id="f27"><i>yahoo\_option_chain( ticker )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns two dataframes for current put and call options from Yahoo Finance.</li>
 </ul>
 
 <i> Example </i>
@@ -1160,27 +1283,36 @@ calls, puts = yahoo_option_chain('AAPL')
 
 
 
-###	 <div id="A21"> <li> Futures prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A53"> <li> Futures prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id="f28"><i>futures\_historical\_prices( date_range )</i></div>
+#### <div id="f28"><i>historical\_futures\_contracts( pandas.date_range )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>
+Returns daily price data for a number of monthly future contracts including open interest of each contract for the given date range.
+</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-futures_historical_prices(pd.date_range('2000-01-01', '2020-01-01'))
+historical_futures_contracts( pd.date_range('2020-01-01', '2020-09-01') )
 ```
 
 <i> Output </i>
 
 
 <center><small><small>
+
+|                     | month   |   date |   open |   high |   low |   close |   change |   volume |   open_interest | change_in_oi   | future             |
+|:--------------------|:--------|-------:|-------:|-------:|------:|--------:|---------:|---------:|----------------:|:---------------|:-------------------|
+| 2020-01-06 | Jan20   | 200106 |  296.2 |  299.4 | 296.2 |   297.7 |      1.6 |     4103 |            2459 | -811           | Soybean Meal(CBOT) |
+| 2020-01-06 | Mar20   | 200106 |  301.5 |  304.5 | 300.6 |   302.9 |      1.7 |    58930 |          222007 | 3,678          | Soybean Meal(CBOT) |
+| 2020-01-06 | May20   | 200106 |  305.3 |  308.3 | 304.6 |   306.9 |      1.7 |    23500 |           92983 | 2,616          | Soybean Meal(CBOT) |
+| ... | ...   | ... |  ... |  ... | ... |   ... |      ... |    ... |           ... | ...         | ... |
+
 
 </small></small></center>
 
@@ -1191,17 +1323,17 @@ futures_historical_prices(pd.date_range('2000-01-01', '2020-01-01'))
 ----
 
 
-#### <div id="f29"><i>futures\_prices( date )</i></div>
+#### <div id="f29"><i>futures\_contracts( date )</i></div>
 
 <ul>
-<li>The input is a valid company ticker.</li>
-<li></li>
+<li>Returns daily price data for a number of monthly future contracts including open interest of each contract for the given date.
+</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-get_futures_prices('2020-09-01')
+futures_prices('2020-01-06')
 ```
 
 <i> Output </i>
@@ -1209,6 +1341,13 @@ get_futures_prices('2020-09-01')
 
 
 <center><small><small>
+
+|                     | month   |   date |   open |   high |   low |   close |   change |   volume |   open_interest | change_in_oi   | future             |
+|:--------------------|:--------|-------:|-------:|-------:|------:|--------:|---------:|---------:|----------------:|:---------------|:-------------------|
+| 2020-01-06 | Jan20   | 200106 |  296.2 |  299.4 | 296.2 |   297.7 |      1.6 |     4103 |            2459 | -811           | Soybean Meal(CBOT) |
+| 2020-01-06 | Mar20   | 200106 |  301.5 |  304.5 | 300.6 |   302.9 |      1.7 |    58930 |          222007 | 3,678          | Soybean Meal(CBOT) |
+| 2020-01-06 | May20   | 200106 |  305.3 |  308.3 | 304.6 |   306.9 |      1.7 |    23500 |           92983 | 2,616          | Soybean Meal(CBOT) |
+| ... | ...   | ... |  ... |  ... | ... |   ... |      ... |    ... |           ... | ...         | ... |
 
 </small></small></center>
 
@@ -1218,7 +1357,7 @@ get_futures_prices('2020-09-01')
 
 ------
 
-## <div id="6">Economic data</div>
+## <div id="A6">Economic data</div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -1233,11 +1372,12 @@ from jippy.economic_data.oecd_data import *
 <br>
 
 
-## <li> OECD Composite Leading Indicators </li>
+### <div id="A61"><li> OECD Composite Leading Indicators </li></div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 #### <div id = "f30"><i>oecdData( country\_code, **args ).cli( subject = 'amplitude' )</i>
 
@@ -1343,7 +1483,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-## <li> OECD Main Economic Indicators </li>
+### <div id="A62"><li> OECD Main Economic Indicators </li></div>
+
+--------
+
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -1352,9 +1495,11 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ### 
 
-###	 <div id=""> <li> Financial indicators <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A621"> <li> <i> Financial indicators </i> <hr style="border:0.5px solid gray"> </hr> </li> </div>
 <div align="right"><a href="#0">Back to top</a> </div>
 
+
+<br>
 
 #### <div id = "f33"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m1()</i>
 
@@ -1640,7 +1785,11 @@ usd_exchange_rates_spot( country_code = 'all', freq = 'M' )
 <center><small><small>
 
 
-
+| TIME                | SUBJECT   | Subject                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:---------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1983-10-01 00:00:00 | LCEATT02  | Labour Compensation > Earnings > All activities > Weekly | Australia | Q           | 1983-Q4 | AUD         |                0 | 311.822 |
+| 1984-01-01 00:00:00 | LCEATT02  | Labour Compensation > Earnings > All activities > Weekly | Australia | Q           | 1984-Q1 | AUD         |                0 | 321.838 |
+| 1984-04-01 00:00:00 | LCEATT02  | Labour Compensation > Earnings > All activities > Weekly | Australia | Q           | 1984-Q2 | AUD         |                0 | 333.959 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1717,7 +1866,7 @@ rer_overall( country_code = 'all', freq = 'M' )
 
 <br>
 
-###	 <div id=""> <li> Trade indicators <hr style="border:0.5px solid gray"> </hr> </li> </div>
+### <div id="A622"> <li> <i>Trade indicators </i><hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -1792,7 +1941,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-###	 <div id=""> <li> Labour market indicators <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A623"> <li> <i>Labour market indicators </i><hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -1832,7 +1981,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-###	 <div id=""> <li> Price indices <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A624"> <li> <i>Price indices</i> <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -1853,7 +2002,11 @@ unemployment_rate( country_code = 'all', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                          | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1955-01-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Australia | Q           | 1955-Q1 | IDX         |                0 | 6.03668 |
+| 1955-04-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Australia | Q           | 1955-Q2 | IDX         |                0 | 6.12956 |
+| 1955-07-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Australia | Q           | 1955-Q3 | IDX         |                0 | 6.12956 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1962,7 +2115,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-###	 <div id=""> <li> Business tendency and consumer opinion <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A625"> <li> <i>Business tendency and consumer opinion </i><hr style="border:0.5px solid gray"> </hr> </li> </div>
  
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2035,7 +2188,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
  
 <br>
 
-###	 <div id=""> <li> National accounts <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A626"> <li> <i>National accounts </i><hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2058,7 +2211,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                 | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAGIGP01  | National Accounts > National Accounts Deflators > Gross Domestic Product > GDP Deflator | Australia | Q           | 1960-Q1 | IDX         |                0 | 6.78408 |
+| 1960-04-01 00:00:00 | NAGIGP01  | National Accounts > National Accounts Deflators > Gross Domestic Product > GDP Deflator | Australia | Q           | 1960-Q2 | IDX         |                0 | 6.93289 |
+| 1960-07-01 00:00:00 | NAGIGP01  | National Accounts > National Accounts Deflators > Gross Domestic Product > GDP Deflator | Australia | Q           | 1960-Q3 | IDX         |                0 | 6.9521  
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2085,7 +2242,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                   | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q1 | IDX         |                0 | 14.9593 |
+| 1960-04-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q2 | IDX         |                0 | 15.3732 |
+| 1960-07-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q3 | IDX         |                0 | 15.4079 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2114,7 +2275,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                          | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-------------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q1 | IDX         |                0 | 14.3654 |
+| 1960-04-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q2 | IDX         |                0 | 14.5475 |
+| 1960-07-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q3 | IDX         |                0 | 14.7345 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2143,7 +2308,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                             | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:----------------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q1 | IDX         |                0 | 12.9105 |
+| 1960-04-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q2 | IDX         |                0 | 12.2665 |
+| 1960-07-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q3 | IDX         |                0 | 12.4704 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2172,7 +2341,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q1 | IDX         |                0 |  9.4154 |
+| 1960-04-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q2 | IDX         |                0 |  9.6037 |
+| 1960-07-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q3 | IDX         |                0 |  9.6331 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2201,7 +2374,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q1 | IDX         |                0 | 5.19212 |
+| 1960-04-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q2 | IDX         |                0 | 4.85486 |
+| 1960-07-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q3 | IDX         |                0 | 4.59993 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2230,7 +2407,11 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
-
+| TIME                | SUBJECT   | Subject                                                                                        | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-----------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1960-01-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q1 | IDX         |                0 | 4.03844 |
+| 1960-04-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q2 | IDX         |                0 | 4.35768 |
+| 1960-07-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q3 | IDX         |                0 | 4.5833  |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2244,7 +2425,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-###	 <div id=""> <li> Production and sales <hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A627"> <li> <i>Production and sales</i> <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2264,8 +2445,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <i> Output </i>
 
-
 <center><small><small>
+
+| TIME                | SUBJECT   | Subject                                                                | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-----------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|\n| 1974-07-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Australia | Q           | 1974-Q3 | IDX         |                0 | 70.3407 |
+| 1974-10-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Australia | Q           | 1974-Q4 | IDX         |                0 | 67.6835 |
+| 1975-01-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Australia | Q           | 1975-Q1 | IDX         |                0 | 61.1363 |
+| ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
 
@@ -2291,6 +2477,14 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
+| TIME                | SUBJECT   | Subject                                                                        | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1974-07-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Australia | Q           | 1974-Q3 | IDX         |                0 | 41.3578 |
+| 1974-10-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Australia | Q           | 1974-Q4 | IDX         |                0 | 40.6976 |
+| 1975-01-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Australia | Q           | 1975-Q1 | IDX         |                0 | 37.4559 |
+| ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
+
+
 </small></small></center>
 
 <div align = "right">  <a href="#i61">To index</a> </div>
@@ -2314,6 +2508,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 
 <center><small><small>
+
+| TIME                | SUBJECT   | Subject                                                | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:-------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1974-07-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Australia | Q           | 1974-Q3 | IDX         |                0 | 24.1762 |
+| 1974-10-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Australia | Q           | 1974-Q4 | IDX         |                0 | 26.6081 |
+| 1975-01-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Australia | Q           | 1975-Q1 | IDX         |                0 | 22.6852 |
+| ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
 
@@ -2339,6 +2540,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
+| TIME                | SUBJECT   | Subject                                           | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:--------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1982-04-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Australia | Q           | 1982-Q2 | AUD         |                6 | 3417.37 |
+| 1982-07-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Australia | Q           | 1982-Q3 | AUD         |                6 | 3432.33 |
+| 1982-10-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Australia | Q           | 1982-Q4 | AUD         |                6 | 4187.23 |
+| ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
+
 </small></small></center>
 
 <div align = "right">  <a href="#i63">To index</a> </div>
@@ -2363,6 +2571,13 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <center><small><small>
 
+| TIME                | SUBJECT   | Subject                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:---------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1957-01-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Austria   | Q           | 1957-Q1 | IDX         |                0 | 16.8518 |
+| 1957-04-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Austria   | Q           | 1957-Q2 | IDX         |                0 | 17.2184 |
+| 1957-07-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Austria   | Q           | 1957-Q3 | IDX         |                0 | 16.6786 |
+| ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
+
 </small></small></center>
 
 <div align = "right">  <a href="#i64">To index</a> </div>
@@ -2384,8 +2599,14 @@ oecd_survey_economic_situation( country_code = 'USA', freq = 'M' )
 
 <i> Output </i>
 
-
 <center><small><small>
+
+| TIME                | SUBJECT   | Subject                                                                    | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:---------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1955-01-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | Q           | 1955-Q1 | IDX         |                0 | 36.3378 |
+| 1955-04-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | Q           | 1955-Q2 | IDX         |                0 | 34.9919 |
+| 1955-07-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | Q           | 1955-Q3 | IDX         |                0 | 33.8143 |
+| ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
 
@@ -2397,7 +2618,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <br>
 
 
-## <li> OECD Business Tendency Survey </li>
+## <div id = "A63"><li> OECD Business Tendency Survey </li></div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -2505,14 +2726,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <br>
 
 
-## <li> OECD Balance of Payments </li>
+## <div id = "A64"><li> OECD Balance of Payments </li></div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-### <i>Current account</i>
+### <div id = "A641"><i>Current account</i></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2618,7 +2839,7 @@ oecd_goods_balance(country_code = 'USA', xm = 'balance')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-### <i>Financial account</i>
+### <div id = "A642"><i>Financial account</i></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -2826,7 +3047,7 @@ oecd_reserve_assets(country_code = 'USA', currency = 'dollar' )
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-## <div id="7">News data</div>
+## <div id="A7">News data</div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
@@ -3008,6 +3229,8 @@ df = ns.nyt_news()
 
 <center><small><small>
 
+'|    | Link                                                                                                  | Headline                                                                       | Date    | Description                                                                                                                                                                                                                                                             | Tag      | Author               |   Comments | Date_Retrieved             | Ticker   | Newspaper   | Search_term   | ID                                                                                                                                                                                 | Source   | Datetime   |\n|---:|:------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------|:--------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:---------------------|-----------:|:---------------------------|:---------|:------------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-----------|\n|  0 | /aponline/2020/09/08/business/ap-financial-markets-stocks.html?searchResultPosition=1                 | Exxon, Tesla Fall; Nikola, Beyond Meat Rise                                    | Sept. 8 | Stocks that moved heavily or traded substantially Tuesday:                                                                                                                                                                                                              | Business | The Associated Press |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExxon, Tesla Fall; Nikola, Beyond Meat Rise/aponline/2020/09/08/business/ap-financial-markets-stocks.html?searchResultPosition=1                                                | nyt      | 08/09/2020 |\n|  1 | /reuters/2020/09/08/business/08reuters-exxon-mobil-spending-exclusive.html?searchResultPosition=2     | Exclusive: Exxon Downsizes Global Empire as Wall Street Worries About Dividend | Sept. 8 | Ill-timed bets on rising demand have Exxon Mobil Corp facing a shortfall of about $48 billion through 2021, according to a Reuters tally and Wall Street estimates, a situation that will require the top U.S. oil company to make deep cuts to its staff and projects. | Business | Reuters              |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExclusive: Exxon Downsizes Global Empire as Wall Street Worries About Dividend/reuters/2020/09/08/business/08reuters-exxon-mobil-spending-exclusive.html?searchResultPosition=2 | nyt      | 08/09/2020 |\n|  2 | /reuters/2020/09/03/business/03reuters-refinery-operations-exxon-beaumont.html?searchResultPosition=3 | Exxon Beaumont, Texas, Refinery Restarts Large Crude Unit: Sources             | Sept. 3 | Exxon Mobil Corp restarted the large crude distillation unit (CDU) at its 369,024 barrel-per-day (bpd) Beaumont, Texas, refinery on Thursday, said sources familiar with plant operations.                                                                              | Business | Reuters              |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExxon Beaumont, Texas, Refinery Restarts Large Crude Unit: Sources/reuters/2020/09/03/business/03reuters-refinery-operations-exxon-beaumont.html?searchResultPosition=3         | nyt      | 03/09/2020 |\n|  3 | /reuters/2020/09/02/us/02reuters-kindermorgan-pipeline.html?searchResultPosition=4                    | Police Investigating Bomb Hoax at Texas Pipeline Construction Site             | Sept. 2 | Federal and Texas law enforcement agencies are investigating a device made to look like a bomb placed at a construction site for a controversial natural gas pipeline on Tuesday, an official said.                                                                     | U.S.     | Reuters              |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTPolice Investigating Bomb Hoax at Texas Pipeline Construction Site/reuters/2020/09/02/us/02reuters-kindermorgan-pipeline.html?searchResultPosition=4                            | nyt      | 02/09/2020 |\n|  4 | /reuters/2020/09/02/business/02reuters-exxon-mobil-cuts.html?searchResultPosition=5                   | Exxon Weighs Global Job Cuts After Unveiling Australian Lay-Off Plan           | Sept. 2 | Exxon Mobil Corp said on Wednesday it is assessing worldwide job cuts as the global coronavirus pandemic slices into fuel demand, with the largest U.S. oil company announcing voluntary layoffs in Australia in the latest in a wave of cost cutting.                  | Business | Reuters              |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExxon Weighs Global Job Cuts After Unveiling Australian Lay-Off Plan/reuters/2020/09/02/business/02reuters-exxon-mobil-cuts.html?searchResultPosition=5                         | nyt      | 02/09/2020 |'
+
 
 </small></small></center>
 
@@ -3034,6 +3257,8 @@ df = ns.reuters_news()
 
 
 <center><small><small>
+
+'|    | Link                   | Headline                                                                               | Date                           | Description                                                                                                                     | Date_Retrieved             | Ticker   |   Comments |   Author |   Tag | Newspaper   | Search_term   | ID                                                                                                                  | Source   | Datetime   |\n|---:|:-----------------------|:---------------------------------------------------------------------------------------|:-------------------------------|:--------------------------------------------------------------------------------------------------------------------------------|:---------------------------|:---------|-----------:|---------:|------:|:------------|:--------------|:--------------------------------------------------------------------------------------------------------------------|:---------|:-----------|\n|  0 | /article/idUSL1N2G62L9 | Big oil asks 5th Circuit to take new look at Louisiana canals ruling                   | September 09, 2020 07:26pm EDT | of canals dug for oil exploration.Chevron USA, Inc, Exxon Mobil Corp                                                            | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersBig oil asks 5th Circuit to take new look at Louisiana canals ruling/article/idUSL1N2G62L9                   | reuters  | 09/09/2020 |\n|  1 | /article/idUSL1N2G62HP | IN BRIEF: Charleston, first city in South to sue oil cos for \'costs\' of climate change | September 09, 2020 06:18pm EDT | lawsuit against 24 companies including Exxon MobilCorporation and Royal                                                         | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersIN BRIEF: Charleston, first city in South to sue oil cos for \'costs\' of climate change/article/idUSL1N2G62HP | reuters  | 09/09/2020 |\n|  2 | /article/idUSKBN26023F | Hess CEO \'optimistic\' new Guyana government will approve project license               | September 09, 2020 10:21am EDT | and partners Exxon Mobil Corp <XOM.N> and CNOOC Ltd <0883.HK for producing oil in 2023, Hess said.Exxon, which leads            | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersHess CEO \'optimistic\' new Guyana government will approve project license/article/idUSKBN26023F               | reuters  | 09/09/2020 |\n|  3 | /article/idUSL1N2G60QT | UPDATE 2-Hess CEO \'optimistic\' new Guyana government will approve project license      | September 09, 2020 10:16am EDT | loss due to the pandemic.Hess and partners Exxon Mobil Corp it on track for producing oil in 2023, Hess said.Exxon, which leads | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersUPDATE 2-Hess CEO \'optimistic\' new Guyana government will approve project license/article/idUSL1N2G60QT      | reuters  | 09/09/2020 |\n|  4 | /article/idUSL1N2G60MH | Hess CEO \'optimistic\' new Guyana government will approve project license               | September 09, 2020 09:16am EDT | project.Hess and partners Exxon Mobil Corp and CNOOC Ltdare in "close                                                           | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersHess CEO \'optimistic\' new Guyana government will approve project license/article/idUSL1N2G60MH               | reuters  | 09/09/2020 |'
 
 
 </small></small></center>
@@ -3099,6 +3324,9 @@ df = ns.wsj_news()
 <center><small><small>
 
 
+'|    | Link                                                                                                                    | Headline                                                            | Date                     | Description                                                                                                                                                                                                             | Author                       | Tag                      | Date_Retrieved             | Ticker   | Newspaper   | Search_term   | ID                                                                                                                                                                                            |   Comments | Source   | Datetime   |\n|---:|:------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------|:-------------------------|:---------------------------|:---------|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------:|:---------|:-----------|\n|  0 | /articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                 | Oil Major BP Gives a Taste of How It Will Go Green                  | Sep. 10, 2020 9:47 am ET | A deal to buy into wind farms off the coast of New York and Massachusetts showcases the British company’s ambitions in the clean-energy sector—and the risks it is taking.                                              | Rochelle Toplensky           | Heard on the Street      | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Major BP Gives a Taste of How It Will Go Green/articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                                  |        nan | wsj      | 10/09/2020 |\n|  1 | /articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                    | Oil Prices Tumble on Faltering Recovery in Demand                   | Sep. 8, 2020 3:32 pm ET  | Oil prices slumped to their lowest level in nearly three months, under pressure from a stalling recovery in demand and planned production expansions by OPEC that threaten to add to an existing glut of crude.         | Joe Wallace                  | Oil Markets              | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Prices Tumble on Faltering Recovery in Demand/articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                                      |        nan | wsj      | 08/09/2020 |\n|  2 | /articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 | Oil Industry Is Fading Away in Land of the World’s Richest Reserves | Sep. 4, 2020 7:03 pm ET  | Venezuela sees its production dwindle after decades of graft and mismanagement under Chávez and Maduro regimes, and now the burden of U.S. sanctions. The last drilling rig in the country has shut down.               | Ginette González, Kejal Vyas | World                    | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Industry Is Fading Away in Land of the World’s Richest Reserves/articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 |        nan | wsj      | 04/09/2020 |\n|  3 | /articles/apple-still-wears-the-market-crown-it-can-easily-slip-11599231617?mod=searchresults&page=1&pos=4              | Apple Still Wears the Market Crown. It Can Easily Slip.             | Sep. 4, 2020 11:00 am ET | Many investors seem to believe that today’s giant technology companies will dominate the stock market for decades to come. Years, maybe. Decades, probably not.                                                         | Jason Zweig                  | The Intelligent Investor | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJApple Still Wears the Market Crown. It Can Easily Slip./articles/apple-still-wears-the-market-crown-it-can-easily-slip-11599231617?mod=searchresults&page=1&pos=4                          |        nan | wsj      | 04/09/2020 |\n|  4 | /articles/the-economy-is-limping-but-wall-street-is-booming-11599158494?mod=searchresults&page=1&pos=5                  | The Economy Is Limping, but Wall Street Is Booming                  | Sep. 3, 2020 2:41 pm ET  | Investment-banking and trading revenues hit an eight-year high in the first half, a counterintuitive boom that shows the heavy hand of the Federal Reserve and the gulf between financial markets and the real economy. | Liz Hoffman                  | Markets                  | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJThe Economy Is Limping, but Wall Street Is Booming/articles/the-economy-is-limping-but-wall-street-is-booming-11599158494?mod=searchresults&page=1&pos=5                                   |        nan | wsj      | 03/09/2020 |'
+
+
 </small></small></center>
 
 <div align = "right">  <a href="#i85">To index</a> </div>
@@ -3106,7 +3334,7 @@ df = ns.wsj_news()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-## <div id="8">Other data</div>
+## <div id="A8">Other data</div>
 
 
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -3130,6 +3358,8 @@ df = ns.wsj_news()
 
 
 <center><small><small>
+
+'|    | Symbol   | Security Name                                                                                    |\n|---:|:---------|:-------------------------------------------------------------------------------------------------|\n|  0 | AACG     | ATA Creativity Global - American Depositary Shares, each representing two common shares          |\n|  1 | AACQ     | Artius Acquisition Inc. - Class A Common Stock                                                   |\n|  2 | AACQU    | Artius Acquisition Inc. - Unit consisting of one ordinary share and one third redeemable warrant |\n|  3 | AACQW    | Artius Acquisition Inc. - Warrant                                                                |\n|  4 | AAL      | American Airlines Group, Inc. - Common Stock                                                     |'
 
 
 </small></small></center>
@@ -3157,6 +3387,8 @@ df = ns.wsj_news()
 
 <center><small><small>
 
+'|    | Symbol        | Company                      |\n|---:|:--------------|:-----------------------------|\n|  0 | QNCO.Israel   | (Y.Z) Queenco Ltd            |\n|  1 | ONE.Canada    | 01 Communique Laboratory Inc |\n|  2 | DFK.Germany   | 01 Communique Laboratory Inc |\n|  3 | OCQLF         | 01 Communique Laboratory Inc |\n|  4 | 01C.Poland    | 01Cyberaton SA               |\n|  5 | 1PG.Australia | 1 Page Ltd                   |\n|  6 | I8Y.Germany   | 1 Page Ltd                   |\n|  7 | I8Y.Germany   | 1 Page Ltd                   |\n|  8 | 8458.Taiwan   | 1 Production Film Co         |\n|  9 | DRI.Austria   | 1&1 Drillisch AG             |'
+
 
 </small></small></center>
 
@@ -3167,7 +3399,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <br>
 
 
-## <div id="9"> Sources </div>
+## <div id="A9"> Sources </div>
 
 <li>Alpha-Vantage, www.alphavantage.co</li>
 <li>Barrons, www.barrons.com</li>

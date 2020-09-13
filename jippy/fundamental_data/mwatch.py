@@ -2,8 +2,10 @@ from bs4 import BeautifulSoup as bs
 from requests_html import HTMLSession
 import pandas as pd
 import numpy as np
+from jippy.fundamental_data.fundamental_base import Fundamental
 
-class mwatchData(object):
+
+class mwatchData( Fundamental ):
 
     def __init__(self, ticker):
         self.ticker = ticker
@@ -59,7 +61,8 @@ class mwatchData(object):
             except:
                 continue
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
-        return df.astype('float')
+        return self._col_to_float( df )
+
 
     def income_statement(self, freq = 'annual'):
         '''
