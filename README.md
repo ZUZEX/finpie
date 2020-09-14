@@ -4,7 +4,7 @@
 
 
 
-# jippy - a simple library to download some financial data
+# finpie - a simple library to download some financial data
 
 <p>
 
@@ -79,7 +79,7 @@ If there are any issues or recommendations please contact xxx@xxxx.com.
 Python3 is required. Pip install is available. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher required for some functions.
 
 ```python
-$ pip install jippy
+$ pip install finpie
 ```
 
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -216,16 +216,16 @@ The data is pulled from <code>Yahoo Finance</code>, <code>Marketwatch.com</code>
 
 ```python
 # Yahoo financial statements, key statistics, earnings estimates, ESG scores, company profiles
-from jippy.fundamental_data import yahoo
+from finpie.fundamental_data import yahoo
 
 # Marketwatch financial statements
-from jippy.fundamental_data import mwatch
+from finpie.fundamental_data import mwatch
 
 # Finviz insider transactions, analyst ratings, key statistics
-from jippy.fundamental_data import finviz
+from finpie.fundamental_data import finviz
 
 # Macrotrends (long-term) financial statements and ratios
-from jippy.fundamental_data import macrotrends
+from finpie.fundamental_data import macrotrends
 ```
 
 <br>
@@ -1089,10 +1089,10 @@ The <code>historical\_futures\_contracts</code> function enables a bulk download
 
 ```python
 # Price data from Yahoo Finance, AlphaVantage, IEX Cloud or Tiingo 
-from jippy.price_data import price_data
+from finpie.price_data import price_data
 
 # Futures prices bulk-download..
-from jippy.price_data import futures_prices
+from finpie.price_data import futures_prices
 ```
 
 ###	 <div id="A51"> <li> Stock and ETF prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
@@ -1366,7 +1366,7 @@ The functions below retrieve economic data from the OECD database. The available
 The data can be accessed by country or for list of countries and for timeseries specific keyword arguments. Not all timeseries are available for all countries at all frequencies.
 
 ```python
-from jippy.economic_data import oecd_data
+from finpie.economic_data import oecd_data
 
 # Example for instantiating class for Australia and the USA at monthly frequency with national currencies
 oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M', currency_code = 'NXCU')
