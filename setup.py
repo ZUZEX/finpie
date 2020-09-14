@@ -5,12 +5,26 @@
 # https://github.com/peterlacour/finpie
 #
 
-from setuptools import setup
+from setuptools import setup, find_packages
+from os import path
 
-setup(name='finpie',
-      version='0.01',
-      description='Simple library to download some financial data',
-      packages=['finpie'],
+# Readme for PyPi
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
+# Requriments
+with open(path.join(this_directory, 'requirements.txt'), encoding='utf-8') as f:
+    requirements = f.read().splitlines()
+
+setup(name = 'finpie',
+      version = '0.11',
+      description = 'Simple library to download some financial data',
+      packages = find_packages(),
+      install_requires = requirements,
+      include_package_data = True,
       author = 'Peter la Cour',
       author_email = 'pe.lacour@gmail.com',
-      zip_safe=False)
+      long_description = long_description,
+      long_description_content_type = 'text/markdown',
+      zip_safe = False)

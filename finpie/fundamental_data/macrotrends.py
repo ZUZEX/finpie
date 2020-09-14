@@ -38,24 +38,25 @@ from finpie.fundamental_data.fundamental_base import Fundamental
 
 class macrotrendsData( Fundamental ):
 
-    def __init__( self, ticker ):
+    def __init__( self, ticker, freq = 'A' ):
         self.ticker = ticker
+        self.freq = freq
         self.head = False
 
-    def income_statement(self, freq = 'A'):
-        return self._download('income-statement', freq)
+    def income_statement(self):
+        return self._download('income-statement')
 
 
-    def balance_sheet(self, freq = 'A'):
-        return self._download('balance-sheet', freq)
+    def balance_sheet(self):
+        return self._download('balance-sheet')
 
 
-    def cashflow_statement(self, freq = 'A'):
-        return self._download('cash-flow-statement', freq)
+    def cashflow_statement(self):
+        return self._download('cash-flow-statement')
 
 
-    def ratios(self, freq = 'A'):
-        return self._download('financial-ratios', freq)
+    def ratios(self):
+        return self._download('financial-ratios')
 
 
     def _get_table(self, page_source):
@@ -72,7 +73,7 @@ class macrotrendsData( Fundamental ):
         return df
 
 
-    def _download(self, sheet, freq):
+    def _download(self, sheet):
 
         caps = DesiredCapabilities().CHROME
         caps["pageLoadStrategy"] = "none"
@@ -84,7 +85,7 @@ class macrotrendsData( Fundamental ):
         try:
             driver.get(url)
             time.sleep(2)
-            url = driver.current_url + f'{sheet}?freq={freq.upper()}'
+            url = driver.current_url + f'{sheet}?freq={self.freq.upper()}'
             driver.get(url)
             #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
             element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))

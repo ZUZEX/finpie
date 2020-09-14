@@ -1,0 +1,6 @@
+
+include LICENSE.txt
+include requirements.txt
+include README.md
+recursive-include finpie/webdrivers *
+recursive-include finpie/price_data *

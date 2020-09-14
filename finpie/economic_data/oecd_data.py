@@ -193,7 +193,7 @@ class oecdData(object):
             code1 = 'LOLITOAA'
         else:
             code1 = subject
-        code2 = f'{self.freq}'
+        code2 = f'.{self.freq}'
 
         if self.country_code == 'all':
             df = self._get_oecd(f'MEI_CLI/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
@@ -207,7 +207,7 @@ class oecdData(object):
 
     def cci(self):
         code1 = 'CSCICP03'
-        code2 = f'{self.freq}'
+        code2 = f'.{self.freq}'
 
         if self.country_code == 'all':
             df = self._get_oecd(f'MEI_CLI/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
@@ -221,7 +221,7 @@ class oecdData(object):
 
     def bci(self):
         code1 = 'BSCICP03'
-        code2 = f'{self.freq}'
+        code2 = f'.{self.freq}'
 
         if self.country_code == 'all':
             df = self._get_oecd(f'MEI_CLI/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
