@@ -23,27 +23,12 @@
 # SOFTWARE.
 #
 
-from  bs4 import BeautifulSoup as bs
-from requests_html import HTMLSession
-import pandas as pd
 import numpy as np
+import pandas as pd
 import datetime as dt
+from finpie.base import DataBase
 
-from finpie.fundamental_data.fundamental_base import Fundamental
-
-'''
-    Functions:
-        valuation_metrics(self.ticker) ->
-        ratios(self.ticker) ->
-        all_statements(self.ticker) ->
-        balance_sheet(self.ticker) ->
-        income_statement(self.ticker) ->
-        cashflow_statement(self.ticker) ->
-
-        # To do: add quarterly statements function with selenium
-'''
-
-class yahooData( Fundamental ):
+class YahooData( DataBase ):
 
     def __init__(self, ticker):
         self.ticker = ticker
@@ -52,10 +37,9 @@ class yahooData( Fundamental ):
         '''
 
         '''
-        session = HTMLSession()
+
         url = f'https://finance.yahoo.com/quote/{self.ticker}/key-statistics?p={self.ticker}'
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
         df = pd.read_html( str(soup.find('table')) )[0].transpose()
         df.reset_index(inplace = True)
         df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
@@ -82,10 +66,8 @@ class yahooData( Fundamental ):
         '''
 
         '''
-        session = HTMLSession()
         url = f'https://finance.yahoo.com/quote/{self.ticker}/key-statistics?p={self.ticker}'
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
         df = pd.concat( [ pd.read_html( str(t) )[0].transpose()
                             for t in soup.find_all('table')[1:] ], axis = 1 )
         df.columns = df.iloc[0]
@@ -108,9 +90,7 @@ class yahooData( Fundamental ):
         '''
 
         '''
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
         tempDict = {}
         lineitems = soup.find_all('div', class_ = "D(tbr)")
         for l in lineitems:
@@ -173,9 +153,7 @@ class yahooData( Fundamental ):
 
     def earnings_estimate(self):
         url = f'https://finance.yahoo.com/quote/{self.ticker}/analysis'
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
 
         df = pd.read_html( str( soup.find('table') ) )[0].transpose()
         df.reset_index(inplace = True)
@@ -192,9 +170,7 @@ class yahooData( Fundamental ):
 
     def earnings_history(self):
         url = f'https://finance.yahoo.com/quote/{self.ticker}/analysis'
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
 
         df = pd.read_html( str( soup.find_all('table')[2] ) )[0].transpose()
         df.reset_index(inplace = True)
@@ -212,9 +188,7 @@ class yahooData( Fundamental ):
 
     def revenue_estimates(self):
         url = f'https://finance.yahoo.com/quote/{self.ticker}/analysis'
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
 
         df = pd.read_html( str( soup.find_all('table')[1] ) )[0].transpose()
         df.reset_index(inplace = True)
@@ -232,9 +206,7 @@ class yahooData( Fundamental ):
 
     def growth_estimates(self):
         url = f'https://finance.yahoo.com/quote/{self.ticker}/analysis'
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
 
         df = pd.read_html( str( soup.find_all('table')[-1] ) )[0].transpose()
         df.reset_index(inplace = True)
@@ -256,9 +228,7 @@ class yahooData( Fundamental ):
 
     def earnings_estimate_trends(self):
         url = f'https://finance.yahoo.com/quote/{self.ticker}/analysis'
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs( r.content, "html.parser" )
+        soup = self._get_session(url)
 
         df = pd.read_html( str( soup.find_all('table')[3] ) )[0].transpose()
         df.reset_index(inplace = True)
@@ -276,10 +246,9 @@ class yahooData( Fundamental ):
       '''
 
       '''
-      session = HTMLSession()
       url = f'https://finance.yahoo.com/quote/{self.ticker}/sustainability?p={self.ticker}'
-      r = session.get(url)
-      soup = bs( r.content, "html.parser" )
+      soup = self._get_session(url)
+
       section = soup.find(attrs = {'data-test': 'qsp-sustainability'})
       df = pd.DataFrame( { 'date': dt.datetime.today().date(),
         'total_esg_risk_score': np.float(section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').text),
@@ -297,10 +266,8 @@ class yahooData( Fundamental ):
       '''
 
       '''
-      session = HTMLSession()
       url = f'https://finance.yahoo.com/quote/{self.ticker}/profile?p={self.ticker}'
-      r = session.get(url)
-      soup = bs( r.content, "html.parser" )
+      soup = self._get_session(url)
 
       temp = { i.split(':')[0].replace('The pillar scores are', '').strip(): i.split(':')[1].replace('.', '').strip() for i in soup.find_all('section')[-1].find_all('span')[3].text.split(';')  }
       temp['quality_score'] = soup.find_all('section')[-1].find_all('span')[1].text.replace('.','')[-2:].strip()
@@ -313,10 +280,9 @@ class yahooData( Fundamental ):
 
 
     def profile(self):
-       session = HTMLSession()
        url = f'https://finance.yahoo.com/quote/{self.ticker}/profile?p={self.ticker}'
-       r = session.get(url)
-       soup = bs( r.content, "html.parser" )
+       soup = self._get_session(url)
+
        try:
            no_of_employees = np.int( soup.find('span', string = 'Full Time Employees').find_next('span').text.replace(',', '') )
        except:
@@ -334,10 +300,8 @@ class yahooData( Fundamental ):
        '''
 
        '''
-       session = HTMLSession()
        url = f'https://finance.yahoo.com/quote/{self.ticker}/profile?p={self.ticker}'
-       r = session.get(url)
-       soup = bs( r.content, "html.parser" )
+       soup = self._get_session(url)
 
        df = pd.read_html( str( soup.find('table') ) )[0]
        df['Gender'] = [ 'male' if 'Mr.' in n else 'female' for n in df.Name ]

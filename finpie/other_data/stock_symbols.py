@@ -23,10 +23,10 @@
 # SOFTWARE.
 #
 
-from requests_html import HTMLSession
-from bs4 import BeautifulSoup as bs
 import pandas as pd
 from tqdm import tqdm
+from bs4 import BeautifulSoup as bs
+from requests_html import HTMLSession
 
 def global_tickers():
     '''

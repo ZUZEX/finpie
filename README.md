@@ -6,31 +6,24 @@
 
 # finpie - a simple library to download some financial data
 
-<p>
+<p><b>For recreational use. Made for finance students for educational purposes to have easier access to some financial and finance related data.</b></p>
+
+<p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and run time.</p> 
+
+<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
 
-<b>For recreational use. Made for finance students for personal educational purposes to have easier access to some financial and finance related data.</b>
-
-
-</p>
-
-<p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#3">function index </a> for more information on issues of data availability and run time.</p> 
-<p>
-The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code> and <code>Finviz</code>. The price data module retrieves data from <code>Yahoo Finance</code>, <code>Investing.com</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).
-</p>
+<p>If there are any issues or recommendations please feel free to reach out.</p>
 
 <p>
 <i>To do list:</i>
 <ul>
-<li> Add a section for SEC filings and CIK finder </li>
+<li> Create test file </li>
 <li> Add an earnings transcript section </li>
-<li> Add EIA and USDA data, CFTC COT and potentially add weather data sources (e.g. heating degree days, cooling degree days in NE USA) </li>
+<li> Add EIA and USDA data, CFTC COT and potentially add weather data sources (e.g. heating degree days, cooling degree days in NE US) </li>
 <li> Add social media data (Twitter, Stocktwits, Weibo, Reddit WSB?) </li>
+<li> Add async requests, multiple/batch download options, proxies.. </li>
 </ul>
-</p>
-
-<p>
-If there are any issues or recommendations please contact xxx@xxxx.com.
 </p>
 
 <br>
@@ -48,7 +41,6 @@ If there are any issues or recommendations please contact xxx@xxxx.com.
 	<li><a href="#A42">Financial statements</a></li>
 	<li><a href="#A43">Earnings and revenue estimates</a></li>
 	<li><a href = "#A44">Insider transactions and analyst ratings</a></li>
-	<li><a href = "#A45">Earnings conference calls</a></li>
 	<li><a href = "#A46">ESG scores</a></li>
 	<li><a href = "#A47">Company profile</a></li>
 	</ul>
@@ -254,7 +246,7 @@ from finpie.fundamental_data import macrotrends
 
 
 
-#### <div id="f1"><i>yahooData(ticker).valuation\_metrics()</i></div>
+#### <div id="f1"><i>YahooData(ticker).valuation\_metrics()</i></div>
 
 <ul>
 <li>Returns a dataframe with valuation metrics for the last five quarters and for the current date including trailing P/E, PEG ratio, P/S, etc.</li>
@@ -263,7 +255,7 @@ from finpie.fundamental_data import macrotrends
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.valuation_metrics()
 ```
 
@@ -289,7 +281,7 @@ yahoo.valuation_metrics()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id="f2"><i>yahooData(ticker).key\_metrics()</i></div>
+#### <div id="f2"><i>YahooData(ticker).key\_metrics()</i></div>
 
 <ul>
 <li>Returns a dataframe with current key statistics and financial ratios.</li>
@@ -298,7 +290,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.key_metrics()
 ```
 
@@ -317,7 +309,7 @@ yahoo.key_metrics()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>finvizData(ticker).key\_metrics()</i></div>
+#### <div id=""><i>FinvizData(ticker).key\_metrics()</i></div>
 
 <ul>
 <li>Returns a dataframe with today's key financial metrics.</li>
@@ -326,7 +318,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-finviz = finvizData('AAPL')
+finviz = FinvizData('AAPL')
 finviz.key_metrics()
 ```
 
@@ -345,7 +337,7 @@ finviz.key_metrics()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id=""><i>macrotrendsData(ticker).ratios(freq = 'A')</i></div>
+#### <div id=""><i>MacrotrendsData(ticker).ratios(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly financial ratios up to 2005.</li>
@@ -354,7 +346,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-mt = macrotrendsData('AAPL')
+mt = MacrotrendsData('AAPL')
 mt.ratios()
 ```
 
@@ -385,7 +377,7 @@ mt.ratios()
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id="f7"><i>mwatchData(ticker).income\_statement( freq = 'annual' )</i></div>
+#### <div id="f7"><i>MwatchData(ticker).income\_statement( freq = 'annual' )</i></div>
 
 <i>Arguments:</i>
 	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code>
@@ -398,7 +390,7 @@ mt.ratios()
 <i> Example </i>
 
 ```python
-mwatch = mwatchData('AAPL')
+mwatch = MwatchData('AAPL')
 mwatch.income_statement('q')
 ```
 <i> Output </i>
@@ -420,7 +412,7 @@ mwatch.income_statement('q')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id="f8"><i>mwatchData(ticker).balance\_sheet( freq = 'annual' )</i></div>
+#### <div id="f8"><i>MwatchData(ticker).balance\_sheet( freq = 'annual' )</i></div>
 
 <i>Arguments:</i>
 	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
@@ -430,7 +422,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-mwatch = mwatchData('AAPL')
+mwatch = MwatchData('AAPL')
 mwatch.balance_sheet('q')
 ```
 <i> Output </i>
@@ -453,7 +445,7 @@ mwatch.balance_sheet('q')
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id="f9"><i>mwatchData(ticker).cashflow\_statement( freq = 'annual' )</i></div>
+#### <div id="f9"><i>MwatchData(ticker).cashflow\_statement( freq = 'annual' )</i></div>
 
 <i>Arguments:</i>
 	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
@@ -467,7 +459,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example: </i>
 
 ```python
-mwatch = mwatchData('AAPL')
+mwatch = MwatchData('AAPL')
 mwatch.cashflow_statement('q')
 ```
 
@@ -490,10 +482,10 @@ mwatch.cashflow_statement('q')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id="f10"><i>mwatchData(ticker).statements( freq = 'annual' )</i></div>
+#### <div id="f10"><i>MwatchData(ticker).statements( freq = 'annual' )</i></div>
 
 <ul>
-<li>Returns <code>mwatchData(ticker).income_statement(freq = 'annual')</code>, <code>mwatchData(ticker).balance_sheet(freq = 'annual')</code> and <code>mwatchData(ticker).cashflow_statement(freq = 'annual')</code> for the given company.</li>
+<li>Returns <code>MwatchData(ticker).income_statement(freq = 'annual')</code>, <code>MwatchData(ticker).balance_sheet(freq = 'annual')</code> and <code>MwatchData(ticker).cashflow_statement(freq = 'annual')</code> for the given company.</li>
 </ul> 
 
 <div align="right"> <a href="#i10">To index</a> </div>
@@ -501,7 +493,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 -------
 
-#### <div id = "f3" ><i>yahooData( ticker ).income\_statement()</i></div>
+#### <div id = "f3" ><i>YahooData( ticker ).income\_statement()</i></div>
 
 <ul>
 <li>Returns annual income statement for the past 4 years.</li>
@@ -510,7 +502,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.income_statement()
 ```
 
@@ -533,7 +525,7 @@ yahoo.income_statement()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f4" ><i>yahooData( ticker ).balance\_sheet()</i></div>
+#### <div id = "f4" ><i>YahooData( ticker ).balance\_sheet()</i></div>
 
 <ul>
 <li>Returns annual balance sheet for the past 4 years.</li>
@@ -542,7 +534,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.balance_sheet()
 ```
 
@@ -565,7 +557,7 @@ yahoo.balance_sheet()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f5" ><i>yahooData( ticker ).cashflow\_statement()</i></div>
+#### <div id = "f5" ><i>YahooData( ticker ).cashflow\_statement()</i></div>
 
 <ul>
 <li>Returns annual cashflow statement for the past 4 years.</li>
@@ -574,7 +566,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.cashflow_statement()
 ```
 
@@ -597,10 +589,10 @@ yahoo.cashflow_statement()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f6" ><i>yahooData( ticker ).statements()</i></div>
+#### <div id = "f6" ><i>YahooData( ticker ).statements()</i></div>
 
 <ul>
-<li>Returns <code>yahooData(ticker).income_statement()</code>, <code>yahooData(ticker).balance_sheet()</code> and <code>yahooData(ticker).cashflow_statement()</code> for the given company.</li>
+<li>Returns <code>YahooData(ticker).income_statement()</code>, <code>YahooData(ticker).balance_sheet()</code> and <code>YahooData(ticker).cashflow_statement()</code> for the given company.</li>
 </ul> 
 
 <div align="right"> <a href="#i6">To index</a> </div>
@@ -608,7 +600,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>macrotrendsData(ticker).income\_statement(freq = 'A')</i></div>
+#### <div id=""><i>MacrotrendsData(ticker).income\_statement(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly income statements up to 2005.</li>
@@ -617,7 +609,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-mt = macrotrendsData('AAPL')
+mt = MacrotrendsData('AAPL')
 mt.income_statement()
 ```
 
@@ -644,7 +636,7 @@ mt.income_statement()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>macrotrendsData(ticker).balance_sheet(freq = 'A')</i></div>
+#### <div id=""><i>MacrotrendsData(ticker).balance_sheet(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly balance sheets up to 2005.</li>
@@ -653,7 +645,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-mt = macrotrendsData('AAPL')
+mt = MacrotrendsData('AAPL')
 mt.balance_sheet()
 ```
 
@@ -678,7 +670,7 @@ mt.balance_sheet()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>macrotrendsData(ticker).cashflow_statement(freq = 'A')</i></div>
+#### <div id=""><i>MacrotrendsData(ticker).cashflow_statement(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly cashflow statements up to 2005.</li>
@@ -687,7 +679,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-mt = macrotrendsData('AAPL')
+mt = MacrotrendsData('AAPL')
 mt.cashflow_statement()
 ```
 
@@ -721,7 +713,7 @@ mt.cashflow_statement()
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <div id = "f11" ><i>yahooData( ticker ).earnings\_estimates()</i></div>
+#### <div id = "f11" ><i>YahooData( ticker ).earnings\_estimates()</i></div>
 
 <ul>
 <li>Returns current earnings estimates for the current quarter, next quarter, current year and the next year.</li>
@@ -730,7 +722,7 @@ mt.cashflow_statement()
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.earnings_estimates('AAPL')
 ```
 
@@ -751,7 +743,7 @@ yahoo.earnings_estimates('AAPL')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f12" ><i> yahooData( ticker ).earnings\_estimate\_trends()</i></div>
+#### <div id = "f12" ><i> YahooData( ticker ).earnings\_estimate\_trends()</i></div>
 
 <ul>
 <li>Returns earnings estimates for the current quarter, next quarter, current year and the next year for the current date, 7 days ago, 30 days ago, 60 days ago and 90 days ago.</li>
@@ -760,7 +752,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.earnings_estimate_trends()
 ```
 
@@ -782,7 +774,7 @@ yahoo.earnings_estimate_trends()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f13" ><i> yahooData( ticker ).earnings\_history()</i></div>
+#### <div id = "f13" ><i> YahooData( ticker ).earnings\_history()</i></div>
 
 <ul>
 <li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
@@ -791,7 +783,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.earnings_history()
 ```
 
@@ -813,7 +805,7 @@ yahoo.earnings_history()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f14" ><i> yahooData(ticker)._revenue\_estimates()</i></div>
+#### <div id = "f14" ><i> YahooData(ticker)._revenue\_estimates()</i></div>
 
 <ul>
 <li>Returns revenue estimates for the current quarter, next quarter, current year and the next year.</li>
@@ -822,7 +814,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.revenue_estimates()
 ```
 
@@ -844,7 +836,7 @@ yahoo.revenue_estimates()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f15" ><i> yahooData( ticker ).growth\_estimates()</i></div>
+#### <div id = "f15" ><i> YahooData( ticker ).growth\_estimates()</i></div>
 
 <ul>
 <li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
@@ -853,7 +845,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.growth_estimates()
 ```
 
@@ -884,7 +876,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f16" ><i> finvizData( ticker ).insider\_transactions()</i></div>
+#### <div id = "f16" ><i> FinvizData( ticker ).insider\_transactions()</i></div>
 
 <ul>
 <li>Returns company insider transactions for the past year.</li>
@@ -893,7 +885,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-finviz = finvizData('AAPL')
+finviz = FinvizData('AAPL')
 finviz.insider_transactions()
 ```
 
@@ -916,7 +908,7 @@ finviz.insider_transactions()
 
 -----
 
-#### <div id = "f17" ><i> finvizData( ticker ).analyst\_ratings()</i></div>
+#### <div id = "f17" ><i> FinvizData( ticker ).analyst\_ratings()</i></div>
 
 <ul>
 <li>Returns recent history of analyst ratings.</li>
@@ -925,7 +917,7 @@ finviz.insider_transactions()
 <i> Example </i>
 
 ```python
-finviz = finvizData('AAPL')
+finviz = FinvizData('AAPL')
 finviz.analyst_ratings()
 ```
 
@@ -949,17 +941,6 @@ finviz.analyst_ratings()
 
 -----
 
-<br>
-
-###	 <div id="A45"> <li> Earnings conference calls <hr style="border:0.5px solid gray"> </hr> </li> </div>
-
-<div align="right"><a href="#0">Back to top</a> </div>
-
-
-
-<div align="right"> <a href="#F2">To index</a> </div>
-
------
 
 <br>
 
@@ -969,7 +950,7 @@ finviz.analyst_ratings()
 
 
 
-#### <div id = "f18" ><i>yahooData( ticker ).esg\_score()</i></div>
+#### <div id = "f18" ><i>YahooData( ticker ).esg\_score()</i></div>
 
 <ul>
 <li>Returns current ESG scores from XXXX published on Yahoo Finance.</li>
@@ -978,7 +959,7 @@ finviz.analyst_ratings()
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.esg_score()
 ```
 
@@ -996,7 +977,7 @@ yahoo.esg_score()
 
 ----
 
-#### <div id = "f19" ><i>yahooData( ticker ).corporate\_governance\_score()</i></div>
+#### <div id = "f19" ><i>YahooData( ticker ).corporate\_governance\_score()</i></div>
 
 <ul>
 <li>Returns current corporate governance scores from XXXX published on Yahoo Finance.</li>
@@ -1005,7 +986,7 @@ yahoo.esg_score()
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.corporate_governance_score()
 ```
 
@@ -1032,7 +1013,7 @@ yahoo.corporate_governance_score()
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f20" ><i>yahooData( ticker ).profile()</i></div>
+#### <div id = "f20" ><i>YahooData( ticker ).profile()</i></div>
 
 <ul>
 <li>Returns company sector, industry, current number of employees and a company description.</li>
@@ -1041,7 +1022,7 @@ yahoo.corporate_governance_score()
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.profile()
 ```
 
@@ -1060,7 +1041,7 @@ yahoo.profile()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f21" ><i>yahooData( ticker ).executives_info()</i></div>
+#### <div id = "f21" ><i>YahooData( ticker ).executives_info()</i></div>
 
 <ul>
 <li>Returns current company executives with name, title, salary, age and their gender.</li>
@@ -1069,7 +1050,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-yahoo = yahooData('AAPL')
+yahoo = YahooData('AAPL')
 yahoo.executives_info()
 ```
 
@@ -1201,8 +1182,6 @@ iex_intraday('AAPL', <api_key>)
 
 |                     | date       | label    |   high |    low |   average |   volume |         notional |   numberOfTrades |   marketHigh |   marketLow |   marketAverage |   marketVolume |   marketNotional |   marketNumberOfTrades |    open |   close |   marketOpen |   marketClose |   changeOverTime |   marketChangeOverTime |
 |:--------------------|:-----------|:---------|-------:|-------:|----------:|---------:|-----------------:|-----------------:|-------------:|------------:|----------------:|---------------:|-----------------:|-----------------------:|--------:|--------:|-------------:|--------------:|-----------------:|-----------------------:|
-| 2019-04-02 15:59:00 | 2019-04-02 | 3:59 PM  | 286.07 | 285.94 |   286.021 |    20335 |      5.81624e+06 |              118 |       286.08 |     285.93  |         286.01  |         848987 |      2.42818e+08 |                   3245 | 286.07  |  285.94 |      286.07  |        285.98 |      0.000132875 |           -2.09778e-05 |
-| 2019-04-02 11:33:00 | 2019-04-02 | 11:33 AM | 285.65 | 285.64 |   285.64  |      618 | 176526           |                6 |       285.66 |     285.625 |         285.644 |          69117 |      1.97429e+07 |                    330 | 285.64  |  285.64 |      285.65  |        285.65 |     -0.00119937  |           -0.00130063  |
 | 2019-04-02 11:34:00 | 2019-04-02 | 11:34 AM | 285.66 | 285.59 |   285.643 |     1303 | 372193           |               15 |       285.67 |     285.59  |         285.646 |          78564 |      2.24415e+07 |                    375 | 285.655 |  285.59 |      285.65  |        285.6  |     -0.00118888  |           -0.00129363  |
 | 2019-04-02 11:35:00 | 2019-04-02 | 11:35 AM | 285.62 | 285.56 |   285.599 |      755 | 215627           |                9 |       285.63 |     285.55  |         285.583 |          76670 |      2.18956e+07 |                    466 | 285.62  |  285.56 |      285.6   |        285.55 |     -0.00134274  |           -0.0015139   |
 | 2019-04-02 11:36:00 | 2019-04-02 | 11:36 AM | 285.53 | 285.49 |   285.512 |      784 | 223841           |               12 |       285.56 |     285.48  |         285.506 |          80973 |      2.31183e+07 |                    412 | 285.525 |  285.52 |      285.555 |        285.52 |     -0.00164695  |           -0.00178312  |
@@ -1388,10 +1367,10 @@ The data can be accessed by country or for list of countries and for timeseries 
 from finpie.economic_data import oecd_data
 
 # Example for instantiating class for Australia and the USA at monthly frequency with national currencies
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M', currency_code = 'NXCU')
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M', currency_code = 'NXCU')
 
 # Example for instantiating class for all available countries at quarterly frequency with dollar converted currencies
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q', currency_code = 'CXCU')
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q', currency_code = 'CXCU')
 
 ```
 
@@ -1415,7 +1394,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f30"><i>oecdData( country\_code, **args ).cli( subject = 'amplitude' )</i>
+#### <div id = "f30"><i>OecdData( country\_code, **args ).cli( subject = 'amplitude' )</i>
 
 <ul>
 <li>Returns the OECD composite leading indicator with a given measure.</li>
@@ -1437,7 +1416,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA' )
+oecd = oecd_data.OecdData( country_code = 'USA' )
 oecd.cli(subject = 'amplitude')
 ```
 
@@ -1451,8 +1430,6 @@ oecd.cli(subject = 'amplitude')
 | 1955-01-01 00:00:00 | LOLITOAA  | Amplitude adjusted (CLI) | United States | M           | 1955-01 | IDX         |                0 | 101.484 |
 | 1955-02-01 00:00:00 | LOLITOAA  | Amplitude adjusted (CLI) | United States | M           | 1955-02 | IDX         |                0 | 101.838 |
 | 1955-03-01 00:00:00 | LOLITOAA  | Amplitude adjusted (CLI) | United States | M           | 1955-03 | IDX         |                0 | 102.131 |
-| 1955-04-01 00:00:00 | LOLITOAA  | Amplitude adjusted (CLI) | United States | M           | 1955-04 | IDX         |                0 | 102.337 |
-| 1955-05-01 00:00:00 | LOLITOAA  | Amplitude adjusted (CLI) | United States | M           | 1955-05 | IDX         |                0 | 102.454 |
 | ... | ...  | ... | ... | ...           | ... | ...         |                ... | ...  |
 
 
@@ -1462,7 +1439,7 @@ oecd.cli(subject = 'amplitude')
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f31"><i>oecdData( country\_code, **args ).cci()</i>
+#### <div id = "f31"><i>OecdData( country\_code, **args ).cci()</i>
 
 <ul>
 <li>Returns the OECD consumer confidence indicator.</li>
@@ -1471,7 +1448,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA' )
+oecd = oecd_data.OecdData( country_code = 'USA' )
 oecd.cci()
 ```
 
@@ -1485,8 +1462,6 @@ oecd.cci()
 | 1960-01-01 00:00:00 | CSCICP03  | OECD Standardised CCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1960-01 | IDX         |                0 | 101.498 |
 | 1960-02-01 00:00:00 | CSCICP03  | OECD Standardised CCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1960-02 | IDX         |                0 | 101.243 |
 | 1960-03-01 00:00:00 | CSCICP03  | OECD Standardised CCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1960-03 | IDX         |                0 | 101.023 |
-| 1960-04-01 00:00:00 | CSCICP03  | OECD Standardised CCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1960-04 | IDX         |                0 | 100.902 |
-| 1960-05-01 00:00:00 | CSCICP03  | OECD Standardised CCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1960-05 | IDX         |                0 | 100.933 |
 | ... | ...  | ... | ... | ...           | ... | ...         |                ... | ...  |
 
 
@@ -1496,7 +1471,7 @@ oecd.cci()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f32"><i>oecdData( country\_code, **args ).bci()</i>
+#### <div id = "f32"><i>OecdData( country\_code, **args ).bci()</i>
 
 <ul>
 <li>Returns the OECD business confidence indicator.</li>
@@ -1505,7 +1480,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA' )
+oecd = oecd_data.OecdData( country_code = 'USA' )
 oecd.bci()
 ```
 
@@ -1519,8 +1494,6 @@ oecd.bci()
 | 1950-01-01 00:00:00 | BSCICP03  | OECD Standardised BCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1950-01 | IDX         |                0 | 101.071 |
 | 1950-02-01 00:00:00 | BSCICP03  | OECD Standardised BCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1950-02 | IDX         |                0 | 101.59  |
 | 1950-03-01 00:00:00 | BSCICP03  | OECD Standardised BCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1950-03 | IDX         |                0 | 102.282 |
-| 1950-04-01 00:00:00 | BSCICP03  | OECD Standardised BCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1950-04 | IDX         |                0 | 103.267 |
-| 1950-05-01 00:00:00 | BSCICP03  | OECD Standardised BCI, Amplitude adjusted (Long term average=100), sa | United States | M           | 1950-05 | IDX         |                0 | 104.26  |
 | ... | ...  | ... | ... | ...           | ... | ...         |                ... | ...  |
 
 
@@ -1550,7 +1523,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-#### <div id = "f33"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m1()</i>
+#### <div id = "f33"><i>OecdData( country\_code, **args ).monetary\_aggregates\_m1()</i>
 
 <ul>
 <li>Returns the M1 monetary aggregate. Not available for all countries.</li>
@@ -1559,7 +1532,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.monetary_aggregates_m1()
 ```
 
@@ -1573,8 +1546,6 @@ oecd.monetary_aggregates_m1()
 | 1960-06-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-06 | AUD         |                9 |   3.518 |
 | 1960-07-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-07 | AUD         |                9 |   3.464 |
 | 1960-08-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-08 | AUD         |                9 |   3.459 |
-| 1960-09-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-09 | AUD         |                9 |   3.468 |
-| 1960-10-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-10 | AUD         |                9 |   3.514 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1583,7 +1554,7 @@ oecd.monetary_aggregates_m1()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f34"><i>oecdData( country\_code, **args ).monetary\_aggregates\_m3()</i>
+#### <div id = "f34"><i>OecdData( country\_code, **args ).monetary\_aggregates\_m3()</i>
 
 <ul>
 <li>Returns the M3 monetary aggregate. Not available for all countries.</li>
@@ -1592,7 +1563,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.monetary_aggregates_m3()
 ```
 
@@ -1606,8 +1577,6 @@ oecd.monetary_aggregates_m3()
 | 1959-01-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-01 | AUD         |                9 |   6.608 |
 | 1959-02-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-02 | AUD         |                9 |   6.668 |
 | 1959-03-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-03 | AUD         |                9 |   6.728 |
-| 1959-04-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-04 | AUD         |                9 |   6.696 |
-| 1959-05-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-05 | AUD         |                9 |   6.638 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1616,7 +1585,7 @@ oecd.monetary_aggregates_m3()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f35"><i>oecdData( country\_code, **args ).interbank\_rates()</i>
+#### <div id = "f35"><i>OecdData( country\_code, **args ).interbank\_rates()</i>
 
 <ul>
 <li>Returns interbank interest rates. Not available for all countries.</li>
@@ -1625,7 +1594,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.interbank_rates()
 ```
 
@@ -1639,8 +1608,6 @@ oecd.interbank_rates()
 | 1990-08-01 00:00:00 | IRSTCI01  | Interest Rates > Immediate rates (< 24 hrs) > Call money/interbank rate > Total | Australia | M           | 1990-08 | PC          |                0 |   14    |
 | 1990-09-01 00:00:00 | IRSTCI01  | Interest Rates > Immediate rates (< 24 hrs) > Call money/interbank rate > Total | Australia | M           | 1990-09 | PC          |                0 |   14    |
 | 1990-10-01 00:00:00 | IRSTCI01  | Interest Rates > Immediate rates (< 24 hrs) > Call money/interbank rate > Total | Australia | M           | 1990-10 | PC          |                0 |   13.43 |
-| 1990-11-01 00:00:00 | IRSTCI01  | Interest Rates > Immediate rates (< 24 hrs) > Call money/interbank rate > Total | Australia | M           | 1990-11 | PC          |                0 |   13    |
-| 1990-12-01 00:00:00 | IRSTCI01  | Interest Rates > Immediate rates (< 24 hrs) > Call money/interbank rate > Total | Australia | M           | 1990-12 | PC          |                0 |   12.58 |'
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1649,7 +1616,7 @@ oecd.interbank_rates()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f36"><i>oecdData( country\_code, **args ).short\_term\_rates()</i>
+#### <div id = "f36"><i>OecdData( country\_code, **args ).short\_term\_rates()</i>
 
 <ul>
 <li>Returns short-term interest rates. Not avaialable for all countries.</li>
@@ -1658,7 +1625,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.short_term_rates()
 ```
 
@@ -1672,8 +1639,6 @@ oecd.short_term_rates()
 | 1968-01-01 00:00:00 | IR3TBB01  | Interest Rates > 3-month or 90-day rates and yields > Bank bills > Total | Australia | M           | 1968-01 | PC          |                0 |    5.1  |
 | 1968-02-01 00:00:00 | IR3TBB01  | Interest Rates > 3-month or 90-day rates and yields > Bank bills > Total | Australia | M           | 1968-02 | PC          |                0 |    5.15 |
 | 1968-03-01 00:00:00 | IR3TBB01  | Interest Rates > 3-month or 90-day rates and yields > Bank bills > Total | Australia | M           | 1968-03 | PC          |                0 |    5.15 |
-| 1968-04-01 00:00:00 | IR3TBB01  | Interest Rates > 3-month or 90-day rates and yields > Bank bills > Total | Australia | M           | 1968-04 | PC          |                0 |    5.15 |
-| 1968-05-01 00:00:00 | IR3TBB01  | Interest Rates > 3-month or 90-day rates and yields > Bank bills > Total | Australia | M           | 1968-05 | PC          |                0 |    5.3  |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1682,7 +1647,7 @@ oecd.short_term_rates()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f37"><i>oecdData( country\_code, **args ).long\_term\_rates()</i>
+#### <div id = "f37"><i>OecdData( country\_code, **args ).long\_term\_rates()</i>
 
 <ul>
 <li>Returns long-term interest rates. Not available for all countries.</li>
@@ -1691,7 +1656,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.long_term_rates()
 ```
 
@@ -1714,7 +1679,7 @@ oecd.long_term_rates()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f38"><i>oecdData( country\_code, **args ).all\_share\_prices()</i>
+#### <div id = "f38"><i>OecdData( country\_code, **args ).all\_share\_prices()</i>
 
 <ul>
 <li>Returns aggregate share prices of a given country. Not available for all countries.</li>
@@ -1723,7 +1688,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.all_share_prices()
 ```
 
@@ -1745,7 +1710,7 @@ oecd.all_share_prices()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f39"><i>oecdData( country\_code, **args ).share\_prices\_industrials()</i>
+#### <div id = "f39"><i>OecdData( country\_code, **args ).share\_prices\_industrials()</i>
 
 <ul>
 <li>Returns aggregate share prices of industrial companies from a given country. Not available for all countries.</li>
@@ -1754,7 +1719,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.share_prices_industrials()
 ```
 
@@ -1776,7 +1741,7 @@ oecd.share_prices_industrials()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f41"><i>oecdData( country\_code, **args ).usd\_exchange\_rates\_spot()</i>
+#### <div id = "f41"><i>OecdData( country\_code, **args ).usd\_exchange\_rates\_spot()</i>
 
 <ul>
 <li>Returns USD spot exchange rates at end of month/quarter.</li>
@@ -1785,7 +1750,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 usd_exchange_rates_spot()
 ```
 
@@ -1808,7 +1773,7 @@ usd_exchange_rates_spot()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f42"><i>oecdData( country\_code, **args ).usd\_exchange\_rates\_average()</i>
+#### <div id = "f42"><i>OecdData( country\_code, **args ).usd\_exchange\_rates\_average()</i>
 
 <ul>
 <li>Returns monthly/quarterly average USD exchange rates.</li>
@@ -1817,7 +1782,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.usd_exchange_rates_average()
 ```
 
@@ -1839,7 +1804,7 @@ oecd.usd_exchange_rates_average()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f43"><i>oecdData( country\_code, **args ).rer\_overall()</i>
+#### <div id = "f43"><i>OecdData( country\_code, **args ).rer\_overall()</i>
 
 <ul>
 <li>Returns overall real exchange rates.</li>
@@ -1848,7 +1813,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.rer_overall()
 ```
 
@@ -1877,7 +1842,7 @@ oecd.rer_overall()
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f44"><i>oecdData( country\_code, **args ).exports\_value()</i>
+#### <div id = "f44"><i>OecdData( country\_code, **args ).exports\_value()</i>
 
 <ul>
 <li>Returns value of exports in national currency or dollar converted, etc..</li>
@@ -1886,7 +1851,7 @@ oecd.rer_overall()
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', currency_code = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU' )
 oecd.exports_value()
 ```
 
@@ -1908,7 +1873,7 @@ oecd.exports_value()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f45"><i>oecdData( country\_code, **args ).imports\_value()</i>
+#### <div id = "f45"><i>OecdData( country\_code, **args ).imports\_value()</i>
 
 <ul>
 <li>Returns value of imports in national currency or dollar converted, etc..</li>
@@ -1917,7 +1882,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', currency_code = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU' )
 oecd.imports_value()
 ```
 
@@ -1948,7 +1913,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f46"><i>oecdData( country\_code, **args ).unemployment\_rate()</i>
+#### <div id = "f46"><i>OecdData( country\_code, **args ).unemployment\_rate()</i>
 
 <ul>
 <li>Returns unemployment rates.</li>
@@ -1957,7 +1922,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.unemployment_rate()
 ```
 
@@ -1985,7 +1950,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <div id = "f47"><i>oecdData( country\_code, **args ).cpi\_total()</i>
+#### <div id = "f47"><i>OecdData( country\_code, **args ).cpi\_total()</i>
 
 <ul>
 <li>Returns the consumer price index.</li>
@@ -1994,7 +1959,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.cpi_total()
 ```
 
@@ -2015,7 +1980,7 @@ oecd.cpi_total()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f48"><i>oecdData( country\_code, **args ).cpi\_city\_total()</i>
+#### <div id = "f48"><i>OecdData( country\_code, **args ).cpi\_city\_total()</i>
 
 <ul>
 <li>Returns the consumer price index for cities.</li>
@@ -2024,7 +1989,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.cpi_city_total()
 ```
 
@@ -2045,7 +2010,7 @@ oecd.cpi_city_total()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f49"><i>oecdData( country\_code, **args ).cpi\_non\_food\_non_energy()</i>
+#### <div id = "f49"><i>OecdData( country\_code, **args ).cpi\_non\_food\_non_energy()</i>
 
 <ul>
 <li>Returns non-food and non-energy consumer price index .</li>
@@ -2054,7 +2019,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.cpi_non_food_non_energy()
 ```
 
@@ -2075,7 +2040,7 @@ oecd.cpi_non_food_non_energy()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f50"><i>oecdData( country\_code, **args ).cpi\_energy()</i>
+#### <div id = "f50"><i>OecdData( country\_code, **args ).cpi\_energy()</i>
 
 <ul>
 <li>Returns consumer price index for energy (fuel, electricity, etc.).</li>
@@ -2084,7 +2049,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.cpi_energy()
 ```
 
@@ -2114,7 +2079,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f51"><i>oecdData( country\_code, **args ).business\_tendency\_survey( sector )</i>
+#### <div id = "f51"><i>OecdData( country\_code, **args ).business\_tendency\_survey( sector )</i>
 
 <ul>
 <li>Returns national business tendency survey for given sector.</li>
@@ -2130,7 +2095,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.business_tendency_survey('retail')
 ```
 
@@ -2152,7 +2117,7 @@ oecd.business_tendency_survey('retail')
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f52"><i>oecdData( country\_code, **args ).consumer\_opinion\_survey( measure = 'national' )</i>
+#### <div id = "f52"><i>OecdData( country\_code, **args ).consumer\_opinion\_survey( measure = 'national' )</i>
 
 <ul>
 <li>Returns national consumer opinion survey.</li>
@@ -2161,7 +2126,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all' )
 oecd.consumer_opinion_survey()
 ```
 
@@ -2190,7 +2155,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f53"><i>oecdData( country\_code, **args ).gdp\_deflator()</i>
+#### <div id = "f53"><i>OecdData( country\_code, **args ).gdp\_deflator()</i>
 
 <ul>
 <li>Returns the quarterly GDP deflator. Not available for all countries.</li>
@@ -2199,7 +2164,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_deflator()
 ```
 
@@ -2221,7 +2186,7 @@ oecd.gdp_deflator()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f54"><i>oecdData( country\_code, **args ).gdp\_total()</i>
+#### <div id = "f54"><i>OecdData( country\_code, **args ).gdp\_total()</i>
 
 <ul>
 <li>Returns total GDP at constant prices.</li>
@@ -2230,7 +2195,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_total()
 ```
 
@@ -2254,7 +2219,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f55"><i>oecdData( country\_code, **args ).gdp\_final\_consumption()</i>
+#### <div id = "f55"><i>OecdData( country\_code, **args ).gdp\_final\_consumption()</i>
 
 <ul>
 <li>Returns GDP final consumption at constant prices.</li>
@@ -2263,7 +2228,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_final_consumption()
 ```
 
@@ -2287,7 +2252,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f56"><i>oecdData( country\_code, **args ).gdp\_government\_consumption()</i>
+#### <div id = "f56"><i>OecdData( country\_code, **args ).gdp\_government\_consumption()</i>
 
 <ul>
 <li>Returns government consumption at constant prices.</li>
@@ -2296,7 +2261,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_government_consumption()
 ```
 
@@ -2320,7 +2285,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f57"><i>oecdData( country\_code, **args ).gdp\_fixed\_capital\_formation()</i>
+#### <div id = "f57"><i>OecdData( country\_code, **args ).gdp\_fixed\_capital\_formation()</i>
 
 <ul>
 <li>Returns fixed capital formation at constant prices.</li>
@@ -2329,7 +2294,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_fixed_capital_formation()
 ```
 
@@ -2353,7 +2318,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f58"><i>oecdData( country\_code, **args ).gdp\_exports()</i>
+#### <div id = "f58"><i>OecdData( country\_code, **args ).gdp\_exports()</i>
 
 <ul>
 <li>Returns export value for GDP calculation.</li>
@@ -2362,7 +2327,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_exports()
 ```
 
@@ -2386,7 +2351,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f59"><i>oecdData( country\_code, **args ).gdp\_imports()</i>
+#### <div id = "f59"><i>OecdData( country\_code, **args ).gdp\_imports()</i>
 
 <ul>
 <li>Returns import value for GDP calculation.</li>
@@ -2395,7 +2360,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_imports()
 ```
 
@@ -2427,7 +2392,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f60"><i>oecdData( country\_code, **args ).total\_manufacturing\_index()</i>
+#### <div id = "f60"><i>OecdData( country\_code, **args ).total\_manufacturing\_index()</i>
 
 <ul>
 <li>Returns total manufacturing index.</li>
@@ -2436,7 +2401,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_manufacturing_index()
 ```
 
@@ -2456,7 +2421,7 @@ oecd.total_manufacturing_index()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f61"><i>oecdData( country\_code, **args ).total\_industry\_production\_ex\_construction()</i>
+#### <div id = "f61"><i>OecdData( country\_code, **args ).total\_industry\_production\_ex\_construction()</i>
 
 <ul>
 <li>Returns total industry production excluding construction.</li>
@@ -2465,7 +2430,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_industrial_production_ex_construction()
 ```
 
@@ -2488,7 +2453,7 @@ oecd.total_industrial_production_ex_construction()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f62"><i>oecdData( country\_code, **args ).total\_construction()</i>
+#### <div id = "f62"><i>OecdData( country\_code, **args ).total\_construction()</i>
 
 <ul>
 <li>Returns total construction index.</li>
@@ -2497,7 +2462,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_construction()
 ```
 
@@ -2519,7 +2484,7 @@ oecd.total_construction()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f63"><i>oecdData( country\_code, **args ).total\_retail\_trade()</i>
+#### <div id = "f63"><i>OecdData( country\_code, **args ).total\_retail\_trade()</i>
 
 <ul>
 <li>Returns total retail trade index.</li>
@@ -2528,7 +2493,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_retail_trade()
 ```
 
@@ -2550,7 +2515,7 @@ oecd.total_retail_trade()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f64"><i>oecdData( country\_code, **args ).passenger\_car\_registrations()</i>
+#### <div id = "f64"><i>OecdData( country\_code, **args ).passenger\_car\_registrations()</i>
 
 <ul>
 <li>Returns index for passenger car registrations.</li>
@@ -2560,7 +2525,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.passenger_car_registrations()
 ```
 
@@ -2582,7 +2547,7 @@ oecd.passenger_car_registrations()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f65"><i>oecdData( country\_code, **args ).construction\_permits\_issued()</i>
+#### <div id = "f65"><i>OecdData( country\_code, **args ).construction\_permits\_issued()</i>
 
 <ul>
 <li>Returns index for construction permits issued.</li>
@@ -2591,7 +2556,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'all', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.construction_permits_issued()
 ```
 
@@ -2622,7 +2587,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f66" ><i>oecdData( country\_code, **args ).economic\_situation\_survey()</i> </div>
+#### <div id = "f66" ><i>OecdData( country\_code, **args ).economic\_situation\_survey()</i> </div>
 
 <ul>
 <li>Returns national economic situation survey.</li>
@@ -2631,7 +2596,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.economic_situation_survey()
 ```
 
@@ -2653,7 +2618,7 @@ oecd.economic_situation_survey()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f67" ><i>oecdData( country\_code, **args ).consumer\_confidence\_survey()</i> </div>
+#### <div id = "f67" ><i>OecdData( country\_code, **args ).consumer\_confidence\_survey()</i> </div>
 
 <ul>
 <li>Returns national consumer confidence survey.</li>
@@ -2662,7 +2627,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.consumer_confidence_survey()
 ```
 
@@ -2684,7 +2649,7 @@ oecd.consumer_confidence_survey()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f68" ><i>oecdData( country\_code, **args ).consumer\_price_inflation\_survey()</i></div>
+#### <div id = "f68" ><i>OecdData( country\_code, **args ).consumer\_price_inflation\_survey()</i></div>
 
 <ul>
 <li>Returns consumer price inflation survey.</li>
@@ -2693,7 +2658,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'M' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.consumer_price_inflation_survey()
 ```
 
@@ -2729,7 +2694,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f69" ><i>oecdData( country\_code, **args ).current_account( percent\_of\_gdp = False )</i></div>
+#### <div id = "f69" ><i>OecdData( country\_code, **args ).current_account( percent\_of\_gdp = False )</i></div>
 
 <ul>
 <li>Returns the current account as value or as percent of GDP.</li>
@@ -2738,7 +2703,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q' )
 oecd.current_account(percent_of_gdp = True)
 ```
 
@@ -2760,7 +2725,7 @@ oecd.current_account(percent_of_gdp = True)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f70" ><i>oecdData( country\_code, **args ).goods\_balance( xm = 'balance' )</i></div>
+#### <div id = "f70" ><i>OecdData( country\_code, **args ).goods\_balance( xm = 'balance' )</i></div>
 
 <ul>
 <li>Returns the imported, exported goods or good balance of the current account.</li>
@@ -2775,7 +2740,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q' )
 oecd.goods_balance(xm = 'exports')
 ```
 
@@ -2800,7 +2765,7 @@ oecd.goods_balance(xm = 'exports')
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f71" ><i>oecdData( country\_code, **args ).services\_balance( xm = 'balance' )</i></div>
+#### <div id = "f71" ><i>OecdData( country\_code, **args ).services\_balance( xm = 'balance' )</i></div>
 
 <ul>
 <li>Returns the imported, exported services or services balance of the current account.</li>
@@ -2815,7 +2780,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q' )
 oecd.goods_balance(xm = 'balance')
 ```
 
@@ -2843,7 +2808,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f72" ><i>oecdData( country\_code, **args ).financial\_account( assets\_or\_liabs = None )</i></div>
+#### <div id = "f72" ><i>OecdData( country\_code, **args ).financial\_account( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>Returns the assets, liabilities or net financial account in specified currency.</li>
@@ -2858,7 +2823,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.financial_account(assets_or_liabs = None)
 ```
 
@@ -2882,7 +2847,7 @@ oecd.financial_account(assets_or_liabs = None)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f73" ><i>oecdData( country\_code, **args ).direct\_investment( assets\_or\_liabs = None )</i></div>
+#### <div id = "f73" ><i>OecdData( country\_code, **args ).direct\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>Returns the assets, liabilities or net direct investment of the financial account.</li>
@@ -2896,7 +2861,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.direct_investment(assets_or_liabs = None)
 ```
 
@@ -2919,7 +2884,7 @@ oecd.direct_investment(assets_or_liabs = None)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f74" ><i>oecdData( country\_code, **args ).portfolio\_investment( assets\_or\_liabs = None )</i></div>
+#### <div id = "f74" ><i>OecdData( country\_code, **args ).portfolio\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>Returns the assets, liabilities or net portfolio investment of the financial account.</li>
@@ -2933,7 +2898,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.portfolio_investment(assets_or_liabs = None)
 ```
 
@@ -2956,7 +2921,7 @@ oecd.portfolio_investment(assets_or_liabs = None)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f75" ><i>oecdData( country\_code, **args ).other\_investment( assets\_or\_liabs = None )</i></div>
+#### <div id = "f75" ><i>OecdData( country\_code, **args ).other\_investment( assets\_or\_liabs = None )</i></div>
 
 <ul>
 <li>Returns the assets, liabilities or net other investments of the financial account.</li>
@@ -2970,7 +2935,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.other_investment(assets_or_liabs = None)
 ```
 
@@ -2993,7 +2958,7 @@ oecd.other_investment(assets_or_liabs = None)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f76" ><i>oecdData( country\_code, **args ).financial\_derivatives()</i></div>
+#### <div id = "f76" ><i>OecdData( country\_code, **args ).financial\_derivatives()</i></div>
 
 <ul>
 <li>Returns the net financial derivatives of the financial account.</li>
@@ -3002,7 +2967,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.financial_derivatives()
 ```
 
@@ -3025,7 +2990,7 @@ oecd.financial_derivatives()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f77" ><i>oecdData( country\_code, **args ).reserve\_assets()</i></div>
+#### <div id = "f77" ><i>OecdData( country\_code, **args ).reserve\_assets()</i></div>
 
 <ul>
 <li>Returns the net reserve assets of the financial account.</li>
@@ -3034,7 +2999,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.oecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.reserve_assets()
 ```
 
@@ -3067,10 +3032,11 @@ The scrape is based on Selenium and may not be very stable if the website layout
 
 Furthermore, some of the functions will can for a long-time so it is recommended to use a reasonable <code>datestop</code> value especially for CNBC, Reuters or Bloomberg. 
 
+
 ```python
-# Importing the newsData class
-from finpie import newsData # 
-news = newsData('XOM', 'exxon mobil')
+# Importing the NewsData class
+from finpie import NewsData # 
+news = NewsData('XOM', 'exxon mobil')
 news.head = False # default = false, ensures selenium headless mode
 news.verbose = True # default = False, prints total number of collected articles
 ```
@@ -3080,7 +3046,7 @@ news.verbose = True # default = False, prints total number of collected articles
 
 -----
 
-#### <div id = "f78" ><i>newsData(ticker, keywords).barrons()</i></div>
+#### <div id = "f78" ><i>NewsData(ticker, keywords).barrons()</i></div>
 
 <ul>
 <li>Returns the news headlines from Barrons.com for the specified keywords.</li>
@@ -3090,10 +3056,10 @@ news.verbose = True # default = False, prints total number of collected articles
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.barrons()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 
@@ -3117,7 +3083,7 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f79" ><i>newsData(ticker, keywords).bloomberg()</i></div>
+#### <div id = "f79" ><i>NewsData(ticker, keywords).bloomberg()</i></div>
 
 <ul>
 <li>Returns the news headlines from Bloomberg.com for the specified keywords.</li>
@@ -3127,10 +3093,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.bloomberg()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 
@@ -3154,7 +3120,7 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f80" ><i>newsData(ticker, keywords).cnbc()</i></div>
+#### <div id = "f80" ><i>NewsData(ticker, keywords).cnbc()</i></div>
 
 <ul>
 <li>Returns the news headlines from CNBC for the specified keywords.</li>
@@ -3164,10 +3130,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.cnbc()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 
@@ -3191,7 +3157,7 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f81" ><i>newsData(ticker, keywords).ft()</i></div>
+#### <div id = "f81" ><i>NewsData(ticker, keywords).ft()</i></div>
 
 <ul>
 <li>Returns the news headlines from the Financial Times for the specified keywords.</li>
@@ -3201,10 +3167,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.ft()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 
@@ -3213,7 +3179,12 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
+|    | Link                                          | Headline                                                         | Date          | Description                                                                                                                                                                                                                     | Tag                | Date_Retrieved             | Ticker   |   Comments |   Author | Newspaper   | Search_term   | ID                                                                                                              | Source   | Datetime   |
+|---:|:----------------------------------------------|:-----------------------------------------------------------------|:--------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------|:---------------------------|:---------|-----------:|---------:|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------|:---------|:-----------|
+|  0 | /content/64d7e86e-079c-4502-a9a4-5ab7439c732f | Big Oil gets smaller as Chevron and Exxon losses mount to $9.4bn | July 31, 2020 | ...destruction in the second quarter was unprecedented in the history of modern oil markets,” Neil Chapman, Exxon senior vice-president, told analysts on an investor call.                  “To put it in context, absolute... | Oil & Gas industry | 2020-09-15 17:00:30.619752 | XOM      |        nan |      nan | FT          | exxon mobil   | FTBig Oil gets smaller as Chevron and Exxon losses mount to $9.4bn/content/64d7e86e-079c-4502-a9a4-5ab7439c732f | ft       | 31/07/2020 |
+|  1 | /content/c43ead81-5af3-44de-af1e-b108d6491354 | Exxon shareholders vote against splitting chair and CEO roles    | May 27, 2020  | ...Exxon, said the appointment of a lead director had helped improve oversight.                  A separate resolution calling for increased transparency about Exxon’s lobbying activity won 37.5 per cent support, a...       | Oil & Gas industry | 2020-09-15 17:00:30.619752 | XOM      |        nan |      nan | FT          | exxon mobil   | FTExxon shareholders vote against splitting chair and CEO roles/content/c43ead81-5af3-44de-af1e-b108d6491354    | ft       | 27/05/2020 |
+|  2 | /content/099099e7-615e-447d-a665-b3614d467dfa | Top-rated companies raise $1tn to fill ‘war chests’              | May 26, 2020  | Investment-grade borrowers take advantage of low yields to boost Covid-19 balance sheets                                                                                                                                        | Corporate bonds    | 2020-09-15 17:00:30.619752 | XOM      |        nan |      nan | FT          | exxon mobil   | FTTop-rated companies raise $1tn to fill ‘war chests’/content/099099e7-615e-447d-a665-b3614d467dfa              | ft       | 26/05/2020 |
+
 
 
 </small></small></center>
@@ -3223,7 +3194,7 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f82" ><i>newsData(ticker, keywords).nyt()</i></div>
+#### <div id = "f82" ><i>NewsData(ticker, keywords).nyt()</i></div>
 
 <ul>
 <li>Returns the news headlines from the New York Times for the specified keywords.</li>
@@ -3233,10 +3204,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.nyt()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 
@@ -3260,7 +3231,7 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f83" ><i>newsData(ticker, keywords).reuters()</i></div>
+#### <div id = "f83" ><i>NewsData(ticker, keywords).reuters()</i></div>
 
 <ul>
 <li>Returns the news headlines from Reuters for the specified keywords.</li>
@@ -3270,10 +3241,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.reuters()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 
@@ -3297,7 +3268,7 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f84" ><i>newsData(ticker, keywords).seeking\_alpha()</i></div>
+#### <div id = "f84" ><i>NewsData(ticker, keywords).seeking\_alpha()</i></div>
 
 <ul>
 <li>Returns the news headlines from Seeking Alpha for the specified keywords.</li>
@@ -3307,10 +3278,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.seeking_alpha()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 <i> Output </i>
@@ -3334,7 +3305,7 @@ df = news.filter_data(df)
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f85" ><i>newsData(ticker, keywords).wsj()</i></div>
+#### <div id = "f85" ><i>NewsData(ticker, keywords).wsj()</i></div>
 
 <ul>
 <li>Returns the news headlines from the Wall Street Journal for the specified keywords.</li>
@@ -3344,10 +3315,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 # retrieve news article for a given search term
-news = newsData('XOM', 'exxon mobil')
+news = NewsData('XOM', 'exxon mobil')
 df = news.wsj()
 # filter news headlines with a keyword list
-ns.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
+news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
 

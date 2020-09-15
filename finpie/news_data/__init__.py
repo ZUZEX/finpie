@@ -23,6 +23,6 @@
 # SOFTWARE.
 #
 
-from .news import newsData
+from .news import NewsData
 
-__all__ = ['newsData']
+__all__ = ['NewsData']

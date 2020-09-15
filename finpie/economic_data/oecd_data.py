@@ -23,11 +23,10 @@
 # SOFTWARE.
 #
 
-
 import pandas as pd
+# from finpie.base import DataBase
 
-
-class oecdData(object):
+class OecdData(object):
 
     def __init__(self, country_code = 'all', freq = 'Q', currency_code = 'CXCU'):
 
@@ -41,36 +40,21 @@ class oecdData(object):
                 'M', monthly
                 'Q', quarterly (default)
                 'A', annually
-
-
-            Only for trade indicators:
-                'NCML', national currency monthly level
-                'NCMLSA', national currency monthly level seasonally adjusted
-                'CXML', dollar converted monthly level
-                'CXMLSA', dollar converted monthly level seasonally adjusted
-
-            other codes...
-            IXOB, index
-            IXOBSA, index seasonally adjusted
-            IXNSA, normalised index seasonally adjusted
-            ST, rate or level
-            STSA, rate or level seasonally adjusted
-            GY, growth rate
-            GYSA, growth rate seasonally adjusted
-            ML, monthly level
-            QL, quarterly level
-            BLSA, balanced level seasonally adjusted
         '''
 
         self.country_code = country_code
         self.freq = freq
         self.currency_code = currency_code
-
+        self.all_countries = '+'.join( [ 'AUS', 'AUT', 'BEL', 'CAN', 'CHL', 'COL', 'CZE',
+                                'DNK','EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'ISL',
+                                'IRL', 'ISR', 'ITA', 'JPN', 'KOR', 'LVA', 'LTU', 'LUX',
+                                'MEX', 'NLD', 'NZL', 'NOR', 'POL', 'PRT', 'SVK', 'SVN',
+                                'ESP', 'SWE', 'CHE', 'TUR', 'GBR', 'USA', 'EA19', 'EU27_2020',
+                                'G-7', 'OECD', 'NMEC', 'ARG', 'BRA', 'CHN', 'CRI', 'IND',
+                                'IDN', 'RUS', 'SAU', 'ZAF' ] )
         # seasnonally adjusted or not..
-        # index levels or rates...
-        # monthly or quarterly levels
+        # index levels or growth...
 
-    # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
     # - - - - - - - - - - - - oced current account  - - - - - - - - - - - - - - - -
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
@@ -82,7 +66,7 @@ class oecdData(object):
             code1 = 'B6BLTT01'
             code2 = f'.{self.currency_code}.{self.freq}'
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BOP6/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}')
+            df = self._get_oecd(f'MEI_BOP6/{code1}.{self.all_countries}{code2}')
         else:
             df = self._get_oecd(f'MEI_BOP6/{code1}.{self.country_code.upper()}{code2}')
         return df
@@ -97,7 +81,7 @@ class oecdData(object):
         code2 = f'.{self.currency_code}.{self.freq}'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BOP6/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}')
+            df = self._get_oecd(f'MEI_BOP6/{code1}.{self.all_countries}{code2}')
         else:
             df = self._get_oecd(f'MEI_BOP6/{code1}.{self.country_code.upper()}{code2}')
         return df
@@ -112,7 +96,7 @@ class oecdData(object):
         code2 = f'.{self.currency_code}.{self.freq}'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BOP6/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}')
+            df = self._get_oecd(f'MEI_BOP6/{code1}.{self.all_countries}{code2}')
         else:
             df = self._get_oecd(f'MEI_BOP6/{code1}.{self.country_code.upper()}{code2}')
         return df
@@ -193,10 +177,10 @@ class oecdData(object):
             code1 = 'LOLITOAA'
         else:
             code1 = subject
-        code2 = f'.{self.freq}'
+        code2 = f'.M'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_CLI/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
+            df = self._get_oecd(f'MEI_CLI/{code1}.{self.all_countries}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI_CLI/{code1}.{self.country_code.upper()}{code2}',
@@ -207,10 +191,10 @@ class oecdData(object):
 
     def cci(self):
         code1 = 'CSCICP03'
-        code2 = f'.{self.freq}'
+        code2 = f'.M'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_CLI/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
+            df = self._get_oecd(f'MEI_CLI/{code1}.{self.all_countries}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI_CLI/{code1}.{self.country_code.upper()}{code2}',
@@ -221,10 +205,10 @@ class oecdData(object):
 
     def bci(self):
         code1 = 'BSCICP03'
-        code2 = f'.{self.freq}'
+        code2 = f'.M'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_CLI/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
+            df = self._get_oecd(f'MEI_CLI/{code1}.{self.all_countries}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI_CLI/{code1}.{self.country_code.upper()}{code2}',
@@ -244,7 +228,7 @@ class oecdData(object):
         code2 = f'.BLSA.{self.freq.upper()}'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BTS_COS/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
+            df = self._get_oecd(f'MEI_BTS_COS/{code1}.{self.all_countries}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI_BTS_COS/{code1}.{self.country_code.upper()}{code2}',
@@ -258,7 +242,7 @@ class oecdData(object):
         code2 = f'.BLSA.{self.freq.upper()}'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BTS_COS/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
+            df = self._get_oecd(f'MEI_BTS_COS/{code1}.{self.all_countries}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI_BTS_COS/{code1}.{self.country_code.upper()}{code2}',
@@ -271,17 +255,12 @@ class oecdData(object):
         code2 = f'.BLSA.{self.freq.upper()}'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BTS_COS/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}',
+            df = self._get_oecd(f'MEI_BTS_COS/{code1}.{self.all_countries}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI_BTS_COS/{code1}.{self.country_code.upper()}{code2}',
                             measure = False)
         return df
-
-
-    # TO DO:
-    # BUSINESS TENDENCY SURVEYS
-    # # https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/MEI_BTS_COS/BS+BSPR+BSPRTE+BSPRFT+BSFG+BSFGLV+BSOB+BSOBLV+BSOI+BSOITE+BSXR+BSXRLV+BSSP+BSSPFT+BSEM+BSEMFT+BSCU+BSCURT+BSBU+BSBUCT+BSCI+BC+BCBU+BCBUTE+BCCI+BCOB+BCOBLV+BCEM+BCEMFT+BCSP+BCSPFT+BR+BRBU+BRBUTE+BRBUFT+BRCI+BRVS+BRVSLV+BREM+BREMFT+BROD+BRODFT+BV+BVBU+BVBUTE+BVCI+BVDE+BVDETE+BVDEFT+BVEM+BVEMTE+BVEMFT+BN+BNBU+BNBUCT+BNBUFT+BNRM+BNRMTE+BNEM+BNEMTE+BNEMFT+BNOD+BNODTE.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+IRL+ISR+ITA+JPN+KOR+LVA+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+NMEC+BRA+CHN+IND+IDN+RUS+ZAF.BLSA.{self.freq}+M/all?startTime=2019-Q1&endTime=2020-Q3
 
 
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
@@ -330,20 +309,41 @@ class oecdData(object):
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
 
-    def monetary_aggregates_m1(self):
+    def monetary_aggregates_m1(self, index = True, seasonally_adjusted = True):
         '''
         Check national currency or non national currency
+
+        ST
+        STSA
+        IXOBSA
         '''
         code1 = 'MANMM101'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA+{self.currency_code}.{self.freq}'
+            else:
+                code2 = f'.STSA+{self.currency_code}.{self.freq}'
+        else:
+            code2 = f'.ST+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def monetary_aggregates_m3(self):
+
+    def monetary_aggregates_m3(self, index = True, seasonally_adjusted = True):
         '''
         Check national currency or non national currency
+
+        ST
+        STSA
+        IXOBSA
         '''
         code1 = 'MABMM301'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA+{self.currency_code}.{self.freq}'
+            else:
+                code2 = f'.STSA+{self.currency_code}.{self.freq}'
+        else:
+            code2 = f'.ST+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def interbank_rates(self):
@@ -351,7 +351,7 @@ class oecdData(object):
         Check national currency or non national currency
         '''
         code1 = 'IRSTCI01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.ST+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def short_term_rates(self):
@@ -359,7 +359,7 @@ class oecdData(object):
         Check national currency or non national currency
         '''
         code1 = 'IR3TBB01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.ST+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def long_term_rates(self):
@@ -367,32 +367,40 @@ class oecdData(object):
         Check national currency or non national currency
         '''
         code1 = 'IRLTLT01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.ST+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def all_share_prices(self):
         code1 = 'SPASTT01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.IXOB+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def share_prices_industrials(self):
         code1 = 'SPINTT01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.IXOB+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def usd_exchange_rates_spot(self):
         code1 = 'CCUSSP01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.ST+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def usd_exchange_rates_average(self):
+    def usd_exchange_rates_average(self, level = 'level' ):
+
+        '''
+        level = ST
+        index = IXOB
+        '''
         code1 = 'CCUSMA02'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        if level == 'level':
+            code2 = f'.ST+{self.currency_code}.{self.freq}'
+        elif level == 'index':
+            code2 = f'.IXOB+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
     def rer_overall(self):
         code1 = 'CCRETT01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+{self.currency_code}.{self.freq}'
+        code2 = f'.IXOB+{self.currency_code}.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
@@ -400,14 +408,36 @@ class oecdData(object):
     # trade
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
-    def exports_value(self):
+    def exports_value(self, growth = False, seasonally_adjusted = False):
         code1 = 'XTEXVA01'
-        code2 = f'.NCML+NCMLSA+CXML+CXMLSA+GYSA.{self.freq}' # other currency codes
+        if growth:
+            code2 = f'.GYSA.{self.freq}' # other currency codes
+        elif seasonally_adjusted:
+            if 'CX' in self.currency_code:
+                code2 = f'.CXMLSA.{self.freq}' # other currency codes
+            else:
+                code2 = f'.NCMLSA.{self.freq}' # other currency codes
+        else:
+            if 'CX' in self.currency_code:
+                code2 = f'.CXML.{self.freq}' # other currency codes
+            else:
+                code2 = f'.NCML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def imports_value(self):
+    def imports_value(self, growth = False, seasonally_adjusted = False):
         code1 = 'XTIMVA01'
-        code2 = f'.NCML+NCMLSA+CXML+CXMLSA+GYSA.{self.freq}'
+        if growth:
+            code2 = f'.GYSA.{self.freq}' # other currency codes
+        elif seasonally_adjusted:
+            if 'CX' in self.currency_code:
+                code2 = f'.CXMLSA.{self.freq}' # other currency codes
+            else:
+                code2 = f'.NCMLSA.{self.freq}' # other currency codes
+        else:
+            if 'CX' in self.currency_code:
+                code2 = f'.CXML.{self.freq}' # other currency codes
+            else:
+                code2 = f'.NCML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
@@ -426,24 +456,52 @@ class oecdData(object):
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
 
-    def cpi_total(self):
+    def cpi_total(self, growth = False, seasonally_adjusted = False):
         code1 = 'CPALTT01'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+
+        if seasonally_adjusted:
+            if growth:
+                code2 = f'.GY.{self.freq}' # other currency codes
+            else:
+                code2 = f'.IXOBSA.{self.freq}' # other currency codes
+        else:
+            if growth:
+                code2 = f'.GY.{self.freq}' # other currency codes
+            else:
+                code2 = f'.IXOB.{self.freq}' # other currency codes
         return self._main_indicator_helper(code1, code2)
 
     def cpi_city_total(self):
         code1 = 'CPALCY01'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        code2 = f'.IXOB.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def cpi_non_food_non_energy(self):
+    def cpi_non_food_non_energy(self, growth = False, seasonally_adjusted = False):
         code1 = 'CPGRLE01'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if seasonally_adjusted:
+            if growth:
+                code2 = f'.GY.{self.freq}' # other currency codes
+            else:
+                code2 = f'.IXOBSA.{self.freq}' # other currency codes
+        else:
+            if growth:
+                code2 = f'.GY.{self.freq}' # other currency codes
+            else:
+                code2 = f'.IXOB.{self.freq}' # other currency codes
         return self._main_indicator_helper(code1, code2)
 
-    def cpi_energy(self):
+    def cpi_energy(self, growth = False, seasonally_adjusted = False):
         code1 = 'CPGREN01'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if seasonally_adjusted:
+            if growth:
+                code2 = f'.GY.{self.freq}' # other currency codes
+            else:
+                code2 = f'.IXOBSA.{self.freq}' # other currency codes
+        else:
+            if growth:
+                code2 = f'.GY.{self.freq}' # other currency codes
+            else:
+                code2 = f'.IXOB.{self.freq}' # other currency codes
         return self._main_indicator_helper(code1, code2)
 
 
@@ -454,38 +512,69 @@ class oecdData(object):
 
     def gdp_deflator(self):
         code1 = 'NAGIGP01'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        code2 = f'.IXOBSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_total(self):
+    def gdp_total(self, growth = True, index = False):
         code1 = 'NAEXKP01'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if growth:
+            code2 = f'GYSA.{self.freq}'
+        elif index:
+            code2 = f'IXOBSA.{self.freq}'
+        else:
+            code2 = f'STSA.{self.freq}'
+
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_final_consumption(self):
+    def gdp_final_consumption(self, growth = True, index = False):
         code1 = 'NAEXKP02'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if growth:
+            code2 = f'GYSA.{self.freq}'
+        elif index:
+            code2 = f'IXOBSA.{self.freq}'
+        else:
+            code2 = f'STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_government_consumption(self):
+    def gdp_government_consumption(self, growth = True, index = False):
         code1 = 'NAEXKP03'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if growth:
+            code2 = f'GYSA.{self.freq}'
+        elif index:
+            code2 = f'IXOBSA.{self.freq}'
+        else:
+            code2 = f'STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
-    def gdp_fixed_capital_formation(self):
+    def gdp_fixed_capital_formation(self, growth = True, index = False):
         code1 = 'NAEXKP04'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if growth:
+            code2 = f'GYSA.{self.freq}'
+        elif index:
+            code2 = f'IXOBSA.{self.freq}'
+        else:
+            code2 = f'STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_exports(self):
+    def gdp_exports(self, growth = True, index = False):
         code1 = 'NAEXKP06'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if growth:
+            code2 = f'GYSA.{self.freq}'
+        elif index:
+            code2 = f'IXOBSA.{self.freq}'
+        else:
+            code2 = f'STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_imports(self):
+    def gdp_imports(self, growth = True, index = False):
         code1 = 'NAEXKP07'
-        code2 = f'.IXOB+IXOBSA+GY+GYSA.{self.freq}'
+        if growth:
+            code2 = f'GYSA.{self.freq}'
+        elif index:
+            code2 = f'IXOBSA.{self.freq}'
+        else:
+            code2 = f'STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
@@ -493,34 +582,78 @@ class oecdData(object):
     # production and sales
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
-
-    def total_manufacturing_index(self):
+    def total_manufacturing_index(self, index = True, seasonally_adjusted = True):
         '''
 
         '''
         code1 = 'PRMNTO01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
+        if seasonally_adjusted:
+            if index :
+                code2 = f'.IXOBSA.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QLSA.{self.freq}'
+                else:
+                    code2 = f'.MLSA.{self.freq}'
+        else:
+            if index:
+                code2 = f'.IXOB.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QL.{self.freq}'
+                else:
+                    code2 = f'.ML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def total_industry_production_ex_construction(self):
+    def total_industry_production_ex_construction(self, index = True, seasonally_adjusted = True):
         '''
 
         '''
         code1 = 'PRINTO01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QLSA.{self.freq}'
+                else:
+                    code2 = f'.MLSA.{self.freq}'
+        else:
+            if index:
+                code2 = f'.IXOB.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QL.{self.freq}'
+                else:
+                    code2 = f'.ML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
-    def total_construction(self):
+    def total_construction(self, index = True, seasonally_adjusted = True):
         '''
 
         '''
         code1 = 'PRCNTO01'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QLSA.{self.freq}'
+                else:
+                    code2 = f'.MLSA.{self.freq}'
+        else:
+            if index:
+                code2 = f'.IXOB.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QL.{self.freq}'
+                else:
+                    code2 = f'.ML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
-    def total_retail_trade(self, measure = 'value'):
+    def total_retail_trade(self, measure = 'value', index = True, seasonally_adjusted = True):
         '''
 
         '''
@@ -528,25 +661,59 @@ class oecdData(object):
             code1 = 'SLRTTO01' # volume instead of value
         else:
             code1 = 'SLRTTO02' # default value measure
-        code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QLSA.{self.freq}'
+                else:
+                    code2 = f'.MLSA.{self.freq}'
+        else:
+            if index:
+                code2 = f'.IXOB.{self.freq}'
+            else:
+                if self.freq in 'AQ':
+                    code2 = f'.QL.{self.freq}'
+                else:
+                    code2 = f'.ML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
-    def passenger_car_registration(self):
+    def passenger_car_registration(self, index = True, seasonally_adjusted = True):
         '''
 
         '''
         code1 = 'SLRTCR03'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA.{self.freq}'
+            else:
+                code2 = f'.MLSA.{self.freq}'
+        else:
+            if index:
+                code2 = f'.IXOB.{self.freq}'
+            else:
+                code2 = f'.ML.{self.freq}'
+
         return self._main_indicator_helper(code1, code2)
 
 
-    def construction_permits_issued(self):
+    def construction_permits_issued(self, index = True, seasonally_adjusted = True):
         '''
 
         '''
         code1 = 'ODCNPI03'
-        code2 = f'.ST+STSA+IXOB+IXOBSA+ML+MLSA+QL+QLSA.{self.freq}'
+        if seasonally_adjusted:
+            if index:
+                code2 = f'.IXOBSA.{self.freq}'
+            else:
+                code2 = f'.MLSA.{self.freq}'
+        else:
+            if index:
+                code2 = f'.IXOB.{self.freq}'
+            else:
+                code2 = f'.ML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
@@ -588,7 +755,7 @@ class oecdData(object):
             code1 = codes[2] #'B6FATT01'
 
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI_BOP6/{code1}.AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF{code2}')
+            df = self._get_oecd(f'MEI_BOP6/{code1}.{self.all_countries}{code2}')
         else:
             df = self._get_oecd(f'MEI_BOP6/{code1}.{self.country_code.upper()}{code2}')
         return df
@@ -596,7 +763,7 @@ class oecdData(object):
 
     def _main_indicator_helper(self, code1, code2):
         if self.country_code == 'all':
-            df = self._get_oecd(f'MEI/AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU27_2020+G-7+OECD+NMEC+ARG+BRA+CHN+CRI+IND+IDN+RUS+SAU+ZAF.{code1}{code2}',
+            df = self._get_oecd(f'MEI/{self.all_countries}.{code1}{code2}',
                             measure = False)
         else:
             df = self._get_oecd(f'MEI/{code1}.{self.country_code.upper()}{code2}',
@@ -604,8 +771,17 @@ class oecdData(object):
         return df
 
 
-        '''
-        main economic indicators
-        'https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/MEI/AUS+AUT+BEL+CAN+CHL+COL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EA19+EU28+G4E+G-7+NAFTA+OECDE+G-20+OECD+SDR+ONM+A5M+NMEC+ARG+BRA+BGR+CHN+CRI+CYP+IND+IDN+MLT+ROU+RUS+SAU+ZAF.LO+LORS+LORSGP+LORSGPRT+LORSGPNO+LORSGPTD+LORSGPOR+LOLI+LOLITO+LOLITOAA+LOLITONO+LOLITOTR+LOCO+LOCOPA+LOCOPANO+LOCOPAOR+LOCOAB+LOCOABNO+LOCOABOR+LOCOBS+LOCOBSNO+LOCOBSOR+LOCOBU+LOCOBUNO+LOCOBUOR+LOCOBD+LOCOBDNO+LOCOBDOR+LOCOBE+LOCOBENO+LOCOBEOR+LOCOBX+LOCOBXNO+LOCOBXOR+LOCOBF+LOCOBFNO+LOCOBFOR+LOCOBO+LOCOBONO+LOCOBOOR+LOCOBI+LOCOBINO+LOCOBIOR+LOCOBP+LOCOBPNO+LOCOBPOR+LOCOBC+LOCOBCNO+LOCOBCOR+LOCOBK+LOCOBKNO+LOCOBKOR+LOCOVR+LOCOVRNO+LOCOVROR+LOCODW+LOCODWNO+LOCODWOR+LOCOPC+LOCOPCNO+LOCOPCOR+LOCOCI+LOCOCINO+LOCOCIOR+LOCOCE+LOCOCENO+LOCOCEOR+LOCOEX+LOCOEXNO+LOCOEXOR+LOCOEM+LOCOEMNO+LOCOEMOR+LOCOTX+LOCOTXNO+LOCOTXOR+LOCOXG+LOCOXGNO+LOCOXGOR+LOCOHS+LOCOHSNO+LOCOHSOR+LOCOTM+LOCOTMNO+LOCOTMOR+LOCOMG+LOCOMGNO+LOCOMGOR+LOCOIS+LOCOISNO+LOCOISOR+LOCOLT+LOCOLTNO+LOCOLTOR+LOCOMA+LOCOMANO+LOCOMAOR+LOCONT+LOCONTNO+LOCONTOR+LOCOOD+LOCOODNO+LOCOODOR+LOCOPP+LOCOPPNO+LOCOPPOR+LOCOPB+LOCOPBNO+LOCOPBOR+LOCOPE+LOCOPENO+LOCOPEOR+LOCOPG+LOCOPGNO+LOCOPGOR+LOCOPQ+LOCOPQNO+LOCOPQOR+LOCOPM+LOCOPMNO+LOCOSL+LOCOSLNO+LOCOSLOR+LOCOSP+LOCOSPNO+LOCOSPOR+LOCOST+LOCOSTNO+LOCOSTOR+LOCOSI+LOCOSINO+LOCOSIOR+LOCOSK+LOCOSKNO+LOCOSKOR+LOCOTT+LOCOTTNO+LOCOTTOR+LOCOTA+LOCOTANO+LOCOTAOR.ST+STSA+IXOB+IXOBSA+GY+GYSA.{self.freq}+M'
 
-        '''
+'''
+Some code meanings...
+IXOB, index
+IXOBSA, index seasonally adjusted
+IXNSA, normalised index seasonally adjusted
+ST, rate or level
+STSA, rate or level seasonally adjusted
+GY, growth rate
+GYSA, growth rate seasonally adjusted
+ML, monthly level
+QL, quarterly level
+BLSA, balanced level seasonally adjusted
+'''

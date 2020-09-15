@@ -23,6 +23,6 @@
 # SOFTWARE.
 #
 
-from .oecd_data import oecdData
+from .oecd_data import OecdData
 
-__all__ = ['oecdData']
+__all__ = ['OecdData']

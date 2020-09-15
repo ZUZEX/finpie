@@ -23,9 +23,9 @@
 # SOFTWARE.
 #
 
-from .finviz import finvizData
-from .macrotrends import macrotrendsData
-from .mwatch import mwatchData
-from .yahoo import yahooData
+from .finviz import FinvizData
+from .macrotrends import MacrotrendsData
+from .mwatch import MwatchData
+from .yahoo import YahooData
 
-__all__ = ['yahooData', 'mwatchData', 'finvizData', 'macrotrendsData']
+__all__ = ['YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData']

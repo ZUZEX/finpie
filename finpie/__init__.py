@@ -24,14 +24,14 @@
 #
 
 # Economic data
-from finpie.economic_data.oecd_data import oecdData
+from finpie.economic_data.oecd_data import OecdData
 # Fundamental data
-from finpie.fundamental_data.finviz import finvizData
-from finpie.fundamental_data.macrotrends import macrotrendsData
-from finpie.fundamental_data.mwatch import mwatchData
-from finpie.fundamental_data.yahoo import yahooData
+from finpie.fundamental_data.finviz import FinvizData
+from finpie.fundamental_data.macrotrends import MacrotrendsData
+from finpie.fundamental_data.mwatch import MwatchData
+from finpie.fundamental_data.yahoo import YahooData
 # News data
-from finpie.news_data.news import newsData
+from finpie.news_data.news import NewsData
 # Other data
 from finpie.other_data.stock_symbols import global_tickers
 from finpie.other_data.stock_symbols import nasdaq_tickers
@@ -48,5 +48,5 @@ __all__ = [ 'alpha_vantage_prices', 'tingo_prices', 'iex_intraday',
             'yahoo_prices', 'yahoo_option_chain',
             'historical_futures_contracts', 'futures_contracts',
             'nasdaq_tickers', 'global_tickers',
-            'yahooData', 'mwatchData', 'finvizData', 'macrotrendsData',
-            'oecdData', 'newsData']
+            'YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData',
+            'OecdData', 'NewsData']

@@ -23,36 +23,29 @@
 # SOFTWARE.
 #
 
-
-from bs4 import BeautifulSoup as bs
-from requests_html import HTMLSession
-import pandas as pd
 import numpy as np
+import pandas as pd
+from finpie.base import DataBase
 
-from finpie.fundamental_data.fundamental_base import Fundamental
+class MwatchData( DataBase ):
 
-
-
-class mwatchData( Fundamental ):
-
-    def __init__(self, ticker):
+    def __init__(self, ticker, freq = 'A'):
         self.ticker = ticker
+        self.freq = freq
 
-    def _download(self, sheet, freq = 'annual'):
+    def _download(self, sheet):
         '''
 
 
         '''
-        if freq.lower() == 'annual' or freq.lower() == 'a':
+        if self.freq.lower() == 'annual' or self.freq.lower() == 'a':
             url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}'
-        elif freq.lower() == 'quarterly' or freq.lower() == 'q':
+        elif self.freq.lower() == 'quarterly' or self.freq.lower() == 'q':
             url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}/quarter'
         else:
             print('Please specify annual or quartlery frequency.')
             return None
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs(r.content, 'html5lib')
+        soup = self._get_session(url)
         df = pd.concat( [ pd.read_html(str(s))[0] for s in soup.find('div', class_ = 'financials').find_all('table') ] )
         df = df.astype(str)
         df.iloc[:,0][ df.iloc[:,0] == 'nan' ]= df[ df.iloc[:,0] == 'nan' ].iloc[:,-1]
@@ -92,31 +85,31 @@ class mwatchData( Fundamental ):
         return self._col_to_float( df )
 
 
-    def income_statement(self, freq = 'annual'):
+    def income_statement(self):
         '''
 
         '''
-        return self._download('income', freq)
+        return self._download('income')
 
 
-    def balance_sheet(self, freq = 'annual'):
+    def balance_sheet(self):
         '''
 
         '''
-        return self._download('balance-sheet', freq)
+        return self._download('balance-sheet')
 
 
-    def cashflow_statement(self, freq = 'annual'):
+    def cashflow_statement(self):
         '''
 
         '''
-        return self._download('cash-flow', freq)
+        return self._download('cash-flow')
 
-    def statements(self, freq = 'annual'):
+    def statements(self):
         '''
 
         '''
-        income_statement = self.mwatch_income_statement(freq)
-        balance_sheet = self.mwatch_balance_sheet(freq)
-        cashflow_statement = self.mwatch_cashflow_statement(freq)
+        income_statement = self.mwatch_income_statement()
+        balance_sheet = self.mwatch_balance_sheet()
+        cashflow_statement = self.mwatch_cashflow_statement()
         return income_statement, balance_sheet, cashflow_statement

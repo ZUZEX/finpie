@@ -23,175 +23,31 @@
 # SOFTWARE.
 #
 
-
-# Import files
-
-# Load packages
-import sys
-import os
 import time
 import random
 import numpy as np
 import pandas as pd
 import datetime as dt
 from bs4 import BeautifulSoup as bs
-import dask.dataframe as dd
-from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
+from finpie.news_data.clean_news import CleanNews
 
-
-
-class CleanText():
-    def __init__(self):
-        self.months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', \
-                       'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' }
-        self.filterz = [ ' ' ]
-
-    def _format_date( self, date ):
-        y = str(date.year)
-        if len(str(date.month) ) < 2:
-            m = '0' + str(date.month)
-        else:
-            m = str(date.month)
-        if len(str(date.day) ) < 2:
-            d = '0' + str(date.day)
-        else:
-            d =  str(date.day)
-        return y, m, d
-
-
-    def _clean_dates(self, data):
-
-        months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', \
-                       'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' }
-        week_days = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
-
-        dayz = [ 'Today', 'Yesterday' ]
-
-        data['Datetime'] = np.nan
-        hour = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data.Date) if 'hour' in hour.lower() ]
-        for i, h in hour:
-            data.Datetime.iloc[i] = data.Date_Retrieved.iloc[i] - dt.timedelta( hours = int(h) )
-
-        week = [ (idx, w.split(' ')[1:]) for idx, w in enumerate(data.Date) if any(wd in w.split(' ')[0] for wd in week_days) ]
-        for i, w in week:
-            if len(w) == 2:
-                data.loc[i, 'Datetime'] = pd.to_datetime( w[1].replace(',', '')  + '/' + months[w[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y' )
-            else:
-                data.loc[i, 'Datetime'] = pd.to_datetime( w[1].replace(',', '')  + '/' + months[w[0][:3].lower()] + '/' + str(w[2]), format = '%d/%m/%Y' )
-
-        day = [ (idx, w.split(' ')[0].replace(',', '')) for idx, w in enumerate(data.Date) if any(wd in w.split(' ')[0].replace(',', '') for wd in dayz) ]
-        for i, w in day:
-            if w == 'Today':
-                data.Datetime.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today(),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
-            elif w == 'Yesterday':
-                data.Datetime.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today() - dt.timedelta(days = 1),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
-
-        hes = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data.Date) if 'h ago' in hour.lower() ]
-        for i, h in hes:
-            data.Datetime.iloc[i] = data.Date_Retrieved.iloc[i] - dt.timedelta( hours = int(h.replace('h', '')) )
-
-
-        for source in np.unique(data.Source):
-            if source == 'sa':
-                pass
-            elif source == 'nyt':
-                yes = [ (idx, d.split(' ')[:2]) for idx, d in enumerate(data.Date) if len(d.split(' ')[-1]) < 3 ]
-                for i, y in yes:
-                    data.Datetime.iloc[i] = pd.to_datetime( y[1] + '/' + months[y[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y')
-            elif source in ['ft', 'bloomberg']:
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[-1] \
-                                                                                             for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
-            elif source in ['barrons', 'wsj']:
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
-                                                                                                     for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
-            elif source == 'reuters':
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
-                                                                                                     for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
-            elif source == 'cnbc':
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[0].split('/')[1] + '/' + d.split(' ')[0].split('/')[0] + '/' + d.split(' ')[0].split('/')[2] \
-                                                                                                     for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
-        data.Datetime = data.Datetime.dt.strftime('%d/%m/%Y')
-        return data
-
-
-
-    def _clean_duplicates(self, data):
-
-        columns = [ col for col in data.columns if col != 'Date_Retrieved' ]
-        data.drop_duplicates(columns, inplace = True)
-        data.reset_index(drop = True, inplace = True)
-
-        return data
-
-
-    def filter_data(self, data):
-
-        filtered = []
-        for i, n in enumerate(data.Headline):
-            for f in self.filterz:
-                if f in n.lower():
-                    filtered.append( data.ID.iloc[i] )
-                elif f in data.Description.iloc[i].lower():
-                    filtered.append( data.ID.iloc[i] )
-                else:
-                    continue
-
-        data = data[ data.ID.isin(filtered) ]
-        data.reset_index(drop = True, inplace = True)
-
-        return data
-
-
-
-class newsData(CleanText):
+class NewsData(CleanNews):
     def __init__(self, ticker, keywords, head = False, verbose = False):
-        super().__init__()
+        CleanNews.__init__(self)
         self.ticker = ticker
         self.keywords = keywords
-        self.head = head
         self.verbose = verbose
+        # self.datestop = False
 
     #########################################################################
     # initial news scrapes
     #########################################################################
 
-    def _get_chromedriver(self):
-
-        filepath = os.path.dirname(__file__)
-        if '/' in filepath:
-            filepath = '/'.join( filepath.split('/')[:-1]) + '/webdrivers/'
-        elif '\\' in filepath:
-            filepath = '\\'.join( filepath.split('\\')[:-1]) + '\\webdrivers\\'
-
-        if sys.platform == 'darwin':
-            return  filepath + 'chromedriver_mac'
-        elif 'win' in sys.platform:
-            return filepath + 'chromedriver_windows'
-
-
-    def _load_driver(self, caps = None):
-        options = webdriver.ChromeOptions()
-        if not self.head:
-            options.add_argument('--headless')
-
-        print(self._get_chromedriver())
-
-        if caps != None:
-            driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
-        else:
-            driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options ) # chromedriver
-        driver.set_window_size(1400,1000)
-        driver.set_page_load_timeout(1800)
-        driver.delete_all_cookies()
-
-        return driver
-
-    def ft( self ):
+    def ft( self, datestop = False ):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     #                            Financial Times
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -240,14 +96,15 @@ class newsData(CleanText):
                 #articles  = soup.find_all('div', class_ = 'o-teaser__content' )
                 for article in articles:
                     tag.append( article.find('a').text )
-                    headline.append( article.find('div', class_ = 'o-teaser__heading' ).text.replace('\\t', ' ' ).strip() )
+                    headline.append( article.find('div', class_ = 'o-teaser__heading' ).text.replace('\t', ' ').replace('\n', ' ').strip() )
                     link.append( article.find('div', class_ = 'o-teaser__heading' ).find('a').get('href') )
                     try:
-                        description.append( article.find('p', class_ = 'o-teaser__standfirst' ).text )
+                        description.append( article.find('p', class_ = 'o-teaser__standfirst' ).text.replace('\t', ' ').replace('\n', ' ').strip() )
                     except:
                         description.append( 'nan' )
                     date.append( article.find('div', class_ = 'o-teaser__timestamp' ).text )
             return headline, link, date, description, author, tag
+
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         source = 'ft'
 
@@ -264,7 +121,7 @@ class newsData(CleanText):
         url = 'https://www.ft.com/search?q=' + self.keywords.replace(' ', '%20') + '&dateTo=' + y + '-' + m + '-' + d + '&sort=date&expandRefinements=true'
 
 
-        driver = self._load_driver()
+        driver = self._load_driver(caps = 'normal')
 
         try:
             # Set and retrive url
@@ -272,7 +129,7 @@ class newsData(CleanText):
             co = 0
             _delete_elements(driver)
 
-            driver.find_elements_by_xpath('//a[@data-trackable="sort-item"]')[1].click()
+            #driver.find_elements_by_xpath('//a[@data-trackable="sort-item"]')[1].click()
             # Cant get more than 1000 results and need to change date filter when it gives an error
             contents = []
             contents.append( bs( driver.page_source, "lxml" ).find_all('div', class_ = 'o-teaser__content' ) )
@@ -286,6 +143,14 @@ class newsData(CleanText):
                         _delete_elements(driver)
                         contents.append( bs( driver.page_source, "lxml" ).find_all('div', class_ = 'o-teaser__content' ) )
                         co += 1
+
+                        dte = driver.find_elements_by_xpath('//div[@class="o-teaser__timestamp"]')[-1].text
+
+                        if datestop:
+                            if pd.to_datetime( dte ) < pd.to_datetime(datestop):
+                                co = int(max_articles) + 10
+                                break
+
                 except:
                     try:
                         m = self.months[driver.find_elements_by_xpath('//time[@class="o-teaser__timestamp-date"]')[-1].text.lower()[:3]]
@@ -301,10 +166,15 @@ class newsData(CleanText):
                             d =  str(d)
 
                         dte = pd.to_datetime(y + m + d, format = '%Y%m%d') + dt.timedelta(1)
+
+                        if datestop:
+                            if dte < pd.to_datetime(datestop):
+                                co = int(max_articles) + 10
+
                         y, m, d = self._format_date(dte)
                         url = 'https://www.ft.com/search?q=' + self.keywords.replace(' ', '%20') + '&dateTo=' + y + '-' + m + '-' + d + '&sort=date&expandRefinements=true'
                         driver.get( url )
-                        driver.find_elements_by_xpath('//a[@data-trackable="sort-item"]')[1].click()
+                        #driver.find_elements_by_xpath('//a[@data-trackable="sort-item"]')[1].click()
                         _delete_elements(driver)
                         contents.append( bs( driver.page_source, "lxml" ).find_all('div', class_ = 'o-teaser__content' ) )
                         co += 1
@@ -373,10 +243,7 @@ class newsData(CleanText):
 
         url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + start_date + '&max-date=' + end_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
 
-        caps = DesiredCapabilities().CHROME
-        caps["pageLoadStrategy"] = "none"
-
-        driver = self._load_driver(caps)
+        driver = self._load_driver(caps = 'none')
 
         try:
             # Set and retrive url
@@ -403,15 +270,14 @@ class newsData(CleanText):
                         driver.refresh()
                         contents.append(driver.page_source)
 
+            bool = True
             if datestop:
-                stop = pd.to_datetime(datestop)
-                if td_1 < stop:
+                if td_1 < pd.to_datetime(datestop):
                     bool = False
                 # Record progress
                 #_print_progress(i, max-1)
             contents.append(driver.page_source)
 
-            bool = True
             while bool:
                 #try:
                 td_2 = td_1
@@ -421,6 +287,9 @@ class newsData(CleanText):
                 y, m, d = self._format_date(td_1)
                 end_date = y + '/' + m + '/' + d
 
+                if datestop:
+                    if td_1 < pd.to_datetime(datestop):
+                        bool = False
 
                 url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + end_date + '&max-date=' + start_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
                 driver.get(url)
@@ -446,10 +315,7 @@ class newsData(CleanText):
                         except:
                             driver.refresh()
                             contents.append(driver.page_source)
-                if datestop:
-                    stop = pd.to_datetime(datestop)
-                    if td_1 < stop:
-                        bool = False
+
                 #except:
                 #    bool = False
 
@@ -512,16 +378,24 @@ class newsData(CleanText):
         return data
 
 
-    def seeking_alpha(self):
+    def seeking_alpha(self, datestop = False):
         # Note: might be stopping scrape too early
+
+        def _get_date(d):
+            w = d.split(' ')[1:]
+            if len(w) == 2:
+                d = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y' )
+            else:
+                d = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(w[2]), format = '%d/%m/%Y' )
+            return d
 
         source = 'sa'
         url = f'https://seekingalpha.com/symbol/{self.ticker}/news'
-        driver = self._load_driver()
-
+        driver = self._load_driver(caps = 'none')
         try:
             # Set and retrive url
             driver.get(url)
+            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//article')))
 
             k = 0
             t = 20
@@ -541,6 +415,11 @@ class newsData(CleanText):
                 #new_height = driver.execute_script( 'return document.documentElement.scrollHeight;' )
                 #new_number = len(driver.find_elements_by_class_name('symbol_item'))
                 new_number = len(driver.find_elements_by_xpath('//article'))
+
+                if datestop:
+                    d = _get_date(driver.find_elements_by_xpath('//span[@data-test-id="post-list-date"]')[-1].text)
+                    if d < pd.to_datetime(datestop):
+                        k = t + 10
 
                 while new_number == last_number:
 
@@ -631,7 +510,7 @@ class newsData(CleanText):
         return data
 
 
-    def barrons(self):
+    def barrons(self, datestop = False):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Barrons
@@ -641,7 +520,7 @@ class newsData(CleanText):
         source = 'barrons'
         url = 'https://www.barrons.com/search?keyword=' + self.keywords + '&numResults=75&sort=date-desc&author=&searchWindow=0&minDate=&maxDate=&source=barrons&source=other&source=press'
 
-        driver = self._load_driver()
+        driver = self._load_driver(caps = 'normal')
 
         try:
             # Set and retrive url
@@ -660,6 +539,10 @@ class newsData(CleanText):
                     contents.append( bs( driver.page_source, "lxml" ).find('div', class_ = 'section-content').find_all('li' ) )
                     if len(driver.find_elements_by_class_name('headline')) == 0 :
                         bool = False
+                    if datestop:
+                        d = driver.find_elements_by_xpath('//span[@class="date"]')[-1].text
+                        if pd.to_datetime( d ) < pd.to_datetime( datestop ):
+                            bool = False
                 except:
                     bool = False
 
@@ -725,7 +608,7 @@ class newsData(CleanText):
         return data
 
 
-    def bloomberg(self):
+    def bloomberg(self, datestop = False):
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Bloomberg
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -733,15 +616,22 @@ class newsData(CleanText):
         source = 'bloomberg'
         url = 'https://www.bloomberg.com/search?query='  + self.keywords.replace(' ', '%20')
 
-        driver = self._load_driver()
+        driver = self._load_driver(caps = 'none')
 
         try:
             # Set and retrive url
             driver.get(url)
 
-            time.sleep(3)
+            time.sleep(2)
 
             try:
+                driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
+                driver.find_element_by_xpath('//button[@title="Yes, I Accept"]').click()
+                driver.switch_to.default_content()
+            except:
+                pass
+
+            '''try:
                 driver.execute_script("""
                         var element = arguments[0];
                         element.parentNode.removeChild(element);
@@ -757,24 +647,28 @@ class newsData(CleanText):
             except:
                 pass
 
+            try:
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="truste-consent-track"]')))
+                element = driver.find_element_by_xpath('//div[@id="truste-consent-track"]')
+                driver.execute_script("""
+                var element = arguments[0];
+                element.parentNode.removeChild(element);
+                """, element)
+            except:
+                pass'''
 
-            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="truste-consent-track"]')))
-            element = driver.find_element_by_xpath('//div[@id="truste-consent-track"]')
-            driver.execute_script("""
-            var element = arguments[0];
-            element.parentNode.removeChild(element);
-            """, element)
+            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//button[@title="Load More Results"]')))
 
             # click sorting thing
 
             # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             #driver.find_elements_by_class_name('link__a4d2830d ')[7].click()
 
-            element = driver.find_element_by_tag_name('head')
+            '''element = driver.find_element_by_tag_name('head')
             driver.execute_script("""
             var element = arguments[0];
             element.parentNode.removeChild(element);
-            """, element)
+            """, element)'''
 
             k = 0
             while k < 50:
@@ -791,6 +685,11 @@ class newsData(CleanText):
                         #time.sleep(random.randint(1,2))
                         time.sleep( 0.25 )
                         k = 0
+                        if datestop:
+                            d = driver.find_elements_by_xpath( '//div[@class="publishedAt__79f8aaad"]' )[-1].text
+                            if pd.to_datetime( d ) < pd.to_datetime( datestop ):
+                                k = 100
+                                bool = False
                     except:
                         bool = False
 
@@ -874,13 +773,11 @@ class newsData(CleanText):
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Reuters
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', \
-                       'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' }
 
         source = 'reuters'
         url =  'https://www.reuters.com/search/news?blob=' + self.keywords.replace(' ', '+' ) +  '&sortBy=date&dateRange=all'
 
-        driver = self._load_driver()
+        driver = self._load_driver(caps = 'normal')
 
         try:
             # Set and retrive url
@@ -908,7 +805,7 @@ class newsData(CleanText):
                     if datestop:
                         d = driver.find_elements_by_xpath('//h5[@class="search-result-timestamp"]')[-1].text.split(' ')
 
-                        if dt.datetime(int(d[2]), int(months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
+                        if dt.datetime(int(d[2]), int(self.months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
                             bool = False
 
                 except:
@@ -980,7 +877,7 @@ class newsData(CleanText):
 
         url = 'https://www.cnbc.com/search/?query=' + self.keywords.replace(' ', '%20') + '&qsearchterm=' + self.keywords.replace(' ', '%20')
 
-        driver = self._load_driver()
+        driver = self._load_driver(caps = 'normal')
 
         try:
             # Set and retrive url
@@ -1011,9 +908,8 @@ class newsData(CleanText):
                 if datestop:
                     element = driver.find_elements_by_xpath('//span[@class="SearchResult-publishedDate"]')[-1].text
                     element = pd.to_datetime( element.split(' ')[0], format = '%m/%d/%Y' )
-                    if element < pd.to_datetime(datestop, format = '%d/%m/%Y'):
-                        k = 101
-                        break
+                    if element < pd.to_datetime(datestop):
+                        k = 110
                 # SearchResult-searchResultImage
                 #SearchResult-searchResultCard SearchResult-standardVariant
                 try:
@@ -1063,9 +959,8 @@ class newsData(CleanText):
                     if datestop:
                         element = driver.find_elements_by_xpath('//span[@class="SearchResult-publishedDate"]')[-1].text
                         element = pd.to_datetime( element.split(' ')[0], format = '%m/%d/%Y' )
-                        if element < pd.to_datetime(datestop, format = '%d/%m/%Y'):
-                            k = 101
-                            break
+                        if element < pd.to_datetime(datestop):
+                            k = 110
                     k += 1
                     if k >= t:
                         break
@@ -1139,12 +1034,9 @@ class newsData(CleanText):
 
         source = 'nyt'
 
-        months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', \
-                       'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' }
-
         url = 'https://www.nytimes.com/search?dropmab=true&query=' + self.keywords.replace(' ', '%20') + '&sort=newest'
 
-        driver = self._load_driver()
+        driver = self._load_driver(caps = 'normal')
 
         try:
             # Set and retrive url
@@ -1179,7 +1071,7 @@ class newsData(CleanText):
                         last_date = driver.find_elements_by_xpath('//div[@data-testid="todays-date"]')[-1].text
 
                         y = last_date.split(' ')[-1]
-                        m = months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
+                        m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
                         if len(last_date.split(' ')[1].replace(',', '')) < 2:
                             d = '0' + last_date.split(' ')[1].replace(',', '')
                         else:
@@ -1262,3 +1154,14 @@ class newsData(CleanText):
             print('-' * 78)
 
         return data
+
+
+news = NewsData('XOM', 'exxon mobil')
+news.head = False
+df = news.ft(datestop = '2020-06-20')
+
+df.head(3).to_markdown()
+
+
+df.Description.iloc[0].replace('\t', ' ').replace('\n', ' ')
+df.Description.iloc[0].replace('\n', ' ')

@@ -23,15 +23,15 @@
 # SOFTWARE.
 #
 
-import  pandas              as pd
-import  datetime           as     dt
-import  time
-import requests
-import dask.dataframe as dd
-from iexfinance.stocks import get_historical_intraday
-from   alpha_vantage.timeseries import TimeSeries
-from io import StringIO
 import re
+import time
+import requests
+import pandas as pd
+import datetime as dt
+import dask.dataframe as dd
+from io import StringIO
+from alpha_vantage.timeseries import TimeSeries
+from iexfinance.stocks import get_historical_intraday
 
 
 def alpha_vantage_prices(ticker, api_token, start_date = None):
@@ -53,9 +53,6 @@ def alpha_vantage_prices(ticker, api_token, start_date = None):
     data.index = data.date
     data.drop('date', axis = 1, inplace = True)
     return data
-
-
-
 
 
 def tingo_prices( ticker, api_token, start_date = None, end_date = None, freq = '1min'):
@@ -134,9 +131,6 @@ def tingo_forex_intraday( currency_pair, api_token, start_date, end_date = None,
     return df
 '''
 
-
-
-
 def iex_intraday(ticker, api_token, start_date = None, end_date = None):
     '''
 
@@ -163,6 +157,7 @@ def iex_intraday(ticker, api_token, start_date = None, end_date = None):
         else:
             e += 1
         i += 1
+    df.sort_index(ascending = True, inplace = True)
     return df
 
 

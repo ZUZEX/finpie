@@ -23,14 +23,14 @@
 # SOFTWARE.
 #
 
-
-import pandas as pd
 import numpy as np
-from requests_html import HTMLSession
-from bs4 import BeautifulSoup as bs
+import pandas as pd
 import dask.dataframe as dd
-from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
+from bs4 import BeautifulSoup as bs
+from requests_html import HTMLSession
+from concurrent.futures import ThreadPoolExecutor
+
 
 def historical_futures_contracts(date_range):
     '''
