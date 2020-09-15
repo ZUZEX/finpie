@@ -1155,7 +1155,7 @@ class NewsData(CleanNews):
 
         return data
 
-
+'''
 news = NewsData('XOM', 'exxon mobil')
 news.head = False
 df = news.ft(datestop = '2020-06-20')
@@ -1165,3 +1165,4 @@ df.head(3).to_markdown()
 
 df.Description.iloc[0].replace('\t', ' ').replace('\n', ' ')
 df.Description.iloc[0].replace('\n', ' ')
+'''
