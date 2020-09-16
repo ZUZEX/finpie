@@ -19,6 +19,7 @@
 <i>To do list:</i>
 <ul>
 <li> Create test file </li>
+<li> 'Stabilise' and refactor the news scrape..</li>
 <li> Add an earnings transcript section </li>
 <li> Add EIA and USDA data, CFTC COT and potentially add weather data sources (e.g. heating degree days, cooling degree days in NE US) </li>
 <li> Add social media data (Twitter, Stocktwits, Weibo, Reddit WSB?) </li>
@@ -69,7 +70,7 @@
 
 ## <div id="A2">Installation</div>
 
-Python3 is required. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>).
+Python3 is required. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>). 
 
 ```python
 $ pip install finpie

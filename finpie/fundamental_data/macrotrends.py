@@ -36,7 +36,7 @@ from finpie.base import DataBase
 class MacrotrendsData( DataBase ):
 
     def __init__( self, ticker, freq = 'A' ):
-        super.__init__(self)
+        DataBase.__init__(self)
         self.ticker = ticker
         self.freq = freq
 

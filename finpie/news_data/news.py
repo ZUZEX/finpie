@@ -397,7 +397,7 @@ class NewsData(CleanNews):
             # Set and retrive url
             driver.get(url)
 
-            time.sleep(20)
+            time.sleep(4)
 
             element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//article')))
             k = 0
