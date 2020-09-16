@@ -6,14 +6,14 @@
 
 # finpie - a simple library to download some financial data
 
-<p><b>For recreational use. Made for finance students for educational purposes to have easier access to some financial and finance related data.</b></p>
+<p><b>For recreational and educational purposes. Creating easier access to some financial and economic data.</b></p>
 
-<p>This library is an ongoing project designed to facilitate access to some finance related data, however, the library is still far from perfect. It tries to cover most useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and run time.</p> 
+<p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p> 
 
 <p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
 
-<p>If there are any issues or recommendations please feel free to reach out.</p>
+<p>If there are any issues, ideas or recommendations please feel free to reach out.</p>
 
 <p>
 <i>To do list:</i>
@@ -64,11 +64,12 @@
 <li><a href="#A7">News data</a></li>
 <li><a href="#A8">Other data</a></li>
 <li><a href="#A9">Sources</a></li>
+<li><a href="#A10">License</a></li>
 </ol>
 
 ## <div id="A2">Installation</div>
 
-Python3 is required. Pip install is available. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher required for some functions.
+Python3 is required. Google Chrome version <code>84.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>).
 
 ```python
 $ pip install finpie
@@ -76,16 +77,16 @@ $ pip install finpie
 ### Requirements
 
 ```
-alpha_vantage==2.1.0
-beautifulsoup4==4.9.1
-iexfinance==0.4.3
-dask==2.11.0
-numpy==1.18.2
-pandas==1.0.1
-requests==2.22.0
-requests_html==0.10.0
-selenium==3.141.0
-tqdm==4.32.1
+alpha_vantage>=2.1.0
+beautifulsoup4>=4.9.1
+iexfinance>=0.4.3
+dask>=2.11.0
+numpy>=1.18.2
+pandas>=1.0.1
+requests>=2.22.0
+requests_html>=0.10.0
+selenium>=3.141.0
+tqdm>=4.32.1
 ```
 
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -93,7 +94,6 @@ tqdm==4.32.1
 
 
 ## <div id="A3"> Index </div>
-
 
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
@@ -117,7 +117,7 @@ tqdm==4.32.1
 |<li> <a id='i105' href='#f105'>macrotrends.cashflow\_statement()</a> </li>|up to 2005|Slow|
 |<u>Earnings and revenue estimates</u>|||
 |<li> <a id='i11' href='#f11'>yahoo.earnings\_estimates()</a> </li>|Today's data|Fast|
-|<li> <a id='i12' href='#f12'>yahoo.earnings\_estimates\_trends()</a> </li>|Recent trend||
+|<li> <a id='i12' href='#f12'>yahoo.earnings\_estimates\_trends()</a> </li>|Recent trend|Fast|
 |<li> <a id='i13' href='#f13'>yahoo.earnings\_history()</a> </li>|4 quarters|Fast|
 |<li> <a id='i14' href='#f14'>yahoo.revenue\_estimates()</a> </li>|Today's data|Fast|
 |<li> <a id='i15' href='#f15'>yahoo.growth\_estimates()</a> </li>|Today's data|Fast|
@@ -151,7 +151,6 @@ tqdm==4.32.1
 |<li> <a id='i37' href='#f37'>oecd.long\_term\_rates()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i38' href='#f38'>oecd.all\_share\_prices( )</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i39' href='#f39'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i40' href='#f40'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i41' href='#f41'>oecd.usd\_exchange\_rates\_spot()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i42' href='#f42'>oecd.usd\_exchange\_rates\_average( )</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i43' href='#f43'>oecd.rer\_overall()</a> </li>|Timeseries|Not that slow|
@@ -202,7 +201,7 @@ tqdm==4.32.1
 |<b>News data</b>|||
 |<li> <a id='i78' href='#f78'>news.barrons()</a> </li>|Timeseries|Slow|
 |<li> <a id='i79' href='#f79'>news.bloomberg()</a> </li>|Timeseries|Very slow|
-|<li> <a id='i80' href='#f80'>news.cnbc(datestop = False)</a> </li>|Timeseries|Very slow|
+|<li> <a id='i80' href='#f80'>news.cnbc()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i81' href='#f81'>news.ft()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i82' href='#f82'>news.nyt()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i83' href='#f83'>news.reuters()</a> </li>|Timeseries|Very slow|
@@ -211,6 +210,7 @@ tqdm==4.32.1
 |<b>Other data</b>|||
 |<li> <a id='i86' href='#f86'>nasdaq\_tickers()</a> </li>|List of stock tickers|Fast|
 |<li> <a id='i87' href='#f87'>global\_tickers()</a> </li>|List of stock tickers|Slow|
+
 
 -----
 
@@ -226,17 +226,19 @@ The data is pulled from <code>Yahoo Finance</code>, <code>Marketwatch.com</code>
 
 
 ```python
+import finpie # or import finpie.fundamental_data
+
 # Yahoo financial statements, key statistics, earnings estimates, ESG scores, company profiles
-from finpie.fundamental_data import yahoo
+finpie.YahooData(ticker)
 
 # Marketwatch financial statements
-from finpie.fundamental_data import mwatch
+finpie.MwatchData(ticker)
 
 # Finviz insider transactions, analyst ratings, key statistics
-from finpie.fundamental_data import finviz
+finpie.FinvizData(ticker)
 
 # Macrotrends (long-term) financial statements and ratios
-from finpie.fundamental_data import macrotrends
+finpie.MacrotrendsData(ticker)
 ```
 
 <br>
@@ -309,7 +311,7 @@ yahoo.key_metrics()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>FinvizData(ticker).key\_metrics()</i></div>
+#### <div id="f101"><i>FinvizData(ticker).key\_metrics()</i></div>
 
 <ul>
 <li>Returns a dataframe with today's key financial metrics.</li>
@@ -333,11 +335,11 @@ finviz.key_metrics()
 
 </small></small></center>
 
-<div align="right"> <a href="">To index</a> </div>
+<div align="right"> <a href="#i101">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id=""><i>MacrotrendsData(ticker).ratios(freq = 'A')</i></div>
+#### <div id="f102"><i>MacrotrendsData(ticker).ratios(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly financial ratios up to 2005.</li>
@@ -366,7 +368,7 @@ mt.ratios()
 
 </small></small></center>
 
-<div align="right"> <a href="">To index</a> </div>
+<div align="right"> <a href="#i102">To index</a> </div>
 
 
 <br>
@@ -600,7 +602,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>MacrotrendsData(ticker).income\_statement(freq = 'A')</i></div>
+#### <div id="f103"><i>MacrotrendsData(ticker).income\_statement(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly income statements up to 2005.</li>
@@ -631,12 +633,12 @@ mt.income_statement()
 
 </small></small></center>
 
-<div align="right"> <a href="">To index</a> </div>
+<div align="right"> <a href="#i103">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>MacrotrendsData(ticker).balance_sheet(freq = 'A')</i></div>
+#### <div id="f104"><i>MacrotrendsData(ticker).balance_sheet(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly balance sheets up to 2005.</li>
@@ -665,12 +667,12 @@ mt.balance_sheet()
 
 </small></small></center>
 
-<div align="right"> <a href="">To index</a> </div>
+<div align="right"> <a href="#i104">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id=""><i>MacrotrendsData(ticker).cashflow_statement(freq = 'A')</i></div>
+#### <div id="f105"><i>MacrotrendsData(ticker).cashflow_statement(freq = 'A')</i></div>
 
 <ul>
 <li>Returns a dataframe with annual or quarterly cashflow statements up to 2005.</li>
@@ -699,7 +701,7 @@ mt.cashflow_statement()
 
 </small></small></center>
 
-<div align="right"> <a href="">To index</a> </div>
+<div align="right"> <a href="#i105">To index</a> </div>
 
 
 
@@ -1081,13 +1083,15 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 The functions below help to retrieve daily historical price data from <code>Yahoo Finance</code> and <code>AlphaVantage</code> as well as intraday historical data from the <code>IEX Cloud</code> and <code>Tiingo</code>. Tiingo also gets their data from the IEX Cloud but their timeseries are sometimes longer although they only give OHLC data while the download from the IEX Cloud includes volume, number of trades etc..
 
-For <code>AlphaVantage</code> and <code>Tiingo</code> and the <code>IEX Cloud</code> free API keys are available but IEX has a monthly free download limit unfortunately.
+For <a href="https://www.alphavantage.co/support/#api-key">AlphaVantage</a> and <a href="https://www.tiingo.com/">Tiingo</a> and <a href="https://iexcloud.io/cloud-login?r=https%3A%2F%2Fiexcloud.io%2Fconsole%2F#/register">IEX Cloud</a> free API keys are available. Note that IEX has a monthly free download limit unfortunately.
 
 The <code>yahoo\_option\_chain</code> function only retrives the option chain from the last available date from Yahoo Finance.
 
-The <code>historical\_futures\_contracts</code> function enables a bulk download of historical monthly futures contracts up to the year 2000 for currencies, indices, interest rates and commodities including energy, metals and agricultural contracts. The data is downloaded from <code>www.mrci.com</code> but the data is not completely cleaned (yet).
+The <code>historical\_futures\_contracts</code> function enables a bulk download of historical monthly futures contracts up to the year 2000 for currencies, indices, interest rates and commodities including energy, metals and agricultural contracts. The data is downloaded from <a href = "www.mrci.com">www.mrci.com</a> but the data is not completely cleaned (yet).
 
 ```python
+import finpie.price_data
+
 # Price data from Yahoo Finance, AlphaVantage, IEX Cloud or Tiingo 
 from finpie.price_data import price_data
 
@@ -1363,26 +1367,21 @@ The functions below retrieve economic data from the OECD database. The available
 
 The data can be accessed by country or for list of countries and for timeseries specific keyword arguments. Not all timeseries are available for all countries at all frequencies.
 
+For available country codes see <a href="https://www.oecd-ilibrary.org/economics/oecd-style-guide/country-names-codes-and-currencies_9789264243439-8-en">here</a>.
+
 ```python
-from finpie.economic_data import oecd_data
+from finpie.economic_data import oecd_data # or import finpie
 
 # Example for instantiating class for Australia and the USA at monthly frequency with national currencies
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M', currency_code = 'NXCU')
+# or oecd = finpie.OecdData(...) 
 
 # Example for instantiating class for all available countries at quarterly frequency with dollar converted currencies
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q', currency_code = 'CXCU')
+# or oecd = finpie.OecdData(...) 
 
 ```
 
-<i> Available keyword arguments: </i>
-
-
-x
-x
-x
-x
-x
-x
 
 <br>
 
@@ -1397,7 +1396,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f30"><i>OecdData( country\_code, **args ).cli( subject = 'amplitude' )</i>
 
 <ul>
-<li>Returns the OECD composite leading indicator with a given measure.</li>
+<li>Returns the OECD composite leading indicator with a given measure. Only monthly data available.</li>
 <li><i>Subject options:</i></li>
 	<ul>
 		<li>(default) amplitude adjusted</li>
@@ -1416,7 +1415,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'USA' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.cli(subject = 'amplitude')
 ```
 
@@ -1442,13 +1441,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f31"><i>OecdData( country\_code, **args ).cci()</i>
 
 <ul>
-<li>Returns the OECD consumer confidence indicator.</li>
+<li>Returns the OECD consumer confidence indicator. Only monthly data available.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'USA' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.cci()
 ```
 
@@ -1474,13 +1473,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #### <div id = "f32"><i>OecdData( country\_code, **args ).bci()</i>
 
 <ul>
-<li>Returns the OECD business confidence indicator.</li>
+<li>Returns the OECD business confidence indicator. Only monthly data available.</li>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'USA' )
+oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.bci()
 ```
 
@@ -1523,17 +1522,22 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-#### <div id = "f33"><i>OecdData( country\_code, **args ).monetary\_aggregates\_m1()</i>
+#### <div id = "f33"><i>OecdData( country\_code, **args ).monetary\_aggregates\_m1( index = True, seasonally\_adjusted = True )</i>
 
 <ul>
 <li>Returns the M1 monetary aggregate. Not available for all countries.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns an index, <code>index = False</code> returns level values</li>
+	<li><code>seasonally_adjusted = True</code> returns seasonally adjusted index</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
-oecd.monetary_aggregates_m1()
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
+oecd.monetary_aggregates_m1(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -1541,11 +1545,11 @@ oecd.monetary_aggregates_m1()
 
 <center><small><small>
 
-| TIME                | SUBJECT   | Subject                                                                                         | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:------------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-06-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-06 | AUD         |                9 |   3.518 |
-| 1960-07-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-07 | AUD         |                9 |   3.464 |
-| 1960-08-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Australia | M           | 1960-08 | AUD         |                9 |   3.459 |
+| TIME                | SUBJECT   | Subject                                                                                         | Country        | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:------------------------------------------------------------------------------------------------|:---------------|:------------|:--------|:------------|-----------------:|--------:|
+| 1992-01-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Czech Republic | M           | 1992-01 | IDX         |                0 | 10.4902 |
+| 1992-02-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Czech Republic | M           | 1992-02 | IDX         |                0 | 10.4718 |
+| 1992-03-01 00:00:00 | MANMM101  | Monetary aggregates and their components > Narrow money and components > M1 and components > M1 | Czech Republic | M           | 1992-03 | IDX         |                0 | 10.7145 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1554,17 +1558,22 @@ oecd.monetary_aggregates_m1()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f34"><i>OecdData( country\_code, **args ).monetary\_aggregates\_m3()</i>
+#### <div id = "f34"><i>OecdData( country\_code, **args ).monetary\_aggregates\_m3(index = True, seasonally\_adjuted = True)</i>
 
 <ul>
 <li>Returns the M3 monetary aggregate. Not available for all countries.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns an index, <code>index = False</code> returns level values</li>
+	<li><code>seasonally_adjusted = True</code> returns seasonally adjusted index</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
-oecd.monetary_aggregates_m3()
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
+oecd.monetary_aggregates_m3( index = True, seasonally_adjuted = True )
 ```
 
 <i> Output </i>
@@ -1572,11 +1581,11 @@ oecd.monetary_aggregates_m3()
 
 <center><small><small>
 
-| TIME                | SUBJECT   | Subject                                                                         | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:--------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1959-01-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-01 | AUD         |                9 |   6.608 |
-| 1959-02-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-02 | AUD         |                9 |   6.668 |
-| 1959-03-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Australia | M           | 1959-03 | AUD         |                9 |   6.728 |
+| TIME                | SUBJECT   | Subject                                                                         | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |    Value |
+|:--------------------|:----------|:--------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|---------:|
+| 1980-02-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Korea     | M           | 1980-02 | IDX         |                0 | 0.461489 |
+| 1980-03-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Korea     | M           | 1980-03 | IDX         |                0 | 0.47687  |
+| 1980-04-01 00:00:00 | MABMM301  | Monetary aggregates and their components > Broad money and components > M3 > M3 | Korea     | M           | 1980-04 | IDX         |                0 | 0.488449 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1594,7 +1603,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.interbank_rates()
 ```
 
@@ -1625,7 +1634,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.short_term_rates()
 ```
 
@@ -1656,7 +1665,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.long_term_rates()
 ```
 
@@ -1688,7 +1697,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.all_share_prices()
 ```
 
@@ -1719,7 +1728,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.share_prices_industrials()
 ```
 
@@ -1750,7 +1759,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 usd_exchange_rates_spot()
 ```
 
@@ -1782,7 +1791,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.usd_exchange_rates_average()
 ```
 
@@ -1813,7 +1822,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.rer_overall()
 ```
 
@@ -1842,17 +1851,23 @@ oecd.rer_overall()
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f44"><i>OecdData( country\_code, **args ).exports\_value()</i>
+#### <div id = "f44"><i>OecdData( country\_code, **args ).exports\_value(growth = False, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns value of exports in national currency or dollar converted, etc..</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted growth</li>
+	<li><code>growth = False</code> returns monthly level values in specified currency conversion (national or dollar converted)</li>
+	<li><code>seasonally_adjusted = True</code> returns seasonally adjusted monthly level values in specified currency conversion (national or dollar converted)</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU' )
-oecd.exports_value()
+oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU', freq = 'M' )
+oecd.exports_value(growth = False, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -1860,11 +1875,11 @@ oecd.exports_value()
 
 <center><small><small>
 
-| TIME                | SUBJECT   | Subject                                               | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1955-01-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-01 | AUD         |                9 |  0.1287 |
-| 1955-02-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-02 | AUD         |                9 |  0.1358 |
-| 1955-03-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1955-03 | AUD         |                9 |  0.1642 |
+| TIME                | SUBJECT   | Subject                                               | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |    Value |
+|:--------------------|:----------|:------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|---------:|
+| 1958-01-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1958-01 | USD         |                9 | 0.149812 |
+| 1958-02-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1958-02 | USD         |                9 | 0.133962 |
+| 1958-03-01 00:00:00 | XTEXVA01  | International Trade > Exports > Value (goods) > Total | Australia | M           | 1958-03 | USD         |                9 | 0.131655 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1873,17 +1888,23 @@ oecd.exports_value()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f45"><i>OecdData( country\_code, **args ).imports\_value()</i>
+#### <div id = "f45"><i>OecdData( country\_code, **args ).imports\_value(growth = False, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns value of imports in national currency or dollar converted, etc..</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted growth</li>
+	<li><code>growth = False</code> returns monthly level values in specified currency conversion (national or dollar converted)</li>
+	<li><code>seasonally_adjusted = True</code> returns seasonally adjusted monthly level values in specified currency conversion (national or dollar converted)</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU' )
-oecd.imports_value()
+oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU', freq = 'M' )
+oecd.imports_value(growth = False, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -1891,11 +1912,11 @@ oecd.imports_value()
 
 <center><small><small>
 
-| TIME                | SUBJECT   | Subject                                               | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1955-01-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-01 | AUD         |                9 |  0.1495 |
-| 1955-02-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-02 | AUD         |                9 |  0.1367 |
-| 1955-03-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1955-03 | AUD         |                9 |  0.152  |
+| TIME                | SUBJECT   | Subject                                               | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |    Value |
+|:--------------------|:----------|:------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|---------:|
+| 1958-01-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1958-01 | USD         |                9 | 0.155267 |
+| 1958-02-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1958-02 | USD         |                9 | 0.150965 |
+| 1958-03-01 00:00:00 | XTIMVA01  | International Trade > Imports > Value (goods) > Total | Australia | M           | 1958-03 | USD         |                9 | 0.138973 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1922,7 +1943,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.unemployment_rate()
 ```
 
@@ -1950,17 +1971,23 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <div id = "f47"><i>OecdData( country\_code, **args ).cpi\_total()</i>
+#### <div id = "f47"><i>OecdData( country\_code, **args ).cpi\_total(growth = False, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns the consumer price index.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns yoy growth</li>
+	<li><code>growth = False</code> returns index </li>
+	<li><code>growth = False</code> and <code>seasonally_adjusted = True</code> returns seasonally adjusted index</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
-oecd.cpi_total()
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
+oecd.cpi_total(growth = False, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -1969,9 +1996,9 @@ oecd.cpi_total()
 
 | TIME                | SUBJECT   | Subject                                          | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1955-01-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Australia | Q           | 1955-Q1 | IDX         |                0 | 6.03668 |
-| 1955-04-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Australia | Q           | 1955-Q2 | IDX         |                0 | 6.12956 |
-| 1955-07-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Australia | Q           | 1955-Q3 | IDX         |                0 | 6.12956 |
+| 1985-01-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Japan     | M           | 1985-01 | IDX         |                0 | 85.7678 |
+| 1985-02-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Japan     | M           | 1985-02 | IDX         |                0 | 85.6816 |
+| 1985-03-01 00:00:00 | CPALTT01  | Consumer Price Index > All items > Total > Total | Japan     | M           | 1985-03 | IDX         |                0 | 85.6816 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -1989,7 +2016,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.cpi_city_total()
 ```
 
@@ -2010,28 +2037,34 @@ oecd.cpi_city_total()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f49"><i>OecdData( country\_code, **args ).cpi\_non\_food\_non_energy()</i>
+#### <div id = "f49"><i>OecdData( country\_code, **args ).cpi\_non\_food\_non_energy(growth = False, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns non-food and non-energy consumer price index .</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns yoy growth</li>
+	<li><code>growth = False</code> returns index </li>
+	<li><code>growth = False</code> and <code>seasonally_adjusted = True</code> returns seasonally adjusted index</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
-oecd.cpi_non_food_non_energy()
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
+oecd.cpi_non_food_non_energy(growth = False, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
 
 <center><small><small>
 
-| TIME                | SUBJECT   | Subject                                                                    | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:---------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1966-01-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-01 | IDX         |                0 | 18.3463 |
-| 1966-02-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-02 | IDX         |                0 | 18.3966 |
-| 1966-03-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | Austria   | M           | 1966-03 | IDX         |                0 | 18.4262 |
+| TIME                | SUBJECT   | Subject                                                                    | Country       | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
+|:--------------------|:----------|:---------------------------------------------------------------------------|:--------------|:------------|:--------|:------------|-----------------:|--------:|
+| 1957-01-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | United States | M           | 1957-01 | IDX         |                0 | 11.7649 |
+| 1957-02-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | United States | M           | 1957-02 | IDX         |                0 | 11.8062 |
+| 1957-03-01 00:00:00 | CPGRLE01  | Consumer Price Index > OECD Groups > All items non-food non-energy > Total | United States | M           | 1957-03 | IDX         |                0 | 11.8474 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2040,17 +2073,23 @@ oecd.cpi_non_food_non_energy()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f50"><i>OecdData( country\_code, **args ).cpi\_energy()</i>
+#### <div id = "f50"><i>OecdData( country\_code, **args ).cpi\_energy(growth = False, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns consumer price index for energy (fuel, electricity, etc.).</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns yoy growth</li>
+	<li><code>growth = False</code> returns index </li>
+	<li><code>growth = False</code> and <code>seasonally_adjusted = True</code> returns seasonally adjusted index</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
-oecd.cpi_energy()
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
+oecd.cpi_energy(growth = False, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2060,9 +2099,9 @@ oecd.cpi_energy()
 
 | TIME                | SUBJECT   | Subject                                                                            | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-----------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1966-01-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-01 | IDX         |                0 | 17.8956 |
-| 1966-02-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-02 | IDX         |                0 | 17.9295 |
-| 1966-03-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Austria   | M           | 1966-03 | IDX         |                0 | 17.9295 |
+| 1991-01-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Germany   | M           | 1991-01 | IDX         |                0 | 46.028  |
+| 1991-02-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Germany   | M           | 1991-02 | IDX         |                0 | 45.7485 |
+| 1991-03-01 00:00:00 | CPGREN01  | Consumer Price Index > OECD Groups > Energy (Fuel, electricity & gasoline) > Total | Germany   | M           | 1991-03 | IDX         |                0 | 44.0713 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2095,7 +2134,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.business_tendency_survey('retail')
 ```
 
@@ -2126,7 +2165,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <i> Example </i>
 
 ```python
-oecd = oecd_data.OecdData( country_code = 'all' )
+oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.consumer_opinion_survey()
 ```
 
@@ -2186,17 +2225,23 @@ oecd.gdp_deflator()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f54"><i>OecdData( country\_code, **args ).gdp\_total()</i>
+#### <div id = "f54"><i>OecdData( country\_code, **args ).gdp\_total( growth = False, index = False )</i>
 
 <ul>
 <li>Returns total GDP at constant prices.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted yoy growth</li>
+	<li><code>growth = False</code> and <code>index = True</code> returns seasonally adjusted index </li>
+	<li><code>growth = False</code> and <code>index = False</code> returns seasonally adjusted level values</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
-oecd.gdp_total()
+oecd.gdp_total(growth = False, index = False)
 ```
 
 <i> Output </i>
@@ -2206,9 +2251,9 @@ oecd.gdp_total()
 
 | TIME                | SUBJECT   | Subject                                                                                   | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-01-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q1 | IDX         |                0 | 14.9593 |
-| 1960-04-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q2 | IDX         |                0 | 15.3732 |
-| 1960-07-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q3 | IDX         |                0 | 15.4079 |
+| 1959-07-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1959-Q3 | AUD         |                9 |  62.496 |
+| 1959-10-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1959-Q4 | AUD         |                9 |  63.043 |
+| 1960-01-01 00:00:00 | NAEXKP01  | National Accounts > GDP by Expenditure > Constant Prices > Gross Domestic Product - Total | Australia | Q           | 1960-Q1 | AUD         |                9 |  64.683 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2223,13 +2268,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <ul>
 <li>Returns GDP final consumption at constant prices.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted yoy growth</li>
+	<li><code>growth = False</code> and <code>index = True</code> returns seasonally adjusted index </li>
+	<li><code>growth = False</code> and <code>index = False</code> returns seasonally adjusted level values</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
-oecd.gdp_final_consumption()
+oecd.gdp_final_consumption(growth = False, index = False)
 ```
 
 <i> Output </i>
@@ -2239,9 +2290,9 @@ oecd.gdp_final_consumption()
 
 | TIME                | SUBJECT   | Subject                                                                                          | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-------------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-01-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q1 | IDX         |                0 | 14.3654 |
-| 1960-04-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q2 | IDX         |                0 | 14.5475 |
-| 1960-07-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q3 | IDX         |                0 | 14.7345 |
+| 1959-07-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1959-Q3 | AUD         |                9 |  33.383 |
+| 1959-10-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1959-Q4 | AUD         |                9 |  34.303 |
+| 1960-01-01 00:00:00 | NAEXKP02  | National Accounts > GDP by Expenditure > Constant Prices > Private Final Consumption Expenditure | Australia | Q           | 1960-Q1 | AUD         |                9 |  35.111 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2256,13 +2307,19 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <ul>
 <li>Returns government consumption at constant prices.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted yoy growth</li>
+	<li><code>growth = False</code> and <code>index = True</code> returns seasonally adjusted index </li>
+	<li><code>growth = False</code> and <code>index = False</code> returns seasonally adjusted level values</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
-oecd.gdp_government_consumption()
+oecd.gdp_government_consumption(growth = False, index = False)
 ```
 
 <i> Output </i>
@@ -2272,9 +2329,9 @@ oecd.gdp_government_consumption()
 
 | TIME                | SUBJECT   | Subject                                                                                             | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:----------------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-01-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q1 | IDX         |                0 | 12.9105 |
-| 1960-04-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q2 | IDX         |                0 | 12.2665 |
-| 1960-07-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q3 | IDX         |                0 | 12.4704 |
+| 1959-07-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1959-Q3 | AUD         |                9 |   9.626 |
+| 1959-10-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1959-Q4 | AUD         |                9 |   9.56  |
+| 1960-01-01 00:00:00 | NAEXKP03  | National Accounts > GDP by Expenditure > Constant Prices > Government Final Consumption Expenditure | Australia | Q           | 1960-Q1 | AUD         |                9 |  10.004 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2285,17 +2342,23 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f57"><i>OecdData( country\_code, **args ).gdp\_fixed\_capital\_formation()</i>
+#### <div id = "f57"><i>OecdData( country\_code, **args ).gdp\_fixed\_capital\_formation(growth = False, index = False)</i>
 
 <ul>
 <li>Returns fixed capital formation at constant prices.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted yoy growth</li>
+	<li><code>growth = False</code> and <code>index = True</code> returns seasonally adjusted index </li>
+	<li><code>growth = False</code> and <code>index = False</code> returns seasonally adjusted level values</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
-oecd.gdp_fixed_capital_formation()
+oecd.gdp_fixed_capital_formation(growth = False, index = False)
 ```
 
 <i> Output </i>
@@ -2305,9 +2368,9 @@ oecd.gdp_fixed_capital_formation()
 
 | TIME                | SUBJECT   | Subject                                                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-01-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q1 | IDX         |                0 |  9.4154 |
-| 1960-04-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q2 | IDX         |                0 |  9.6037 |
-| 1960-07-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q3 | IDX         |                0 |  9.6331 |
+| 1959-07-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1959-Q3 | AUD         |                9 |  10.278 |
+| 1959-10-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1959-Q4 | AUD         |                9 |   9.984 |
+| 1960-01-01 00:00:00 | NAEXKP04  | National Accounts > GDP by Expenditure > Constant Prices > Gross Fixed Capital Formation | Australia | Q           | 1960-Q1 | AUD         |                9 |  10.25  |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2318,17 +2381,23 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f58"><i>OecdData( country\_code, **args ).gdp\_exports()</i>
+#### <div id = "f58"><i>OecdData( country\_code, **args ).gdp\_exports(growth = False, index = False)</i>
 
 <ul>
 <li>Returns export value for GDP calculation.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted yoy growth</li>
+	<li><code>growth = False</code> and <code>index = True</code> returns seasonally adjusted index </li>
+	<li><code>growth = False</code> and <code>index = False</code> returns seasonally adjusted level values</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
-oecd.gdp_exports()
+oecd.gdp_exports(growth = False, index = False)
 ```
 
 <i> Output </i>
@@ -2338,9 +2407,9 @@ oecd.gdp_exports()
 
 | TIME                | SUBJECT   | Subject                                                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-01-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q1 | IDX         |                0 | 5.19212 |
-| 1960-04-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q2 | IDX         |                0 | 4.85486 |
-| 1960-07-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q3 | IDX         |                0 | 4.59993 |
+| 1959-07-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1959-Q3 | AUD         |                9 |   3.991 |
+| 1959-10-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1959-Q4 | AUD         |                9 |   5.172 |
+| 1960-01-01 00:00:00 | NAEXKP06  | National Accounts > GDP by Expenditure > Constant Prices > Exports of Goods and Services | Australia | Q           | 1960-Q1 | AUD         |                9 |   4.603 |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2351,17 +2420,23 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-#### <div id = "f59"><i>OecdData( country\_code, **args ).gdp\_imports()</i>
+#### <div id = "f59"><i>OecdData( country\_code, **args ).gdp\_imports(growth = False, index = False)</i>
 
 <ul>
 <li>Returns import value for GDP calculation.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>growth = True</code> returns seasonally adjusted yoy growth</li>
+	<li><code>growth = False</code> and <code>index = True</code> returns seasonally adjusted index </li>
+	<li><code>growth = False</code> and <code>index = False</code> returns seasonally adjusted level values</li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
-oecd.gdp_imports()
+oecd.gdp_imports(growth = False, index = False)
 ```
 
 <i> Output </i>
@@ -2371,9 +2446,9 @@ oecd.gdp_imports()
 
 | TIME                | SUBJECT   | Subject                                                                                        | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-----------------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1960-01-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q1 | IDX         |                0 | 4.03844 |
-| 1960-04-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q2 | IDX         |                0 | 4.35768 |
-| 1960-07-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q3 | IDX         |                0 | 4.5833  |
+| 1959-07-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1959-Q3 | AUD         |                9 |   3.226 |
+| 1959-10-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1959-Q4 | AUD         |                9 |   3.422 |
+| 1960-01-01 00:00:00 | NAEXKP07  | National Accounts > GDP by Expenditure > Constant Prices > Less: Imports of Goods and Services | Australia | Q           | 1960-Q1 | AUD         |                9 |   3.58  |
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2392,17 +2467,22 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f60"><i>OecdData( country\_code, **args ).total\_manufacturing\_index()</i>
+#### <div id = "f60"><i>OecdData( country\_code, **args ).total\_manufacturing\_index( index = True, seasonally\_adjusted = True )</i>
 
 <ul>
 <li>Returns total manufacturing index.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns index <code>index = False</code> returns monthly or quarterly levels depending on frequency</li>
+	<li><code>seasonally\_adjusted = True</code> returns seasonally adjusted values </li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
-oecd.total_manufacturing_index()
+oecd.total_manufacturing_index(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2410,9 +2490,10 @@ oecd.total_manufacturing_index()
 <center><small><small>
 
 | TIME                | SUBJECT   | Subject                                                                | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
-|:--------------------|:----------|:-----------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|\n| 1974-07-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Australia | Q           | 1974-Q3 | IDX         |                0 | 70.3407 |
-| 1974-10-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Australia | Q           | 1974-Q4 | IDX         |                0 | 67.6835 |
-| 1975-01-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Australia | Q           | 1975-Q1 | IDX         |                0 | 61.1363 |
+|:--------------------|:----------|:-----------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
+| 1956-01-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Austria   | M           | 1956-01 | IDX         |                0 | 11.2315 |
+| 1956-02-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Austria   | M           | 1956-02 | IDX         |                0 | 11.0611 |
+| 1956-03-01 00:00:00 | PRMNTO01  | Production > Manufacturing > Total manufacturing > Total manufacturing | Austria   | M           | 1956-03 | IDX         |                0 | 11.2976 |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
@@ -2421,17 +2502,22 @@ oecd.total_manufacturing_index()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f61"><i>OecdData( country\_code, **args ).total\_industry\_production\_ex\_construction()</i>
+#### <div id = "f61"><i>OecdData( country\_code, **args ).total\_industry\_production\_ex\_construction(index = True, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns total industry production excluding construction.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns index <code>index = False</code> returns monthly or quarterly levels depending on frequency</li>
+	<li><code>seasonally\_adjusted = True</code> returns seasonally adjusted values </li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
-oecd.total_industrial_production_ex_construction()
+oecd.total_industrial_production_ex_construction(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2441,9 +2527,9 @@ oecd.total_industrial_production_ex_construction()
 
 | TIME                | SUBJECT   | Subject                                                                        | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1974-07-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Australia | Q           | 1974-Q3 | IDX         |                0 | 41.3578 |
-| 1974-10-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Australia | Q           | 1974-Q4 | IDX         |                0 | 40.6976 |
-| 1975-01-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Australia | Q           | 1975-Q1 | IDX         |                0 | 37.4559 |
+| 1955-01-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Austria   | M           | 1955-01 | IDX         |                0 | 10.7655 |
+| 1955-02-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Austria   | M           | 1955-02 | IDX         |                0 | 10.7772 |
+| 1955-03-01 00:00:00 | PRINTO01  | Production > Industry > Total industry > Total industry excluding construction | Austria   | M           | 1955-03 | IDX         |                0 | 10.7544 |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 
@@ -2453,17 +2539,22 @@ oecd.total_industrial_production_ex_construction()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f62"><i>OecdData( country\_code, **args ).total\_construction()</i>
+#### <div id = "f62"><i>OecdData( country\_code, **args ).total\_construction(index = True, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns total construction index.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns index <code>index = False</code> returns monthly or quarterly levels depending on frequency</li>
+	<li><code>seasonally\_adjusted = True</code> returns seasonally adjusted values </li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
-oecd.total_construction()
+oecd.total_construction(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2473,9 +2564,9 @@ oecd.total_construction()
 
 | TIME                | SUBJECT   | Subject                                                | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:-------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1974-07-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Australia | Q           | 1974-Q3 | IDX         |                0 | 24.1762 |
-| 1974-10-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Australia | Q           | 1974-Q4 | IDX         |                0 | 26.6081 |
-| 1975-01-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Australia | Q           | 1975-Q1 | IDX         |                0 | 22.6852 |
+| 1996-01-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Austria   | M           | 1996-01 | IDX         |                0 |    56.1 |
+| 1996-02-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Austria   | M           | 1996-02 | IDX         |                0 |    57.8 |
+| 1996-03-01 00:00:00 | PRCNTO01  | Production > Construction > Total construction > Total | Austria   | M           | 1996-03 | IDX         |                0 |    57   |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
@@ -2484,17 +2575,22 @@ oecd.total_construction()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f63"><i>OecdData( country\_code, **args ).total\_retail\_trade()</i>
+#### <div id = "f63"><i>OecdData( country\_code, **args ).total\_retail\_trade(index = True, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns total retail trade index.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns index <code>index = False</code> returns monthly or quarterly levels depending on frequency</li>
+	<li><code>seasonally\_adjusted = True</code> returns seasonally adjusted values </li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
-oecd.total_retail_trade()
+oecd.total_retail_trade(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2504,9 +2600,9 @@ oecd.total_retail_trade()
 
 | TIME                | SUBJECT   | Subject                                           | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:--------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1982-04-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Australia | Q           | 1982-Q2 | AUD         |                6 | 3417.37 |
-| 1982-07-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Australia | Q           | 1982-Q3 | AUD         |                6 | 3432.33 |
-| 1982-10-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Australia | Q           | 1982-Q4 | AUD         |                6 | 4187.23 |
+| 1955-01-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Austria   | M           | 1955-01 | IDX         |                0 | 5.65006 |
+| 1955-02-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Austria   | M           | 1955-02 | IDX         |                0 | 5.72288 |
+| 1955-03-01 00:00:00 | SLRTTO02  | Sales > Retail trade > Total retail trade > Value | Austria   | M           | 1955-03 | IDX         |                0 | 5.63975 |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
@@ -2515,10 +2611,15 @@ oecd.total_retail_trade()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f64"><i>OecdData( country\_code, **args ).passenger\_car\_registrations()</i>
+#### <div id = "f64"><i>OecdData( country\_code, **args ).passenger\_car\_registrations(index = True, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns index for passenger car registrations.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns index <code>index = False</code> returns monthly or quarterly levels depending on frequency</li>
+	<li><code>seasonally\_adjusted = True</code> returns seasonally adjusted values </li>
+	</ul>
 <li> </li>
 </ul>
 
@@ -2526,7 +2627,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
-oecd.passenger_car_registrations()
+oecd.passenger_car_registrations(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2536,9 +2637,9 @@ oecd.passenger_car_registrations()
 
 | TIME                | SUBJECT   | Subject                                                  | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:---------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1957-01-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Austria   | Q           | 1957-Q1 | IDX         |                0 | 16.8518 |
-| 1957-04-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Austria   | Q           | 1957-Q2 | IDX         |                0 | 17.2184 |
-| 1957-07-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Austria   | Q           | 1957-Q3 | IDX         |                0 | 16.6786 |
+| 1994-01-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Australia | M           | 1994-01 | IDX         |                0 | 83.9795 |
+| 1994-02-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Australia | M           | 1994-02 | IDX         |                0 | 86.7998 |
+| 1994-03-01 00:00:00 | SLRTCR03  | Sales > Retail trade > Car registration > Passenger cars | Australia | M           | 1994-03 | IDX         |                0 | 85.8574 |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
@@ -2547,17 +2648,22 @@ oecd.passenger_car_registrations()
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id = "f65"><i>OecdData( country\_code, **args ).construction\_permits\_issued()</i>
+#### <div id = "f65"><i>OecdData( country\_code, **args ).construction\_permits\_issued(index = True, seasonally\_adjusted = True)</i>
 
 <ul>
 <li>Returns index for construction permits issued.</li>
+<li><i>Arguments</i>:</li>
+	<ul>
+	<li><code>index = True</code> returns index <code>index = False</code> returns monthly or quarterly levels depending on frequency</li>
+	<li><code>seasonally\_adjusted = True</code> returns seasonally adjusted values </li>
+	</ul>
 </ul>
 
 <i> Example </i>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
-oecd.construction_permits_issued()
+oecd.construction_permits_issued(index = True, seasonally_adjusted = True)
 ```
 
 <i> Output </i>
@@ -2566,9 +2672,9 @@ oecd.construction_permits_issued()
 
 | TIME                | SUBJECT   | Subject                                                                    | Country   | FREQUENCY   | TIME    | Unit Code   |   PowerCode Code |   Value |
 |:--------------------|:----------|:---------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
-| 1955-01-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | Q           | 1955-Q1 | IDX         |                0 | 36.3378 |
-| 1955-04-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | Q           | 1955-Q2 | IDX         |                0 | 34.9919 |
-| 1955-07-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | Q           | 1955-Q3 | IDX         |                0 | 33.8143 |
+| 1955-01-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | M           | 1955-01 | IDX         |                0 | 32.3003 |
+| 1955-02-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | M           | 1955-02 | IDX         |                0 | 40.88   |
+| 1955-03-01 00:00:00 | ODCNPI03  | Orders > Construction > Permits issued > Dwellings / Residential buildings | Australia | M           | 1955-03 | IDX         |                0 | 35.8331 |
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
@@ -3068,11 +3174,11 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|    | Link                                                                                                                                                   | Headline                                                                                                     | Date                    | Description                                                                                                                                                                                                                                                         | Newspaper       | Author          | Date_Retrieved             | Ticker   |   Comments |   Tag | Search_term   | ID                                                                                                                                                                                                                                                                                | Source   | Datetime   |
-|---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------|:------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------|:----------------|:---------------------------|:---------|-----------:|------:|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-----------|
-|  0 | https://www.barrons.com/articles/apples-market-cap-is-now-as-big-as-the-s-p-500-energy-utilities-and-materials-sectorscombined-51599057653             | Apple’s Market Cap Is Now as Big as the S&P 500 Energy, Utilities, and Materials Sectors—Combined            | Sep 2, 2020 10:40 AM ET | The energy sector, meanwhile, continues to fade and is just 2.3% of the index.                                                                                                                                                                                      | Barrons.com     | Andrew Bary     | 2020-09-03 15:29:45.797553 | XOM      |        nan |   nan | exxon mobil   | Barrons.comApple’s Market Cap Is Now as Big as the S&P 500 Energy, Utilities, and Materials Sectors—Combinedhttps://www.barrons.com/articles/apples-market-cap-is-now-as-big-as-the-s-p-500-energy-utilities-and-materials-sectorscombined-51599057653                            | barrons  | 02/09/2020 |
-|  1 | http://www.marketwatch.com/story/dirty-oil-companies-could-lead-low-carbon-transformation-new-goldman-report-says-11599042929                          | Unloved, dirty oil companies could lead low-carbon transformation, new Goldman report says                   | Sep 2, 2020 8:35 AM ET  | A new report says Big Oil companies can drive a low-carbon future.                                                                                                                                                                                                  | MarketWatch.com | Steve Goldstein | 2020-09-03 15:29:45.797553 | XOM      |        nan |   nan | exxon mobil   | MarketWatch.comUnloved, dirty oil companies could lead low-carbon transformation, new Goldman report sayshttp://www.marketwatch.com/story/dirty-oil-companies-could-lead-low-carbon-transformation-new-goldman-report-says-11599042929                                            | barrons  | 02/09/2020 |
-|  2 | https://www.wsj.com/articles/summer-fuel-demand-disappoints-challenging-economy-11598952601                                                            | Summer Fuel Demand Disappoints, Challenging Economy                                                          | Sep 1, 2020             | After demand for gasoline surged from mid-April to late June, lingering caution among drivers and delayed office and school reopening plans are hindering the recovery in energy markets.                                                                           | WSJ.com         | Amrith Ramkumar | 2020-09-03 15:29:45.797553 | XOM      |        nan |   nan | exxon mobil   | WSJ.comSummer Fuel Demand Disappoints, Challenging Economyhttps://www.wsj.com/articles/summer-fuel-demand-disappoints-challenging-economy-11598952601                                                                                                                             | barrons  | 01/09/2020 |
+| date       | link                                                                                                           | headline                                                                      | description                                                                                                                                                                                                   | newspaper   | author                  | date_retrieved             | ticker   |   comments |   tag | search_term   | id                                                                                                                                                                                                | source   |
+|:-----------|:---------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|:------------------------|:---------------------------|:---------|-----------:|------:|:--------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
+| 15/09/2020 | https://www.barrons.com/articles/options-traders-are-pricing-in-an-exxon-dividend-cut-analyst-says-51600181938 | Options Traders Are Pricing In an Exxon Dividend Cut, Analyst Says            | Whether Exxon can maintain its dividend is one of the most active debates right now among energy investors. The company has a strong incentive to keep making payments at current levels.                     | Barrons.com | Avi Salzman             | 2020-09-16 13:35:26.574289 | XOM      |        nan |   nan | exxon mobil   | Barrons.comOptions Traders Are Pricing In an Exxon Dividend Cut, Analyst Sayshttps://www.barrons.com/articles/options-traders-are-pricing-in-an-exxon-dividend-cut-analyst-says-51600181938       | barrons  |
+| 13/09/2020 | https://www.wsj.com/articles/exxon-used-to-be-americas-most-valuable-company-what-happened-oil-gas-11600037243 | Exxon Used to Be America’s Most Valuable Company. What Happened?              | The oil giant doubled down on oil and gas at what now looks to be the worst possible time. Investors are fleeing and workers are grumbling about the direction of a company some see as out of touch.         | WSJ.com     | Christopher M. Matthews | 2020-09-16 13:35:26.574289 | XOM      |        nan |   nan | exxon mobil   | WSJ.comExxon Used to Be America’s Most Valuable Company. What Happened?https://www.wsj.com/articles/exxon-used-to-be-americas-most-valuable-company-what-happened-oil-gas-11600037243             | barrons  |
+| 11/09/2020 | https://www.barrons.com/articles/where-to-find-bargains-in-oil-stocks-51599837910                              | Where to Find Bargains in Oil Stocks Now                                      | Goldman Sachs analyst likes certain refiners and Canadian oil companies.                                                                                                                                      | Barrons.com | Avi Salzman             | 2020-09-16 13:35:26.574289 | XOM      |        nan |   nan | exxon mobil   | Barrons.comWhere to Find Bargains in Oil Stocks Nowhttps://www.barrons.com/articles/where-to-find-bargains-in-oil-stocks-51599837910                                                              | barrons  |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
@@ -3105,11 +3211,11 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|    | Link                                                                                                                  | Headline                                                             | Date              | Description                                                                                                                                                                                                                                                                                                                           | Tag      |   Author | Date_Retrieved             | Ticker   |   Comments | Newspaper   | Search_term   | ID                                                                                                                                                                                                 | Source    | Datetime   |
-|---:|:----------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------|:------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|---------:|:---------------------------|:---------|-----------:|:------------|:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------|:-----------|
-|  0 | https://www.bloomberg.com/news/articles/2020-09-01/canadian-oil-rises-after-spill-shuts-diluent-pipeline-in-alberta   | Exxon’s Imperial Shuts Oil-Sands Mine After Pipeline Spill           | September 2, 2020 | Exxon Mobil Corp.’s Imperial Oil shut down its oil-sands mine after a spill from a pipeline that supplies diluent to the operation, adding to the woes of Canada’s beleaguered energy industry.                                                                                                                                       | markets  |      nan | 2020-09-03 17:38:48.858715 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergExxon’s Imperial Shuts Oil-Sands Mine After Pipeline Spillhttps://www.bloomberg.com/news/articles/2020-09-01/canadian-oil-rises-after-spill-shuts-diluent-pipeline-in-alberta             | bloomberg | 02/09/2020 |
-|  1 | https://www.bloomberg.com/news/articles/2020-09-02/papua-new-guinea-steps-up-fight-for-share-of-oil-mineral-wealth    | Papua New Guinea Steps Up Fight for Share of Oil, Mineral Wealth     | September 2, 2020 | Papua New Guinea is demanding a greater share of the country’s resource wealth, stepping up its battle with companies including Exxon Mobil Corp. and Barrick Gold Corp.                                                                                                                                                              | markets  |      nan | 2020-09-03 17:38:48.858715 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergPapua New Guinea Steps Up Fight for Share of Oil, Mineral Wealthhttps://www.bloomberg.com/news/articles/2020-09-02/papua-new-guinea-steps-up-fight-for-share-of-oil-mineral-wealth        | bloomberg | 02/09/2020 |
-|  2 | https://www.bloomberg.com/view/articles/2020-08-30/as-exxon-mobil-is-removed-from-the-dow-is-this-the-end-for-big-oil | As Exxon Mobil Is Removed From the Dow, Is This the End for Big Oil? | August 30, 2020   | Exxon\'s departure from the Dow is just one symptom. The oil majors\' opportunities and reputations are in decline everywhere.                                                                                                                                                                                                          | opinion  |      nan | 2020-09-03 17:38:48.858715 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergAs Exxon Mobil Is Removed From the Dow, Is This the End for Big Oil?https://www.bloomberg.com/view/articles/2020-08-30/as-exxon-mobil-is-removed-from-the-dow-is-this-the-end-for-big-oil | bloomberg | 30/08/2020 |
+| date                | link                                                                                                            | headline                                                        | description                                                                                                     | tag     |   author | date_retrieved             | ticker   |   comments | newspaper   | search_term   | id                                                                                                                                                                                      | source    |
+|:--------------------|:----------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------|:--------|---------:|:---------------------------|:---------|-----------:|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------|
+| 2020-09-14 00:00:00 | https://www.bloomberg.com/view/articles/2020-09-14/what-tesla-exxon-mobil-and-shale-have-in-common              | What Tesla, Exxon Mobil and Shale Have in Common                | Both share a revolutionary story, shaky profits and regular capital-raising. That didn’t end well for frackers. | opinion |      nan | 2020-09-16 14:09:38.411697 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergWhat Tesla, Exxon Mobil and Shale Have in Commonhttps://www.bloomberg.com/view/articles/2020-09-14/what-tesla-exxon-mobil-and-shale-have-in-common                             | bloomberg |
+| 2020-09-15 00:00:00 | https://www.bloomberg.com/view/articles/2020-09-15/bp-s-peak-oil-era-threatens-more-venezuela-like-collapses    | BP's Peak Oil Era Threatens More Venezuela-Like Collapses       | Producers that aren’t able to diversify in time will face economic collapse.                                    | opinion |      nan | 2020-09-16 14:09:38.411697 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergBP's Peak Oil Era Threatens More Venezuela-Like Collapseshttps://www.bloomberg.com/view/articles/2020-09-15/bp-s-peak-oil-era-threatens-more-venezuela-like-collapses          | bloomberg |
+| 2020-09-15 00:00:00 | https://www.bloomberg.com/news/articles/2020-09-15/peak-oil-bp-shell-eni-lead-big-oil-s-search-for-new-business | Peak Oil: BP, Shell, Eni Lead Big Oil’s Search for New Business | The supermajor business model that owned a century comes undone.                                                | green   |      nan | 2020-09-16 14:09:38.411697 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergPeak Oil: BP, Shell, Eni Lead Big Oil’s Search for New Businesshttps://www.bloomberg.com/news/articles/2020-09-15/peak-oil-bp-shell-eni-lead-big-oil-s-search-for-new-business | bloomberg |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
@@ -3142,11 +3248,11 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|    | Link                                                                                                                                                       | Headline                                                                                    | Date                 | Description                                                                                                                                                                          | Tag                  | Author          | Date_Retrieved             | Ticker   |   Comments | Newspaper   | Search_term   | ID                                                                                                                                                                                                                                                        | Source   | Datetime   |
-|---:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|:----------------|:---------------------------|:---------|-----------:|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-----------|
-|  0 | https://www.cnbc.com/2020/09/02/stocks-making-the-biggest-moves-in-the-premarket-macys-hr-block-peloton-exxon-more.html?&qsearchterm=exxon mobil           | Stocks making the biggest moves in the premarket: Macy’s, H&R Block, Peloton, Exxon & more  | 9/2/2020 2:35:12 PM  | Take a look at some of the biggest movers in the premarket:Macy’s (M) – The retailer lost 81 cents per share for its second quarter, ...                                             | Market Insider       | Peter Schacknow | 2020-09-03 18:22:04.839665 | XOM      |        nan | CNBC        | exxon mobil   | CNBCStocks making the biggest moves in the premarket: Macy’s, H&R Block, Peloton, Exxon & morehttps://www.cnbc.com/2020/09/02/stocks-making-the-biggest-moves-in-the-premarket-macys-hr-block-peloton-exxon-more.html?&qsearchterm=exxon mobil            | cnbc     | 02/09/2020 |
-|  1 | https://www.cnbc.com/2020/08/31/dow-stocks-traders-see-one-company-as-best-catch-up-play-to-rally.html?&qsearchterm=exxon mobil                            | As Dow undergoes makeover, traders see one stock as best catch-up play to the rally         | 8/31/2020 8:00:39 PM | The Dow looks a little different Monday.Earlier, the blue-chip index traded out Exxon Mobil, Pfizer and Raytheon Technologies and cycled in Salesforce, Amgen and Honeywell.Even ... | Trading Nation       | Keris Lahiff    | 2020-09-03 18:22:04.839665 | XOM      |        nan | CNBC        | exxon mobil   | CNBCAs Dow undergoes makeover, traders see one stock as best catch-up play to the rallyhttps://www.cnbc.com/2020/08/31/dow-stocks-traders-see-one-company-as-best-catch-up-play-to-rally.html?&qsearchterm=exxon mobil                                    | cnbc     | 31/08/2020 |
-|  2 | https://www.cnbc.com/2020/08/29/stocks-that-leave-the-dow-tend-to-outperform-after-their-exit-from-the-average-history-shows.html?&qsearchterm=exxon mobil | Stocks that leave the Dow tend to outperform after their exit from the average, history ... | 8/29/2020 2:15:24 PM | Exxon Mobil, Pfizer and Raytheon Technologies are on their way out of the Dow Jones Industrial Average. But their exit from the blue-chip club may ...                               | Pro: Pro Insight     | Fred Imbert     | 2020-09-03 18:22:04.839665 | XOM      |        nan | CNBC        | exxon mobil   | CNBCStocks that leave the Dow tend to outperform after their exit from the average, history ...https://www.cnbc.com/2020/08/29/stocks-that-leave-the-dow-tend-to-outperform-after-their-exit-from-the-average-history-shows.html?&qsearchterm=exxon mobil | cnbc     | 29/08/2020 |
+| date                | link                                                                                                                              | headline                                                            | description                                                                                                                                                               | tag             | author       | date_retrieved             | ticker   |   comments | newspaper   | search_term   | id                                                                                                                                                                                                       | source   |
+|:--------------------|:----------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------|:-------------|:---------------------------|:---------|-----------:|:------------|:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
+| 2020-09-10 00:00:00 | https://www.cnbc.com/video/2020/09/10/honeywell-ceo-darius-adamczyk-on-rejoining-the-dow.html?&qsearchterm=exxon mobil            | Honeywell CEO Darius Adamczyk on rejoining the Dow                  | S&P Dow Jones Indices said Monday that three new companies will be joining the 30-stock benchmark. Salesforce.com will replace Exxon Mobil, Amgen will replace Pfizer ... | Squawk Box U.S. | nan          | 2020-09-16 14:14:43.533664 | XOM      |        nan | CNBC        | exxon mobil   | CNBCHoneywell CEO Darius Adamczyk on rejoining the Dowhttps://www.cnbc.com/video/2020/09/10/honeywell-ceo-darius-adamczyk-on-rejoining-the-dow.html?&qsearchterm=exxon mobil                             | cnbc     |
+| 2020-09-09 00:00:00 | https://www.cnbc.com/2020/09/09/options-market-predicts-exxon-mobils-dividend-could-be-in-danger.html?&qsearchterm=exxon mobil    | Options market predicts Exxon Mobil’s dividend could be in danger   | One of the most consistent dividend payers in the history of the energy trade could be in danger of having to slash its payout, according ...                             | Options Action  | Tyler Bailey | 2020-09-16 14:14:43.533664 | XOM      |        nan | CNBC        | exxon mobil   | CNBCOptions market predicts Exxon Mobil’s dividend could be in dangerhttps://www.cnbc.com/2020/09/09/options-market-predicts-exxon-mobils-dividend-could-be-in-danger.html?&qsearchterm=exxon mobil      | cnbc     |
+| 2020-09-08 00:00:00 | https://www.cnbc.com/2020/09/08/exxon-downsizes-global-empire-as-wall-street-worries-about-dividend.html?&qsearchterm=exxon mobil | Exxon downsizes global empire as Wall Street worries about dividend | Ill-timed bets on rising demand have Exxon Mobil facing a shortfall of about $48 billion through 2021, according to a Reuters tally and Wall Street ...                   | Oil and Gas     | nan          | 2020-09-16 14:14:43.533664 | XOM      |        nan | CNBC        | exxon mobil   | CNBCExxon downsizes global empire as Wall Street worries about dividendhttps://www.cnbc.com/2020/09/08/exxon-downsizes-global-empire-as-wall-street-worries-about-dividend.html?&qsearchterm=exxon mobil | cnbc     |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
@@ -3179,12 +3285,12 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|    | Link                                          | Headline                                                         | Date          | Description                                                                                                                                                                                                                     | Tag                | Date_Retrieved             | Ticker   |   Comments |   Author | Newspaper   | Search_term   | ID                                                                                                              | Source   | Datetime   |
-|---:|:----------------------------------------------|:-----------------------------------------------------------------|:--------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------|:---------------------------|:---------|-----------:|---------:|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------|:---------|:-----------|
-|  0 | /content/64d7e86e-079c-4502-a9a4-5ab7439c732f | Big Oil gets smaller as Chevron and Exxon losses mount to $9.4bn | July 31, 2020 | ...destruction in the second quarter was unprecedented in the history of modern oil markets,” Neil Chapman, Exxon senior vice-president, told analysts on an investor call.                  “To put it in context, absolute... | Oil & Gas industry | 2020-09-15 17:00:30.619752 | XOM      |        nan |      nan | FT          | exxon mobil   | FTBig Oil gets smaller as Chevron and Exxon losses mount to $9.4bn/content/64d7e86e-079c-4502-a9a4-5ab7439c732f | ft       | 31/07/2020 |
-|  1 | /content/c43ead81-5af3-44de-af1e-b108d6491354 | Exxon shareholders vote against splitting chair and CEO roles    | May 27, 2020  | ...Exxon, said the appointment of a lead director had helped improve oversight.                  A separate resolution calling for increased transparency about Exxon’s lobbying activity won 37.5 per cent support, a...       | Oil & Gas industry | 2020-09-15 17:00:30.619752 | XOM      |        nan |      nan | FT          | exxon mobil   | FTExxon shareholders vote against splitting chair and CEO roles/content/c43ead81-5af3-44de-af1e-b108d6491354    | ft       | 27/05/2020 |
-|  2 | /content/099099e7-615e-447d-a665-b3614d467dfa | Top-rated companies raise $1tn to fill ‘war chests’              | May 26, 2020  | Investment-grade borrowers take advantage of low yields to boost Covid-19 balance sheets                                                                                                                                        | Corporate bonds    | 2020-09-15 17:00:30.619752 | XOM      |        nan |      nan | FT          | exxon mobil   | FTTop-rated companies raise $1tn to fill ‘war chests’/content/099099e7-615e-447d-a665-b3614d467dfa              | ft       | 26/05/2020 |
-
+| date                | link                                          | headline                                                         | description                                                                                                                                                                                                                     | tag                  | date_retrieved             | ticker   |   comments |   author | newspaper   | search_term   | id                                                                                                              | source   |
+|:--------------------|:----------------------------------------------|:-----------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|:---------------------------|:---------|-----------:|---------:|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------|:---------|
+| 2020-07-31 00:00:00 | /content/64d7e86e-079c-4502-a9a4-5ab7439c732f | Big Oil gets smaller as Chevron and Exxon losses mount to $9.4bn | ...destruction in the second quarter was unprecedented in the history of modern oil markets,” Neil Chapman, Exxon senior vice-president, told analysts on an investor call.                  “To put it in context, absolute... | Oil & Gas industry   | 2020-09-16 14:20:31.865540 | XOM      |        nan |      nan | FT          | exxon mobil   | FTBig Oil gets smaller as Chevron and Exxon losses mount to $9.4bn/content/64d7e86e-079c-4502-a9a4-5ab7439c732f | ft       |
+| 2020-05-27 00:00:00 | /content/c43ead81-5af3-44de-af1e-b108d6491354 | Exxon shareholders vote against splitting chair and CEO roles    | ...Exxon, said the appointment of a lead director had helped improve oversight.                  A separate resolution calling for increased transparency about Exxon’s lobbying activity won 37.5 per cent support, a...       | Oil & Gas industry   | 2020-09-16 14:20:31.865540 | XOM      |        nan |      nan | FT          | exxon mobil   | FTExxon shareholders vote against splitting chair and CEO roles/content/c43ead81-5af3-44de-af1e-b108d6491354    | ft       |
+| 2020-05-12 00:00:00 | /content/c54ee229-f4e7-43c8-87a5-e383099542fb | Big Exxon shareholder to vote against chief                      | ...company to disclose its lobbying activities, arguing it was falling behind global peers by failing to act on climate change.                  Wednesday’s move by LGIM, whose roughly $1bn stake makes it a top-20 Exxon...  | Corporate governance | 2020-09-16 14:20:31.865540 | XOM      |        nan |      nan | FT          | exxon mobil   | FTBig Exxon shareholder to vote against chief/content/c54ee229-f4e7-43c8-87a5-e383099542fb                      | ft       |
+|...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
 </small></small></center>
@@ -3216,11 +3322,11 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|    | Link                                                                                                  | Headline                                                                       | Date    | Description                                                                                                                                                                                                                                                             | Tag      | Author               |   Comments | Date_Retrieved             | Ticker   | Newspaper   | Search_term   | ID                                                                                                                                                                                 | Source   | Datetime   |
-|---:|:------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------|:--------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:---------------------|-----------:|:---------------------------|:---------|:------------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-----------|
-|  0 | /aponline/2020/09/08/business/ap-financial-markets-stocks.html?searchResultPosition=1                 | Exxon, Tesla Fall; Nikola, Beyond Meat Rise                                    | Sept. 8 | Stocks that moved heavily or traded substantially Tuesday:                                                                                                                                                                                                              | Business | The Associated Press |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExxon, Tesla Fall; Nikola, Beyond Meat Rise/aponline/2020/09/08/business/ap-financial-markets-stocks.html?searchResultPosition=1                                                | nyt      | 08/09/2020 |
-|  1 | /reuters/2020/09/08/business/08reuters-exxon-mobil-spending-exclusive.html?searchResultPosition=2     | Exclusive: Exxon Downsizes Global Empire as Wall Street Worries About Dividend | Sept. 8 | Ill-timed bets on rising demand have Exxon Mobil Corp facing a shortfall of about $48 billion through 2021, according to a Reuters tally and Wall Street estimates, a situation that will require the top U.S. oil company to make deep cuts to its staff and projects. | Business | Reuters              |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExclusive: Exxon Downsizes Global Empire as Wall Street Worries About Dividend/reuters/2020/09/08/business/08reuters-exxon-mobil-spending-exclusive.html?searchResultPosition=2 | nyt      | 08/09/2020 |
-|  2 | /reuters/2020/09/03/business/03reuters-refinery-operations-exxon-beaumont.html?searchResultPosition=3 | Exxon Beaumont, Texas, Refinery Restarts Large Crude Unit: Sources             | Sept. 3 | Exxon Mobil Corp restarted the large crude distillation unit (CDU) at its 369,024 barrel-per-day (bpd) Beaumont, Texas, refinery on Thursday, said sources familiar with plant operations.                                                                              | Business | Reuters              |        nan | 2020-09-12 21:17:34.056812 | XOM      | NYT         | exxon mobil   | NYTExxon Beaumont, Texas, Refinery Restarts Large Crude Unit: Sources/reuters/2020/09/03/business/03reuters-refinery-operations-exxon-beaumont.html?searchResultPosition=3         | nyt      | 03/09/2020 |
+| date                | link                                                                                                  | headline                                                                       | description                                                                                                                                                                                                                                                             | tag      | author               |   comments | date_retrieved             | ticker   | newspaper   | search_term   | id                                                                                                                                                                                 | source   |
+|:--------------------|:------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:---------------------|-----------:|:---------------------------|:---------|:------------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
+| 2020-09-08 00:00:00 | /aponline/2020/09/08/business/ap-financial-markets-stocks.html?searchResultPosition=2                 | Exxon, Tesla Fall; Nikola, Beyond Meat Rise                                    | Stocks that moved heavily or traded substantially Tuesday:                                                                                                                                                                                                              | Business | The Associated Press |        nan | 2020-09-16 14:22:13.032245 | XOM      | NYT         | exxon mobil   | NYTExxon, Tesla Fall; Nikola, Beyond Meat Rise/aponline/2020/09/08/business/ap-financial-markets-stocks.html?searchResultPosition=2                                                | nyt      |
+| 2020-09-08 00:00:00 | /reuters/2020/09/08/business/08reuters-exxon-mobil-spending-exclusive.html?searchResultPosition=3     | Exclusive: Exxon Downsizes Global Empire as Wall Street Worries About Dividend | Ill-timed bets on rising demand have Exxon Mobil Corp facing a shortfall of about $48 billion through 2021, according to a Reuters tally and Wall Street estimates, a situation that will require the top U.S. oil company to make deep cuts to its staff and projects. | Business | Reuters              |        nan | 2020-09-16 14:22:13.032245 | XOM      | NYT         | exxon mobil   | NYTExclusive: Exxon Downsizes Global Empire as Wall Street Worries About Dividend/reuters/2020/09/08/business/08reuters-exxon-mobil-spending-exclusive.html?searchResultPosition=3 | nyt      |
+| 2020-09-03 00:00:00 | /reuters/2020/09/03/business/03reuters-refinery-operations-exxon-beaumont.html?searchResultPosition=4 | Exxon Beaumont, Texas, Refinery Restarts Large Crude Unit: Sources             | Exxon Mobil Corp restarted the large crude distillation unit (CDU) at its 369,024 barrel-per-day (bpd) Beaumont, Texas, refinery on Thursday, said sources familiar with plant operations.                                                                              | Business | Reuters              |        nan | 2020-09-16 14:22:13.032245 | XOM      | NYT         | exxon mobil   | NYTExxon Beaumont, Texas, Refinery Restarts Large Crude Unit: Sources/reuters/2020/09/03/business/03reuters-refinery-operations-exxon-beaumont.html?searchResultPosition=4         | nyt      |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
@@ -3246,6 +3352,8 @@ df = news.reuters()
 # filter news headlines with a keyword list
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
+df.drop_duplicates('headline', inplace = True) # Reuters returns duplicate articles if articles were updated after publication...
+
 ```
 
 <i> Output </i>
@@ -3253,13 +3361,12 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-|    | Link                   | Headline                                                                               | Date                           | Description                                                                                                                     | Date_Retrieved             | Ticker   |   Comments |   Author |   Tag | Newspaper   | Search_term   | ID                                                                                                                  | Source   | Datetime   |
-|---:|:-----------------------|:---------------------------------------------------------------------------------------|:-------------------------------|:--------------------------------------------------------------------------------------------------------------------------------|:---------------------------|:---------|-----------:|---------:|------:|:------------|:--------------|:--------------------------------------------------------------------------------------------------------------------|:---------|:-----------|
-|  0 | /article/idUSL1N2G62L9 | Big oil asks 5th Circuit to take new look at Louisiana canals ruling                   | September 09, 2020 07:26pm EDT | of canals dug for oil exploration.Chevron USA, Inc, Exxon Mobil Corp                                                            | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersBig oil asks 5th Circuit to take new look at Louisiana canals ruling/article/idUSL1N2G62L9                   | reuters  | 09/09/2020 |\n|  1 | /article/idUSL1N2G62HP | IN BRIEF: Charleston, first city in South to sue oil cos for \'costs\' of climate change | September 09, 2020 06:18pm EDT | lawsuit against 24 companies including Exxon MobilCorporation and Royal                                                         | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersIN BRIEF: Charleston, first city in South to sue oil cos for \'costs\' of climate change/article/idUSL1N2G62HP | reuters  | 09/09/2020 |
-|  2 | /article/idUSKBN26023F | Hess CEO \'optimistic\' new Guyana government will approve project license               | September 09, 2020 10:21am EDT | and partners Exxon Mobil Corp <XOM.N> and CNOOC Ltd <0883.HK for producing oil in 2023, Hess said.Exxon, which leads            | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersHess CEO \'optimistic\' new Guyana government will approve project license/article/idUSKBN26023F               | reuters  | 09/09/2020 |
-|  3 | /article/idUSL1N2G60QT | UPDATE 2-Hess CEO \'optimistic\' new Guyana government will approve project license      | September 09, 2020 10:16am EDT | loss due to the pandemic.Hess and partners Exxon Mobil Corp it on track for producing oil in 2023, Hess said.Exxon, which leads | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersUPDATE 2-Hess CEO \'optimistic\' new Guyana government will approve project license/article/idUSL1N2G60QT      | reuters  | 09/09/2020 |\n|  4 | /article/idUSL1N2G60MH | Hess CEO \'optimistic\' new Guyana government will approve project license               | September 09, 2020 09:16am EDT | project.Hess and partners Exxon Mobil Corp and CNOOC Ltdare in "close                                                           | 2020-09-12 22:05:34.229234 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersHess CEO \'optimistic\' new Guyana government will approve project license/article/idUSL1N2G60MH               | reuters  | 09/09/2020 |
+| date                | link                   | headline                                                           | description                                                           | date_retrieved             | ticker   |   comments |   author |   tag | newspaper   | search_term   | id                                                                                              | source   |
+|:--------------------|:-----------------------|:-------------------------------------------------------------------|:----------------------------------------------------------------------|:---------------------------|:---------|-----------:|---------:|------:|:------------|:--------------|:------------------------------------------------------------------------------------------------|:---------|
+| 2020-09-16 00:00:00 | /article/idUSL4N2GD12G | FACTBOX-Oil refiners shut plants as demand losses may never return | Plc, Exxon Mobil Corp,Viva Energy Group and Ampol Ltd - all welcomed  | 2020-09-16 15:37:54.994138 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersFACTBOX-Oil refiners shut plants as demand losses may never return/article/idUSL4N2GD12G | reuters  |
+| 2020-09-15 00:00:00 | /article/idUSKBN26707N | U.S. presidential candidate Biden rips Trump's record on ethanol   | Exxon Mobil Corp and billionaire investor Carl Icahn.Biden's team has | 2020-09-16 15:37:54.994138 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersU.S. presidential candidate Biden rips Trump's record on ethanol/article/idUSKBN26707N   | reuters  |
+| 2020-09-15 00:00:00 | /article/idUSKBN2660I3 | Column: Australia still addicted to fossil fuel with oil, gas subsidies - Russell | for subsidising the four oil refineries, owned by BP Plc, Exxon Mobil | 2020-09-16 15:37:54.994138 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersColumn: Australia still addicted to fossil fuel with oil, gas subsidies - Russell/article/idUSKBN2660I3 | reuters  |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
-
 
 </small></small></center>
 
@@ -3289,12 +3396,11 @@ df = news.filter_data(df)
 
 <center><small><small>
 
-
-|    | Link                                                                                                                                                                                                           | Headline                                                                      | Date               | Author   | Comments   | Date_Retrieved             | Ticker   |   Description |   Tag | Newspaper   | Search_term   | ID                                                                                                                                                                                                                                                                                                   | Source   | Datetime   |
-|---:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------|:-------------------|:---------|:-----------|:---------------------------|:---------|--------------:|------:|:------------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-----------|
-|  0 | /news/3611317-exxon-said-restarting-large-crude-unit-coker-beaumont-refinery?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:1               | Exxon said restarting large crude unit, coker at Beaumont refinery            | Yesterday, 6:58 PM | SA News  | 0 Comments | 2020-09-03 15:02:21.777207 | XOM      |           nan |   nan | SA - News   | exxon mobil   | SA - NewsExxon said restarting large crude unit, coker at Beaumont refinery/news/3611317-exxon-said-restarting-large-crude-unit-coker-beaumont-refinery?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:1                          | sa       | 02/09/2020 |
-|  1 | /news/3611317-exxon-said-restarting-large-crude-unit-coker-beaumont-refinery?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Title\|lock\_status:No\|line:1                | Exxon said restarting large crude unit, coker at Beaumont refinery            | Yesterday, 6:58 PM | SA News  | 0 Comments | 2020-09-03 15:02:21.777207 | XOM      |           nan |   nan | SA - News   | exxon mobil   | SA - NewsExxon said restarting large crude unit, coker at Beaumont refinery/news/3611317-exxon-said-restarting-large-crude-unit-coker-beaumont-refinery?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Title\|lock\_status:No\|line:1                           | sa       | 02/09/2020 |
-|  2 | /news/3611203-png-calls-out-exxon-barrick-in-stepping-up-case-for-share-of-resource-wealth?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:2 | PNG calls out Exxon, Barrick in stepping up case for share of resource wealth | Yesterday, 2:56 PM | SA News  | 0 Comments | 2020-09-03 15:02:21.777207 | XOM      |           nan |   nan | SA - News   | exxon mobil   | SA - NewsPNG calls out Exxon, Barrick in stepping up case for share of resource wealth/news/3611203-png-calls-out-exxon-barrick-in-stepping-up-case-for-share-of-resource-wealth?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:2 | sa       | 02/09/2020 |
+| date                | link                                                                                                                                                                                         | headline                                                    | author   | comments   | date_retrieved             | ticker   |   description |   tag | newspaper   | search_term   | id                                                                                                                                                                                                                                                               | source   |
+|:--------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------|:---------|:-----------|:---------------------------|:---------|--------------:|------:|:------------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
+| 2020-09-15 00:00:00 | /news/3614409-options-traders-pricing-in-exxon-dividend-cut-analyst-says?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:1 | Options traders pricing in Exxon dividend cut, analyst says | SA News  | 0 comments | 2020-09-16 15:14:23.575898 | XOM      |           nan |   nan | SA - News   | exxon mobil   | SA - NewsOptions traders pricing in Exxon dividend cut, analyst says/news/3614409-options-traders-pricing-in-exxon-dividend-cut-analyst-says?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:1 | sa       |
+| 2020-09-14 00:00:00 | /news/3613801-connecticut-latest-state-to-sue-exxon-over-climate-change?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:2  | Connecticut latest state to sue Exxon over climate change   | SA News  | 0 comments | 2020-09-16 15:14:23.575898 | XOM      |           nan |   nan | SA - News   | exxon mobil   | SA - NewsConnecticut latest state to sue Exxon over climate change/news/3613801-connecticut-latest-state-to-sue-exxon-over-climate-change?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:2 | sa       |
+| 2020-09-10 00:00:00 | /news/3612953-exxon-rated-new-buy-mkm-shares-slip?source=content_type:react\|section:News\|sectionAsset:News\|first\_level\_url:symbol\|button:Author\|lock\_status:No\|line:3                         | Exxon rated new Buy at MKM but shares slip                  | SA News  | 0 comments | 2020-09-16 15:14:23.575898 | XOM      |           nan |   nan | SA - News   | exxon mobil   | SA - NewsExxon rated new Buy at MKM but shares slip/news/3612953-exxon-rated-new-buy-mkm-shares-slip?source=content_type:react|section:News|sectionAsset:News|first_level_url:symbol|button:Author|lock_status:No|line:3                                         | sa       |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
@@ -3328,11 +3434,11 @@ df = news.filter_data(df)
 <center><small><small>
 
 
-|    | Link                                                                                                                    | Headline                                                            | Date                     | Description                                                                                                                                                                                                             | Author                       | Tag                      | Date_Retrieved             | Ticker   | Newspaper   | Search_term   | ID                                                                                                                                                                                            |   Comments | Source   | Datetime   |
-|---:|:------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------|:-------------------------|:---------------------------|:---------|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------:|:---------|:-----------|
-|  0 | /articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                 | Oil Major BP Gives a Taste of How It Will Go Green                  | Sep. 10, 2020 9:47 am ET | A deal to buy into wind farms off the coast of New York and Massachusetts showcases the British company’s ambitions in the clean-energy sector—and the risks it is taking.                                              | Rochelle Toplensky           | Heard on the Street      | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Major BP Gives a Taste of How It Will Go Green/articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=1                                  |        nan | wsj      | 10/09/2020 |
-|  1 | /articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                    | Oil Prices Tumble on Faltering Recovery in Demand                   | Sep. 8, 2020 3:32 pm ET  | Oil prices slumped to their lowest level in nearly three months, under pressure from a stalling recovery in demand and planned production expansions by OPEC that threaten to add to an existing glut of crude.         | Joe Wallace                  | Oil Markets              | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Prices Tumble on Faltering Recovery in Demand/articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=2                                      |        nan | wsj      | 08/09/2020 |
-|  2 | /articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 | Oil Industry Is Fading Away in Land of the World’s Richest Reserves | Sep. 4, 2020 7:03 pm ET  | Venezuela sees its production dwindle after decades of graft and mismanagement under Chávez and Maduro regimes, and now the burden of U.S. sanctions. The last drilling rig in the country has shut down.               | Ginette González, Kejal Vyas | World                    | 2020-09-12 20:17:23.395870 | XOM      | WSJ         | exxon mobil   | WSJOil Industry Is Fading Away in Land of the World’s Richest Reserves/articles/oil-industry-is-fading-away-in-land-of-the-worlds-richest-reserves-11599238961?mod=searchresults&page=1&pos=3 |        nan | wsj      | 04/09/2020 |
+| date                | link                                                                                                                       | headline                                                         | description                                                                                                                                                                                                     | author                  | tag                 | date_retrieved             | ticker   | newspaper   | search_term   | id                                                                                                                                                                                            |   comments | source   |
+|:--------------------|:---------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------|:--------------------|:---------------------------|:---------|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------:|:---------|
+| 2020-09-13 00:00:00 | /articles/exxon-used-to-be-americas-most-valuable-company-what-happened-oil-gas-11600037243?mod=searchresults&page=1&pos=1 | Exxon Used to Be America’s Most Valuable Company. What Happened? | The oil giant doubled down on oil and gas at what now looks to be the worst possible time. Investors are fleeing and workers are grumbling about the direction of a company some see as out of touch.           | Christopher M. Matthews | Business            | 2020-09-16 15:19:39.733511 | XOM      | WSJ         | exxon mobil   | WSJExxon Used to Be America’s Most Valuable Company. What Happened?/articles/exxon-used-to-be-americas-most-valuable-company-what-happened-oil-gas-11600037243?mod=searchresults&page=1&pos=1 |        nan | wsj      |
+| 2020-09-10 00:00:00 | /articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=2                    | Oil Major BP Gives a Taste of How It Will Go Green               | A deal to buy into wind farms off the coast of New York and Massachusetts showcases the British company’s ambitions in the clean-energy sector—and the risks it is taking.                                      | Rochelle Toplensky      | Heard on the Street | 2020-09-16 15:19:39.733511 | XOM      | WSJ         | exxon mobil   | WSJOil Major BP Gives a Taste of How It Will Go Green/articles/oil-major-bp-gives-a-taste-of-how-it-will-go-green-11599745648?mod=searchresults&page=1&pos=2                                  |        nan | wsj      |
+| 2020-09-08 00:00:00 | /articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=3                       | Oil Prices Tumble on Faltering Recovery in Demand                | Oil prices slumped to their lowest level in nearly three months, under pressure from a stalling recovery in demand and planned production expansions by OPEC that threaten to add to an existing glut of crude. | Joe Wallace             | Oil Markets         | 2020-09-16 15:19:39.733511 | XOM      | WSJ         | exxon mobil   | WSJOil Prices Tumble on Faltering Recovery in Demand/articles/oil-prices-drop-on-faltering-recovery-in-demand-11599562101?mod=searchresults&page=1&pos=3                                      |        nan | wsj      |
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
@@ -3446,7 +3552,16 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-
-
 <div align="right"><a href="#0">Back to top</a> </div>
 
+----
+
+## <div id="A10">License</div>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Copyright (c) 2020 Peter la Cour

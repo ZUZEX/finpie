@@ -126,6 +126,7 @@ class NewsData(CleanNews):
         try:
             # Set and retrive url
             driver.get(url)
+            time.sleep(5)
             co = 0
             _delete_elements(driver)
 
@@ -192,21 +193,21 @@ class NewsData(CleanNews):
 
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
-                    'Tag': tag
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                    'tag': tag
                 }
             )
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Comments'] = 'nan'
-        data['Author'] = 'nan'
-        data['Newspaper'] = 'FT'
-        data['Search_term'] = self.keywords
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['comments'] = 'nan'
+        data['author'] = 'nan'
+        data['newspaper'] = 'FT'
+        data['search_term'] = self.keywords
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
@@ -214,7 +215,7 @@ class NewsData(CleanNews):
         headline, link, date, description, author, tag  = [], [], [], [], [], []
         #soup = None
 
-        data['Source'] = source
+        data['source'] = source
 
         data.drop_duplicates(inplace = True)
 
@@ -345,27 +346,27 @@ class NewsData(CleanNews):
 
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
-                    'Author': author,
-                    'Tag': tag
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                    'author': author,
+                    'tag': tag
                 }
             )
 
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Newspaper'] = 'WSJ'
-        data['Search_term'] = self.keywords
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['newspaper'] = 'WSJ'
+        data['search_term'] = self.keywords
 
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
 
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
         # write to parquet file with ticker as partition
@@ -395,8 +396,10 @@ class NewsData(CleanNews):
         try:
             # Set and retrive url
             driver.get(url)
-            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//article')))
 
+            time.sleep(20)
+
+            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//article')))
             k = 0
             t = 20
             SCROLL_PAUSE_TIME = 0.9
@@ -461,33 +464,33 @@ class NewsData(CleanNews):
                 try:
                     comments.append( article.find('span', attrs = {'data-test-id': 'post-list-comments'} ).text )
                 except:
-                    comments.append( '0 Comments' )
+                    comments.append( '0 comments' )
             except:
                 continue
 
 
         df_news = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Author': author,
-                    'Comments': comments
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'author': author,
+                    'comments': comments
                 }
             )
 
-        df_news['Date_Retrieved'] = dt.datetime.today()
-        df_news['Ticker'] = self.ticker
-        df_news['Description'] = 'nan'
-        df_news['Tag'] = 'nan'
-        df_news['Newspaper'] = 'SA - News'
+        df_news['date_retrieved'] = dt.datetime.today()
+        df_news['ticker'] = self.ticker
+        df_news['description'] = 'nan'
+        df_news['tag'] = 'nan'
+        df_news['newspaper'] = 'SA - News'
 
 
         data = df_news.copy()
-        data['Search_term'] = self.keywords
+        data['search_term'] = self.keywords
 
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
@@ -497,7 +500,7 @@ class NewsData(CleanNews):
         articles = None
         soup = None
 
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
 
@@ -570,32 +573,32 @@ class NewsData(CleanNews):
 
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
-                    'Newspaper': newspaper,
-                    'Author': author
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                    'newspaper': newspaper,
+                    'author': author
                 }
             )
 
         headline, link, date, description, author, tag = [], [], [], [], [], []
         contents = None
 
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Comments'] = 'nan'
-        data['Tag'] = 'nan'
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['comments'] = 'nan'
+        data['tag'] = 'nan'
 
-        data['Search_term'] = self.keywords
+        data['search_term'] = self.keywords
 
 
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
 
@@ -623,6 +626,20 @@ class NewsData(CleanNews):
             driver.get(url)
 
             time.sleep(2)
+
+            #
+            sec = len(driver.find_elements_by_xpath('//div[@id="px-captcha"]'))
+            if sec != 0 and self.head == False:
+                print('Failed. Run in non-headless (news.head = True) mode to solve captcha..')
+                driver.quit()
+            else:
+                m = 0
+                while len(driver.find_elements_by_xpath('//div[@id="px-captcha"]')) > 0:
+                    if m == 0:
+                        print('Please solve captcha...')
+                        m += 1
+                    time.sleep(1)
+            time.sleep(5)
 
             try:
                 driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
@@ -733,29 +750,29 @@ class NewsData(CleanNews):
 
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
-                    'Tag': tag,
-                    'Author': author
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                    'tag': tag,
+                    'author': author
                 }
             )
 
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Comments'] = 'nan'
-        data['Newspaper'] = 'Bloomberg'
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['comments'] = 'nan'
+        data['newspaper'] = 'Bloomberg'
 
-        data['Search_term'] = self.keywords
+        data['search_term'] = self.keywords
 
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
 
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
 
@@ -785,7 +802,12 @@ class NewsData(CleanNews):
 
             time.sleep(2)
             try:
-                driver.find_element_by_xpath('//button[@id="_evidon-banner-acceptbutton"]').click()
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="_evidon-barrier-wrapper"]')))
+                element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
+                driver.execute_script("""
+                var element = arguments[0];
+                element.parentNode.removeChild(element);
+                """, element)
             except:
                 pass
             #_evidon-barrier-wrapper
@@ -830,31 +852,31 @@ class NewsData(CleanNews):
 
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
                 }
             )
 
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Comments'] = 'nan'
-        data['Author'] = 'nan'
-        data['Tag'] = 'nan'
-        data['Comments'] = 'nan'
-        data['Newspaper'] = 'Reuters'
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['comments'] = 'nan'
+        data['author'] = 'nan'
+        data['tag'] = 'nan'
+        data['comments'] = 'nan'
+        data['newspaper'] = 'Reuters'
 
-        data['Search_term'] = self.keywords
+        data['search_term'] = self.keywords
 
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
 
 
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
 
@@ -996,29 +1018,29 @@ class NewsData(CleanNews):
 
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
-                    'Tag': tag,
-                    'Author': author
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                    'tag': tag,
+                    'author': author
                 }
             )
 
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Comments'] = 'nan'
-        data['Newspaper'] = 'CNBC'
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['comments'] = 'nan'
+        data['newspaper'] = 'CNBC'
 
-        data['Search_term'] = self.keywords
+        data['search_term'] = self.keywords
 
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
 
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
 
@@ -1123,27 +1145,27 @@ class NewsData(CleanNews):
         # clean dates
         data = pd.DataFrame(
                 {
-                    'Link': link,
-                    'Headline': headline,
-                    'Date': date,
-                    'Description': description,
-                    'Tag': tag,
-                    'Author': author,
-                    'Comments': comment
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                    'tag': tag,
+                    'author': author,
+                    'comments': comment
                 }
             )
 
         data.drop_duplicates(inplace = True)
-        data['Date_Retrieved'] = dt.datetime.today()
-        data['Ticker'] = self.ticker
-        data['Newspaper'] = 'NYT'
-        data['Search_term'] = self.keywords
-        data['ID'] = data['Newspaper'] +  data['Headline'] + data['Link']
-        columns = [ 'Link', 'Headline', 'Date', 'Description', 'Date_Retrieved', 'Author', 'Tag', 'Newspaper', 'Comments', 'Ticker', 'Search_term', 'ID' ]
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['newspaper'] = 'NYT'
+        data['search_term'] = self.keywords
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
-        data['Source'] = source
+        data['source'] = source
 
         data = self._clean_dates(data)
 
@@ -1154,15 +1176,3 @@ class NewsData(CleanNews):
             print('-' * 78)
 
         return data
-
-'''
-news = NewsData('XOM', 'exxon mobil')
-news.head = False
-df = news.ft(datestop = '2020-06-20')
-
-df.head(3).to_markdown()
-
-
-df.Description.iloc[0].replace('\t', ' ').replace('\n', ' ')
-df.Description.iloc[0].replace('\n', ' ')
-'''

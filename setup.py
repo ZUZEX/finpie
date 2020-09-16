@@ -18,7 +18,7 @@ with open(path.join(this_directory, 'requirements.txt'), encoding='utf-8') as f:
     requirements = f.read().splitlines()
 
 setup(name = 'finpie',
-      version = '0.12',
+      version = '0.1',
       description = 'Simple library to download some financial data',
       packages = find_packages(),
       install_requires = requirements,

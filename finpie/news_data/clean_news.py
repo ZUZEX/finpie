@@ -57,52 +57,54 @@ class CleanNews(DataBase):
         '''
 
         '''
-        data['Datetime'] = np.nan
-        hour = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data.Date) if 'hour' in hour.lower() ]
+        data['temp_date'] = np.nan
+        hour = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data['date']) if 'hour' in hour.lower() ]
         for i, h in hour:
-            data.Datetime.iloc[i] = data.Date_Retrieved.iloc[i] - dt.timedelta( hours = int(h) )
+            data.temp_date.iloc[i] = data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h) )
 
-        week = [ (idx, w.split(' ')[1:]) for idx, w in enumerate(data.Date) if any(wd in w.split(' ')[0] for wd in self.weekdays) ]
+        week = [ (idx, w.split(' ')[1:]) for idx, w in enumerate(data['date']) if any(wd in w.split(' ')[0] for wd in self.weekdays) ]
         for i, w in week:
             if len(w) == 2:
-                data.loc[i, 'Datetime'] = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y' )
+                data.loc[i, 'temp_date'] = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y' )
             else:
-                data.loc[i, 'Datetime'] = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(w[2]), format = '%d/%m/%Y' )
+                data.loc[i, 'temp_date'] = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(w[2]), format = '%d/%m/%Y' )
 
-        day = [ (idx, w.split(' ')[0].replace(',', '')) for idx, w in enumerate(data.Date) if any(wd in w.split(' ')[0].replace(',', '') for wd in self.dayz) ]
+        day = [ (idx, w.split(' ')[0].replace(',', '')) for idx, w in enumerate(data['date']) if any(wd in w.split(' ')[0].replace(',', '') for wd in self.dayz) ]
         for i, w in day:
             if w == 'Today':
-                data.Datetime.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today(),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
+                data.temp_date.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today(),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
             elif w == 'Yesterday':
-                data.Datetime.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today() - dt.timedelta(days = 1),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
+                data.temp_date.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today() - dt.timedelta(days = 1),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
 
-        hes = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data.Date) if 'h ago' in hour.lower() ]
+        hes = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data['date']) if 'h ago' in hour.lower() ]
         for i, h in hes:
-            data.Datetime.iloc[i] = data.Date_Retrieved.iloc[i] - dt.timedelta( hours = int(h.replace('h', '')) )
+            data.temp_date.iloc[i] = data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h.replace('h', '')) )
 
 
-        for source in np.unique(data.Source):
+        for source in np.unique(data['source']):
             if source == 'sa':
                 pass
             elif source == 'nyt':
-                yes = [ (idx, d.split(' ')[:2]) for idx, d in enumerate(data.Date) if len(d.split(' ')[-1]) < 3 ]
+                yes = [ (idx, d.split(' ')[:2]) for idx, d in enumerate(data['date']) if len(d.split(' ')[-1]) < 3 ]
                 for i, y in yes:
-                    data.Datetime.iloc[i] = pd.to_datetime( y[1] + '/' + self.months[y[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y')
+                    data.temp_date.iloc[i] = pd.to_datetime( y[1] + '/' + self.months[y[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y')
             elif source in ['ft', 'bloomberg']:
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[-1] \
-                                                                                             for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[-1] \
+                                                                                             for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
             elif source in ['barrons', 'wsj']:
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
-                                                                                                     for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
+                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
             elif source == 'reuters':
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
-                                                                                                     for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
+                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
             elif source == 'cnbc':
-                data['Datetime'][ data.Source == source ] = list(pd.to_datetime( [ d.split(' ')[0].split('/')[1] + '/' + d.split(' ')[0].split('/')[0] + '/' + d.split(' ')[0].split('/')[2] \
-                                                                                                     for d in data[ data.Source == source ].Date ], format = '%d/%m/%Y' ))
-        data.Datetime = data.Datetime.dt.strftime('%d/%m/%Y')
-        data.index = data.Datetime
-        data.drop('Datetime', inplace = True, axis = 1)
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[0].split('/')[1] + '/' + d.split(' ')[0].split('/')[0] + '/' + d.split(' ')[0].split('/')[2] \
+                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
+        data.temp_date = data.temp_date.dt.strftime('%d/%m/%Y')
+        data.index = pd.to_datetime( data.temp_date, format = '%d/%m/%Y' )
+        data.drop('temp_date', inplace = True, axis = 1)
+        data.index.name = 'date'
+        data.drop('date', axis = 1, inplace = True)
         return data
 
 
@@ -110,7 +112,7 @@ class CleanNews(DataBase):
         '''
 
         '''
-        columns = [ col for col in data.columns if col != 'Date_Retrieved' ]
+        columns = [ col for col in data.columns if col != 'date_retrieved' ]
         data.drop_duplicates(columns, inplace = True)
         data.reset_index(drop = True, inplace = True)
         return data
@@ -120,15 +122,15 @@ class CleanNews(DataBase):
 
         '''
         filtered = []
-        for i, n in enumerate(data.Headline):
+        for i, n in enumerate(data.headline):
             for f in self.filterz:
                 if f in n.lower():
-                    filtered.append( data.ID.iloc[i] )
-                elif f in data.Description.iloc[i].lower():
-                    filtered.append( data.ID.iloc[i] )
+                    filtered.append( data.id.iloc[i] )
+                elif f in data.description.iloc[i].lower():
+                    filtered.append( data.id.iloc[i] )
                 else:
                     continue
 
-        data = data[ data.ID.isin(filtered) ]
-        data.reset_index(drop = True, inplace = True)
+        data = data[ data.id.isin(filtered) ]
+        #data.reset_index(drop = True, inplace = True)
         return data

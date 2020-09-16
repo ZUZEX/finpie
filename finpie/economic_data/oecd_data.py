@@ -408,7 +408,7 @@ class OecdData(object):
     # trade
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
-    def exports_value(self, growth = False, seasonally_adjusted = False):
+    def exports_value(self, growth = False, seasonally_adjusted = True):
         code1 = 'XTEXVA01'
         if growth:
             code2 = f'.GYSA.{self.freq}' # other currency codes
@@ -424,7 +424,7 @@ class OecdData(object):
                 code2 = f'.NCML.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def imports_value(self, growth = False, seasonally_adjusted = False):
+    def imports_value(self, growth = False, seasonally_adjusted = True):
         code1 = 'XTIMVA01'
         if growth:
             code2 = f'.GYSA.{self.freq}' # other currency codes
@@ -456,7 +456,7 @@ class OecdData(object):
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
 
-    def cpi_total(self, growth = False, seasonally_adjusted = False):
+    def cpi_total(self, growth = False, seasonally_adjusted = True):
         code1 = 'CPALTT01'
 
         if seasonally_adjusted:
@@ -476,7 +476,7 @@ class OecdData(object):
         code2 = f'.IXOB.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def cpi_non_food_non_energy(self, growth = False, seasonally_adjusted = False):
+    def cpi_non_food_non_energy(self, growth = False, seasonally_adjusted = True):
         code1 = 'CPGRLE01'
         if seasonally_adjusted:
             if growth:
@@ -490,7 +490,7 @@ class OecdData(object):
                 code2 = f'.IXOB.{self.freq}' # other currency codes
         return self._main_indicator_helper(code1, code2)
 
-    def cpi_energy(self, growth = False, seasonally_adjusted = False):
+    def cpi_energy(self, growth = False, seasonally_adjusted = True):
         code1 = 'CPGREN01'
         if seasonally_adjusted:
             if growth:
@@ -515,66 +515,66 @@ class OecdData(object):
         code2 = f'.IXOBSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_total(self, growth = True, index = False):
+    def gdp_total(self, growth = False, index = False):
         code1 = 'NAEXKP01'
         if growth:
-            code2 = f'GYSA.{self.freq}'
+            code2 = f'.GYSA.{self.freq}'
         elif index:
-            code2 = f'IXOBSA.{self.freq}'
+            code2 = f'.IXOBSA.{self.freq}'
         else:
-            code2 = f'STSA.{self.freq}'
+            code2 = f'.STSA.{self.freq}'
 
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_final_consumption(self, growth = True, index = False):
+    def gdp_final_consumption(self, growth = False, index = False):
         code1 = 'NAEXKP02'
         if growth:
-            code2 = f'GYSA.{self.freq}'
+            code2 = f'.GYSA.{self.freq}'
         elif index:
-            code2 = f'IXOBSA.{self.freq}'
+            code2 = f'.IXOBSA.{self.freq}'
         else:
-            code2 = f'STSA.{self.freq}'
+            code2 = f'.STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_government_consumption(self, growth = True, index = False):
+    def gdp_government_consumption(self, growth = False, index = False):
         code1 = 'NAEXKP03'
         if growth:
-            code2 = f'GYSA.{self.freq}'
+            code2 = f'.GYSA.{self.freq}'
         elif index:
-            code2 = f'IXOBSA.{self.freq}'
+            code2 = f'.IXOBSA.{self.freq}'
         else:
-            code2 = f'STSA.{self.freq}'
+            code2 = f'.STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
-    def gdp_fixed_capital_formation(self, growth = True, index = False):
+    def gdp_fixed_capital_formation(self, growth = False, index = False):
         code1 = 'NAEXKP04'
         if growth:
-            code2 = f'GYSA.{self.freq}'
+            code2 = f'.GYSA.{self.freq}'
         elif index:
-            code2 = f'IXOBSA.{self.freq}'
+            code2 = f'.IXOBSA.{self.freq}'
         else:
-            code2 = f'STSA.{self.freq}'
+            code2 = f'.STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_exports(self, growth = True, index = False):
+    def gdp_exports(self, growth = False, index = False):
         code1 = 'NAEXKP06'
         if growth:
-            code2 = f'GYSA.{self.freq}'
+            code2 = f'.GYSA.{self.freq}'
         elif index:
-            code2 = f'IXOBSA.{self.freq}'
+            code2 = f'.IXOBSA.{self.freq}'
         else:
-            code2 = f'STSA.{self.freq}'
+            code2 = f'.STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
-    def gdp_imports(self, growth = True, index = False):
+    def gdp_imports(self, growth = False, index = False):
         code1 = 'NAEXKP07'
         if growth:
-            code2 = f'GYSA.{self.freq}'
+            code2 = f'.GYSA.{self.freq}'
         elif index:
-            code2 = f'IXOBSA.{self.freq}'
+            code2 = f'.IXOBSA.{self.freq}'
         else:
-            code2 = f'STSA.{self.freq}'
+            code2 = f'.STSA.{self.freq}'
         return self._main_indicator_helper(code1, code2)
 
 
