@@ -25,6 +25,7 @@
 
 # Economic data
 from finpie.economic_data.oecd_data import OecdData
+from finpie.economic_data.eia_data import EiaData
 # Fundamental data
 from finpie.fundamental_data.finviz import FinvizData
 from finpie.fundamental_data.macrotrends import MacrotrendsData
@@ -41,12 +42,14 @@ from finpie.price_data.price_data import tingo_prices
 from finpie.price_data.price_data import iex_intraday
 from finpie.price_data.price_data import yahoo_prices
 from finpie.price_data.price_data import yahoo_option_chain
+from finpie.price_data.price_data import cboe_option_chain
 from finpie.price_data.futures_prices import historical_futures_contracts
 from finpie.price_data.futures_prices import futures_contracts
 
+
 __all__ = [ 'alpha_vantage_prices', 'tingo_prices', 'iex_intraday',
-            'yahoo_prices', 'yahoo_option_chain',
+            'yahoo_prices', 'yahoo_option_chain', 'cboe_option_chain'
             'historical_futures_contracts', 'futures_contracts',
             'nasdaq_tickers', 'global_tickers',
             'YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData',
-            'OecdData', 'NewsData']
+            'OecdData', 'EiaData', 'NewsData']

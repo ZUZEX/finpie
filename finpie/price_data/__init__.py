@@ -23,9 +23,9 @@
 # SOFTWARE.
 #
 
-from .price_data import alpha_vantage_prices, tingo_prices, iex_intraday, yahoo_prices, yahoo_option_chain
+from .price_data import alpha_vantage_prices, tingo_prices, iex_intraday, yahoo_prices, yahoo_option_chain, cboe_option_chain
 from .futures_prices import historical_futures_contracts, futures_contracts
 
 __all__ = [ 'alpha_vantage_prices', 'tingo_prices', 'iex_intraday',
-            'yahoo_prices', 'yahoo_option_chain',
+            'yahoo_prices', 'yahoo_option_chain', 'cboe_option_chain'
             'historical_futures_contracts', 'futures_contracts']

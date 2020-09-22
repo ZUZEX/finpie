@@ -23,6 +23,7 @@
 # SOFTWARE.
 #
 
+import os
 import re
 import time
 import requests
@@ -31,8 +32,10 @@ import datetime as dt
 import dask.dataframe as dd
 from io import StringIO
 from alpha_vantage.timeseries import TimeSeries
+from selenium.webdriver.common.keys import Keys
 from iexfinance.stocks import get_historical_intraday
-
+from finpie.base import DataBase
+#from base import DataBase
 
 def alpha_vantage_prices(ticker, api_token, start_date = None):
     '''
@@ -207,5 +210,37 @@ def yahoo_option_chain( ticker ):
 
     calls.reset_index(drop = True, inplace = True)
     puts.reset_index(drop = True, inplace = True)
+
+    return calls, puts
+
+
+def cboe_option_chain(ticker, head = False):
+
+    db = DataBase()
+    db.head = head
+    url = 'http://www.cboe.com/delayedquote/quote-table-download'
+    #try:
+    driver = db._load_driver(caps = 'normal')
+    driver.get(url)
+    driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(ticker)
+    driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(Keys.ENTER)
+    db.downloads_done('quotedata.dat')
+    driver.quit()
+    #except:
+    #print('Failed to load data...')
+    #driver.quit()
+    #return None
+
+    df = pd.read_csv(db.download_path + '/quotedata.dat', error_bad_lines=False, warn_bad_lines=False)
+    underlying_price = float( df.columns[-2] )
+    df = pd.read_csv(db.download_path + '/quotedata.dat', skiprows = [0,1,3], error_bad_lines=False, warn_bad_lines=False)
+    df['underlying'] = underlying_price
+    os.remove(db.download_path + '/quotedata.dat')
+
+    df.columns = [ col.replace(' ', '_').lower().replace('_date', '') for col in df.columns ]
+    puts = df.loc[:, ['expiration', 'puts' ] + [ col for col in df.columns if '.1' in col ] + [ 'strike', 'underlying' ] ]
+    puts.columns = [ col.replace('.1', '') for col in puts.columns ]
+    calls = df.loc[:, [ col for col in df.columns if '.1' not in col ] ]
+    calls.drop('puts', inplace = True, axis = 1)
 
     return calls, puts

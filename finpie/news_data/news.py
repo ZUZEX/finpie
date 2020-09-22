@@ -184,7 +184,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag = [], [], [], [], [], []
         headline, link, date, description, author, tag = _get_articles(contents, headline, link, date, description, author, tag)
@@ -323,7 +325,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag = [], [], [], [], [], []
 
@@ -448,7 +452,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, author, comments = [], [], [], [], []
 
@@ -552,7 +558,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag, newspaper = [], [], [], [], [], [], []
 
@@ -726,7 +734,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag = [], [], [], [], [], []
 
@@ -837,7 +847,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag = [], [], [], [], [], []
 
@@ -991,7 +1003,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag = [], [], [], [], [], []
 
@@ -1118,7 +1132,9 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
+            print('Failed to load data...')
             driver.quit()
+            return None
 
         headline, link, date, description, author, tag, comment = [], [], [], [], [], [], []
 

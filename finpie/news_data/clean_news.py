@@ -65,16 +65,16 @@ class CleanNews(DataBase):
         week = [ (idx, w.split(' ')[1:]) for idx, w in enumerate(data['date']) if any(wd in w.split(' ')[0] for wd in self.weekdays) ]
         for i, w in week:
             if len(w) == 2:
-                data.loc[i, 'temp_date'] = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y' )
+                data.loc[i, 'temp_date'] = pd.to_datetime( w[1].replace(',', '')  + '-' + self.months[w[0][:3].lower()] + '-' + str(dt.datetime.today().year), format = '%d-%m-%Y' )
             else:
-                data.loc[i, 'temp_date'] = pd.to_datetime( w[1].replace(',', '')  + '/' + self.months[w[0][:3].lower()] + '/' + str(w[2]), format = '%d/%m/%Y' )
+                data.loc[i, 'temp_date'] = pd.to_datetime( w[1].replace(',', '')  + '-' + self.months[w[0][:3].lower()] + '-' + str(w[2]), format = '%d-%m-%Y' )
 
         day = [ (idx, w.split(' ')[0].replace(',', '')) for idx, w in enumerate(data['date']) if any(wd in w.split(' ')[0].replace(',', '') for wd in self.dayz) ]
         for i, w in day:
             if w == 'Today':
-                data.temp_date.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today(),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
+                data.temp_date.iloc[i] = pd.to_datetime( dt.datetime.today().date(), format = '%d-%m-%Y' )
             elif w == 'Yesterday':
-                data.temp_date.iloc[i] = pd.to_datetime( dt.datetime.strftime(dt.datetime.today() - dt.timedelta(days = 1),  format = '%d/%m/%Y'), format = '%d/%m/%Y' )
+                data.temp_date.iloc[i] = pd.to_datetime( dt.datetime.today().date() - dt.timedelta(days = 1),  format = '%d-%m-%Y')
 
         hes = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data['date']) if 'h ago' in hour.lower() ]
         for i, h in hes:
@@ -83,25 +83,25 @@ class CleanNews(DataBase):
 
         for source in np.unique(data['source']):
             if source == 'sa':
-                pass
+                data.temp_date = pd.to_datetime(data.temp_date,  format = '%d-%m-%Y')
             elif source == 'nyt':
                 yes = [ (idx, d.split(' ')[:2]) for idx, d in enumerate(data['date']) if len(d.split(' ')[-1]) < 3 ]
                 for i, y in yes:
-                    data.temp_date.iloc[i] = pd.to_datetime( y[1] + '/' + self.months[y[0][:3].lower()] + '/' + str(dt.datetime.today().year), format = '%d/%m/%Y')
+                    data.temp_date.iloc[i] = pd.to_datetime( y[1] + '-' + self.months[y[0][:3].lower()] + '-' + str(dt.datetime.today().year), format = '%d-%m-%Y')
             elif source in ['ft', 'bloomberg']:
-                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[-1] \
-                                                                                             for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[-1] \
+                                                                                             for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source in ['barrons', 'wsj']:
-                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
-                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
+                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source == 'reuters':
-                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '/' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '/' + d.split(' ')[2] \
-                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
+                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source == 'cnbc':
-                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[0].split('/')[1] + '/' + d.split(' ')[0].split('/')[0] + '/' + d.split(' ')[0].split('/')[2] \
-                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d/%m/%Y' ))
-        data.temp_date = data.temp_date.dt.strftime('%d/%m/%Y')
-        data.index = pd.to_datetime( data.temp_date, format = '%d/%m/%Y' )
+                data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[0].split('/')[1] + '-' + d.split(' ')[0].split('/')[0] + '-' + d.split(' ')[0].split('/')[2] \
+                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
+        data.temp_date = data.temp_date.dt.strftime('%d-%m-%Y')
+        data.index = pd.to_datetime( data.temp_date, format = '%d-%m-%Y' )
         data.drop('temp_date', inplace = True, axis = 1)
         data.index.name = 'date'
         data.drop('date', axis = 1, inplace = True)

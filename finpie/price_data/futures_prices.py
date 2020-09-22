@@ -81,7 +81,10 @@ def _download_prices(date):
         r = session.get(url)
         soup = bs(r.content, 'html5lib')
         df = pd.read_html( str(soup.find('map').find_next('table')) )[0]
-        futures_lookup = pd.read_csv( os.path.dirname(__file__) + '/futures_lookup.csv').name.tolist()
+        try:
+            futures_lookup = pd.read_csv( os.path.dirname(__file__) + '/futures_lookup.csv').name.tolist()
+        except:
+            futures_lookup = pd.read_csv( os.path.dirname(__file__) + '\\futures_lookup.csv').name.tolist()
         indices = [ i for i, j in enumerate(df.iloc[:,0]) if j in futures_lookup ]
         columns = ['month', 'date', 'open', 'high', 'low', 'close', 'change', 'volume', 'open_interest', 'change_in_oi' ]
         if len(df.columns) == 11:

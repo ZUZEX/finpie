@@ -91,30 +91,38 @@ class MacrotrendsData( DataBase ):
             driver.quit()
             return None
 
-        dfs = [ self._get_table(driver.page_source) ]
-        bool, check, double_check = True, '', 0
-        first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
-
-        while bool:
-            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
-            element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
-            ActionChains(driver).click_and_hold(element).perform()
-            time.sleep(2)
+        try:
+            dfs = [ self._get_table(driver.page_source) ]
+            bool, check, double_check = True, '', 0
             first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
-            ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
 
-            dfs.append( self._get_table(driver.page_source) )
+            while bool:
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
+                element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
+                ActionChains(driver).click_and_hold(element).perform()
+                time.sleep(2)
+                first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
+                ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
 
-            if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
-                if double_check == 3:
-                    bool = False
-                double_check += 1
+                dfs.append( self._get_table(driver.page_source) )
 
-            check = first #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text
+                if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
+                    if double_check == 3:
+                        bool = False
+                    double_check += 1
 
-        df = pd.concat(dfs, axis = 1)
-        df = df.loc[:,~df.columns.duplicated()]
-        driver.quit()
+                check = first #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text
+
+            df = pd.concat(dfs, axis = 1)
+            df = df.loc[:,~df.columns.duplicated()]
+            driver.quit()
+
+        except:
+            print('Failed to load data...')
+            driver.quit()
+            return None
+
+
 
         df.replace('\$', '', regex = True, inplace = True)
         df.replace(',', '', regex = True, inplace = True)

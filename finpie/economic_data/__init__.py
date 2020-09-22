@@ -24,5 +24,6 @@
 #
 
 from .oecd_data import OecdData
+from .eia_data import EiaData
 
-__all__ = ['OecdData']
+__all__ = ['OecdData', 'EiaData']

@@ -18,7 +18,7 @@ with open(path.join(this_directory, 'requirements.txt'), encoding='utf-8') as f:
     requirements = f.read().splitlines()
 
 setup(name = 'finpie',
-      version = '0.1',
+      version = '0.32',
       description = 'Simple library to download some financial data',
       packages = find_packages(),
       install_requires = requirements,
@@ -27,7 +27,8 @@ setup(name = 'finpie',
       author_email = 'pe.lacour@gmail.com',
       url = 'https://github.com/peterlacour/finpie',
       license = 'MIT',
-      keywords = ['yahoo finance', 'news data', '' ],
+      keywords = ['yahoo finance', 'news data', 'company fundamentals',
+                  'economic data', 'eia data', 'stock prices', 'option prices' ],
       long_description = long_description,
       long_description_content_type = 'text/markdown',
       zip_safe = False)

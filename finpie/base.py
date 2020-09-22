@@ -25,88 +25,119 @@
 
 import os
 import sys
+import time
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
 from requests_html import HTMLSession
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+
 class DataBase(object):
-
-    def __init__(self):
-
-        self.head = False
-        #pass
+	def __init__(self):
+		self.head = False
+		self.download_path = os.getcwd()
 
 
-    def _get_chromedriver(self):
+	def _get_chromedriver(self):
 
-        filepath = os.path.dirname(__file__)
-        if '/' in filepath:
-            filepath = '/'.join( filepath.split('/')) + '/webdrivers/'
-        elif '\\' in filepath:
-            filepath = '\\'.join( filepath.split('\\')) + '\\webdrivers\\'
-
-        if sys.platform == 'darwin':
-            return  filepath + 'chromedriver_mac'
-        elif 'win' in sys.platform:
-            return filepath + 'chromedriver_windows.exe'
-
-
-    def _load_driver(self, caps = 'none'):
-        options = webdriver.ChromeOptions()
-        if not self.head:
-            options.add_argument('--headless')
-
-        if caps == 'none':
-            caps = DesiredCapabilities().CHROME
-            caps["pageLoadStrategy"] = "none"
-            driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
-        else:
-            caps = DesiredCapabilities().CHROME
-            caps["pageLoadStrategy"] = "normal"
-            driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
-        driver.set_window_size(1400,1000)
-        driver.set_page_load_timeout(1800)
-        driver.delete_all_cookies()
-
-        return driver
+		filepath = os.path.dirname(__file__)
+		if '/' in filepath:
+			filepath = '/'.join( filepath.split('/')) + '/webdrivers/'
+		elif '\\' in filepath:
+			filepath = '\\'.join( filepath.split('\\')) + '\\webdrivers\\'
+		if sys.platform == 'darwin':
+			return filepath + 'chromedriver_mac'
+		elif 'win' in sys.platform:
+			return filepath + 'chromedriver_windows.exe'
 
 
-    def _get_session(self, url):
-        '''
+	def _load_driver(self, caps = 'none'):
 
-        '''
-        session = HTMLSession()
-        r = session.get(url)
-        soup = bs(r.content, 'html5lib')
-        return soup
+		options = webdriver.ChromeOptions()
+		prefs = {}
+		prefs['profile.default_content_settings.popups'] = 0
+		prefs['download.default_directory'] = self.download_path
+		prefs['profile.default_content_setting_values.automatic_downloads'] =  1
+		options.add_experimental_option('prefs', prefs)
+		options.add_experimental_option("excludeSwitches", ['enable-automation'])
+		options.add_argument('--no-sandbox')
+		options.add_argument('--disable-setuid-sandbox')
+		options.add_argument('--start-maximized')
+
+		if not self.head:
+			options.add_argument('--headless')
+		try:
+			if caps == 'none':
+				caps = DesiredCapabilities().CHROME
+				caps["pageLoadStrategy"] = "none"
+				driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
+			else:
+				caps = DesiredCapabilities().CHROME
+				caps["pageLoadStrategy"] = "normal"
+				driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
 
 
-    def _col_to_float(self, df):
-        '''
-        Converts string columns to floats replacing percentage signs and T, B, M, k
-        to trillions, billions, millions and thousands.
-        '''
-        for col in df.columns:
-            try:
-                df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
-                                                        .replace('T', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000000000) #.astype('str')
-                df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
-                                                        .replace('B', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000000) #.astype('str')
-                df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
-                                                        .replace('M', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000) #.astype('str')
-                df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
-                                                        .replace('k', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000) #.astype('str')
-                df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
-                                                        .replace('%', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') / 100) #.astype('str')
-                df.loc[df[col].str.contains('K'), col] = (df[col][df[col].str.contains('K', case=True)] \
-                                                     .replace('K', '', regex = True) \
-                                                     .astype('float') * 1000) #.astype('str')
-            except:
-                continue
-        return df
+			driver.set_window_size(1400,1000)
+			driver.set_page_load_timeout(600)
+			driver.delete_all_cookies()
+
+		except Exception as e:
+			print('Failed to start driver: ' + str(e) )
+			if 'chrome not reachable' in str(e):
+				print('Try turning off your firewall...')
+
+		return driver
+
+	def _get_session(self, url):
+		'''
+		...
+		'''
+		session = HTMLSession()
+		r = session.get(url)
+		soup = bs(r.content, 'html5lib')
+		return soup
+
+
+	def downloads_done(self, filename):
+		'''
+		https://stackoverflow.com/questions/48263317/selenium-python-waiting-for-a-download-process-to-complete-using-chrome-web
+		'''
+
+		bool = True
+		while bool:
+			if filename not in os.listdir(self.download_path):
+				time.sleep(0.5)
+				#self._downloads_done(filename)
+			else:
+				bool = False
+		return None
+
+
+	def _col_to_float(self, df):
+		'''
+		Converts string columns to floats replacing percentage signs and T, B, M, k
+		to trillions, billions, millions and thousands.
+		'''
+		for col in df.columns:
+			try:
+				df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
+					.replace('T', '', regex = True).replace(',', '', regex = True) \
+					.astype('float') * 1000000000000) #.astype('str')
+				df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
+					.replace('B', '', regex = True).replace(',', '', regex = True) \
+					.astype('float') * 1000000000) #.astype('str')
+				df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
+					.replace('M', '', regex = True).replace(',', '', regex = True) \
+					.astype('float') * 1000000) #.astype('str')
+				df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
+					.replace('k', '', regex = True).replace(',', '', regex = True) \
+					.astype('float') * 1000) #.astype('str')
+				df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
+					.replace('%', '', regex = True).replace(',', '', regex = True) \
+					.astype('float') / 100) #.astype('str')
+				df.loc[df[col].str.contains('K'), col] = (df[col][df[col].str.contains('K', case=True)] \
+					.replace('K', '', regex = True) \
+					.astype('float') * 1000) #.astype('str')
+			except:
+				continue
+		return df
