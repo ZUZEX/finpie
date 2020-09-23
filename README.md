@@ -28,7 +28,7 @@
 <li> Create test file </li>
 <li> 'Stabilise' and refactor the news scrape..</li>
 <li> Add an earnings transcript section </li>
-<li> Improve EIA data representation ( same column names for PADDs or crude and products across different series for easier cross reference; add more granularity for some functions ), add other EIA data sets </li>
+<li> Improve EIA data representation ( same column names for PADDs or crude and products across different series for easier cross reference; add more granularity to some functions ), add other EIA data sets </li>
 <li> Add EIA bulk download option and support EIA API </li>
 <li> Add USDA data, CFTC COT and potentially add weather data sources (e.g. heating degree days, cooling degree days in NE US) </li>
 <li> Add social media data (Twitter, Stocktwits, Weibo, Reddit WSB?) </li>
@@ -73,11 +73,12 @@
 </ul>
 <a href="#A6B">EIA petroleum data</a>
 <ul>
-<li><a href = "#A">Weekly balance</a></li>
-<li><a href = "#A">Crude oil supply</a></li>
-<li><a href = "#A">Refining and processing</a></li>
-<li><a href = "#A">Stocks</a></li>
-<li><a href = "#A">Consumption and sales</a></li>
+<li><a href = "#A6B1">Weekly balance</a></li>
+<li><a href = "#A6B2">Crude oil supply</a></li>
+<li><a href = "#A6B3">Refining and processing</a></li>
+<li><a href = "#A6B4">Imports and exports</a></li>
+<li><a href = "#A6B5">Stocks</a></li>
+<li><a href = "#A6B6">Consumption and sales</a></li>
 </ul>
 
 <li><a href="#A7">News data</a></li>
@@ -116,7 +117,6 @@ tqdm>=4.32.1
 
 
 ## <div id="A3"> Index </div>
-
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
@@ -233,11 +233,6 @@ tqdm>=4.32.1
 |<li> <a id='i111' href='#f111'>crude\_supply\_and\_disposition()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i112' href='#f112'>rig\_count()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i113' href='#f113'>crude\_reserves()</a> </li>|Timeseries|Not that slow|
-|<u>Import and exports</u>|||
-|<li> <a id='i114' href='#f114'>weekly\_xm()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i115' href='#f115'>monthly\_xm()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i116' href='#f116'>weekly\_imports\_by\_country()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i117' href='#f117'>crude\_imports\_quality()</a> </li>|Timeseries|Not that slow|
 |<u>Refining and processing</u>|||
 |<li> <a id='i118' href='#f118'>weekly\_refinery_inputs()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i119' href='#f119'>refinery\_utilisation()</a> </li>|Timeseries|Not that slow|
@@ -245,6 +240,11 @@ tqdm>=4.32.1
 |<li> <a id='i121' href='#f121'>crude\_acquisition\_costs()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i122' href='#f122'>crude\_inputs\_quality()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i123' href='#f123'>refineries()</a> </li>|Timeseries|Not that slow|
+|<u>Import and exports</u>|||
+|<li> <a id='i114' href='#f114'>weekly\_xm()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i115' href='#f115'>monthly\_xm()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i116' href='#f116'>weekly\_imports\_by\_country()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i117' href='#f117'>crude\_imports\_quality()</a> </li>|Timeseries|Not that slow|
 |<u>Stocks</u>|||
 |<li> <a id='i124' href='#f124'>weekly\_stocks()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i125' href='#f125'>monthly\_product\_stocks()</a> </li>|Timeseries|Not that slow|
@@ -3300,7 +3300,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <br>
 
 
-### <div id="A61"><li> Weekly balances </li></div>
+### <div id="A6B1"><li> Weekly balances </li></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -3368,12 +3368,11 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-
 #### <div id = "f109"><i>EiaData().last\_weekly\_balance( breakdown = False )</i>
 
 <ul>
 <li>Returns timeseries for the weekly EIA balance.</li>
-<li><i>Srguments:</i></li>
+<li><i>Arguments:</i></li>
 	<ul>
 		<li><code>breakdown = False</code> returns week ending stocks </li>
 		<li><code>breakdown = True</code> returns a breakdown by production, imports, exports, etc. of crude and products </li>
@@ -3410,7 +3409,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-### <div id=""><li> Crude oil supply </li></div>
+### <div id="A6B2"><li> Crude oil supply </li></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -3563,175 +3562,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-### <div id=""><li> Crude oil supply </li></div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-<div align="right"><a href="#0">Back to top</a> </div>
-
-
-
-
-#### <div id = "f114"><i>EiaData().weekly\_xm( padds = False, sma = False )</i>
-
-<ul>
-<li>Returns weekly import and export data.</li>
-<ul>
-<i>Arguments:</i>
-<li> <code>padds = True</code> - returns weekly imports by PADD</li>
-<li> <code>padds = True</code> - returns weekly imports and exports by product</li>
-<li> <code>sma = True</code> - returns 4-week average</li>
-</ul>
-</ul>
-
-<i> Example </i>
-
-```python
-eia = eia_data.EiaData()
-eia.weekly_xm( padds = True )
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly East Coast (PADD 1) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Midwest (PADD 2) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Gulf Coast (PADD 3) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Rocky Mountain (PADD 4) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly West Coast (PADD 5) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1991-02-08</th>      <td>6877.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-15</th>      <td>6573.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-22</th>      <td>6221.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-03-01</th>      <td>6188.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr> 
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>  
-</tbody></table>
-
-
-
-
-</small></small></center>
-
-<div align = "right">  <a href="#i114">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-
-
-
-#### <div id = "f115"><i>EiaData().monthly\_xm( net = False, xm = 'both', by = False )</i>
-
-<ul>
-<li>Returns monthly import and export data.</li>
-<ul>
-<i>Arguments:</i>
-<li> <code>net = True</code> - returns monthly net imports by country of origin</li>
-<li> <code>net = False</code> and <code>xm = 'both'</code> - returns monthly imports and exports by product</li>
-<li> <code>net = False</code> and <code>xm = 'm'</code> - returns monthly imports by product</li>
-<li> <code>net = False</code> and <code>xm = 'x'</code> - returns monthly exports by product</li>
-<li> <code>net = False</code> and <code>xm = 'm'</code> and <code>by = True </code> - returns monthly imports by country of origin</li>
-<li> <code>net = False</code> and <code>xm = 'x'</code> and <code>by = True </code> - returns monthly exports by destination</li>
-</ul>
-</ul>
-
-<i> Example </i>
-
-```python
-eia = eia_data.EiaData()
-eia.monthly_xm( net = True )
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Net Imports of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Persian Gulf Countries of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from OPEC Countries of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Algeria of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Angola of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Congo (Brazzaville) of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1973-01-15</th>      <td>5646.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1973-02-15</th>      <td>6246.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1973-03-15</th>      <td>6386.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>  
- <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
-</tbody></table>
-
-
-
-</small></small></center>
-
-<div align = "right">  <a href="#i115">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-
-
-
-#### <div id = "f116"><i>EiaData().weekly\_imports\_by\_country( sma = False )</i>
-
-<ul>
-<li>Returns weekly imports by country.</li>
-<ul>
-<i>Arguments:</i>
-<li> <code>sma = True</code> - returns 4 week average</li>
-</ul>
-</ul>
-
-<i> Example </i>
-
-```python
-eia = eia_data.EiaData()
-eia.weekly_top_imports_by_country( sma = False )
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports from Canada of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Saudi Arabia of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Mexico of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Iraq of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Venezuela of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Colombia of Crude Oil  (Thousand Barrels per Day)</th>  <th>...</th>   </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>   <th></th>   <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>2010-06-04</th>      <td>1869.0</td>      <td>1230.0</td>      <td>1284.0</td>      <td>538.0</td>      <td>638.0</td>      <td>259.0</td>   <td>...</td>  </tr>    <tr>      <th>2010-06-11</th>      <td>2320.0</td>      <td>488.0</td>      <td>871.0</td>      <td>369.0</td>      <td>630.0</td>      <td>243.0</td>  <td>...</td>   </tr>    <tr>      <th>2010-06-18</th>      <td>1875.0</td>      <td>1048.0</td>      <td>1289.0</td>      <td>1069.0</td>      <td>542.0</td>      <td>448.0</td>   <td>...</td>  </tr> 
-
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>     <td>...</td>       <td>...</td>   <td>...</td>   </tr> 
-
-
-</tbody></table>
-
-</small></small></center>
-
-<div align = "right">  <a href="#i116">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-
-
-
-
-
-#### <div id = "f117"><i>EiaData().crude\_imports\_quality()</i>
-
-<ul>
-<li>Returns monthly crude import quality.</li>
-</ul>
-
-
-<i> Example </i>
-
-```python
-eia = eia_data.EiaData()
-eia.crude_quality()
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 20.0 percent or less (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 20.1 to 25.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 25.1 to 30.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 30.1 to 35.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 35.1 to 40.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 40.1 to 45.0%</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 45.1% or more (%)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1983-01-15</th>      <td>2.72</td>      <td>32.83</td>      <td>6.44</td>      <td>30.73</td>      <td>15.98</td>      <td>9.30</td>      <td>2.00</td>    </tr>    <tr>      <th>1983-02-15</th>      <td>5.92</td>      <td>27.70</td>      <td>10.92</td>      <td>23.09</td>      <td>19.97</td>      <td>8.65</td>      <td>3.75</td>    </tr>    <tr>      <th>1983-03-15</th>      <td>4.10</td>      <td>26.62</td>      <td>9.17</td>      <td>23.10</td>      <td>26.10</td>      <td>8.07</td>      <td>2.83</td>    </tr>    <tr>      <th>1983-04-15</th>      <td>3.76</td>      <td>21.87</td>      <td>10.50</td>      <td>20.91</td>      <td>27.77</td>      <td>10.31</td>      <td>4.88</td>    </tr>  
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>       <td>...</td>       <td>...</td>       <td>...</td>       <td>...</td>    </tr>  
-</tbody></table>
-
-
-</small></small></center>
-
-<div align = "right">  <a href="#i117">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-
-
-### <div id=""><li> Refining and processing </li></div>
+### <div id="A6B3"><li> Refining and processing </li></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -3949,10 +3780,177 @@ eia.refineries()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
+### <div id="A6B4"><li> Imports and Exports </li></div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+<div align="right"><a href="#0">Back to top</a> </div>
 
 
 
-### <div id=""><li> Stocks </li></div>
+
+#### <div id = "f114"><i>EiaData().weekly\_xm( padds = False, sma = False )</i>
+
+<ul>
+<li>Returns weekly import and export data.</li>
+<ul>
+<i>Arguments:</i>
+<li> <code>padds = True</code> - returns weekly imports by PADD</li>
+<li> <code>padds = True</code> - returns weekly imports and exports by product</li>
+<li> <code>sma = True</code> - returns 4-week average</li>
+</ul>
+</ul>
+
+<i> Example </i>
+
+```python
+eia = eia_data.EiaData()
+eia.weekly_xm( padds = True )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly East Coast (PADD 1) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Midwest (PADD 2) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Gulf Coast (PADD 3) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Rocky Mountain (PADD 4) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly West Coast (PADD 5) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1991-02-08</th>      <td>6877.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-15</th>      <td>6573.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-22</th>      <td>6221.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-03-01</th>      <td>6188.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr> 
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>  
+</tbody></table>
+
+
+
+
+</small></small></center>
+
+<div align = "right">  <a href="#i114">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+#### <div id = "f115"><i>EiaData().monthly\_xm( net = False, xm = 'both', by = False )</i>
+
+<ul>
+<li>Returns monthly import and export data.</li>
+<ul>
+<i>Arguments:</i>
+<li> <code>net = True</code> - returns monthly net imports by country of origin</li>
+<li> <code>net = False</code> and <code>xm = 'both'</code> - returns monthly imports and exports by product</li>
+<li> <code>net = False</code> and <code>xm = 'm'</code> - returns monthly imports by product</li>
+<li> <code>net = False</code> and <code>xm = 'x'</code> - returns monthly exports by product</li>
+<li> <code>net = False</code> and <code>xm = 'm'</code> and <code>by = True </code> - returns monthly imports by country of origin</li>
+<li> <code>net = False</code> and <code>xm = 'x'</code> and <code>by = True </code> - returns monthly exports by destination</li>
+</ul>
+</ul>
+
+<i> Example </i>
+
+```python
+eia = eia_data.EiaData()
+eia.monthly_xm( net = True )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Net Imports of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Persian Gulf Countries of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from OPEC Countries of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Algeria of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Angola of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Congo (Brazzaville) of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1973-01-15</th>      <td>5646.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1973-02-15</th>      <td>6246.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1973-03-15</th>      <td>6386.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>  
+ <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
+</tbody></table>
+
+
+
+</small></small></center>
+
+<div align = "right">  <a href="#i115">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+#### <div id = "f116"><i>EiaData().weekly\_imports\_by\_country( sma = False )</i>
+
+<ul>
+<li>Returns weekly imports by country.</li>
+<ul>
+<i>Arguments:</i>
+<li> <code>sma = True</code> - returns 4 week average</li>
+</ul>
+</ul>
+
+<i> Example </i>
+
+```python
+eia = eia_data.EiaData()
+eia.weekly_top_imports_by_country( sma = False )
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports from Canada of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Saudi Arabia of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Mexico of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Iraq of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Venezuela of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Colombia of Crude Oil  (Thousand Barrels per Day)</th>  <th>...</th>   </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>   <th></th>   <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>2010-06-04</th>      <td>1869.0</td>      <td>1230.0</td>      <td>1284.0</td>      <td>538.0</td>      <td>638.0</td>      <td>259.0</td>   <td>...</td>  </tr>    <tr>      <th>2010-06-11</th>      <td>2320.0</td>      <td>488.0</td>      <td>871.0</td>      <td>369.0</td>      <td>630.0</td>      <td>243.0</td>  <td>...</td>   </tr>    <tr>      <th>2010-06-18</th>      <td>1875.0</td>      <td>1048.0</td>      <td>1289.0</td>      <td>1069.0</td>      <td>542.0</td>      <td>448.0</td>   <td>...</td>  </tr> 
+
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>     <td>...</td>       <td>...</td>   <td>...</td>   </tr> 
+
+
+</tbody></table>
+
+</small></small></center>
+
+<div align = "right">  <a href="#i116">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+
+#### <div id = "f117"><i>EiaData().crude\_imports\_quality()</i>
+
+<ul>
+<li>Returns monthly crude import quality.</li>
+</ul>
+
+
+<i> Example </i>
+
+```python
+eia = eia_data.EiaData()
+eia.crude_quality()
+```
+
+<i> Output </i>
+
+
+<center><small><small>
+
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 20.0 percent or less (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 20.1 to 25.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 25.1 to 30.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 30.1 to 35.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 35.1 to 40.0 percent (%)</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 40.1 to 45.0%</th>      <th>U.S. Percent Total Imported by API Gravity of Crude Gravity 45.1% or more (%)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1983-01-15</th>      <td>2.72</td>      <td>32.83</td>      <td>6.44</td>      <td>30.73</td>      <td>15.98</td>      <td>9.30</td>      <td>2.00</td>    </tr>    <tr>      <th>1983-02-15</th>      <td>5.92</td>      <td>27.70</td>      <td>10.92</td>      <td>23.09</td>      <td>19.97</td>      <td>8.65</td>      <td>3.75</td>    </tr>    <tr>      <th>1983-03-15</th>      <td>4.10</td>      <td>26.62</td>      <td>9.17</td>      <td>23.10</td>      <td>26.10</td>      <td>8.07</td>      <td>2.83</td>    </tr>    <tr>      <th>1983-04-15</th>      <td>3.76</td>      <td>21.87</td>      <td>10.50</td>      <td>20.91</td>      <td>27.77</td>      <td>10.31</td>      <td>4.88</td>    </tr>  
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>       <td>...</td>       <td>...</td>       <td>...</td>       <td>...</td>    </tr>  
+</tbody></table>
+
+
+</small></small></center>
+
+<div align = "right">  <a href="#i117">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+### <div id="A6B5"><li> Stocks </li></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -4106,7 +4104,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-### <div id=""><li> Consumption and sales </li></div>
+### <div id="A6B6"><li> Consumption and sales </li></div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
