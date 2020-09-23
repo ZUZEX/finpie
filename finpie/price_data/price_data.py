@@ -33,6 +33,9 @@ import dask.dataframe as dd
 from io import StringIO
 from alpha_vantage.timeseries import TimeSeries
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from iexfinance.stocks import get_historical_intraday
 from finpie.base import DataBase
 #from base import DataBase
@@ -219,17 +222,18 @@ def cboe_option_chain(ticker, head = False):
     db = DataBase()
     db.head = head
     url = 'http://www.cboe.com/delayedquote/quote-table-download'
-    #try:
-    driver = db._load_driver(caps = 'normal')
-    driver.get(url)
-    driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(ticker)
-    driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(Keys.ENTER)
-    db.downloads_done('quotedata.dat')
-    driver.quit()
-    #except:
-    #print('Failed to load data...')
-    #driver.quit()
-    #return None
+    try:
+        driver = db._load_driver(caps = 'none')
+        driver.get(url)
+        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//input[@id="txtTicker"]')))
+        driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(ticker)
+        driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(Keys.ENTER)
+        db.downloads_done('quotedata.dat')
+        driver.quit()
+    except:
+        print('Failed to load data...')
+        driver.quit()
+        return None
 
     df = pd.read_csv(db.download_path + '/quotedata.dat', error_bad_lines=False, warn_bad_lines=False)
     underlying_price = float( df.columns[-2] )

@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # finpie - a simple library to download some financial data
 # https://github.com/peterlacour/finpie
 #
+
 
 from setuptools import setup, find_packages
 from os import path
@@ -18,7 +19,7 @@ with open(path.join(this_directory, 'requirements.txt'), encoding='utf-8') as f:
     requirements = f.read().splitlines()
 
 setup(name = 'finpie',
-      version = '0.32',
+      version = '0.11',
       description = 'Simple library to download some financial data',
       packages = find_packages(),
       install_requires = requirements,

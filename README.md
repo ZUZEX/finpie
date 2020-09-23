@@ -10,7 +10,7 @@
 
 <p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p> 
 
-<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is solely pulled from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
+<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is collected from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
 
 <p>If there are any issues, ideas or recommendations please feel free to reach out.</p>
@@ -116,7 +116,6 @@ tqdm>=4.32.1
 
 
 ## <div id="A3"> Index </div>
-
 
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
@@ -225,36 +224,36 @@ tqdm>=4.32.1
 |<li> <a id='i76' href='#f76'>oecd.financial\_derivatives()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i77' href='#f77'>oecd.reserve\_assets()</a> </li>|Timeseries|Not that slow|
 |<i><b><u>EIA Petroleum Data</i></b></u>|||
-|<li> <a id='i107' href='#f107'>eia\_petroleum\_series()</a> </li>|Timeseries|Relatively fast|
+|<li> <a id='i107' href='#f107'>eia\_petroleum\_series()</a> </li>|Timeseries|Not that slow|
 |<u>Weekly balance</u>|||
-|<li> <a id='i108' href='#f108'>weekly\_balance()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i109' href='#f109'>latest\_weekly\_balance()</a> </li>|Last data point|Relatively fast|
+|<li> <a id='i108' href='#f108'>weekly\_balance()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i109' href='#f109'>latest\_weekly\_balance()</a> </li>|Latest data point|Not that slow|
 |<u>Crude oil supply</u>|||
-|<li> <a id='i110' href='#f110'>crude\_production()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i111' href='#f111'>crude\_supply\_and\_disposition()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i112' href='#f112'>rig\_count()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i113' href='#f113'>crude\_reserves()</a> </li>|Timeseries|Relatively fast|
+|<li> <a id='i110' href='#f110'>crude\_production()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i111' href='#f111'>crude\_supply\_and\_disposition()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i112' href='#f112'>rig\_count()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i113' href='#f113'>crude\_reserves()</a> </li>|Timeseries|Not that slow|
 |<u>Import and exports</u>|||
-|<li> <a id='i114' href='#f114'>weekly\_xm()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i115' href='#f115'>monthly\_xm()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i116' href='#f116'>weekly\_top\_imports\_by\_country()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i117' href='#f117'>crude\_imports\_quality()</a> </li>|Timeseries|Relatively fast|
+|<li> <a id='i114' href='#f114'>weekly\_xm()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i115' href='#f115'>monthly\_xm()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i116' href='#f116'>weekly\_imports\_by\_country()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i117' href='#f117'>crude\_imports\_quality()</a> </li>|Timeseries|Not that slow|
 |<u>Refining and processing</u>|||
-|<li> <a id='i118' href='#f118'>weekly\_refinery_inputs()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i119' href='#f119'>refinery\_utilisation()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i120' href='#f120'>refinery\_yield()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i121' href='#f121'>crude\_acquisition\_costs()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i122' href='#f122'>crude\_inputs\_quality()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i123' href='#f123'>refineries()</a> </li>|Timeseries|Relatively fast|
+|<li> <a id='i118' href='#f118'>weekly\_refinery_inputs()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i119' href='#f119'>refinery\_utilisation()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i120' href='#f120'>refinery\_yield()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i121' href='#f121'>crude\_acquisition\_costs()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i122' href='#f122'>crude\_inputs\_quality()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i123' href='#f123'>refineries()</a> </li>|Timeseries|Not that slow|
 |<u>Stocks</u>|||
-|<li> <a id='i124' href='#f124'>weekly\_stocks()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i125' href='#f125'>monthly\_product\_stocks()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i126' href='#f126'>monthly\_refinery\_stocks()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i127' href='#f127'>monthly\_tank\_and\_pipeline\_stocks()</a> </li>|Timeseries|Relatively fast|
+|<li> <a id='i124' href='#f124'>weekly\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i125' href='#f125'>monthly\_product\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i126' href='#f126'>monthly\_refinery\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i127' href='#f127'>monthly\_tank\_and\_pipeline\_stocks()</a> </li>|Timeseries|Not that slow|
 |<u>Consumption and sales</u>|||
-|<li> <a id='i128' href='#f128'>weekly\_product\_supplied()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i129' href='#f129'>monthly\_product\_supplied()</a> </li>|Timeseries|Relatively fast|
-|<li> <a id='i130' href='#f130'>product\_prices\_sales\_and\_stock()</a> </li>|Timeseries|Relatively fast|
+|<li> <a id='i128' href='#f128'>weekly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i129' href='#f129'>monthly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i130' href='#f130'>product\_prices\_sales\_and\_stock()</a> </li>|Timeseries|Not that slow|
 |<b>News data</b>|||
 |<li> <a id='i78' href='#f78'>news.barrons()</a> </li>|Timeseries|Slow|
 |<li> <a id='i79' href='#f79'>news.bloomberg()</a> </li>|Timeseries|Very slow|
@@ -3263,6 +3262,7 @@ eia.freq = 'm' # for monthly frequency if available (default)
 # eia.freq = 'a' for annual frequency if available
 eia.barrels = 'mbblpd' # (default)
 # eia.barrels = 'mbbl'
+eia.id = False # default, id = True returns EIA series id for column names
 
 ```
 
@@ -3314,18 +3314,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li><i><code>series</code> options:</i></li>
 	<ul>
 		<li>'all' - returns all series (default) </li>
-		<li>'crude_oil_production' - returns weekly crude oil production </li>
-		<li>'refiner_inputs_and_utilisation' - returns refinery inputs, weekly capacity and utilisation </li>
-		<li>'refiner_and_blender_net_inputs' - returns net input of blending components </li>
-		<li>'refiner_and_blender_net_production' - returns net refinery product production </li>
-		<li>'ethanol_plant_production' - returns fuel ethanol production </li>
+		<li>'crude oil production' - returns weekly crude oil production </li>
+		<li>'refiner inputs and utilisation' - returns refinery inputs, weekly capacity and utilisation </li>
+		<li>'refiner and blender net inputs' - returns net input of blending components </li>
+		<li>'refiner and blender net production' - returns net refinery product production </li>
+		<li>'ethanol plant production' - returns fuel ethanol production </li>
 		<li>'stocks' - returns weekly crude and product stocks </li>
-		<li>'days_of_supply' - returns number of days of supply available</li>
+		<li>'days of supply' - returns number of days of supply available</li>
 		<li>'imports' - returns weekly imports of crude and products </li>
 		<li>'exports' - returns weekly exports of crude and products  </li>
 		<li>'imports' - returns weekly imports of crude and products </li>
-		<li>'net_imports_incl_spr' - returns weekly net imports of crude and total products  </li>
-		<li>'product_supplied' - returns volume of supplied products  </li>
+		<li>'net imports incl spr' - returns weekly net imports of crude and total products  </li>
+		<li>'product supplied' - returns volume of supplied products  </li>
 	</ul>
 <li><i><code>sma</code> options:</i></li>
 	<ul>

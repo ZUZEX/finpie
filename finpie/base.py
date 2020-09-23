@@ -36,11 +36,11 @@ class DataBase(object):
 	def __init__(self):
 		self.head = False
 		self.download_path = os.getcwd()
+		self.chromedriver_path = os.path.dirname(__file__)
 
 
 	def _get_chromedriver(self):
-
-		filepath = os.path.dirname(__file__)
+		filepath = self.chromedriver_path
 		if '/' in filepath:
 			filepath = '/'.join( filepath.split('/')) + '/webdrivers/'
 		elif '\\' in filepath:

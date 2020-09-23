@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # finpie - a simple library to download some financial data
@@ -29,21 +29,20 @@ from collections import OrderedDict
 
 class EiaData(object):
 
-    def __init__(self, freq = 'm', barrels = 'mbblpd'):
-        #DataBase.__init__()
+    def __init__(self, freq = 'm', barrels = 'mbblpd', id = False):
         self.freq = freq
         self.barrels = barrels
+        self.id = id
 
     # general
-
     def eia_petroleum_series(self, series_id, sheet_name = 'all'):
-        id = False
+
         if sheet_name.lower() == 'all':
             df = pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = None, error_bad_lines = False, warn_bad_lines = False )
             df = pd.concat( [ pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = sheet, index_col = 0, error_bad_lines = False, warn_bad_lines = False ) for sheet in list(df.keys())[1:] ], axis = 1, sort = False )
         else:
             df = pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = sheet_name, index_col = 0, error_bad_lines = False, warn_bad_lines = False )
-        if id:
+        if self.id:
             df.columns = df.iloc[0,:]
         else:
             df.columns = df.iloc[1,:]
@@ -85,20 +84,17 @@ class EiaData(object):
 
 
     def weekly_balance(self, series = 'all', sma = False):
-        temp_dict = OrderedDict( {
-                    'crude_oil_production': 'Data 1',
-                    'refiner_inputs_and_utilisation': 'Data 2',
-                    'refiner_and_blender_net_inputs': 'Data 3',
-                    'refiner_and_blender_net_production': 'Data 4',
-                    'ethanol_plant_production': 'Data 5',
-                    'stocks': 'Data 6',
-                    'days_of_supply': 'Data 7',
-                    'refiner_and_blender_net_inputs': 'Data 8',
-                    'imports': 'Data 8',
-                    'exports': 'Data 9',
-                    'net_imports_incl_spr': 'Data 10',
-                    'product_supplied': 'Data 11',
-                    } )
+        temp_dict = OrderedDict( { 'crude oil production': 'Data 1',
+                                    'refiner inputs and utilisation': 'Data 2',
+                                    'refiner and blender net inputs': 'Data 3',
+                                    'refiner and blender net production': 'Data 4',
+                                    'ethanol plant production': 'Data 5',
+                                    'stocks': 'Data 6',
+                                    'days of supply': 'Data 7',
+                                    'imports': 'Data 8',
+                                    'exports': 'Data 9',
+                                    'net imports incl spr': 'Data 10',
+                                    'product supplied': 'Data 11' } )
         if sma:
             f = '4'
         else:
@@ -116,14 +112,12 @@ class EiaData(object):
                 temp = self.eia_petroleum_series(f'PET_SUM_SNDW_DCUS_NUS_{f}', temp_dict[key])
                 temp.columns = pd.MultiIndex.from_product([[key], temp.columns])
                 dfs.append(temp)
-                return pd.concat( dfs )
+                return pd.concat( dfs, sort = False, axis = 1 )
         elif series:
             return self.eia_petroleum_series(f'PET_SUM_SNDW_DCUS_NUS_{f}', temp_dict[series])
 
 
-
     # crude supply
-
     def crude_supply_and_disposition( self, series = 'all' ):
         if series == 'all':
             return self.eia_petroleum_series('pet_sum_crdsnd_k_m')
@@ -147,10 +141,7 @@ class EiaData(object):
         return self.eia_petroleum_series(f'pet_crd_drill_s1_{self.freq}')
 
     def crude_reserves( self ):
-        return eia_petroleum_series('pet_crd_pres_dcu_NUS_a')
-
-
-
+        return self.eia_petroleum_series('pet_crd_pres_dcu_NUS_a')
 
     # import and exports
     def weekly_xm( self, padds = False, sma = False):
@@ -169,7 +160,7 @@ class EiaData(object):
 
 
     def monthly_xm( self, net = False, xm = 'both', by = False ):
-
+        # imports and exports by padds..
         if net:
             return self.eia_petroleum_series(f'pet_move_neti_a_EP00_IMN_{self.barrels}_{self.freq}')
         else:
@@ -177,20 +168,18 @@ class EiaData(object):
             m.columns = pd.MultiIndex.from_product([['imports'], m.columns])
             x = self.eia_petroleum_series(f'pet_move_exp_dc_NUS-Z00_{self.barrels}_{self.freq}')
             x.columns = pd.MultiIndex.from_product([['exports'], x.columns])
-            if xm == 'both' or mx == 'xm':
-                return pd.concat([m,x], axis = 1)
-            elif xm.lower() == 'm' or mx.lower() == 'imports':
+            if xm == 'both' or xm == 'xm':
+                return pd.concat([m,x], axis = 1, sort = False)
+            elif xm.lower() == 'm' or xm.lower() == 'imports':
                 if by:
                     return self.eia_petroleum_series(f'pet_move_impcus_a2_nus_ep00_im0_{self.barrels}_{self.freq}')
                 else:
                     return m
-            elif xm.lower() == 'x' or mx.lower() == 'exports':
+            elif xm.lower() == 'x' or xm.lower() == 'exports':
                 if by:
                     return self.eia_petroleum_series(f'pet_move_expc_a_EP00_EEX_{self.barrels}_{self.freq}')
                 else:
                     return x
-
-            # imports and exports by padds..
 
 
     def weekly_imports_by_country( self, sma = False):
@@ -203,7 +192,6 @@ class EiaData(object):
 
     def crude_imports_quality(self):
         return self.eia_petroleum_series(f'pet_move_ipct_k_{self.freq}')
-
 
 
     # Refinery info
@@ -234,8 +222,6 @@ class EiaData(object):
     def crude_inputs_quality(self):
         return self.eia_petroleum_series(f'pet_pnp_crq_dcu_nus_{self.freq}')
 
-
-
     # stocks
     def weekly_stocks(self, padds = False):
 
@@ -253,7 +239,7 @@ class EiaData(object):
                 temp = self.eia_petroleum_series(stocks[key])
                 temp.columns = pd.MultiIndex.from_product([[key], temp.columns])
                 dfs.append(temp)
-            return pd.concat( dfs )
+            return pd.concat( dfs, axis = 1, sort = False )
         else:
             return self.eia_petroleum_series('pet_stoc_wstk_dcu_nus_w')
 
@@ -272,7 +258,7 @@ class EiaData(object):
                 temp = self.eia_petroleum_series(stocks[key])
                 temp.columns = pd.MultiIndex.from_product([[key], temp.columns])
                 dfs.append(temp)
-            return pd.concat( dfs )
+            return pd.concat( dfs, axis = 1, sort = False )
         else:
             return self.eia_petroleum_series('pet_stoc_ts_dcu_nus_m')
 
