@@ -3245,7 +3245,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-The available EIA data so far include the timeseries from the EIA petroleum data set. No API key is required but a future version may feature the option to use EIA API.
+The available EIA data so far only includes timeseries from the EIA petroleum data set. No API key is required but a future version may feature the option to use the EIA API directly.
 
 Not all timeseries are available at all frequencies.
 
