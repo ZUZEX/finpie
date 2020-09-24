@@ -1,4 +1,4 @@
-self#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # finpie - a simple library to download some financial data
@@ -33,9 +33,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
-from finpie.self_data.clean_self import Cleanself
+from finpie.news_data.clean_self import CleanNews
 
-class selfData(Cleanself):
+class newsData(CleanNews):
     def __init__(self, ticker, keywords, head = False, verbose = False):
         CleanNews.__init__(self)
         self.ticker = ticker
