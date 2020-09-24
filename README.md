@@ -10,10 +10,14 @@
 
 <p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p> 
 
-<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is collected from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
+<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>The Motley Fool</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and <code>CBOE</code> but also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is collected from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
 
 <p>If there are any issues, ideas or recommendations please feel free to reach out.</p>
+
+<br>
+
+
 
 <p>
 <i>Changes for v0.11</i>
@@ -22,12 +26,15 @@
 <li> Updated the Windows and Mac Chromedrivers to <code>85.\*.\*\*\*\*.\*\*\*</code> (had included an older Windows Chromedriver before)</li>
 <p>
 
+
+
+
+<br>
+
 <p>
 <i>To do list:</i>
 <ul>
-<li> Create test file </li>
-<li> 'Stabilise' and refactor the news scrape..</li>
-<li> Add an earnings transcript section </li>
+<li> Refactor the news scrape..</li>
 <li> Improve EIA data representation ( same column names for PADDs or crude and products across different series for easier cross reference; add more granularity to some functions ), add other EIA data sets </li>
 <li> Add EIA bulk download option and support EIA API </li>
 <li> Add USDA data, CFTC COT and potentially add weather data sources (e.g. heating degree days, cooling degree days in NE US) </li>
@@ -288,6 +295,9 @@ finpie.YahooData(ticker)
 
 # Marketwatch financial statements
 finpie.MwatchData(ticker)
+
+# Earnings call transcripts from The Motley Fool
+finpie.Earnings(ticker)
 
 # Finviz insider transactions, analyst ratings, key statistics
 finpie.FinvizData(ticker)
@@ -925,6 +935,45 @@ yahoo.growth_estimates()
 <div align="right"> <a href="#i15">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+<br>
+
+###	 <div id="A44"> <li>Earnings Call Transcripts<hr style="border:0.5px solid gray"> </hr> </li> </div>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+The earnings call transcripts are collected from <a href="https://www.fool.com/">The Motley Fool</a> and are available until Q1 2018. The data returns a simple breakdown of the sections of the earnings call which will still need to be processed further. The full html of the call is also available.
+
+
+#### <div id = "f131" ><i> Earnings( ticker ).transcripts(html = True)</i></div>
+
+<ul>
+<li>Returns recent history (up to Q1 2018) of earnings call transcripts.</li>
+<li> <i>Arguments: </i> </li>
+<ul> <code>html = True</code> returns additional columns with html of transcript from Motley Fool.</ul>
+</ul>
+
+<i> Example </i>
+
+```python
+e = Earnings('AAPL')
+e.transcripts(html = True)
+```
+
+<i> Output </i>
+
+<center><small><small>
+
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>prepared_remarks</th>      <th>questions_and_answers</th>      <th>call_participants</th>      <th>ticker</th>      <th>html</th>      <th>date</th>     <th>time</th>      <th>quarter</th>      <th>link</th>    </tr>  </thead>  <tbody>    <tr>      <th>2020-07-31</th>      <td>Operator  Good day, everyone. Welcome to the Apple Inc. third-quarter fiscal year 2020 earnings con ...</td>    <td>Operator  [Operator instructions]  Luca Maestri -- Chief Financial Officer  Operator, may we plea ...</td>      <td>Tejas Gala -- Senior Manager, Corporate Finance, and Investor Relations  Tim Cook -- Chief Executiv ...</td>    <td>AAPL</td>     <td>&lt;h2&gt;Prepared Remarks:&lt;/h2&gt; &lt;p&gt;&lt;strong&gt;Operator&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;Good day, everyone. Welcome to the Ap ...</td>      <td>2020/07/31</td>      <td>5:00 p.m. ET</td>      <td>Q3 2020</td>      <td>https://www.fool.com/earnings/call-transcripts/2020/07/31/apple-aapl-q3-2020-earnings-call-transcrip ...</td>    </tr>   <tr>     <th>2020-04-30</th>      <td>Operator  Good day, everyone. Welcome to the Apple Inc. Second Quarter Fiscal Year 2020 Earnings Co ...</td>      <td>Operator  Yes. That will come from Shannon Cross, Cross Research.  Shannon Cross -- Cross Research ...</td>     <td>Tejas Gala -- Senior Manager, Corporate Finance and Investor Relations  Tim Cook -- Chief Executive ...</td>      <td>AAPL</td>     <td>&lt;h2&gt;Prepared Remarks:&lt;/h2&gt; &lt;p&gt;&lt;strong&gt;Operator&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;Good day, everyone. Welcome to the Ap ...</td>     <td>2020/04/30</td>      <td>5:00 p.m. ET</td>      <td>Q2 2020</td>      <td>https://www.fool.com/earnings/call-transcripts/2020/04/30/apple-inc-aapl-q2-2020-earnings-call-trans ...</td>    </tr>    <tr>      <th>2020-01-28</th>      <td>Operator  Good day everyone. Welcome to the Apple Incorporated First Quarter Fiscal Year 2020 Earni ...</td>      <td>Operator  Yes. That will be from Amit Daryanani with Evercore.  Amit Daryanani -- Evercore ISI --  ...</td>      <td>Tejas Gala -- Senior Analyst, Corporate Finance and Investor Relations  Tim Cook -- Chief Executive ...</td>      <td>AAPL</td>      <td>&lt;h2&gt;Prepared Remarks:&lt;/h2&gt; &lt;p&gt;&lt;strong&gt;Operator&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;Good day everyone. Welcome to the App ...</td>      <td>2020/01/28</td>      <td>5:00 p.m. ET</td>      <td>Q1 2020</td>      <td>https://www.fool.com/earnings/call-transcripts/2020/01/28/apple-inc-aapl-q1-2020-earnings-call-trans ...</td>    </tr>  
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
+</tbody></table>
+
+</center></small></small>
+
+<div align="right"> <a href="#i131">To index</a> </div>
+
+
+-----
 
 <br>
 

@@ -228,10 +228,12 @@ def cboe_option_chain(ticker, head = False):
         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//input[@id="txtTicker"]')))
         driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(ticker)
         driver.find_element_by_xpath('//input[@id="txtTicker"]').send_keys(Keys.ENTER)
-        db.downloads_done('quotedata.dat')
+        db._downloads_done('quotedata.dat')
+        driver.close()
         driver.quit()
     except:
         print('Failed to load data...')
+        driver.close()
         driver.quit()
         return None
 

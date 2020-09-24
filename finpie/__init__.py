@@ -31,6 +31,7 @@ from finpie.fundamental_data.finviz import FinvizData
 from finpie.fundamental_data.macrotrends import MacrotrendsData
 from finpie.fundamental_data.mwatch import MwatchData
 from finpie.fundamental_data.yahoo import YahooData
+from finpie.fundamental_data.fool import Earnings
 # News data
 from finpie.news_data.news import NewsData
 # Other data
@@ -52,4 +53,4 @@ __all__ = [ 'alpha_vantage_prices', 'tingo_prices', 'iex_intraday',
             'historical_futures_contracts', 'futures_contracts',
             'nasdaq_tickers', 'global_tickers',
             'YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData',
-            'OecdData', 'EiaData', 'NewsData']
+            'OecdData', 'EiaData', 'NewsData', 'Earnings' ]

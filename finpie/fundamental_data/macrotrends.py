@@ -83,6 +83,7 @@ class MacrotrendsData( DataBase ):
             driver.get(url)
             time.sleep(2)
             url = driver.current_url + f'{sheet}?freq={self.freq.upper()}'
+            #url += f'/{sheet}?freq={self.freq.upper()}'
             driver.get(url)
             #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
             element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
@@ -92,19 +93,31 @@ class MacrotrendsData( DataBase ):
             return None
 
         try:
+            if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
+                element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
             dfs = [ self._get_table(driver.page_source) ]
             bool, check, double_check = True, '', 0
             first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
 
             while bool:
+
+                if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
+                    element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
+                    ActionChains(driver).move_to_element(element).click().perform()
+                    time.sleep(1)
+                    dfs.append( self._get_table(driver.page_source) )
+
                 element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
                 element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
+                driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
                 ActionChains(driver).click_and_hold(element).perform()
                 time.sleep(2)
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
                 ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
 
-                dfs.append( self._get_table(driver.page_source) )
+                if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) == 0:
+                    dfs.append( self._get_table(driver.page_source) )
+
 
                 if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
                     if double_check == 3:
@@ -112,7 +125,6 @@ class MacrotrendsData( DataBase ):
                     double_check += 1
 
                 check = first #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text
-
             df = pd.concat(dfs, axis = 1)
             df = df.loc[:,~df.columns.duplicated()]
             driver.quit()

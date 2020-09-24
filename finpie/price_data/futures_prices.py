@@ -31,6 +31,7 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup as bs
 from requests_html import HTMLSession
 from concurrent.futures import ThreadPoolExecutor
+from finpie.base import DataBase
 
 
 def historical_futures_contracts(date_range):
@@ -63,6 +64,9 @@ def _download_prices(date):
     output: pandas dataframe with prices for all available futures for the
             specified date
     '''
+
+    db = DataBase()
+
     errors = []
     if type(date) == type('str'):
         date = pd.to_datetime(date, format = '%Y-%m-%d')
@@ -76,10 +80,9 @@ def _download_prices(date):
     else:
         d = '0' + str(date.day)
     try:
-        session = HTMLSession()
         url = f'https://www.mrci.com/ohlc/{y}/{y[-2:]+m+d}.php'
-        r = session.get(url)
-        soup = bs(r.content, 'html5lib')
+        soup = db._get_session(url)
+
         df = pd.read_html( str(soup.find('map').find_next('table')) )[0]
         try:
             futures_lookup = pd.read_csv( os.path.dirname(__file__) + '/futures_lookup.csv').name.tolist()
@@ -91,8 +94,10 @@ def _download_prices(date):
             df = df.iloc[indices[0]:-2, :len(df.columns)-1]
         else:
             df = df.iloc[indices[0]:-2, :]
+        #session.close()
     except:
         errors.append(date)
+        #session.close()
         return errors
     df.columns = columns
     #[ i for i in np.unique(df.month).tolist() if i not in futures_lookup ]
@@ -107,9 +112,11 @@ def _download_prices(date):
         else:
             out = out.append(temp)
     out = out[ out.iloc[:,1] != 'Total Volume and Open Interest']
-    out.to_csv('futures.csv')
+    # out.to_csv('futures.csv')
     out.index = [date] * len(out) #pd.to_datetime( [ f'{i[-2:]}/{i[2:4]}/{i[:2]}' for i in out.date ] )
     out.replace('\+', '', regex = True, inplace = True)
     out.replace('unch', np.nan, inplace = True)
+
+    out = db._col_to_float(out)
 
     return dd.from_pandas(out, npartitions = 1)

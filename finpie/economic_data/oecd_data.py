@@ -273,7 +273,7 @@ class OecdData(object):
     # business tendency and consumer opinion
     # - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - -
 
-    def business_tendency_survey(self, sector):
+    def business_tendency_survey(self, sector = 'retail' ):
         '''
 
         '''

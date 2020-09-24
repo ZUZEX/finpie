@@ -31,6 +31,7 @@ from finpie.base import DataBase
 class YahooData( DataBase ):
 
     def __init__(self, ticker):
+        DataBase.__init__(self)
         self.ticker = ticker
 
     def valuation_metrics(self):
@@ -52,14 +53,15 @@ class YahooData( DataBase ):
         df.replace(',', '', regex = True, inplace = True)
         df.replace('-', np.nan, regex = True, inplace = True)
 
-        df[df.columns[1:]] = df[df.columns[1:]].astype('float')
+        #df[df.columns[1:]] = df[df.columns[1:]].astype('float')
         df.replace('Current', '', regex = True, inplace = True) # replace as of date as well ?
+        df.replace(',', '', regex = True, inplace = True)
 
         df['ticker'] = self.ticker
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
 
-        return df
+        return self._col_to_float(df)
 
 
     def key_metrics(self):
@@ -77,10 +79,12 @@ class YahooData( DataBase ):
                         if c.strip()[-1].isdigit() else c.strip() \
                             .replace(' ', '_').replace('/', '')  for c in df.columns ]
 
-        df = self._col_to_float(df)
+
 
         df['Date'] = dt.datetime.today().date()
         df['ticker'] = self.ticker
+        df.replace(',', '', regex = True, inplace = True)
+        df = self._col_to_float(df)
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return df
@@ -111,44 +115,48 @@ class YahooData( DataBase ):
                             .replace('&','and').replace('/','_').replace(' ', '_' )
                                 for col in df.columns ]
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.replace(',', '', regex = True, inplace = True)
 
-        return df
+        return self._col_to_float(df)
 
 
     def cashflow_statement(self):
         url = "https://finance.yahoo.com/quote/" + self.ticker + "/cash-flow?p=" + self.ticker
         try:
             df = self._download(url)
+            return df
         except:
-            print(f'ticker {self.ticker} may not be available.')
-        return df
+            print(f'Download failed. Ticker {self.ticker} may not be available.')
+
 
 
     def income_statement(self):
         url = "https://finance.yahoo.com/quote/" + self.ticker + "/financials?p=" + self.ticker
         try:
             df = self._download(url)
+            return df
         except:
-            print(f'ticker {self.ticker} may not be available.')
-        return df
+            print(f'Download failed. Ticker {self.ticker} may not be available.')
+
 
 
     def balance_sheet(self):
         url = "https://finance.yahoo.com/quote/" + self.ticker + "/balance-sheet?p=" + self.ticker
         try:
             df = self._download(url)
+            return df
         except:
-            print(f'ticker {self.ticker} may not be available.')
-        return df
+            print(f'Download failed. Ticker {self.ticker} may not be available.')
+
 
 
     def statements(self):
         '''
 
         '''
-        incomeStatement = self.income_statement(self.ticker)
-        balanceSheet = self.balance_sheet(self.ticker)
-        cashflowStatement = self.cashflow_statement(self.ticker)
+        incomeStatement = self.income_statement()
+        balanceSheet = self.balance_sheet()
+        cashflowStatement = self.cashflow_statement()
         return incomeStatement, balanceSheet, cashflowStatement
 
     def earnings_estimate(self):
@@ -162,11 +170,12 @@ class YahooData( DataBase ):
                             for c in df.iloc[0][1:].values.tolist()]
 
         df = df[1:]
-        df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+        df.iloc[:, 1:] = df.iloc[:, 1:]
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.replace(',', '', regex = True, inplace = True)
 
-        return df
+        return self._col_to_float(df)
 
     def earnings_history(self):
         url = f'https://finance.yahoo.com/quote/{self.ticker}/analysis'
@@ -179,9 +188,10 @@ class YahooData( DataBase ):
                             for c in df.iloc[0][1:].values.tolist()]
         df = df[1:]
 
+        df.replace(',', '', regex = True, inplace = True)
         df = self._col_to_float(df)
 
-        df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+        df.iloc[:, 1:] = df.iloc[:, 1:]
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return df
@@ -197,9 +207,10 @@ class YahooData( DataBase ):
                             for c in df.iloc[0][1:].values.tolist()]
         df = df[1:]
 
+        df.replace(',', '', regex = True, inplace = True)
         df = self._col_to_float(df)
 
-        df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
+        df.iloc[:, 1:] = df.iloc[:, 1:]
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return df
@@ -216,6 +227,8 @@ class YahooData( DataBase ):
 
         df = df[1:]
         df = df.astype('str')
+        df.replace(',', '', regex = True, inplace = True)
+
         df = self._col_to_float(df)
         df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
 
@@ -236,6 +249,7 @@ class YahooData( DataBase ):
                         if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                             for c in df.iloc[0][1:].values.tolist()]
         df = df[1:]
+        df.replace(',', '', regex = True, inplace = True)
         df = self._col_to_float(df)
         df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
@@ -275,6 +289,8 @@ class YahooData( DataBase ):
       df['ticker'] = self.ticker
       df['date'] = dt.datetime.today().date()
       df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+      df.replace(',', '', regex = True, inplace = True)
+      df = self._col_to_float(df)
 
       return df
 

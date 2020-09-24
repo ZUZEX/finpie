@@ -116,7 +116,6 @@ class EiaData(object):
         elif series:
             return self.eia_petroleum_series(f'PET_SUM_SNDW_DCUS_NUS_{f}', temp_dict[series])
 
-
     # crude supply
     def crude_supply_and_disposition( self, series = 'all' ):
         if series == 'all':
@@ -180,7 +179,6 @@ class EiaData(object):
                     return self.eia_petroleum_series(f'pet_move_expc_a_EP00_EEX_{self.barrels}_{self.freq}')
                 else:
                     return x
-
 
     def weekly_imports_by_country( self, sma = False):
         if sma:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+self#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # finpie - a simple library to download some financial data
@@ -33,9 +33,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
-from finpie.news_data.clean_news import CleanNews
+from finpie.self_data.clean_self import Cleanself
 
-class NewsData(CleanNews):
+class selfData(Cleanself):
     def __init__(self, ticker, keywords, head = False, verbose = False):
         CleanNews.__init__(self)
         self.ticker = ticker
@@ -126,7 +126,7 @@ class NewsData(CleanNews):
         try:
             # Set and retrive url
             driver.get(url)
-            time.sleep(5)
+            time.sleep(10) # make implicit wait
             co = 0
             _delete_elements(driver)
 
@@ -232,7 +232,7 @@ class NewsData(CleanNews):
 
 
 
-    def wsj( self, datestop = False ):
+    def wsj( news, datestop = False ):
 
         source = 'wsj'
 
@@ -248,79 +248,101 @@ class NewsData(CleanNews):
 
         driver = self._load_driver(caps = 'none')
 
+        # get last date on page
+
+
         try:
             # Set and retrive url
             driver.get(url)
             time.sleep(3)
             element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
-
+            bool2 = True
             contents = []
             max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
             contents.append(driver.page_source)
             for i in range(max-1):
                 try:
                     time.sleep(random.randint(0,2))
+                    driver.get(url + f'&page={i+2}')
                     driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
                     element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
                     contents.append(driver.page_source)
                 except:
                     try:
-                        driver.refresh()
-                        driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                        #driver.get(url)
+                        driver.get(url + f'&page={i+2}')
+                        #driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
                         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
                         contents.append(driver.page_source)
                     except:
-                        driver.refresh()
+                        driver.get(url + f'&page={i+2}')
                         contents.append(driver.page_source)
 
-            bool = True
-            if datestop:
-                if td_1 < pd.to_datetime(datestop):
-                    bool = False
+                if datestop:
+                    try:
+                        d = driver.find_elements_by_xpath('//time[@class="date-stamp-container"]')[-1].text
+                        d = pd.to_datetime(' '.join( d.split(' ')[:3] ))
+                        if d < pd.to_datetime(datestop):
+                            bool2 = False
+                            break
+                    except:
+                        d = driver.find_elements_by_xpath('//time[@class="date-stamp-container highlight"]')[-1].text
+                        pass
+
+
+            if bool2:
+                bool = True
+            else:
+                bool = False
                 # Record progress
                 #_print_progress(i, max-1)
             contents.append(driver.page_source)
 
             while bool:
-                #try:
-                td_2 = td_1
-                y, m, d = self._format_date(td_2)
-                start_date = y + '/' + m + '/' + d
-                td_1 = td_1 - dt.timedelta(days = 320)
-                y, m, d = self._format_date(td_1)
-                end_date = y + '/' + m + '/' + d
+                try:
+                    td_2 = td_1
+                    y, m, d = self._format_date(td_2)
+                    start_date = y + '/' + m + '/' + d
+                    td_1 = td_1 - dt.timedelta(days = 320)
+                    y, m, d = self._format_date(td_1)
+                    end_date = y + '/' + m + '/' + d
 
-                if datestop:
-                    if td_1 < pd.to_datetime(datestop):
-                        bool = False
 
-                url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + end_date + '&max-date=' + start_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
-                driver.get(url)
 
-                element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
-                element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]')))
+                    url = 'https://www.wsj.com/search/term.html?KEYWORDS=' + self.keywords.replace(' ', '%20')  + '&min-date=' + end_date + '&max-date=' + start_date + '&isAdvanced=true&daysback=4y&andor=AND&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
+                    driver.get(url)
 
-                max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
-                contents.append(driver.page_source)
+                    element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
+                    element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]')))
 
-                for i in range(max-1):
-                    try:
-                        time.sleep(random.randint(0,2))
-                        driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
-                        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
-                        contents.append(driver.page_source)
-                    except:
+                    max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
+                    contents.append(driver.page_source)
+
+                    for i in range(max-1):
                         try:
-                            driver.refresh()
-                            driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                            time.sleep(random.randint(0,2))
+                            driver.get(url + f'&page={i+2}')
+                            #driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
                             element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
                             contents.append(driver.page_source)
                         except:
-                            driver.refresh()
-                            contents.append(driver.page_source)
+                            try:
+                                driver.get(url + f'&page={i+2}')
+                                #driver.get(url)
+                                #driver.find_element_by_xpath('//li[@class="next-page"]/a').click()
+                                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//li[@class="next-page"]/a')))
+                                contents.append(driver.page_source)
+                            except:
+                                driver.get(url + f'&page={i+2}')
+                                contents.append(driver.page_source)
 
-                #except:
-                #    bool = False
+                        if datestop:
+                            d = driver.find_elements_by_xpath('//time[@class="date-stamp-container"]')[-1].text
+                            d = pd.to_datetime(' '.join( d.split(' ')[:3] ))
+                            if d > pd.to_datetime(datestop):
+                                bool = False
+                except:
+                    bool = False
 
             driver.close()
             driver.quit()
@@ -401,9 +423,21 @@ class NewsData(CleanNews):
             # Set and retrive url
             driver.get(url)
 
-            time.sleep(4)
+            time.sleep(5)
 
-            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//article')))
+            passed = False
+            try:
+                xpath = '//div[@id="px-captcha"]'
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+                element = driver.find_element_by_tag_name('iframe')
+                ActionChains(driver).click_and_hold(element).perform()
+                time.sleep(5)
+                ActionChains(driver).release(element).perform()
+                passed = True
+            except:
+                pass
+
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//article')))
             k = 0
             t = 20
             SCROLL_PAUSE_TIME = 0.9
@@ -429,6 +463,19 @@ class NewsData(CleanNews):
                         k = t + 10
 
                 while new_number == last_number:
+
+                    # need to verify this
+                    if not passed:
+                        try:
+                            xpath = '//div[@id="px-captcha"]'
+                            if len(driver.find_elements_by_xpath(xpath)) > 0:
+                                element = driver.find_element_by_tag_name('iframe')
+                                ActionChains(driver).click_and_hold(element).perform()
+                                time.sleep(5)
+                                ActionChains(driver).release(element).perform()
+                                passed = False
+                        except:
+                            pass
 
                     driver.execute_script("window.scrollTo(0, -document.documentElement.scrollHeight);")
                     time.sleep(SCROLL_PAUSE_TIME/3)
@@ -639,6 +686,7 @@ class NewsData(CleanNews):
             sec = len(driver.find_elements_by_xpath('//div[@id="px-captcha"]'))
             if sec != 0 and self.head == False:
                 print('Failed. Run in non-headless (news.head = True) mode to solve captcha..')
+                return pd.DataFrame([1,1,1])
                 driver.quit()
             else:
                 m = 0
@@ -649,66 +697,58 @@ class NewsData(CleanNews):
                     time.sleep(1)
             time.sleep(5)
 
+
+            passed = False
             try:
                 driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-                driver.find_element_by_xpath('//button[@title="Yes, I Accept"]').click()
+                time.sleep(1)
+                element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
+                ActionChains(driver).move_to_element( element).click().perform()
+                time.sleep(1)
                 driver.switch_to.default_content()
+                passed = True
             except:
                 pass
 
-            '''try:
-                driver.execute_script("""
-                        var element = arguments[0];
-                        element.parentNode.removeChild(element);
-                        """, driver.find_element_by_class_name('truste_box_overlay') )
-            except:
-                pass
 
-            try:
-                driver.execute_script("""
-                        var element = arguments[0];
-                        element.parentNode.removeChild(element);
-                        """, driver.find_element_by_class_name('truste_overlay') )
-            except:
-                pass
 
-            try:
-                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="truste-consent-track"]')))
-                element = driver.find_element_by_xpath('//div[@id="truste-consent-track"]')
-                driver.execute_script("""
-                var element = arguments[0];
-                element.parentNode.removeChild(element);
-                """, element)
-            except:
-                pass'''
-
-            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//button[@title="Load More Results"]')))
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//button[@title="Load More Results"]')))
 
             # click sorting thing
+            element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
+            ActionChains(driver).move_to_element( element).click().perform()
+            time.sleep(3)
 
             # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             #driver.find_elements_by_class_name('link__a4d2830d ')[7].click()
 
-            '''element = driver.find_element_by_tag_name('head')
-            driver.execute_script("""
-            var element = arguments[0];
-            element.parentNode.removeChild(element);
-            """, element)'''
 
             k = 0
-            while k < 50:
+            while k < 200:
                 bool = True
                 new_height = 0
                 while bool: #newnumber != oldnumber:
                     # do it with xpath
                     #oldnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
+                    if not passed:
+                        try:
+                            driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
+                            time.sleep(1)
+                            element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
+                            ActionChains(driver).move_to_element( element).click().perform()
+                            time.sleep(1)
+                            driver.switch_to.default_content()
+                            passed = True
+                        except:
+                            pass
+
                     try:
                         element = driver.find_element_by_xpath('//button[@title="Load More Results"]')
                         driver.execute_script("arguments[0].scrollIntoView();", element)
                         element.click()
                         #ActionChains(driver).move_to_element( element).click().perform()
                         #time.sleep(random.randint(1,2))
-                        time.sleep( 0.25 )
+                        time.sleep( 0.5 )
                         k = 0
                         if datestop:
                             d = driver.find_elements_by_xpath( '//div[@class="publishedAt__79f8aaad"]' )[-1].text
@@ -718,12 +758,6 @@ class NewsData(CleanNews):
                     except:
                         bool = False
 
-                        elements = driver.find_elements_by_tag_name('img')
-                        for element in elements:
-                            driver.execute_script("""
-                            var element = arguments[0];
-                            element.parentNode.removeChild(element);
-                            """, element)
 
                         k += 1
                         time.sleep(0.5)
@@ -839,6 +873,15 @@ class NewsData(CleanNews):
 
                         if dt.datetime(int(d[2]), int(self.months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
                             bool = False
+                    # delete late pop up
+                    try:
+                        element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
+                        driver.execute_script("""
+                        var element = arguments[0];
+                        element.parentNode.removeChild(element);
+                        """, element)
+                    except:
+                        pass
 
                 except:
                     bool = False
@@ -911,19 +954,30 @@ class NewsData(CleanNews):
 
         url = 'https://www.cnbc.com/search/?query=' + self.keywords.replace(' ', '%20') + '&qsearchterm=' + self.keywords.replace(' ', '%20')
 
-        driver = self._load_driver(caps = 'normal')
+        driver = self._load_driver(caps = 'none')
 
         try:
             # Set and retrive url
             driver.get(url)
 
             # close popup
-            time.sleep(8)
-
             try:
-                element = driver.find_element_by_xpath('//div[@id="sortdate"]')
-                driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
-                ActionChains(driver).move_to_element( element).click().perform()
+                element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//span[@class="SearchResult-publishedDate"]')))
+            except:
+                element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//button[@class="Search-submitBtn icon-search"]')))
+                driver.get(url)
+                element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//span[@class="SearchResult-publishedDate"]')))
+
+            #driver.refresh()
+            try:
+                try:
+                    element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="sortdate"]')))
+                    element = driver.find_element_by_xpath('//div[@id="sortdate"]')
+                    driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
+                    ActionChains(driver).move_to_element( element).click().perform()
+                    time.sleep(3)
+                except:
+                    pass
             except:
                 pass
 
@@ -1072,18 +1126,23 @@ class NewsData(CleanNews):
 
         url = 'https://www.nytimes.com/search?dropmab=true&query=' + self.keywords.replace(' ', '%20') + '&sort=newest'
 
-        driver = self._load_driver(caps = 'normal')
+        driver = self._load_driver(caps = 'none')
 
         try:
+
+
             # Set and retrive url
             driver.get(url)
-
+            xpath = '//button[@data-testid="search-show-more-button"]'
+            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            xpath = '//span[@data-testid="todays-date"]'
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, xpath)))
             contents = []
             bool = True
             t = 30
             k = 0
             oldnumber = 0
-
+            time.sleep(2)
             while bool:
                 try:
                     newnumber = len( driver.find_elements_by_tag_name('li') )
@@ -1092,11 +1151,30 @@ class NewsData(CleanNews):
                         # do it with xpath
                         oldnumber = len( driver.find_elements_by_tag_name('li') )
                         element = driver.find_element_by_xpath('//button[@data-testid="search-show-more-button"]')
-                        driver.execute_script("arguments[0].scrollIntoView();", element)
+                        driver.execute_script( 'window.scrollTo(0, document.documentElement.scrollHeight);' )
+                        driver.execute_script( 'window.scrollTo(0, document.documentElement.scrollHeight);' )
+                        #driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
+                        #driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
+
                         ActionChains(driver).move_to_element( element).click().perform()
                         time.sleep(random.randint(1,2))
                         #time.sleep(1)
                         newnumber = len( driver.find_elements_by_tag_name('li') )
+
+                        last_date = driver.find_elements_by_xpath('//span[@data-testid="todays-date"]')[-1].text
+                        if ',' in last_date:
+                            y = last_date.split(' ')[-1]
+                        else:
+                            y = str( dt.datetime.today().year )
+
+                        m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
+                        if len(last_date.split(' ')[1].replace(',', '')) < 2:
+                            d = '0' + last_date.split(' ')[1].replace(',', '')
+                        else:
+                            d = last_date.split(' ')[1].replace(',', '')
+                        if datestop:
+                            if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
+                                bool = False
                     k += 1
                     if k > t:
                         content = driver.page_source
@@ -1106,15 +1184,18 @@ class NewsData(CleanNews):
                         #last_date = driver.find_elements_by_tag_name('time')[-1].text
                         last_date = driver.find_elements_by_xpath('//div[@data-testid="todays-date"]')[-1].text
 
-                        y = last_date.split(' ')[-1]
+                        if ',' in last_date:
+                            y = last_date.split(' ')[-1]
+                        else:
+                            y = str( dt.datetime.today().year )
+
                         m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
                         if len(last_date.split(' ')[1].replace(',', '')) < 2:
                             d = '0' + last_date.split(' ')[1].replace(',', '')
                         else:
                             d = last_date.split(' ')[1].replace(',', '')
-
                         if datestop:
-                            if dt.datetime(int(y),int(m),int(d)) < pd.to_datetime(datestop):
+                            if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
                                 bool = False
 
                         url = 'https://www.nytimes.com/search?dropmab=true&endDate=' + y + m + d + '&query=' + self.keywords.replace(' ', '%20') + '&sort=newest&startDate=' + '20000101'
@@ -1144,7 +1225,11 @@ class NewsData(CleanNews):
             for article in articles:
                 link.append( article.find('a').get('href') )
                 headline.append( article.find('h4').text )
-                date.append( article.find('div', attrs = { 'data-testid': 'todays-date'}).text )
+                try:
+                    date.append( article.find('span', attrs = { 'data-testid': 'todays-date'}).text )
+                except:
+                    time.sleep(0.5)
+                    date.append( article.find('div', attrs = { 'data-testid': 'todays-date'}).text )
                 try:
                     description.append( article.find('p', class_ = 'css-16nhkrn').text )
                 except:
@@ -1174,10 +1259,10 @@ class NewsData(CleanNews):
         data.drop_duplicates(inplace = True)
         data['date_retrieved'] = dt.datetime.today()
         data['ticker'] = self.ticker
-        data['newspaper'] = 'NYT'
+        data['selfpaper'] = 'NYT'
         data['search_term'] = self.keywords
-        data['id'] = data['newspaper'] +  data['headline'] + data['link']
-        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
+        data['id'] = data['selfpaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'selfpaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'

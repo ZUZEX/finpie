@@ -55,9 +55,9 @@ def nasdaq_tickers():
     '''
 
     '''
-    df1 = pd.read_csv('ftp://ftp.nasdaqtrader.com/symboldirectory/nasdaqlisted.txt', sep = '|', skipfooter = 1)
+    df1 = pd.read_csv('ftp://ftp.nasdaqtrader.com/symboldirectory/nasdaqlisted.txt', sep = '|', skipfooter = 1, engine = 'python')
     df1 = df1[df1['Test Issue'] != 'Y'].iloc[:,:2]
-    df2 = pd.read_csv('ftp://ftp.nasdaqtrader.com/symboldirectory/otherlisted.txt', sep = '|', skipfooter = 1)
+    df2 = pd.read_csv('ftp://ftp.nasdaqtrader.com/symboldirectory/otherlisted.txt', sep = '|', skipfooter = 1, engine = 'python')
     df2 = df2[df2['Test Issue'] != 'Y'].iloc[:,:2]
     df2.columns = df1.columns
     df1 = df1.append(df2)

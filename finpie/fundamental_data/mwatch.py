@@ -30,6 +30,7 @@ from finpie.base import DataBase
 class MwatchData( DataBase ):
 
     def __init__(self, ticker, freq = 'A'):
+        DataBase.__init__(self)
         self.ticker = ticker
         self.freq = freq
 
@@ -62,7 +63,7 @@ class MwatchData( DataBase ):
         columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
         df.columns = [ str(col).replace('\xa0', ' ') for col in columns ]
         df = df.astype('str')
-        for col in df.columns:
+        '''for col in df.columns:
             try:
                 df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
                                                         .replace('T', '', regex = True).replace(',', '', regex = True) \
@@ -80,7 +81,8 @@ class MwatchData( DataBase ):
                                                         .replace('%', '', regex = True).replace(',', '', regex = True) \
                                                         .astype('float') / 100).astype('str')
             except:
-                continue
+                continue'''
+        df.replace(',', '', regex = True, inplace = True)
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return self._col_to_float( df )
 
@@ -109,7 +111,7 @@ class MwatchData( DataBase ):
         '''
 
         '''
-        income_statement = self.mwatch_income_statement()
-        balance_sheet = self.mwatch_balance_sheet()
-        cashflow_statement = self.mwatch_cashflow_statement()
+        income_statement = self.income_statement()
+        balance_sheet = self.balance_sheet()
+        cashflow_statement = self.cashflow_statement()
         return income_statement, balance_sheet, cashflow_statement

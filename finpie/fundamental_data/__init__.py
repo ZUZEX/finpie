@@ -27,5 +27,6 @@ from .finviz import FinvizData
 from .macrotrends import MacrotrendsData
 from .mwatch import MwatchData
 from .yahoo import YahooData
+from .fool import Earnings
 
-__all__ = ['YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData']
+__all__ = ['YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData', 'Earnings']

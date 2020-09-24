@@ -39,12 +39,19 @@ class DataBase(object):
 		self.chromedriver_path = os.path.dirname(__file__)
 
 
-	def _get_chromedriver(self):
+	def _get_chromedriver_path(self):
+
 		filepath = self.chromedriver_path
 		if '/' in filepath:
 			filepath = '/'.join( filepath.split('/')) + '/webdrivers/'
 		elif '\\' in filepath:
 			filepath = '\\'.join( filepath.split('\\')) + '\\webdrivers\\'
+		return filepath
+
+
+	def _get_chromedriver(self):
+
+		filepath = self._get_chromedriver_path()
 		if sys.platform == 'darwin':
 			return filepath + 'chromedriver_mac'
 		elif 'win' in sys.platform:
@@ -60,9 +67,14 @@ class DataBase(object):
 		prefs['profile.default_content_setting_values.automatic_downloads'] =  1
 		options.add_experimental_option('prefs', prefs)
 		options.add_experimental_option("excludeSwitches", ['enable-automation'])
+		options.add_experimental_option('useAutomationExtension', False)
+
 		options.add_argument('--no-sandbox')
 		options.add_argument('--disable-setuid-sandbox')
 		options.add_argument('--start-maximized')
+
+		user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'
+		options.add_argument(f'user-agent={user_agent}')
 
 		if not self.head:
 			options.add_argument('--headless')
@@ -76,6 +88,7 @@ class DataBase(object):
 				caps["pageLoadStrategy"] = "normal"
 				driver = webdriver.Chrome( executable_path=self._get_chromedriver(), options = options, desired_capabilities=caps ) # chromedriver
 
+			driver.execute_script(f"var s=window.document.createElement('script'); s.src='{self._get_chromedriver_path}javascriptM.js';window.document.head.appendChild(s);")
 
 			driver.set_window_size(1400,1000)
 			driver.set_page_load_timeout(600)
@@ -98,7 +111,7 @@ class DataBase(object):
 		return soup
 
 
-	def downloads_done(self, filename):
+	def _downloads_done(self, filename):
 		'''
 		https://stackoverflow.com/questions/48263317/selenium-python-waiting-for-a-download-process-to-complete-using-chrome-web
 		'''
