@@ -2,6 +2,7 @@
 import pandas as pd
 import warnings
 import unittest
+import time
 import finpie
 
 class CommonTest(object):
@@ -128,6 +129,7 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
                 else:
                     self.df_helper(data)
                 print( 'Test passed. \n')
+            time.sleep(5)
 
     def test_finviz(self):
 
@@ -148,6 +150,7 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
 
         mt = finpie.MacrotrendsData(self.ticker)
         self.class_test(mt, 'Macrotrends fundamentals')
+
 
     def test_earnings_call_transcripts(self):
 

@@ -145,3 +145,10 @@ class MacrotrendsData( DataBase ):
         df.index = pd.to_datetime(df.index, format = '%Y-%m-%d')
         df.sort_index(inplace = True)
         return self._col_to_float(df).astype('float')
+
+'''
+for i in range(10):
+    mt = MacrotrendsData('AAPL')
+    mt.cashflow_statement()
+    time.sleep(5)
+    print(i)'''

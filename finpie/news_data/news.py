@@ -1275,12 +1275,13 @@ class NewsData(CleanNews):
             )
 
         data.drop_duplicates(inplace = True)
+
         data['date_retrieved'] = dt.datetime.today()
         data['ticker'] = self.ticker
-        data['selfpaper'] = 'NYT'
+        data['newspaper'] = 'NYT'
         data['search_term'] = self.keywords
-        data['id'] = data['selfpaper'] +  data['headline'] + data['link']
-        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'selfpaper', 'comments', 'ticker', 'search_term', 'id' ]
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
         for col in columns:
             if col not in data.columns:
                 data[col] = 'nan'
