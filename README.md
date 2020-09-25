@@ -57,6 +57,7 @@
 	<li><a href="#A41">Valuation metrics and financial ratios</a></li>
 	<li><a href="#A42">Financial statements</a></li>
 	<li><a href="#A43">Earnings and revenue estimates</a></li>
+	<li><a href="#A48">Earnings call transcripts</a></li>
 	<li><a href = "#A44">Insider transactions and analyst ratings</a></li>
 	<li><a href = "#A46">ESG scores</a></li>
 	<li><a href = "#A47">Company profile</a></li>
@@ -124,6 +125,8 @@ tqdm>=4.32.1
 
 
 ## <div id="A3"> Index </div>
+
+
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
@@ -150,6 +153,8 @@ tqdm>=4.32.1
 |<li> <a id='i13' href='#f13'>yahoo.earnings\_history()</a> </li>|4 quarters|Fast|
 |<li> <a id='i14' href='#f14'>yahoo.revenue\_estimates()</a> </li>|Today's data|Fast|
 |<li> <a id='i15' href='#f15'>yahoo.growth\_estimates()</a> </li>|Today's data|Fast|
+|<u>Earnings call transcripts</u>|||
+|<li> <a id='i131' href='#f131'>earnings.transcripts()</a> </li>|up to 2018|Slow|
 |<u>Insider transactions and analyst ratings</u>|||
 |<li> <a id='i16' href='#f16'>finviz.insider\_transactions()</a> </li>|Last year|Fast|
 |<li> <a id='i17' href='#f17'>finviz.analyst\_ratings()</a> </li>|Most recent ratings|Fast|
@@ -938,7 +943,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-###	 <div id="A44"> <li>Earnings Call Transcripts<hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A48"> <li>Earnings Call Transcripts<hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 

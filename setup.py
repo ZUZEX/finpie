@@ -32,4 +32,4 @@ setup(name = 'finpie',
                   'economic data', 'eia data', 'stock prices', 'option prices' ],
       long_description = long_description,
       long_description_content_type = 'text/markdown',
-      zip_safe = False)
+      zip_safe = True)

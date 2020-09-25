@@ -243,7 +243,7 @@ class NewsDataTest(unittest.TestCase, CommonTest):
         data = self.news.bloomberg( datestop = self.date )
 
         self.df_helper(data)
-        if len(data)!=3: # if captcha is not required
+        if len(data)>3: # if captcha is not required
             self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
 
         print('Test passed. \n')

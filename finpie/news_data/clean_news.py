@@ -88,7 +88,7 @@ class CleanNews(DataBase):
             elif source == 'nyt':
 
                 temp = []
-                for i, j in enumerate(data.temp_date):
+                for i, j in enumerate(data.date):
                     if ',' in j:
                         y = j.split(' ')[-1]
                     else:
@@ -113,8 +113,7 @@ class CleanNews(DataBase):
             elif source == 'cnbc':
                 data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[0].split('/')[1] + '-' + d.split(' ')[0].split('/')[0] + '-' + d.split(' ')[0].split('/')[2] \
                                                                                                      for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
-        data.temp_date = data.temp_date.dt.strftime('%d-%m-%Y')
-        data.index = pd.to_datetime( data.temp_date, format = '%d-%m-%Y' )
+        data.index = data.temp_date
         data.drop('temp_date', inplace = True, axis = 1)
         data.index.name = 'date'
         data.drop('date', axis = 1, inplace = True)

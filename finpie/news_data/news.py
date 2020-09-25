@@ -33,9 +33,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
-from finpie.news_data.clean_self import CleanNews
+from finpie.news_data.clean_news import CleanNews
 
-class newsData(CleanNews):
+class NewsData(CleanNews):
     def __init__(self, ticker, keywords, head = False, verbose = False):
         CleanNews.__init__(self)
         self.ticker = ticker
@@ -232,7 +232,7 @@ class newsData(CleanNews):
 
 
 
-    def wsj( news, datestop = False ):
+    def wsj( self, datestop = False ):
 
         source = 'wsj'
 
@@ -717,6 +717,22 @@ class newsData(CleanNews):
             # click sorting thing
             element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
             ActionChains(driver).move_to_element( element).click().perform()
+
+            while len( driver.find_elements_by_xpath('//a[@class="link__a4d2830d active__b9e37c7f"][contains(text(), "By Newest")]') ) < 1:
+                passed = False
+                try:
+                    driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
+                    time.sleep(1)
+                    element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
+                    ActionChains(driver).move_to_element( element).click().perform()
+                    time.sleep(1)
+                    driver.switch_to.default_content()
+                    passed = True
+                except:
+                    pass
+                element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
+                ActionChains(driver).move_to_element( element).click().perform()
+                time.sleep(0.5)
             time.sleep(3)
 
             # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -753,7 +769,7 @@ class newsData(CleanNews):
                         if datestop:
                             d = driver.find_elements_by_xpath( '//div[@class="publishedAt__79f8aaad"]' )[-1].text
                             if pd.to_datetime( d ) < pd.to_datetime( datestop ):
-                                k = 100
+                                k = 1000
                                 bool = False
                     except:
                         bool = False
@@ -844,7 +860,7 @@ class newsData(CleanNews):
             # Set and retrive url
             driver.get(url)
 
-            time.sleep(2)
+            time.sleep(5)
             try:
                 element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="_evidon-barrier-wrapper"]')))
                 element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
@@ -1142,7 +1158,7 @@ class newsData(CleanNews):
             t = 30
             k = 0
             oldnumber = 0
-            time.sleep(2)
+            time.sleep(3)
             while bool:
                 try:
                     newnumber = len( driver.find_elements_by_tag_name('li') )
@@ -1151,7 +1167,6 @@ class newsData(CleanNews):
                         # do it with xpath
                         oldnumber = len( driver.find_elements_by_tag_name('li') )
                         element = driver.find_element_by_xpath('//button[@data-testid="search-show-more-button"]')
-                        driver.execute_script( 'window.scrollTo(0, document.documentElement.scrollHeight);' )
                         driver.execute_script( 'window.scrollTo(0, document.documentElement.scrollHeight);' )
                         #driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
                         #driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
@@ -1174,6 +1189,8 @@ class newsData(CleanNews):
                             d = last_date.split(' ')[1].replace(',', '')
                         if datestop:
                             if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
+                                content = driver.page_source
+                                contents.append( content )
                                 bool = False
                     k += 1
                     if k > t:
@@ -1196,6 +1213,8 @@ class newsData(CleanNews):
                             d = last_date.split(' ')[1].replace(',', '')
                         if datestop:
                             if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
+                                content = driver.page_source
+                                contents.append( content )
                                 bool = False
 
                         url = 'https://www.nytimes.com/search?dropmab=true&endDate=' + y + m + d + '&query=' + self.keywords.replace(' ', '%20') + '&sort=newest&startDate=' + '20000101'
@@ -1218,7 +1237,6 @@ class newsData(CleanNews):
             return None
 
         headline, link, date, description, author, tag, comment = [], [], [], [], [], [], []
-
         for content in contents:
             soup  = bs( content, "lxml" )
             articles  = soup.find_all('li', attrs = {'data-testid': 'search-bodega-result'} )
