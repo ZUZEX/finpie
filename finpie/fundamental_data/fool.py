@@ -158,9 +158,6 @@ class Earnings(DataBase):
         var element = arguments[0];
         element.parentNode.removeChild(element);
         """, element)
-        return None
-
 
     def _scroll_to_element(self, driver, element):
         driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
-        return None

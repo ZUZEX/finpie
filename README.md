@@ -20,6 +20,14 @@
 
 
 <p>
+<i>Changes for v0.12</i>
+<li> Added a section to download earnings call transcripts</li>
+<li> Added a test file and Travis CI </li>
+<li> Debugged failing tests </li>
+<p>
+
+
+<p>
 <i>Changes for v0.11</i>
 <li> Added function to get option prices from CBOE to the <code>price_data</code> module</li>
 <li> Added EIA Petroleum data section to the <code>economic_data</code> module</li>
@@ -126,7 +134,6 @@ tqdm>=4.32.1
 
 ## <div id="A3"> Index </div>
 
-
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
@@ -187,7 +194,6 @@ tqdm>=4.32.1
 |<li> <a id='i37' href='#f37'>oecd.long\_term\_rates()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i38' href='#f38'>oecd.all\_share\_prices( )</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i39' href='#f39'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i40' href='#f40'>oecd.share\_prices\_industrials()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i41' href='#f41'>oecd.usd\_exchange\_rates\_spot()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i42' href='#f42'>oecd.usd\_exchange\_rates\_average( )</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i43' href='#f43'>oecd.rer\_overall()</a> </li>|Timeseries|Not that slow|
@@ -238,34 +244,34 @@ tqdm>=4.32.1
 |<i><b><u>EIA Petroleum Data</i></b></u>|||
 |<li> <a id='i107' href='#f107'>eia\_petroleum\_series()</a> </li>|Timeseries|Not that slow|
 |<u>Weekly balance</u>|||
-|<li> <a id='i108' href='#f108'>weekly\_balance()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i109' href='#f109'>latest\_weekly\_balance()</a> </li>|Latest data point|Not that slow|
+|<li> <a id='i108' href='#f108'>eia.weekly\_balance()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i109' href='#f109'>eia.latest\_weekly\_balance()</a> </li>|Latest data point|Not that slow|
 |<u>Crude oil supply</u>|||
-|<li> <a id='i110' href='#f110'>crude\_production()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i111' href='#f111'>crude\_supply\_and\_disposition()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i112' href='#f112'>rig\_count()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i113' href='#f113'>crude\_reserves()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i110' href='#f110'>eia.crude\_production()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i111' href='#f111'>eia.crude\_supply\_and\_disposition()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i112' href='#f112'>eia.rig\_count()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i113' href='#f113'>eia.crude\_reserves()</a> </li>|Timeseries|Not that slow|
 |<u>Refining and processing</u>|||
-|<li> <a id='i118' href='#f118'>weekly\_refinery_inputs()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i119' href='#f119'>refinery\_utilisation()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i120' href='#f120'>refinery\_yield()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i121' href='#f121'>crude\_acquisition\_costs()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i122' href='#f122'>crude\_inputs\_quality()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i123' href='#f123'>refineries()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i118' href='#f118'>eia.weekly\_refinery_inputs()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i119' href='#f119'>eia.refinery\_utilisation()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i120' href='#f120'>eia.refinery\_yield()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i121' href='#f121'>eia.crude\_acquisition\_costs()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i122' href='#f122'>eia.crude\_inputs\_quality()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i123' href='#f123'>eia.refineries()</a> </li>|Timeseries|Not that slow|
 |<u>Import and exports</u>|||
-|<li> <a id='i114' href='#f114'>weekly\_xm()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i115' href='#f115'>monthly\_xm()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i116' href='#f116'>weekly\_imports\_by\_country()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i117' href='#f117'>crude\_imports\_quality()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i114' href='#f114'>eia.weekly\_xm()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i115' href='#f115'>eia.monthly\_xm()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i116' href='#f116'>eia.weekly\_imports\_by\_country()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i117' href='#f117'>eia.crude\_imports\_quality()</a> </li>|Timeseries|Not that slow|
 |<u>Stocks</u>|||
-|<li> <a id='i124' href='#f124'>weekly\_stocks()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i125' href='#f125'>monthly\_product\_stocks()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i126' href='#f126'>monthly\_refinery\_stocks()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i127' href='#f127'>monthly\_tank\_and\_pipeline\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i124' href='#f124'>eia.weekly\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i125' href='#f125'>eia.monthly\_product\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i126' href='#f126'>eia.monthly\_refinery\_stocks()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i127' href='#f127'>eia.monthly\_tank\_and\_pipeline\_stocks()</a> </li>|Timeseries|Not that slow|
 |<u>Consumption and sales</u>|||
-|<li> <a id='i128' href='#f128'>weekly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i129' href='#f129'>monthly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i130' href='#f130'>product\_prices\_sales\_and\_stock()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i128' href='#f128'>eia.weekly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i129' href='#f129'>eia.monthly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i130' href='#f130'>eia.product\_prices\_sales\_and\_stock()</a> </li>|Timeseries|Not that slow|
 |<b>News data</b>|||
 |<li> <a id='i78' href='#f78'>news.barrons()</a> </li>|Timeseries|Slow|
 |<li> <a id='i79' href='#f79'>news.bloomberg()</a> </li>|Timeseries|Very slow|

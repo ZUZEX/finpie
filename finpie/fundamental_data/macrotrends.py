@@ -22,6 +22,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+import pandas as pd
+
+type( pd.DataFrame() )
 
 import time
 import pandas as pd
@@ -41,15 +44,30 @@ class MacrotrendsData( DataBase ):
         self.freq = freq
 
     def income_statement(self):
-        return self._download('income-statement')
+        df = self._download('income-statement')
+        if type(df) != type(None):
+            return df
+        else:
+            print('Retrying..')
+            return self._download('income-statement')
 
 
     def balance_sheet(self):
-        return self._download('balance-sheet')
+        df = self._download('balance-sheet')
+        if type(df) != type(None):
+            return df
+        else:
+            print('Retrying..')
+            return self._download('balance-sheet')
 
 
     def cashflow_statement(self):
-        return self._download('cash-flow-statement')
+        df = self._download('cash-flow-statement')
+        if type(df) != type(None):
+            return df
+        else:
+            print('Retrying..')
+            return self._download('cash-flow-statement')
 
 
     def ratios(self):
@@ -146,9 +164,22 @@ class MacrotrendsData( DataBase ):
         df.sort_index(inplace = True)
         return self._col_to_float(df).astype('float')
 
+
+
+
+
 '''
 for i in range(10):
     mt = MacrotrendsData('AAPL')
     mt.cashflow_statement()
     time.sleep(5)
     print(i)'''
+'''
+mt = MacrotrendsData('AAPL')
+mt.head = True
+df = mt.income_statement()
+
+df
+
+time.sleep(5)
+'''

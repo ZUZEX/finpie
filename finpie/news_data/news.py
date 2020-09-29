@@ -184,7 +184,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -347,7 +347,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -499,7 +499,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -605,7 +605,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -685,7 +685,7 @@ class NewsData(CleanNews):
             #
             sec = len(driver.find_elements_by_xpath('//div[@id="px-captcha"]'))
             if sec != 0 and self.head == False:
-                print('Failed. Run in non-headless (news.head = True) mode to solve captcha..')
+                print('Failed. Run in non-headless (news.head = True) mode to solve captcha..\n')
                 return pd.DataFrame([1,1,1])
                 driver.quit()
             else:
@@ -784,7 +784,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -906,7 +906,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -1073,7 +1073,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 
@@ -1232,7 +1232,7 @@ class NewsData(CleanNews):
             driver.close()
             driver.quit()
         except:
-            print('Failed to load data...')
+            print('Failed to load data...\n')
             driver.quit()
             return None
 

@@ -129,7 +129,7 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
                 else:
                     self.df_helper(data)
                 print( 'Test passed. \n')
-            time.sleep(5)
+            time.sleep(2)
 
     def test_finviz(self):
 
@@ -255,11 +255,17 @@ class NewsDataTest(unittest.TestCase, CommonTest):
         print('Testing Seeking Alpha.')
         data = self.news.seeking_alpha( datestop = self.date )
 
-        self.df_helper(data)
+        if type(data) != type(None):
+            self.df_helper(data)
+            self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
+            print('Test passed. \n')
+        else:
+            print('\n Retrying.. \n')
+            data = self.news.seeking_alpha( datestop = self.date )
+            self.df_helper(data)
+            self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
+            print('Test passed. \n')
 
-        self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
-
-        print('Test passed. \n')
 
     def test_reuters(self):
         print('Testing Reuters.')
@@ -307,3 +313,37 @@ class NewsDataTest(unittest.TestCase, CommonTest):
 
 if __name__ == '__main__':
     unittest.main()
+
+'''
+news = finpie.NewsData('XOM', 'exxon mobil')
+
+date = '2020-05-22'
+date2 = '2020-06-24'
+
+news.seeking_alpha(date)
+
+
+news.wsj(date)
+
+
+
+# wsj 3 hours ago
+
+d = '3 hours ago'
+
+
+
+data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
+                                                        if len(d.split(' ')) != 1 else data['temp_date'].iloc[i]
+                                                            for i, d in enumerate( data[ data['source'] == source ]['date'] ) ], format = '%d-%m-%Y' ))
+
+
+
+[ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
+                                                                                     for d in data[ data['source'] == source ]['date'] ]
+
+#news.head = True
+news.bloomberg(date)
+
+
+'''

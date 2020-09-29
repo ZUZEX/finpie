@@ -106,7 +106,10 @@ class CleanNews(DataBase):
                                                                                              for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source in ['barrons', 'wsj']:
                 data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
-                                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
+                                                                        if len(d.split(' ')) != 1 else data['temp_date'].iloc[i]
+                                                                            for i, d in enumerate( data[ data['source'] == source ]['date'] ) ], format = '%d-%m-%Y' ))
+                #data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
+                #                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source == 'reuters':
                 data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
                                                                                                      for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
