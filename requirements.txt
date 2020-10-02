@@ -8,3 +8,4 @@ tqdm>=4.32.1
 alpha_vantage>=2.1.0
 dask>=2.11.0
 beautifulsoup4>=4.9.1
+dask[dataframe]>=1.14.0
