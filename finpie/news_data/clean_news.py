@@ -62,6 +62,10 @@ class CleanNews(DataBase):
         for i, h in hour:
             data.temp_date.iloc[i] = pd.to_datetime( (data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h) )).strftime(format = '%d-%m-%Y' ), format = '%d-%m-%Y' )
 
+        mins = [ (idx, m.split(' ')[0].replace('m', '')) for idx, m in enumerate(data['date']) if 'm' in m and len(m.split(' ')) == 1 ]
+        for i, m in mins:
+            data.temp_date.iloc[i] = pd.to_datetime( (data['date_retrieved'].iloc[i] - dt.timedelta( minutes = int(m) )).strftime(format = '%d-%m-%Y' ), format = '%d-%m-%Y' )
+
         week = [ (idx, w.split(' ')[1:]) for idx, w in enumerate(data['date']) if any(wd in w.split(' ')[0] for wd in self.weekdays) ]
         for i, w in week:
             if len(w) == 2:
@@ -86,19 +90,22 @@ class CleanNews(DataBase):
             if source == 'sa':
                 data.temp_date = pd.to_datetime(data.temp_date,  format = '%d-%m-%Y')
             elif source == 'nyt':
-
                 temp = []
                 for i, j in enumerate(data.date):
-                    if ',' in j:
-                        y = j.split(' ')[-1]
+                    if type(data.temp_date.iloc[i]) == type(np.nan):
+                        if ',' in j:
+                            y = j.split(' ')[-1]
+                        else:
+                            y = str( dt.datetime.today().year )
+                        m = self.months[j.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
+                        if len(j.split(' ')[1].replace(',', '')) < 2:
+                            d = '0' + j.split(' ')[1].replace(',', '')
+                        else:
+                            d = j.split(' ')[1].replace(',', '')
+                        temp.append(f'{y}-{m}-{d}')
                     else:
-                        y = str( dt.datetime.today().year )
-                    m = self.months[j.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
-                    if len(j.split(' ')[1].replace(',', '')) < 2:
-                        d = '0' + j.split(' ')[1].replace(',', '')
-                    else:
-                        d = j.split(' ')[1].replace(',', '')
-                    temp.append(f'{y}-{m}-{d}')
+                        temp.append(data.temp_date.iloc[i].strftime('%Y-%m-%d'))
+
                 data.temp_date = pd.to_datetime(temp, format = '%Y-%m-%d')
 
             elif source in ['ft', 'bloomberg']:

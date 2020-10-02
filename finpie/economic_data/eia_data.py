@@ -38,10 +38,10 @@ class EiaData(object):
     def eia_petroleum_series(self, series_id, sheet_name = 'all'):
 
         if sheet_name.lower() == 'all':
-            df = pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = None, error_bad_lines = False, warn_bad_lines = False )
-            df = pd.concat( [ pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = sheet, index_col = 0, error_bad_lines = False, warn_bad_lines = False ) for sheet in list(df.keys())[1:] ], axis = 1, sort = False )
+            df = pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = None )
+            df = pd.concat( [ pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = sheet, index_col = 0 ) for sheet in list(df.keys())[1:] ], axis = 1, sort = False )
         else:
-            df = pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = sheet_name, index_col = 0, error_bad_lines = False, warn_bad_lines = False )
+            df = pd.read_excel( f'https://www.eia.gov/dnav/pet/xls/{series_id}.xls', sheet_name = sheet_name, index_col = 0 )
         if self.id:
             df.columns = df.iloc[0,:]
         else:

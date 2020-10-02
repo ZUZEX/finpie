@@ -3,6 +3,9 @@ language: python # this works for Linux but is an error on macOS or Windows
 node_js: stable
 addons:
       chrome: stable
+env:
+  global:
+    - CHROME_BIN=/usr/bin/google-chrome
 jobs:
   include:
     - name: "Python 3.7.4 on macOS"
