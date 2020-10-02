@@ -60,7 +60,7 @@ class CleanNews(DataBase):
         data['temp_date'] = np.nan
         hour = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data['date']) if 'hour' in hour.lower() ]
         for i, h in hour:
-            data.temp_date.iloc[i] = data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h) )
+            data.temp_date.iloc[i] = pd.to_datetime( (data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h) )).strftime(format = '%d-%m-%Y' ), format = '%d-%m-%Y' )
 
         week = [ (idx, w.split(' ')[1:]) for idx, w in enumerate(data['date']) if any(wd in w.split(' ')[0] for wd in self.weekdays) ]
         for i, w in week:
@@ -106,7 +106,7 @@ class CleanNews(DataBase):
                                                                                              for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source in ['barrons', 'wsj']:
                 data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
-                                                                        if len(d.split(' ')) != 1 else data['temp_date'].iloc[i]
+                                                                        if type(data['temp_date'].iloc[i]) == type(np.nan) else data['temp_date'].iloc[i].strftime( format = '%d-%m-%Y' )
                                                                             for i, d in enumerate( data[ data['source'] == source ]['date'] ) ], format = '%d-%m-%Y' ))
                 #data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
                 #                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))

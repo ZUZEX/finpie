@@ -740,7 +740,7 @@ class NewsData(CleanNews):
 
 
             k = 0
-            while k < 200:
+            while k < 300:
                 bool = True
                 new_height = 0
                 while bool: #newnumber != oldnumber:
@@ -1296,3 +1296,13 @@ class NewsData(CleanNews):
             print('-' * 78)
 
         return data
+
+
+'''
+news = NewsData('XOM', 'exxon mobil')
+date = '2020-05-22'
+date2 = '2020-06-24'
+data = news.bloomberg(date)'''
+
+
+# news._clean_dates(data)
