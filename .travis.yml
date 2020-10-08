@@ -3,7 +3,10 @@
 language: python # this works for Linux but is an error on macOS or Windows
 node_js: stable
 addons:
-      chrome: stable
+      #chrome: stable
+    apt:
+      packages:
+        - google-chrome-stable
 env:
   global:
     - CHROME_BIN=/Users/travis/build/chrome #/usr/bin/google-chrome
