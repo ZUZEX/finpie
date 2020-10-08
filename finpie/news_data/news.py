@@ -1125,3 +1125,6 @@ class NewsData(CleanNews):
             print('-' * 78)
 
         return data
+
+#news = NewsData('AAPL', 'apple inc iphone')
+#news.seeking_alpha('2020-09-01')
