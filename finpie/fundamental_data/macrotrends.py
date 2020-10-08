@@ -22,9 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-import pandas as pd
 
-type( pd.DataFrame() )
 
 import time
 import pandas as pd
@@ -42,36 +40,19 @@ class MacrotrendsData( DataBase ):
         DataBase.__init__(self)
         self.ticker = ticker
         self.freq = freq
+        self.verbose = False
 
     def income_statement(self):
-        df = self._download('income-statement')
-        if type(df) != type(None):
-            return df
-        else:
-            print('Retrying..')
-            return self._download('income-statement')
-
+        return self._download_wrapper('financial-ratios')
 
     def balance_sheet(self):
-        df = self._download('balance-sheet')
-        if type(df) != type(None):
-            return df
-        else:
-            print('Retrying..')
-            return self._download('balance-sheet')
-
+        return self._download_wrapper('financial-ratios')
 
     def cashflow_statement(self):
-        df = self._download('cash-flow-statement')
-        if type(df) != type(None):
-            return df
-        else:
-            print('Retrying..')
-            return self._download('cash-flow-statement')
-
+        return self._download_wrapper('financial-ratios')
 
     def ratios(self):
-        return self._download('financial-ratios')
+        return self._download_wrapper('financial-ratios')
 
 
     def _get_table(self, page_source):
@@ -86,6 +67,29 @@ class MacrotrendsData( DataBase ):
         df.index = df.Item
         df.drop('Item', axis = 1, inplace = True)
         return df
+
+
+    def _download_wrapper(self, sheet):
+
+        df = self._download(sheet)
+        if type(df) == type(1):
+            if self.verbose:
+                print('Retrying..')
+            df = self._download(sheet)
+            if type(df) == type(1):
+                print('Failed to load data..')
+                return None
+
+        df.replace('\$', '', regex = True, inplace = True)
+        df.replace(',', '', regex = True, inplace = True)
+        df.replace('-', '', regex = True, inplace = True)
+        df = df.transpose()
+        df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('__', '_').replace('-', '').replace('&', 'and').lower() for col in df.columns ]
+        df.replace('', 'nan', inplace = True)
+        df.index = pd.to_datetime(df.index, format = '%Y-%m-%d')
+        df.index.name = 'date'
+        df.sort_index(inplace = True)
+        return self._col_to_float(df).astype('float')
 
 
     def _download(self, sheet):
@@ -106,9 +110,10 @@ class MacrotrendsData( DataBase ):
             #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
             element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
         except:
-            print('Failed to load page...')
+            if self.verbose:
+                print('Failed to load page...')
             driver.quit()
-            return None
+            return 1
 
         try:
             if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
@@ -122,7 +127,7 @@ class MacrotrendsData( DataBase ):
                 if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
                     element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
                     ActionChains(driver).move_to_element(element).click().perform()
-                    time.sleep(1)
+                    time.sleep(0.75)
                     dfs.append( self._get_table(driver.page_source) )
 
                 element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
@@ -138,7 +143,7 @@ class MacrotrendsData( DataBase ):
 
 
                 if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
-                    if double_check == 3:
+                    if double_check == 5:
                         bool = False
                     double_check += 1
 
@@ -147,39 +152,8 @@ class MacrotrendsData( DataBase ):
             df = df.loc[:,~df.columns.duplicated()]
             driver.quit()
 
+            return df
+
         except:
-            print('Failed to load data...')
             driver.quit()
-            return None
-
-
-
-        df.replace('\$', '', regex = True, inplace = True)
-        df.replace(',', '', regex = True, inplace = True)
-        df.replace('-', '', regex = True, inplace = True)
-        df = df.transpose()
-        df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('__', '_').replace('-', '').replace('&', 'and').lower() for col in df.columns ]
-        df.replace('', 'nan', inplace = True)
-        df.index = pd.to_datetime(df.index, format = '%Y-%m-%d')
-        df.sort_index(inplace = True)
-        return self._col_to_float(df).astype('float')
-
-
-
-
-
-'''
-for i in range(10):
-    mt = MacrotrendsData('AAPL')
-    mt.cashflow_statement()
-    time.sleep(5)
-    print(i)'''
-'''
-mt = MacrotrendsData('AAPL')
-mt.head = True
-df = mt.income_statement()
-
-df
-
-time.sleep(5)
-'''
+            return 1

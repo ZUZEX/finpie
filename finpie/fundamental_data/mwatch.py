@@ -56,6 +56,8 @@ class MwatchData( DataBase ):
         df.columns = df.iloc[0]
         df = df[1:]
         df.columns.name = ''
+        if self.freq.lower() == 'quarterly' or self.freq.lower() == 'q':
+            df.index = pd.to_datetime(df.index)
         df.replace('-', np.nan, inplace = True)
         df.replace('\(', '-', regex = True, inplace = True)
         df.replace('\)', '', regex = True, inplace = True)

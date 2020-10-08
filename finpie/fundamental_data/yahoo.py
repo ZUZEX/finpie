@@ -34,36 +34,6 @@ class YahooData( DataBase ):
         DataBase.__init__(self)
         self.ticker = ticker
 
-    def valuation_metrics(self):
-        '''
-
-        '''
-
-        url = f'https://finance.yahoo.com/quote/{self.ticker}/key-statistics?p={self.ticker}'
-        soup = self._get_session(url)
-        df = pd.read_html( str(soup.find('table')) )[0].transpose()
-        df.reset_index(inplace = True)
-        df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
-                        if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
-                            for c in df.iloc[0][1:].values.tolist()]
-        df = df[1:]
-
-        df = self._col_to_float(df)
-
-        df.replace(',', '', regex = True, inplace = True)
-        df.replace('-', np.nan, regex = True, inplace = True)
-
-        #df[df.columns[1:]] = df[df.columns[1:]].astype('float')
-        df.replace('Current', '', regex = True, inplace = True) # replace as of date as well ?
-        df.replace(',', '', regex = True, inplace = True)
-
-        df['ticker'] = self.ticker
-
-        df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
-
-        return self._col_to_float(df)
-
-
     def key_metrics(self):
         '''
 
@@ -80,13 +50,13 @@ class YahooData( DataBase ):
                             .replace(' ', '_').replace('/', '')  for c in df.columns ]
 
 
-
-        df['Date'] = dt.datetime.today().date()
         df['ticker'] = self.ticker
         df.replace(',', '', regex = True, inplace = True)
         df = self._col_to_float(df)
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.index = [pd.to_datetime(dt.datetime.today().date())]
+        df.index.name = 'date'
         return df
 
 
@@ -116,7 +86,10 @@ class YahooData( DataBase ):
                                 for col in df.columns ]
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         df.replace(',', '', regex = True, inplace = True)
-
+        df = df[ df.breakdown != 'ttm' ]
+        df.index = pd.to_datetime(df.breakdown)
+        df.index.name = 'date'
+        df.drop('breakdown', axis = 1, inplace = True)
         return self._col_to_float(df)
 
 
@@ -165,7 +138,7 @@ class YahooData( DataBase ):
 
         df = pd.read_html( str( soup.find('table') ) )[0].transpose()
         df.reset_index(inplace = True)
-        df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
+        df.columns = ['reference_date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
                         if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                             for c in df.iloc[0][1:].values.tolist()]
 
@@ -174,6 +147,9 @@ class YahooData( DataBase ):
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         df.replace(',', '', regex = True, inplace = True)
+        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
 
         return self._col_to_float(df)
 
@@ -183,7 +159,7 @@ class YahooData( DataBase ):
 
         df = pd.read_html( str( soup.find_all('table')[2] ) )[0].transpose()
         df.reset_index(inplace = True)
-        df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
+        df.columns = ['reference_date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
                         if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                             for c in df.iloc[0][1:].values.tolist()]
         df = df[1:]
@@ -194,6 +170,9 @@ class YahooData( DataBase ):
         df.iloc[:, 1:] = df.iloc[:, 1:]
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
         return df
 
     def revenue_estimates(self):
@@ -202,7 +181,7 @@ class YahooData( DataBase ):
 
         df = pd.read_html( str( soup.find_all('table')[1] ) )[0].transpose()
         df.reset_index(inplace = True)
-        df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
+        df.columns = ['reference_date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
                         if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                             for c in df.iloc[0][1:].values.tolist()]
         df = df[1:]
@@ -213,6 +192,9 @@ class YahooData( DataBase ):
         df.iloc[:, 1:] = df.iloc[:, 1:]
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
         return df
 
     def growth_estimates(self):
@@ -221,7 +203,7 @@ class YahooData( DataBase ):
 
         df = pd.read_html( str( soup.find_all('table')[-1] ) )[0].transpose()
         df.reset_index(inplace = True)
-        df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
+        df.columns = ['reference_date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
                         if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                             for c in df.iloc[0][1:].values.tolist()]
 
@@ -237,6 +219,9 @@ class YahooData( DataBase ):
         df = df[1:]
 
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
         return df
 
     def earnings_estimate_trends(self):
@@ -245,7 +230,7 @@ class YahooData( DataBase ):
 
         df = pd.read_html( str( soup.find_all('table')[3] ) )[0].transpose()
         df.reset_index(inplace = True)
-        df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
+        df.columns = ['reference_date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
                         if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
                             for c in df.iloc[0][1:].values.tolist()]
         df = df[1:]
@@ -253,6 +238,9 @@ class YahooData( DataBase ):
         df = self._col_to_float(df)
         df.iloc[:, 1:] = df.iloc[:, 1:].astype('float')
         df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
         return df
 
 
@@ -264,7 +252,7 @@ class YahooData( DataBase ):
       soup = self._get_session(url)
 
       section = soup.find(attrs = {'data-test': 'qsp-sustainability'})
-      df = pd.DataFrame( { 'date': dt.datetime.today().date(),
+      df = pd.DataFrame( {
         'total_esg_risk_score': np.float(section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').text),
         'risk_category': section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').find_next('div').find_next('div').text,
         'risk_percentile': section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').find_next('span').text.replace(' percentile', ''),
@@ -273,6 +261,8 @@ class YahooData( DataBase ):
         'governance_risk_score': np.float(section.find('div', string = 'Governance Risk Score').find_next('div').find_next('div').text),
         'controversy_level': np.float(section.find('span', string = 'Controversy Level').find_next('div', class_ = 'Mt(15px)').find_next('div').find_next('div').find_next('div').find_next('div').find_next('div').text),
         'ticker' : self.ticker }, index = [0] )
+      df.index = [pd.to_datetime( dt.datetime.today().date() )]
+      df.index.name = 'date'
       return df
 
 
@@ -291,7 +281,8 @@ class YahooData( DataBase ):
       df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
       df.replace(',', '', regex = True, inplace = True)
       df = self._col_to_float(df)
-
+      df.index = [pd.to_datetime( dt.datetime.today().date() )]
+      df.index.name = 'date'
       return df
 
 
@@ -309,6 +300,8 @@ class YahooData( DataBase ):
                             'number_of_employees': no_of_employees,
                             'description': soup.find('h2', string = 'Description').find_next('p').text,
                             'ticker': self.ticker }, index = [0] )
+       df.index = [pd.to_datetime( dt.datetime.today().date() )]
+       df.index.name = 'date'
        return df
 
 
@@ -337,4 +330,39 @@ class YahooData( DataBase ):
                                               .replace('k', '', regex = True) \
                                               .astype('float') * 1000).astype('str')
        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
+       df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+       df.index.name = 'date'
        return df
+
+
+
+'''
+
+def valuation_metrics(self):
+
+
+    url = f'https://finance.yahoo.com/quote/{self.ticker}/key-statistics?p={self.ticker}'
+    soup = self._get_session(url)
+    df = pd.read_html( str(soup.find('table')) )[0].transpose()
+    df.reset_index(inplace = True)
+    df.columns = ['Date'] + [c[:-1].strip().replace(' ', '_').replace('/', '')
+                    if c.strip()[-1].isdigit() else c.strip().replace(' ', '_').replace('/', '')
+                        for c in df.iloc[0][1:].values.tolist()]
+    df = df[1:]
+
+    df = self._col_to_float(df)
+
+    df.replace(',', '', regex = True, inplace = True)
+    df.replace('-', np.nan, regex = True, inplace = True)
+
+    #df[df.columns[1:]] = df[df.columns[1:]].astype('float')
+    df.replace('Current', '', regex = True, inplace = True) # replace as of date as well ?
+    df.replace(',', '', regex = True, inplace = True)
+
+    df['ticker'] = self.ticker
+
+    df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+
+    return self._col_to_float(df)
+
+'''

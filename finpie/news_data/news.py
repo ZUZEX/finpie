@@ -128,7 +128,7 @@ class NewsData(CleanNews):
             driver.get(url)
             time.sleep(10) # make implicit wait
             co = 0
-            _delete_elements(driver)
+            # _delete_elements(driver)
 
             #driver.find_elements_by_xpath('//a[@data-trackable="sort-item"]')[1].click()
             # Cant get more than 1000 results and need to change date filter when it gives an error
@@ -141,6 +141,7 @@ class NewsData(CleanNews):
                     max = int( driver.find_element_by_xpath('//span[@class="search-pagination__page"]').text.replace('Page 1 of ', '') )
                     for i in range(max):
                         driver.find_element_by_xpath('//a[@class="search-pagination__next-page o-buttons o-buttons--secondary o-buttons-icon o-buttons-icon--arrow-right o-buttons--big o-buttons-icon--icon-only"]').click()
+                        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//head')))
                         _delete_elements(driver)
                         contents.append( bs( driver.page_source, "lxml" ).find_all('div', class_ = 'o-teaser__content' ) )
                         co += 1
@@ -176,6 +177,7 @@ class NewsData(CleanNews):
                         url = 'https://www.ft.com/search?q=' + self.keywords.replace(' ', '%20') + '&dateTo=' + y + '-' + m + '-' + d + '&sort=date&expandRefinements=true'
                         driver.get( url )
                         #driver.find_elements_by_xpath('//a[@data-trackable="sort-item"]')[1].click()
+                        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//head')))
                         _delete_elements(driver)
                         contents.append( bs( driver.page_source, "lxml" ).find_all('div', class_ = 'o-teaser__content' ) )
                         co += 1
@@ -666,185 +668,6 @@ class NewsData(CleanNews):
         return data
 
 
-    def bloomberg(self, datestop = False):
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        #                            Bloomberg
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        source = 'bloomberg'
-        url = 'https://www.bloomberg.com/search?query='  + self.keywords.replace(' ', '%20')
-
-        driver = self._load_driver(caps = 'none')
-
-        try:
-            # Set and retrive url
-            driver.get(url)
-
-            time.sleep(2)
-
-            #
-            sec = len(driver.find_elements_by_xpath('//div[@id="px-captcha"]'))
-            if sec != 0 and self.head == False:
-                print('Failed. Run in non-headless (news.head = True) mode to solve captcha..\n')
-                return pd.DataFrame([1,1,1])
-                driver.quit()
-            else:
-                m = 0
-                while len(driver.find_elements_by_xpath('//div[@id="px-captcha"]')) > 0:
-                    if m == 0:
-                        print('Please solve captcha...')
-                        m += 1
-                    time.sleep(1)
-            time.sleep(5)
-
-
-            passed = False
-            try:
-                driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-                time.sleep(1)
-                element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
-                ActionChains(driver).move_to_element( element).click().perform()
-                time.sleep(1)
-                driver.switch_to.default_content()
-                passed = True
-            except:
-                pass
-
-
-
-            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//button[@title="Load More Results"]')))
-
-            # click sorting thing
-            element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
-            ActionChains(driver).move_to_element( element).click().perform()
-
-            while len( driver.find_elements_by_xpath('//a[@class="link__a4d2830d active__b9e37c7f"][contains(text(), "By Newest")]') ) < 1:
-                passed = False
-                try:
-                    driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-                    time.sleep(1)
-                    element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
-                    ActionChains(driver).move_to_element( element).click().perform()
-                    time.sleep(1)
-                    driver.switch_to.default_content()
-                    passed = True
-                except:
-                    pass
-                element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
-                ActionChains(driver).move_to_element( element).click().perform()
-                time.sleep(0.5)
-            time.sleep(3)
-
-            # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            #driver.find_elements_by_class_name('link__a4d2830d ')[7].click()
-
-
-            k = 0
-            while k < 300:
-                bool = True
-                new_height = 0
-                while bool: #newnumber != oldnumber:
-                    # do it with xpath
-                    #oldnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
-                    if not passed:
-                        try:
-                            driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-                            time.sleep(1)
-                            element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
-                            ActionChains(driver).move_to_element( element).click().perform()
-                            time.sleep(1)
-                            driver.switch_to.default_content()
-                            passed = True
-                        except:
-                            pass
-
-                    try:
-                        element = driver.find_element_by_xpath('//button[@title="Load More Results"]')
-                        driver.execute_script("arguments[0].scrollIntoView();", element)
-                        element.click()
-                        #ActionChains(driver).move_to_element( element).click().perform()
-                        #time.sleep(random.randint(1,2))
-                        time.sleep( 0.5 )
-                        k = 0
-                        if datestop:
-                            d = driver.find_elements_by_xpath( '//div[@class="publishedAt__79f8aaad"]' )[-1].text
-                            if pd.to_datetime( d ) < pd.to_datetime( datestop ):
-                                k = 1000
-                                bool = False
-                    except:
-                        bool = False
-
-
-                        k += 1
-                        time.sleep(0.5)
-
-
-            content = driver.page_source
-
-            driver.close()
-            driver.quit()
-        except:
-            print('Failed to load data...\n')
-            driver.quit()
-            return None
-
-        headline, link, date, description, author, tag = [], [], [], [], [], []
-
-        soup  = bs( content, "lxml" )
-        articles  = soup.find_all('div', class_ = 'storyItem__192ee8af' )
-
-        for article in articles:
-            link.append( article.find('a').get('href') )
-            headline.append( article.find('a', class_ = 'headline__55bd5397').text )
-            date.append( article.find('div', class_ = 'publishedAt__79f8aaad' ).text )
-            tag.append( article.find('div', class_ = 'eyebrow__4b7f0542').text )
-            try:
-                description.append( article.find('a', class_ = 'summary__bbda15b4' ).text )
-            except:
-                description.append( 'nan' )
-            try:
-                author.append( article.find('div', class_ = 'summary__bbda15b4').text.replace('By ', '') )
-            except:
-                author.append( 'nan' )
-
-
-        data = pd.DataFrame(
-                {
-                    'link': link,
-                    'headline': headline,
-                    'date': date,
-                    'description': description,
-                    'tag': tag,
-                    'author': author
-                }
-            )
-
-        data['date_retrieved'] = dt.datetime.today()
-        data['ticker'] = self.ticker
-        data['comments'] = 'nan'
-        data['newspaper'] = 'Bloomberg'
-
-        data['search_term'] = self.keywords
-
-        data['id'] = data['newspaper'] +  data['headline'] + data['link']
-        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
-        for col in columns:
-            if col not in data.columns:
-                data[col] = 'nan'
-
-        data['source'] = source
-
-        data = self._clean_dates(data)
-
-
-        if self.verbose:
-            print('-' * 78)
-            print(source.upper(), 'done.', len(data), 'articles collected.')
-            print('-' * 78)
-
-        return data
-
-
     def reuters(self, datestop = False):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1176,22 +999,26 @@ class NewsData(CleanNews):
                         #time.sleep(1)
                         newnumber = len( driver.find_elements_by_tag_name('li') )
 
+
                         last_date = driver.find_elements_by_xpath('//span[@data-testid="todays-date"]')[-1].text
                         if ',' in last_date:
                             y = last_date.split(' ')[-1]
                         else:
                             y = str( dt.datetime.today().year )
+                        try: #because of minute timestamp
+                            m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
+                            if len(last_date.split(' ')[1].replace(',', '')) < 2:
+                                d = '0' + last_date.split(' ')[1].replace(',', '')
+                            else:
+                                d = last_date.split(' ')[1].replace(',', '')
+                            if datestop:
+                                if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
+                                    content = driver.page_source
+                                    contents.append( content )
+                                    bool = False
+                        except:
+                            pass
 
-                        m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
-                        if len(last_date.split(' ')[1].replace(',', '')) < 2:
-                            d = '0' + last_date.split(' ')[1].replace(',', '')
-                        else:
-                            d = last_date.split(' ')[1].replace(',', '')
-                        if datestop:
-                            if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
-                                content = driver.page_source
-                                contents.append( content )
-                                bool = False
                     k += 1
                     if k > t:
                         content = driver.page_source
@@ -1205,17 +1032,19 @@ class NewsData(CleanNews):
                             y = last_date.split(' ')[-1]
                         else:
                             y = str( dt.datetime.today().year )
-
-                        m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
-                        if len(last_date.split(' ')[1].replace(',', '')) < 2:
-                            d = '0' + last_date.split(' ')[1].replace(',', '')
-                        else:
-                            d = last_date.split(' ')[1].replace(',', '')
-                        if datestop:
-                            if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
-                                content = driver.page_source
-                                contents.append( content )
-                                bool = False
+                        try: #because of minute timestamp
+                            m = self.months[last_date.split(' ')[0][:3].replace('.', '').replace(',', '').lower()]
+                            if len(last_date.split(' ')[1].replace(',', '')) < 2:
+                                d = '0' + last_date.split(' ')[1].replace(',', '')
+                            else:
+                                d = last_date.split(' ')[1].replace(',', '')
+                            if datestop:
+                                if pd.to_datetime(f'{y}-{m}-{d}', format = '%Y-%m-%d') < pd.to_datetime(datestop):
+                                    content = driver.page_source
+                                    contents.append( content )
+                                    bool = False
+                        except:
+                            pass
 
                         url = 'https://www.nytimes.com/search?dropmab=true&endDate=' + y + m + d + '&query=' + self.keywords.replace(' ', '%20') + '&sort=newest&startDate=' + '20000101'
                         driver.get(url)
@@ -1296,13 +1125,3 @@ class NewsData(CleanNews):
             print('-' * 78)
 
         return data
-
-
-'''
-news = NewsData('XOM', 'exxon mobil')
-date = '2020-05-22'
-date2 = '2020-06-24'
-data = news.bloomberg(date)'''
-
-
-# news._clean_dates(data)

@@ -10,8 +10,8 @@ class CommonTest(object):
     def __init__(self):
         # test ticker
         self.ticker = 'AAPL'
-        self.date = '2020-05-22'
-        self.date2 = '2020-06-24'
+        self.date = '2020-08-05'
+        self.date2 = '2020-09-30'
 
     def df_helper(self, data):
         # simple test to see if dataframe is returned
@@ -35,7 +35,7 @@ class PriceDataTest(unittest.TestCase, CommonTest):
 
         print('Testing Yahoo price data.')
 
-        data = finpie.yahoo_prices(self.ticker)
+        data = finpie.historical_prices(self.ticker)
         self.df_helper(data)
         # check columns
         self.assertTrue( list(data.columns) == ['open', 'high', 'low', 'close', 'adj_close', 'volume'] )
@@ -129,33 +129,32 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
                 else:
                     self.df_helper(data)
                 print( 'Test passed. \n')
-            time.sleep(2)
+            time.sleep(1)
 
     def test_finviz(self):
 
-        finviz = finpie.FinvizData(self.ticker)
+        finviz = finpie.fundamental_data.FinvizData(self.ticker)
         self.class_test(finviz, 'Finviz fundamentals')
 
     def test_yahoo(self):
 
-        yahoo = finpie.YahooData(self.ticker)
+        yahoo = finpie.fundamental_data.YahooData(self.ticker)
         self.class_test(yahoo, 'Yahoo fundamentals')
 
     def test_mwatch(self):
 
-        mwatch = finpie.MwatchData(self.ticker)
+        mwatch = finpie.fundamental_data.MwatchData(self.ticker)
         self.class_test(mwatch, 'Marketwatch fundamentals')
 
     def test_macrotrends(self):
 
-        mt = finpie.MacrotrendsData(self.ticker)
+        mt = finpie.fundamental_data.MacrotrendsData(self.ticker)
         self.class_test(mt, 'Macrotrends fundamentals')
 
 
     def test_earnings_call_transcripts(self):
 
-
-        e = finpie.Earnings(self.ticker)
+        e = finpie.fundamental_data.Earnings(self.ticker)
 
         self.class_test(e, 'Motley Fool Earnings Calls')
 
@@ -204,6 +203,7 @@ class EconomicDataTest(unittest.TestCase, CommonTest):
                     else:
                         self.df_helper(data)
                     print( 'Test passed. \n')
+                    time.sleep(1)
 
     def test_oecd(self):
 
@@ -216,13 +216,13 @@ class EconomicDataTest(unittest.TestCase, CommonTest):
         self.class_test(eia, 'EIA data')
 
 
-
 class NewsDataTest(unittest.TestCase, CommonTest):
 
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
         CommonTest.__init__(self)
-        self.news = finpie.NewsData('XOM', 'exxon mobil')
+        #self.news = finpie.NewsData('XOM', 'exxon mobil')
+        self.news = finpie.NewsData('AAPL', 'apple inc. iphone')
         #self.news.head = True
 
     def setUp(self):
@@ -237,25 +237,6 @@ class NewsDataTest(unittest.TestCase, CommonTest):
         self.df_helper(data)
         self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
         print('Test passed. \n')
-
-
-    def test_bloomberg(self):
-        print('Testing Bloomberg.')
-        data = self.news.bloomberg( datestop = self.date )
-        #print(data)
-        if type(data) != type(None):
-            self.df_helper(data)
-            if len(data)>3: # if captcha is not required
-                self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
-            print('Test passed. \n')
-        else:
-            print('Retrying.. \n')
-            data = self.news.seeking_alpha( datestop = self.date )
-            self.df_helper(data)
-            if len(data)>3: # if captcha is not required
-                self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
-            print('Test passed. \n')
-
 
     def test_seeking_alpha(self):
         print('Testing Seeking Alpha.')
@@ -313,60 +294,3 @@ class NewsDataTest(unittest.TestCase, CommonTest):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-
-'''
-news = finpie.NewsData('XOM', 'exxon mobil')
-
-date = '2020-05-22'
-date2 = '2020-06-24'
-
-
-news.bloomberg(date)
-
-
-
-news.seeking_alpha(date)
-
-
-news.head = True
-news.wsj(date)
-
-
-
-
-
-
-import datetime as dt
-pd.to_datetime(dt.datetime.now().strftime(format = '%d-%m-%Y' ).replace(' 00:00:00', ''), format = '%d-%m-%Y')
-
-
-pd.to_datetime('2020-09-29 00:00:00', format = '%d-%m-%Y')
-
-# import datetime as dt
-# pd.to_datetime(dt.datetime.now(), format = '%d-%m-%Y')
-
-
-
-
-# wsj 3 hours ago
-
-d = '3 hours ago'
-
-
-
-data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
-                                                        if len(d.split(' ')) != 1 else data['temp_date'].iloc[i]
-                                                            for i, d in enumerate( data[ data['source'] == source ]['date'] ) ], format = '%d-%m-%Y' ))
-
-
-
-[ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
-                                                                                     for d in data[ data['source'] == source ]['date'] ]
-
-#news.head = True
-news.bloomberg(date)
-
-
-'''

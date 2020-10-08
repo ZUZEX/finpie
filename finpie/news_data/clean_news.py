@@ -23,6 +23,8 @@
 # SOFTWARE.
 #
 
+
+
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -58,11 +60,11 @@ class CleanNews(DataBase):
 
         '''
         data['temp_date'] = np.nan
-        hour = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data['date']) if 'hour' in hour.lower() ]
+        hour = [ (idx, hour.split(' ')[0]) for idx, hour in enumerate(data['date']) if 'hour' in hour.lower() or ('h' in hour.lower() and ('march' not in hour.lower() and 'thu' not in hour.lower() ) ) ]
         for i, h in hour:
-            data.temp_date.iloc[i] = pd.to_datetime( (data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h) )).strftime(format = '%d-%m-%Y' ), format = '%d-%m-%Y' )
+            data.temp_date.iloc[i] = pd.to_datetime( (data['date_retrieved'].iloc[i] - dt.timedelta( hours = int(h.replace('h', '')) )).strftime(format = '%d-%m-%Y' ), format = '%d-%m-%Y' )
 
-        mins = [ (idx, m.split(' ')[0].replace('m', '')) for idx, m in enumerate(data['date']) if 'm' in m and len(m.split(' ')) == 1 ]
+        mins = [ (idx, m.split(' ')[0].replace('m', '')) for idx, m in enumerate(data['date']) if 'm' in m and len(m.split(' ')) <= 2 or 'min' in m ]
         for i, m in mins:
             data.temp_date.iloc[i] = pd.to_datetime( (data['date_retrieved'].iloc[i] - dt.timedelta( minutes = int(m) )).strftime(format = '%d-%m-%Y' ), format = '%d-%m-%Y' )
 
@@ -92,7 +94,7 @@ class CleanNews(DataBase):
             elif source == 'nyt':
                 temp = []
                 for i, j in enumerate(data.date):
-                    if type(data.temp_date.iloc[i]) == type(np.nan):
+                    if type(data.temp_date.iloc[i]) != type(pd.to_datetime('2000-01-01')):
                         if ',' in j:
                             y = j.split(' ')[-1]
                         else:
@@ -113,7 +115,7 @@ class CleanNews(DataBase):
                                                                                              for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))
             elif source in ['barrons', 'wsj']:
                 data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
-                                                                        if type(data['temp_date'].iloc[i]) == type(np.nan) else data['temp_date'].iloc[i].strftime( format = '%d-%m-%Y' )
+                                                                        if type(data['temp_date'].iloc[i]) != type(pd.to_datetime('2000-01-01')) else data['temp_date'].iloc[i].strftime( format = '%d-%m-%Y' )
                                                                             for i, d in enumerate( data[ data['source'] == source ]['date'] ) ], format = '%d-%m-%Y' ))
                 #data['temp_date'][ data['source'] == source ] = list(pd.to_datetime( [ d.split(' ')[1][:-1] + '-' +  self.months[ d.split(' ')[0][:3].lower().replace('.', '') ] + '-' + d.split(' ')[2] \
                 #                                                                                     for d in data[ data['source'] == source ]['date'] ], format = '%d-%m-%Y' ))

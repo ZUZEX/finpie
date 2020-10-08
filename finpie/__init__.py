@@ -32,25 +32,27 @@ from finpie.fundamental_data.macrotrends import MacrotrendsData
 from finpie.fundamental_data.mwatch import MwatchData
 from finpie.fundamental_data.yahoo import YahooData
 from finpie.fundamental_data.fool import Earnings
+from finpie.fundamental_data.fundamentals import Fundamentals
+
 # News data
 from finpie.news_data.news import NewsData
 # Other data
 from finpie.other_data.stock_symbols import global_tickers
 from finpie.other_data.stock_symbols import nasdaq_tickers
 # Price data
-from finpie.price_data.price_data import alpha_vantage_prices
-from finpie.price_data.price_data import tingo_prices
-from finpie.price_data.price_data import iex_intraday
-from finpie.price_data.price_data import yahoo_prices
+# from finpie.price_data.price_data import alpha_vantage_prices
+from finpie.price_data.price_data import historical_prices
 from finpie.price_data.price_data import yahoo_option_chain
 from finpie.price_data.price_data import cboe_option_chain
 from finpie.price_data.futures_prices import historical_futures_contracts
 from finpie.price_data.futures_prices import futures_contracts
 
 
-__all__ = [ 'alpha_vantage_prices', 'tingo_prices', 'iex_intraday',
-            'yahoo_prices', 'yahoo_option_chain', 'cboe_option_chain'
+__all__ = [
+            'historical_prices', 'yahoo_option_chain', 'cboe_option_chain',
             'historical_futures_contracts', 'futures_contracts',
-            'nasdaq_tickers', 'global_tickers',
+            'nasdaq_tickers', 'global_tickers', 'Fundamentals',
             'YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData',
             'OecdData', 'EiaData', 'NewsData', 'Earnings' ]
+
+# 'alpha_vantage_prices'

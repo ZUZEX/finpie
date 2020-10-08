@@ -10,7 +10,7 @@
 
 <p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p> 
 
-<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>The Motley Fool</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and <code>CBOE</code> but also includes a wrapper for price data APIs including <code>Alpha-Vantage</code>, <code>IEX Cloud</code> and <code>Tiingo</code> which require a (free) api-key from the respective provider. The economic data is collected from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code>, <code>Bloomberg</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
+<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>The Motley Fool</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and <code>CBOE</code>. The economic data is collected from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
 
 <p>If there are any issues, ideas or recommendations please feel free to reach out.</p>
@@ -62,8 +62,8 @@
 <li><a href="#A3">Function index</a></li>
 <li>
 <a href="#A4">Company fundamental data</a><ul>
-	<li><a href="#A41">Valuation metrics and financial ratios</a></li>
 	<li><a href="#A42">Financial statements</a></li>
+	<li><a href="#A41">Financial ratios and key metrics</a></li>
 	<li><a href="#A43">Earnings and revenue estimates</a></li>
 	<li><a href="#A48">Earnings call transcripts</a></li>
 	<li><a href = "#A44">Insider transactions and analyst ratings</a></li>
@@ -134,54 +134,43 @@ tqdm>=4.32.1
 
 ## <div id="A3"> Index </div>
 
+
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
-|<u>Valuation metrics and financial ratios</u>|||
-|<li> <a id='i1' href='#f1'>yahoo.valuation\_metrics()</a> </li>|5 quarters|Fast|
-|<li> <a id='i2' href='#f2'>yahoo.key_metrics()</a> </li>|Today's data|Fast|
-|<li> <a id='i101' href='#f101'>finviz.key_metrics()</a> </li>|Today's data|Fast|
-|<li> <a id='i102' href='#f102'>macrotrends.ratios()</a> </li>|up to 2005|Slow|
+|<i>fd = Fundamentals( ticker, source, freq )</i>|||
 |<u>Financial statements</u>|||
-|<li> <a id='i3' href='#f3'>yahoo.income\_statement()</a> </li>|4 years / quarters|Fast|
-|<li> <a id='i4' href='#f4'>yahoo.balance\_sheet()</a> </li>|4 years / quarters|Fast|
-|<li> <a id='i5' href='#f5'>yahoo.cashflow\_statement()</a> </li>|4 years / quarters|Fast|
-|<li> <a id='i6' href='#f6'>yahoo.statements()</a> </li>|4 years / quarters|Fast|
-|<li> <a id='i7' href='#f7'>mwatch.income\_statement()</a> </li>|5 years / quarters|Fast|
-|<li> <a id='i8' href='#f8'>mwatch.balance\_sheet()</a> </li>|5 years / quarters|Fast|
-|<li> <a id='i9' href='#f9'>mwatch.cashflow\_statement()</a> </li>|5 years / quarters|Fast|
-|<li> <a id='i10' href='#f10'>mwatch.statements()</a> </li>|5 years / quarters|Fast|
-|<li> <a id='i103' href='#f103'>macrotrends.income\_statement()</a> </li>|up to 2005|Slow|
-|<li> <a id='i104' href='#f104'>macrotrends.balance\_sheet()</a> </li>|up to 2005|Slow|
-|<li> <a id='i105' href='#f105'>macrotrends.cashflow\_statement()</a> </li>|up to 2005|Slow|
+|<li> <a id='i7' href='#f7'>fd.income\_statement()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i8' href='#f8'>fd.balance\_sheet()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i9' href='#f9'>fd.cashflow\_statement()</a> </li>|5 years / quarters|Fast|
+|<u>Financial ratios and key metrics</u>|||
+|<li> <a id='i102' href='#f102'>fd.ratios()</a> </li>|up to 2005|Slow|
+|<li> <a id='i2' href='#f2'>fd.key_metrics()</a> </li>|Most recent data|Fast|
 |<u>Earnings and revenue estimates</u>|||
-|<li> <a id='i11' href='#f11'>yahoo.earnings\_estimates()</a> </li>|Today's data|Fast|
-|<li> <a id='i12' href='#f12'>yahoo.earnings\_estimates\_trends()</a> </li>|Recent trend|Fast|
-|<li> <a id='i13' href='#f13'>yahoo.earnings\_history()</a> </li>|4 quarters|Fast|
-|<li> <a id='i14' href='#f14'>yahoo.revenue\_estimates()</a> </li>|Today's data|Fast|
-|<li> <a id='i15' href='#f15'>yahoo.growth\_estimates()</a> </li>|Today's data|Fast|
-|<u>Earnings call transcripts</u>|||
-|<li> <a id='i131' href='#f131'>earnings.transcripts()</a> </li>|up to 2018|Slow|
+|<li> <a id='i11' href='#f11'>fd.earnings\_estimates()</a> </li>|Most recent data|Fast|
+|<li> <a id='i12' href='#f12'>fd.earnings\_estimates\_trends()</a> </li>|Recent trend|Fast|
+|<li> <a id='i13' href='#f13'>fd.earnings\_history()</a> </li>|4 quarters|Fast|
+|<li> <a id='i14' href='#f14'>fd.revenue\_estimates()</a> </li>|Most recent data|Fast|
+|<li> <a id='i15' href='#f15'>fd.growth\_estimates()</a> </li>|Most recent data|Fast|
 |<u>Insider transactions and analyst ratings</u>|||
-|<li> <a id='i16' href='#f16'>finviz.insider\_transactions()</a> </li>|Last year|Fast|
-|<li> <a id='i17' href='#f17'>finviz.analyst\_ratings()</a> </li>|Most recent ratings|Fast|
+|<li> <a id='i16' href='#f16'>fd.insider\_transactions()</a> </li>|Last year|Fast|
+|<li> <a id='i17' href='#f17'>fd.analyst\_ratings()</a> </li>|Most recent data|Fast|
 |<u>ESG data</u>|||
-|<li> <a id='i18' href='#f18'>yahoo.esg\_score()</a> </li>|Today's data|Fast|
-|<li> <a id='i19' href='#f19'>yahoo.corporate\_governance\_score()</a> </li>|Today's data|Fast|
+|<li> <a id='i18' href='#f18'>fd.esg\_score()</a> </li>|Most recent data|Fast|
+|<li> <a id='i19' href='#f19'>fd.corporate\_governance\_score()</a> </li>|Most recent data|Fast|
 |<u>Company profile</u>|||
-|<li> <a id='i20' href='#f20'>yahoo.profile()</a> </li>|Today's data|Fast|
-|<li> <a id='i21' href='#f21'>yahoo.exceutives\_info()</a> </li>|Today's data|Fast|
+|<li> <a id='i20' href='#f20'>fd.profile()</a> </li>|Most recent data|Fast|
+|<li> <a id='i21' href='#f21'>fd.exceutives\_info()</a> </li>|Most recent data|Fast|
 |<b>Price data</b>|||
-|<li> <a id='i22' href='#f22'>yahoo\_prices(ticker)</a> </li>|Timeseries|Fast|
+|<li> <a id='i22' href='#f22'>historical\_prices(ticker)</a> </li>|Timeseries|Fast|
 |<li> <a id='i24' href='#f24'>alpha\_vantage\_prices(ticker,api\_token)</a> </li>|Timeseries|Fast|
-|<li> <a id='i25' href='#f25'>iex_intraday(ticker, api\_token)</a> </li>|Timeseries|Depends on timeframe|
-|<li> <a id='i26' href='#f26'>tingo\_prices(ticker, api\_token, start\_date, end\_date, freq)</a> </li>|Timeseries|Depends on timeframe|
-|<li> <a id='i27' href='#f27'>yahoo\_option\_chain(ticker)</a> </li>|Today's data|Fast|
-|<li> <a id='i106' href='#f106'>cboe\_option\_chain(ticker)</a> </li>|Today's data|Slow|
+|<li> <a id='i27' href='#f27'>yahoo\_option\_chain(ticker)</a> </li>|Most recent data|Fast|
+|<li> <a id='i106' href='#f106'>cboe\_option\_chain(ticker)</a> </li>|Most recent data|Fast|
 |<li> <a id='i28' href='#f28'>historical\_futures\_contracts(date\_range)</a> </li>|Timeseries|Very slow|
 |<li> <a id='i29' href='#f29'>futures\_contracts(date)</a> </li>|Any date|Fast|
 |<b>Economic data</b>|||
-|<i><b><u>OECD data</i></b></u>|||
+|<b><i>OECD Data</i></b>|||
+|<i>oecd = OecdData( country\_code, **args )</i>|||
 |<u>Composite leading indicators</u>|||
 |<li> <a id='i30' href='#f30'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i31' href='#f31'>oecd.cci()</a> </li>|Timeseries|Not that slow|
@@ -229,7 +218,7 @@ tqdm>=4.32.1
 |<li> <a id='i66' href='#f66'>oecd.economic\_situation\_survey(sector)</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i67' href='#f67'>oecd.consumer\_confidence\_survey()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i68' href='#f68'>oecd.consumer\_prices\_inflation\_survey()</a> </li>|Timeseries|Not that slow|
-|<u>OECD Balance of payments </u>|||
+|<u>OECD Balance of Payments </u>|||
 |<i>Current Account</i>|||
 |<li> <a id='i69' href='#f69'>oecd.current\_account(percent\_of\_gdp = False)</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i70' href='#f70'>oecd.goods\_balance( xm = ‘balance’ )</a> </li>|Timeseries|Not that slow|
@@ -241,24 +230,25 @@ tqdm>=4.32.1
 |<li> <a id='i75' href='#f75'>oecd.other\_investment(assets\_or\_liabs = None)</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i76' href='#f76'>oecd.financial\_derivatives()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i77' href='#f77'>oecd.reserve\_assets()</a> </li>|Timeseries|Not that slow|
-|<i><b><u>EIA Petroleum Data</i></b></u>|||
-|<li> <a id='i107' href='#f107'>eia\_petroleum\_series()</a> </li>|Timeseries|Not that slow|
-|<u>Weekly balance</u>|||
+|<b><i>EIA Data</i></b>|||
+|<i>eia = EiaData()</i>|||
+|<li> <a id='i107' href='#f107'>eia.eia\_petroleum\_series()</a> </li>|Timeseries|Not that slow|
+|<u>Weekly balances</u>|||
 |<li> <a id='i108' href='#f108'>eia.weekly\_balance()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i109' href='#f109'>eia.latest\_weekly\_balance()</a> </li>|Latest data point|Not that slow|
+|<li> <a id='i109' href='#f109'>eia.last\_weekly\_balance()</a> </li>|Most recent data|Not that slow|
 |<u>Crude oil supply</u>|||
 |<li> <a id='i110' href='#f110'>eia.crude\_production()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i111' href='#f111'>eia.crude\_supply\_and\_disposition()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i112' href='#f112'>eia.rig\_count()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i113' href='#f113'>eia.crude\_reserves()</a> </li>|Timeseries|Not that slow|
-|<u>Refining and processing</u>|||
-|<li> <a id='i118' href='#f118'>eia.weekly\_refinery_inputs()</a> </li>|Timeseries|Not that slow|
+|<u>Refining and Processing</u>|||
+|<li> <a id='i118' href='#f118'>eia.weekly\_refinery\_inputs()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i119' href='#f119'>eia.refinery\_utilisation()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i120' href='#f120'>eia.refinery\_yield()</a> </li>|Timeseries|Not that slow|
-|<li> <a id='i121' href='#f121'>eia.crude\_acquisition\_costs()</a> </li>|Timeseries|Not that slow|
+|<li> <a id='i121' href='#f121'>eia.crude\_acquisition\_cost()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i122' href='#f122'>eia.crude\_inputs\_quality()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i123' href='#f123'>eia.refineries()</a> </li>|Timeseries|Not that slow|
-|<u>Import and exports</u>|||
+|<u>Imports and Exports</u>|||
 |<li> <a id='i114' href='#f114'>eia.weekly\_xm()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i115' href='#f115'>eia.monthly\_xm()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i116' href='#f116'>eia.weekly\_imports\_by\_country()</a> </li>|Timeseries|Not that slow|
@@ -273,9 +263,9 @@ tqdm>=4.32.1
 |<li> <a id='i129' href='#f129'>eia.monthly\_product\_supplied()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i130' href='#f130'>eia.product\_prices\_sales\_and\_stock()</a> </li>|Timeseries|Not that slow|
 |<b>News data</b>|||
+|<b>news = NewsData( ticker, keyword_string )</b>|||
 |<li> <a id='i78' href='#f78'>news.barrons()</a> </li>|Timeseries|Slow|
-|<li> <a id='i79' href='#f79'>news.bloomberg()</a> </li>|Timeseries|Very slow|
-|<li> <a id='i80' href='#f80'>news.cnbc(datestop = False)</a> </li>|Timeseries|Very slow|
+|<li> <a id='i80' href='#f80'>news.cnbc()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i81' href='#f81'>news.ft()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i82' href='#f82'>news.nyt()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i83' href='#f83'>news.reuters()</a> </li>|Timeseries|Very slow|
@@ -284,6 +274,7 @@ tqdm>=4.32.1
 |<b>Other data</b>|||
 |<li> <a id='i86' href='#f86'>nasdaq\_tickers()</a> </li>|List of stock tickers|Fast|
 |<li> <a id='i87' href='#f87'>global\_tickers()</a> </li>|List of stock tickers|Slow|
+
 
 -----
 
@@ -301,134 +292,295 @@ The data is pulled from <code>Yahoo Finance</code>, <code>Marketwatch.com</code>
 ```python
 import finpie # or import finpie.fundamental_data
 
-# Yahoo financial statements, key statistics, earnings estimates, ESG scores, company profiles
-finpie.YahooData(ticker)
+# default:
+# source = 'macrotrends' 
+# freq = 'A'
+fd = finpie.Fundamentals(ticker, source = 'macrotrends', freq = 'A') 
 
-# Marketwatch financial statements
-finpie.MwatchData(ticker)
+# source options for financial statements and key metrics:
+# 'yahoo', 'marketwatch', 'macrotrends'
+# freq options:
+# 'A', 'Q'
 
-# Earnings call transcripts from The Motley Fool
-finpie.Earnings(ticker)
+# default key metrics for marketwatch and macrotrends come from Finviz
 
-# Finviz insider transactions, analyst ratings, key statistics
-finpie.FinvizData(ticker)
-
-# Macrotrends (long-term) financial statements and ratios
-finpie.MacrotrendsData(ticker)
 ```
 
 <br>
 
-###	 <div id="A41"> <li>Valuation metrics and financial ratios <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 
+###	 <div id="A42"> <li> Financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
+
+<div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id="f1"><i>YahooData(ticker).valuation\_metrics()</i></div>
+#### <div id="f7"><i>Fundamentals(ticker, source, freq).income\_statement()</i></div>
+
 
 <ul>
-<li>Returns a dataframe with valuation metrics for the last five quarters and for the current date including trailing P/E, PEG ratio, P/S, etc.</li>
+<li>Returns a dataframe with income statements from either Macrotrends.com, Yahoo Finance or Marketwatch. Default source is 'macrotrends'.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: 'yahoo', 'marketwatch', 'macrotrends', default: 'macrotrends' </li>
+	<li> <code>freq</code>: 'A' (annual data), 'Q' (quarterly data), default: 'A' </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+
+<details>
+<summary><i> Default Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.valuation_metrics()
+fd = Fundamentals('AAPL', freq = 'A')
+fd.income_statement()
 ```
 
-<i> Output </i>
+|                     |   revenue |   cost\_of\_goods\_sold |   gross_profit |   research\_and\_development\_expenses |   sganda\_expenses | ... |
+|:--------------------|----------:|---------------------:|---------------:|------------------------------------:|------------------:| ---: |
+| 2005-09-30 |     13931 |                 9889 |           4042 |                                 535 |              1864 | ... |
+| 2006-09-30 |     19315 |                13717 |           5598 |                                 712 |              2433 | ... |
+| 2007-09-30  |     24578 |                16426 |           8152 |                                 782 |              2963 | ... |
+| 2008-09-30  |     37491 |                24294 |          13197 |                                1109 |              3761 | ... |
+| 2009-09-30  |     42905 |                25683 |          17222 |                                1333 |              4149 | ... |
+| ... |     ... |                ... |          ... |                                1333 |              4149 | ... |
+
+</details>
+
+<details>
+<summary><i> Yahoo Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', source = 'yahoo') # no frequency choice for Yahoo...
+fd.income_statement()
+```
+
+|    | breakdown   |   total\_revenue |   cost\_of\_revenue |   gross\_profit |   operating\_expense |   operating\_income |   ... |
+|---:|:------------|----------------:|------------------:|---------------:|--------------------:|-------------------:|--------------------------------------------:|
+|  0 | ttm         |       273857000 |         169277000 |      104580000 |            37442000 |           67138000 |                                     ... |
+|  1 | 9/30/2019   |       260174000 |         161782000 |       98392000 |            34462000 |           63930000 |                                     ... |
+|  2 | 9/30/2018   |       265595000 |         163756000 |      101839000 |            30941000 |           70898000 |                                     ... |
+|  3 | 9/30/2017   |       229234000 |         141048000 |       88186000 |            26842000 |           61344000 |                                     ... |
+|  4 | 9/30/2016   |       215639000 |         131376000 |       84263000 |            24239000 |           60024000 |   
+
+</details>
+
+<details>
+<summary><i> Marketwatch Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', source = 'marketwatch', freq = 'Q')
+fd.income_statement()
+```
 
 <center><small><small>
 
-|    | date                  |   market\_cap\_(intraday) |   forward\_pe |   peg\_ratio\_(5\_yr\_expected) |   pricesales\_(ttm) |   pricebook\_(mrq) |   ... |
-|---:|:----------------------|------------------------:|-------------:|----------------------------:|-------------------:|------------------:|--------------:|
-|  1 | As of Date: 8/23/2020 |              2.02e+12   |        30.12 |                        2.4  |               7.66 |             27.98 |         ... |
-|  2 | 6/30/2020             |              1.56e+12   |        24.33 |                        2.02 |               6.12 |             19.93 |         ... |
-|  3 | 3/31/2020             |              1.1e+12    |        19.65 |                        1.58 |               4.34 |             12.28 |         ... |
-|  4 | 12/31/2019            |              1.29e+12   |        22.17 |                        2.03 |               5.25 |             14.23 |         ...  |
-|  5 | 9/30/2019             |              9.9515e+11 |        17.27 |                        2.04 |               4.09 |             10.32 |         ... |
-|  6 | 6/30/2019             |              9.1064e+11 |        15.97 |                        1.45 |               3.68 |              8.47 |         ... |
+| date        |   sales\_revenue |   sales\_growth |   cost\_of\_goods\_sold\_(cogs)\_incl_danda |   cogs\_excluding\_danda |   depreciation\_and\_amortization\_expense |   ... |
+|:------------|----------------:|---------------:|---------------------------------------:|-----------------------:|----------------------------------------:|---------------:|
+| 30-Jun-2019 |       5.374e+10 |       nan      |                              3.357e+10 |              3.064e+10 |                                2.93e+09 |       ... |
+| 30-Sep-2019 |       6.394e+10 |         0.1897 |                              3.977e+10 |              3.784e+10 |                                1.93e+09 |       ... |
+| 31-Dec-2019 |       9.172e+10 |         0.4346 |                              5.677e+10 |              5.396e+10 |                                2.82e+09 |       ... |
+| 31-Mar-2020 |       5.835e+10 |        -0.3639 |                              3.593e+10 |              3.315e+10 |                                2.79e+09 |      ... |
+| 30-Jun-2020 |       5.942e+10 |         0.0183 |                              3.737e+10 |              3.462e+10 |                                2.75e+09 |      ... |
+
+</small></small></center>
+
+</details>
+
+
+
+
+<div align="right"> <a href="#i7">To index</a> </div>
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+#### <div id="f8"><i>Fundamentals(ticker, source, freq).balance\_sheet()</i></div>
+
+<ul>
+<li>Returns a dataframe with balance sheets from either Macrotrends.com, Yahoo Finance or Marketwatch. Default source is 'macrotrends'.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: 'yahoo', 'marketwatch', 'macrotrends', default: 'macrotrends' </li>
+	<li> <code>freq</code>: 'A' (annual data), 'Q' (quarterly data), default: 'A' </li>
+	</ul>
+</ul>
+</ul>
+
+<br>
+
+
+<details>
+<summary><i> Default Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', freq = 'A')
+fd.balance_sheet()
+```
+
+
+
+
+
+</details>
+
+<details>
+<summary><i> Yahoo Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', source = 'yahoo') # no frequency choice for Yahoo...
+fd.balance_sheet()
+```
+
+
+
+
+
+
+</details>
+
+<details>
+<summary><i> Marketwatch Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', source = 'marketwatch', freq = 'Q')
+fd.balance_sheet()
+```
+
+<center><small><small>
+
+
 
 
 
 </small></small></center>
 
-<div align="right"> <a href="#i1">To index</a> </div>
+</details>
+
+
+
+
+
+<div align="right"> <a href="#i8">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-
-#### <div id="f2"><i>YahooData(ticker).key\_metrics()</i></div>
+#### <div id="f9"><i>Fundamentals(ticker, source, freq).cashflow\_statement()</i></div>
 
 <ul>
-<li>Returns a dataframe with current key statistics and financial ratios.</li>
+<li>Returns a dataframe with cashflow statements from either Macrotrends.com, Yahoo Finance or Marketwatch. Default source is 'macrotrends'.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: 'yahoo', 'marketwatch', 'macrotrends', default: 'macrotrends' </li>
+	<li> <code>freq</code>: 'A' (annual data), 'Q' (quarterly data), default: 'A' </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+
+
+<br>
+
+
+<details>
+<summary><i> Default Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.key_metrics()
+fd = Fundamentals('AAPL', freq = 'A')
+fd.cashflow_statement()
 ```
 
-<i> Output </i>
+
+
+
+
+</details>
+
+<details>
+<summary><i> Yahoo Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', source = 'yahoo') # no frequency choice for Yahoo...
+fd.cashflow_statement()
+```
+
+
+
+
+
+
+</details>
+
+<details>
+<summary><i> Marketwatch Example </i></summary>
+
+```python
+fd = Fundamentals('AAPL', source = 'marketwatch', freq = 'Q')
+fd.cashflow_statement()
+```
 
 <center><small><small>
 
-|    |   payout\_ratio |   profit\_margin |   operating\_margin\_(ttm) |   return\_on\_assets\_(ttm) |   return\_on\_equity\_(ttm) |   ...|
-|---:|---------------:|----------------:|-------------------------:|-------------------------:|-------------------------:|----------------:|
-|  0 |         0.2373 |          0.2133 |                   0.2452 |                   0.1312 |                   0.6925 |      ... |
-
-</small></small></center>
-
-<div align="right"> <a href="#i2">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id="f101"><i>FinvizData(ticker).key\_metrics()</i></div>
-
-<ul>
-<li>Returns a dataframe with today's key financial metrics.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-finviz = FinvizData('AAPL')
-finviz.key_metrics()
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|    | index       |   market_cap |    income |      sales |   book\_to\_sh | .. |
-|---:|:------------|-------------:|----------:|-----------:|-------------:| ---: |
-|  0 | DJIA S&P500 |  1.94097e+12 | 5.842e+10 | 2.7386e+11 |         4.19 | ... |
 
 
 </small></small></center>
 
-<div align="right"> <a href="#i101">To index</a> </div>
+</details>
+
+
+
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-#### <div id="f102"><i>MacrotrendsData(ticker).ratios(freq = 'A')</i></div>
+
+
+
+<br>
+
+
+
+###	 <div id="A41"> <li>Financial ratios and key metrics <hr style="border:0.5px solid gray"> </hr> </li> </div>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+
+#### <div id="f102"><i>Fundamentals(ticker, source, freq).ratios()</i></div>
 
 <ul>
-<li>Returns a dataframe with annual or quarterly financial ratios up to 2005.</li>
+<li>Returns a dataframe with annual or quarterly financial ratios up to 2005 from Macrotrends.com.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Macrotrends.com </li>
+	<li> <code>freq</code>: 'A' (annual data), 'Q' (quarterly data), default: 'A' </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+
+<br>
+
+
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
-mt = MacrotrendsData('AAPL')
-mt.ratios()
+fd = Fundamentals('AAPL', freq = 'A')
+fd.ratios()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -444,342 +596,71 @@ mt.ratios()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i102">To index</a> </div>
 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+#### <div id="f2"><i>Fundamentals(ticker, source, freq).key\_metrics()</i></div>
+
+<ul>
+<li>Returns a dataframe with current key statistics and financial ratios from either Yahoo Finance or Finviz. Default key metrics for the 'macrotrends' and 'marketwatch' source is from Finviz.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: 'yahoo', 'marketwatch', 'macrotrends', default: 'macrotrends' </li>
+	<li> <code>freq</code>: choice has no effect, most recent data is returned </li>
+	</ul>
+</ul>
+</ul>
 
 <br>
 
 
-###	 <div id="A42"> <li> Financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
-<div align="right"><a href="#0">Back to top</a> </div>
-
-
-#### <div id="f7"><i>MwatchData(ticker).income\_statement( freq = 'annual' )</i></div>
-
-<i>Arguments:</i>
-	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code>
-
-<ul>
-<li><code>freq = 'annual'</code>: Returns annual income statement for the past 5 years.</li>
-<li><code>freq = 'quarterly'</code>: Returns quarterly income statement for the past 5 quarters.</li>
-</ul>
-
-<i> Example </i>
+<details>
+<summary><i> Default Example </i></summary>
 
 ```python
-mwatch = MwatchData('AAPL')
-mwatch.income_statement('q')
+fd = Fundamentals('AAPL')
+fd.key_metrics()
 ```
-<i> Output </i>
+
 <center><small><small>
 
-| date        |   sales\_revenue |   sales\_growth |   cost\_of\_goods\_sold\_(cogs)\_incl_danda |   cogs\_excluding\_danda |   depreciation\_and\_amortization\_expense |   ... |
-|:------------|----------------:|---------------:|---------------------------------------:|-----------------------:|----------------------------------------:|---------------:|
-| 30-Jun-2019 |       5.374e+10 |       nan      |                              3.357e+10 |              3.064e+10 |                                2.93e+09 |       ... |
-| 30-Sep-2019 |       6.394e+10 |         0.1897 |                              3.977e+10 |              3.784e+10 |                                1.93e+09 |       ... |
-| 31-Dec-2019 |       9.172e+10 |         0.4346 |                              5.677e+10 |              5.396e+10 |                                2.82e+09 |       ... |
-| 31-Mar-2020 |       5.835e+10 |        -0.3639 |                              3.593e+10 |              3.315e+10 |                                2.79e+09 |      ... |
-| 30-Jun-2020 |       5.942e+10 |         0.0183 |                              3.737e+10 |              3.462e+10 |                                2.75e+09 |      ... |
+|    | index       |   market_cap |    income |      sales |   book\_to\_sh | .. |
+|---:|:------------|-------------:|----------:|-----------:|-------------:| ---: |
+|  0 | DJIA S&P500 |  1.94097e+12 | 5.842e+10 | 2.7386e+11 |         4.19 | ... |
 
 
 </small></small></center>
 
-<div align="right"> <a href="#i7">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+</details>
 
 
-#### <div id="f8"><i>MwatchData(ticker).balance\_sheet( freq = 'annual' )</i></div>
-
-<i>Arguments:</i>
-	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
-<ul><li><code>freq = 'annual'</code>: Returns annual balance sheet for the past 5 years.</li><li><code>freq = 'quarterly'</code>: Returns quarterly balance sheet for the past 5 quarters.</li>
-</ul>
-
-<i> Example </i>
+<details>
+<summary><i> Yahoo Example </i></summary>
 
 ```python
-mwatch = MwatchData('AAPL')
-mwatch.balance_sheet('q')
+fd = Fundamentals('AAPL', source = 'yahoo')
+fd.key_metrics()
 ```
-<i> Output </i>
-<center><small><small>
-
-| date        |   cash\_and\_short\_term\_investments |   cash\_only |   short-term\_investments |   cash\_and\_short\_term\_investments\_growth |   ... |
-|:------------|----------------------------------:|------------:|-------------------------:|-----------------------------------------:|-----------------------------------------:|
-| 30-Jun-2019 |                        9.488e+10  |   2.29e+10  |                      nan |                                 nan      |                                   ... |
-| 30-Sep-2019 |                        1.0058e+11 |   2.812e+10 |                      nan |                                   0.0601 |                                   ... |
-| 31-Dec-2019 |                        1.0723e+11 |   2.299e+10 |                      nan |                                   0.0661 |                                   ... |
-| 31-Mar-2020 |                        9.513e+10  |   2.996e+10 |                      nan |                                  -0.1129 |                                   ... |
-| 30-Jun-2020 |                        9.305e+10  |   2.73e+10  |                      nan |                                  -0.0218 |                                   ... |
-
-
-
-
-</small></small></center>
-
-<div align="right"> <a href="#i8">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-#### <div id="f9"><i>MwatchData(ticker).cashflow\_statement( freq = 'annual' )</i></div>
-
-<i>Arguments:</i>
-	<code>freq = 'annual'/'a' or 'quarterly'/'q' </code> 
-	
-<ul>
-<li><code>freq = 'annual'</code>: Returns annual cashflow statement for the past 5 years.</li>
-<li><code>freq = 'quarterly'</code>: Returns quarterly cashflow statement for the past 5 quarters.</li>
-</ul>
-
-
-<i> Example: </i>
-
-```python
-mwatch = MwatchData('AAPL')
-mwatch.cashflow_statement('q')
-```
-
-<i> Output: </i>
-<center><small><small>
-
-| date        |   net\_income\_before\_extraordinaries |   net\_income\_growth |   depreciation\_depletion\_and\_amortization |   depreciation\_and\_depletion |   ... |
-|:------------|------------------------------------:|--------------------:|-------------------------------------------:|-----------------------------:|------------------------------------:|
-| 30-Jun-2019 |                           1.004e+10 |            nan      |                                   2.93e+09 |                     2.93e+09 |                                 ... |
-| 30-Sep-2019 |                           1.369e+10 |              0.3626 |                                   3.18e+09 |                     3.18e+09 |                                 ... |
-| 31-Dec-2019 |                           2.224e+10 |              0.6247 |                                   2.82e+09 |                     2.82e+09 |                                 ... |
-| 31-Mar-2020 |                           1.125e+10 |             -0.4941 |                                   2.79e+09 |                     2.79e+09 |                                 ... |
-| 30-Jun-2020 |                           1.125e+10 |              0.0004 |                                   2.75e+09 |                     2.75e+09 |                                 ... |
-
-
-</small></small></center>
-
-<div align="right"> <a href="#i9">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id="f10"><i>MwatchData(ticker).statements( freq = 'annual' )</i></div>
-
-<ul>
-<li>Returns <code>MwatchData(ticker).income_statement(freq = 'annual')</code>, <code>MwatchData(ticker).balance_sheet(freq = 'annual')</code> and <code>MwatchData(ticker).cashflow_statement(freq = 'annual')</code> for the given company.</li>
-</ul> 
-
-<div align="right"> <a href="#i10">To index</a> </div>
-
-
--------
-
-#### <div id = "f3" ><i>YahooData( ticker ).income\_statement()</i></div>
-
-<ul>
-<li>Returns annual income statement for the past 4 years.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-yahoo = YahooData('AAPL')
-yahoo.income_statement()
-```
-
-<i> Output </i>
 
 <center><small><small>
 
-|    | breakdown   |   total\_revenue |   cost\_of\_revenue |   gross\_profit |   operating\_expense |   operating\_income |   ... |
-|---:|:------------|----------------:|------------------:|---------------:|--------------------:|-------------------:|--------------------------------------------:|
-|  0 | ttm         |       273857000 |         169277000 |      104580000 |            37442000 |           67138000 |                                     ... |
-|  1 | 9/30/2019   |       260174000 |         161782000 |       98392000 |            34462000 |           63930000 |                                     ... |
-|  2 | 9/30/2018   |       265595000 |         163756000 |      101839000 |            30941000 |           70898000 |                                     ... |
-|  3 | 9/30/2017   |       229234000 |         141048000 |       88186000 |            26842000 |           61344000 |                                     ... |
-|  4 | 9/30/2016   |       215639000 |         131376000 |       84263000 |            24239000 |           60024000 |                                     ... |
+|    |   payout\_ratio |   profit\_margin |   operating\_margin\_(ttm) |   return\_on\_assets\_(ttm) |   return\_on\_equity\_(ttm) |   ...|
+|---:|---------------:|----------------:|-------------------------:|-------------------------:|-------------------------:|----------------:|
+|  0 |         0.2373 |          0.2133 |                   0.2452 |                   0.1312 |                   0.6925 |      ... |
 
 </small></small></center>
 
-<div align="right"> <a href="#i3">To index</a> </div>
+</details>
 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-
-#### <div id = "f4" ><i>YahooData( ticker ).balance\_sheet()</i></div>
-
-<ul>
-<li>Returns annual balance sheet for the past 4 years.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-yahoo = YahooData('AAPL')
-yahoo.balance_sheet()
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|    | breakdown   |   total\_assets |   total\_liabilities\_net\_minority\_interest |   total\_equity\_gross\_minority\_interest |   total\_capitalization |   ... |
-|---:|:------------|---------------:|------------------------------------------:|---------------------------------------:|-----------------------:|----------------------:|
-|  0 | 9/30/2019   |      338516000 |                                 248028000 |                               90488000 |              182295000 |              ... |
-|  1 | 9/30/2018   |      365725000 |                                 258578000 |                              107147000 |              200882000 |             ... |
-|  2 | 9/30/2017   |      375319000 |                                 241272000 |                              134047000 |              231254000 |             ... |
-|  3 | 9/30/2016   |      321686000 |                                 193437000 |                              128249000 |              203676000 |             ... |
-
-
-</small></small></center>
-
-<div align="right"> <a href="#i4">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id = "f5" ><i>YahooData( ticker ).cashflow\_statement()</i></div>
-
-<ul>
-<li>Returns annual cashflow statement for the past 4 years.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-yahoo = YahooData('AAPL')
-yahoo.cashflow_statement()
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|    | breakdown   |   operating\_cash\_flow |   investing\_cash\_flow |   financing\_cash\_flow |   end\_cash\_position |   ... |
-|---:|:------------|----------------------:|----------------------:|----------------------:|--------------------:|------------------------------------:|
-|  0 | ttm         |              80008000 |             -10618000 |             -86502000 |            35039000 |                            ... |
-|  1 | 9/30/2019   |              69391000 |              45896000 |             -90976000 |            50224000 |                            ... |
-|  2 | 9/30/2018   |              77434000 |              16066000 |             -87876000 |            25913000 |                            ... |
-|  3 | 9/30/2017   |              63598000 |             -46446000 |             -17347000 |            20289000 |                            ... |
-|  4 | 9/30/2016   |              65824000 |             -45977000 |             -20483000 |            20484000 |                            ... |
-
-</small></small></center>
-
-<div align="right"> <a href="#i5">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id = "f6" ><i>YahooData( ticker ).statements()</i></div>
-
-<ul>
-<li>Returns <code>YahooData(ticker).income_statement()</code>, <code>YahooData(ticker).balance_sheet()</code> and <code>YahooData(ticker).cashflow_statement()</code> for the given company.</li>
-</ul> 
-
-<div align="right"> <a href="#i6">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id="f103"><i>MacrotrendsData(ticker).income\_statement(freq = 'A')</i></div>
-
-<ul>
-<li>Returns a dataframe with annual or quarterly income statements up to 2005.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-mt = MacrotrendsData('AAPL')
-mt.income_statement()
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|                     |   revenue |   cost\_of\_goods\_sold |   gross_profit |   research\_and\_development\_expenses |   sganda\_expenses | ... |
-|:--------------------|----------:|---------------------:|---------------:|------------------------------------:|------------------:| ---: |
-| 2005-09-30 |     13931 |                 9889 |           4042 |                                 535 |              1864 | ... |
-| 2006-09-30 |     19315 |                13717 |           5598 |                                 712 |              2433 | ... |
-| 2007-09-30  |     24578 |                16426 |           8152 |                                 782 |              2963 | ... |
-| 2008-09-30  |     37491 |                24294 |          13197 |                                1109 |              3761 | ... |
-| 2009-09-30  |     42905 |                25683 |          17222 |                                1333 |              4149 | ... |
-| ... |     ... |                ... |          ... |                                1333 |              4149 | ... |
-
-
-
-
-</small></small></center>
-
-<div align="right"> <a href="#i103">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id="f104"><i>MacrotrendsData(ticker).balance_sheet(freq = 'A')</i></div>
-
-<ul>
-<li>Returns a dataframe with annual or quarterly balance sheets up to 2005.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-mt = MacrotrendsData('AAPL')
-mt.balance_sheet()
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|                     |   cash\_on\_hand |   receivables |   inventory |   prepaid\_expenses |   other\_current\_assets | ... |
-|:--------------------|---------------:|--------------:|------------:|-------------------:|-----------------------:| --- |
-| 2005-09-30 00:00:00 |           8261 |           895 |         165 |                nan |                    648 | ... |
-| 2006-09-30 00:00:00 |          10110 |          1252 |         270 |                nan |                   2270 | ... |
-| 2007-09-30 00:00:00 |          15386 |          1637 |         346 |                nan |                   3805 | ... |
-| 2008-09-30 00:00:00 |          22111 |          2422 |         509 |                nan |                   3920 | ... |
-| 2009-09-30 00:00:00 |          23464 |          5057 |         455 |                nan |                   1444 | ... |
-| ... |                 ... |                                             ... |                  ... |                  ... |   ... | ... |
-
-
-</small></small></center>
-
-<div align="right"> <a href="#i104">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id="f105"><i>MacrotrendsData(ticker).cashflow_statement(freq = 'A')</i></div>
-
-<ul>
-<li>Returns a dataframe with annual or quarterly cashflow statements up to 2005.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-mt = MacrotrendsData('AAPL')
-mt.cashflow_statement()
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|                     |   net\_income\_to\_loss |   total\_depreciation\_and\_amortization\_cash\_flow |   other\_noncash\_items |   total\_noncash\_items |   change\_in\_accounts\_receivable | ... |
-|:--------------------|---------------------:|-------------------------------------------------:|----------------------:|----------------------:|--------------------------------:| ----: |
-| 2005-09-30 |                 1328 |                                              179 |                   536 |                   715 |                             121 | ... |
-| 2006-09-30 |                 1989 |                                             225 |                   231 |                   456 |                             357 | ... |
-| 2007-09-30 |                 3495 |                                            327 |                   327 |                   654 |                             385 | ... |
-| 2008-09-30 |                 6119 |                                           496 |                   936 |                  1432 |                             785 | ... |
-| 2009-09-30 |                 8235 |                                             734 |                  1750 |                  2484 |                             939 | ... |
-| ... |                 ... |                                             ... |                  ... |                  ... |                             ... | ... |
-
-
-</small></small></center>
-
-<div align="right"> <a href="#i105">To index</a> </div>
-
-
+<div align="right"> <a href="#i2">To index</a> </div>
 
 <br>
 
@@ -791,20 +672,30 @@ mt.cashflow_statement()
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-#### <div id = "f11" ><i>YahooData( ticker ).earnings\_estimates()</i></div>
+#### <div id = "f11" ><i>Fundamentals( ticker, source, freq ).earnings\_estimates()</i></div>
 
 <ul>
-<li>Returns current earnings estimates for the current quarter, next quarter, current year and the next year.</li>
+<li>Returns current earnings estimates for the current quarter, next quarter, current year and the next year from Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.earnings_estimates('AAPL')
+fd = Fundamentals('AAPL')
+fd.earnings_estimates('AAPL')
 ```
 
-<i> Output </i>
 <center><small><small>
 
 |    | date                    |   no\_of\_analysts |   avg\_estimate |   low\_estimate |   high\_estimate |   year\_ago\_eps |
@@ -816,25 +707,36 @@ yahoo.earnings_estimates('AAPL')
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i11">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f12" ><i> YahooData( ticker ).earnings\_estimate\_trends()</i></div>
+#### <div id = "f12" ><i> Fundamentals( ticker, source, freq ).earnings\_estimate\_trends()</i></div>
 
 <ul>
-<li>Returns earnings estimates for the current quarter, next quarter, current year and the next year for the current date, 7 days ago, 30 days ago, 60 days ago and 90 days ago.</li>
+<li>Returns earnings estimates for the current quarter, next quarter, current year and the next year for the current date, 7 days ago, 30 days ago, 60 days ago and 90 days ago from Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.earnings_estimate_trends()
+fd = Fundamentals('AAPL')
+fd.earnings_estimate_trends()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -847,25 +749,36 @@ yahoo.earnings_estimate_trends()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i12">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f13" ><i> YahooData( ticker ).earnings\_history()</i></div>
+#### <div id = "f13" ><i> Fundamentals( ticker, source, freq ).earnings\_history()</i></div>
 
 <ul>
-<li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
+<li>Returns earnings estimates and actual earnings for the past 4 quarters from Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.earnings_history()
+fd = Fundamentals('AAPL')
+fd.earnings_history()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -878,25 +791,36 @@ yahoo.earnings_history()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i13">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f14" ><i> YahooData(ticker)._revenue\_estimates()</i></div>
+#### <div id = "f14" ><i> Fundamentals(ticker, source, freq).revenue\_estimates()</i></div>
 
 <ul>
-<li>Returns revenue estimates for the current quarter, next quarter, current year and the next year.</li>
+<li>Returns revenue estimates for the current quarter, next quarter, current year and the next year from Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.revenue_estimates()
+fd = Fundamentals('AAPL')
+fd.revenue_estimates()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -909,22 +833,35 @@ yahoo.revenue_estimates()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i14">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f15" ><i> YahooData( ticker ).growth\_estimates()</i></div>
+#### <div id = "f15" ><i> Fundamentals( ticker, source, freq ).growth\_estimates()</i></div>
 
 <ul>
-<li>Returns earnings estimates and actual earnings for the past 4 quarters.</li>
+<li>Returns earnings estimates and actual earnings for the past 4 quarters from Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.growth_estimates()
+fd = Fundamentals('AAPL')
+fd.growth_estimates()
 ```
 
 <i> Output </i>
@@ -943,6 +880,8 @@ yahoo.growth_estimates()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i15">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -956,22 +895,36 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 The earnings call transcripts are collected from <a href="https://www.fool.com/">The Motley Fool</a> and are available until Q1 2018. The data returns a simple breakdown of the sections of the earnings call which will still need to be processed further. The full html of the call is also available.
 
 
-#### <div id = "f131" ><i> Earnings( ticker ).transcripts(html = True)</i></div>
+#### <div id = "f131" ><i> Fundamentals( ticker, source, freq ).transcripts(html = True)</i></div>
 
 <ul>
 <li>Returns recent history (up to Q1 2018) of earnings call transcripts.</li>
-<li> <i>Arguments: </i> </li>
-<ul> <code>html = True</code> returns additional columns with html of transcript from Motley Fool.</ul>
+<ul>
+<li> <i>Function Arguments: </i> </li>
+<ul>
+ <li>
+ <code>html = True</code> returns additional columns with html of transcript from Motley Fool.
+ </li>
+</ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is the Motley Fool </li>
+	<li> <code>freq</code>:  choice has no effect </li>
+	</ul>
+</li>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-e = Earnings('AAPL')
-e.transcripts(html = True)
+fd = Fundamentals('AAPL')
+fd.transcripts(html = True)
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -980,6 +933,9 @@ e.transcripts(html = True)
 </tbody></table>
 
 </center></small></small>
+
+
+</details>
 
 <div align="right"> <a href="#i131">To index</a> </div>
 
@@ -993,20 +949,31 @@ e.transcripts(html = True)
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f16" ><i> FinvizData( ticker ).insider\_transactions()</i></div>
+#### <div id = "f16" ><i> Fundamentals( ticker, source, freq ).insider\_transactions()</i></div>
 
 <ul>
-<li>Returns company insider transactions for the past year.</li>
+<li>Returns company insider transactions for the past year from Finviz.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Finviz </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</li>
+</ul>
 </ul>
 
-<i> Example </i>
+
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-finviz = FinvizData('AAPL')
-finviz.insider_transactions()
+fd = Fundamentals('AAPL')
+fd.insider_transactions()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -1021,21 +988,36 @@ finviz.insider_transactions()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i16">To index</a> </div>
 
 -----
 
-#### <div id = "f17" ><i> FinvizData( ticker ).analyst\_ratings()</i></div>
+#### <div id = "f17" ><i> Fundamentals( ticker, source, freq ).analyst\_ratings()</i></div>
 
 <ul>
-<li>Returns recent history of analyst ratings.</li>
+<li>Returns recent history of analyst ratings from Finviz.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Finviz </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</li>
 </ul>
 
-<i> Example </i>
+</ul>
+
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-finviz = FinvizData('AAPL')
-finviz.analyst_ratings()
+fd = Fundamentals('AAPL')
+fd.analyst_ratings()
 ```
 
 <i> Output </i>
@@ -1054,6 +1036,8 @@ finviz.analyst_ratings()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i17">To index</a> </div>
 
 -----
@@ -1061,26 +1045,37 @@ finviz.analyst_ratings()
 
 <br>
 
-###	 <div id="A46"> <li> Yahoo ESG scores<hr style="border:0.5px solid gray"> </hr> </li> </div>
+###	 <div id="A46"> <li> ESG scores<hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
 
-#### <div id = "f18" ><i>YahooData( ticker ).esg\_score()</i></div>
+#### <div id = "f18" ><i>Fundamentals( ticker, source, freq ).esg\_score()</i></div>
 
 <ul>
-<li>Returns current ESG scores from XXXX published on Yahoo Finance.</li>
+<li>Returns current ESG scores from Sustainalytics published on Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</li>
 </ul>
 
-<i> Example </i>
+</ul>
+
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.esg_score()
+fd = Fundamentals('AAPL')
+fd.esg_score()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -1090,21 +1085,37 @@ yahoo.esg_score()
 
 </small></small></center>
 
+</details>
+
+
 <div align="right"> <a href="#i18">To index</a> </div>
 
 ----
 
-#### <div id = "f19" ><i>YahooData( ticker ).corporate\_governance\_score()</i></div>
+#### <div id = "f19" ><i>Fundamentals( ticker, source, freq ).corporate\_governance\_score()</i></div>
 
 <ul>
-<li>Returns current corporate governance scores from XXXX published on Yahoo Finance.</li>
+<li>Returns current corporate governance scores from Institutional Shareholder Services (ISS) published on Yahoo Finance.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect, most recent data is returned </li>
+	</ul>
+</li>
 </ul>
 
-<i> Example </i>
+</ul>
+
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.corporate_governance_score()
+fd = Fundamentals('AAPL')
+fd.corporate_governance_score()
 ```
 
 <i> Output </i>
@@ -1116,6 +1127,8 @@ yahoo.corporate_governance_score()
 |  0 |       1 |       1 |                    1 |              3 |               1 | AAPL     | 2020-08-25 |
 
 </small></small></center>
+
+</details>
 
 <div align="right"> <a href="#i19">To index</a> </div>
 
@@ -1130,20 +1143,30 @@ yahoo.corporate_governance_score()
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id = "f20" ><i>YahooData( ticker ).profile()</i></div>
+#### <div id = "f20" ><i>Fundamentals( ticker, source, freq ).profile()</i></div>
 
 <ul>
 <li>Returns company sector, industry, current number of employees and a company description.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect </li>
+	</ul>
+</li>
+</ul>
 </ul>
 
-<i> Example </i>
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.profile()
+fd = Fundamentals('AAPL')
+fd.profile()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -1153,26 +1176,38 @@ yahoo.profile()
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i20">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f21" ><i>YahooData( ticker ).executives_info()</i></div>
+#### <div id = "f21" ><i>Fundamentals( ticker, source, freq ).executives_info()</i></div>
 
 <ul>
 <li>Returns current company executives with name, title, salary, age and their gender.</li>
+<ul>
+<li> <i>Class Arguments:</i> </li>
+	<ul>
+	<li> <code>ticker</code>: valid company ticker</li>
+	<li> <code>source</code>: choice has no effect, data is from Yahoo Finance </li>
+	<li> <code>freq</code>:  choice has no effect </li>
+	</ul>
+</li>
 </ul>
 
-<i> Example </i>
+</ul>
+
+<br>
+
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo = YahooData('AAPL')
-yahoo.executives_info()
+fd = Fundamentals('AAPL')
+fd.executives_info()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1186,6 +1221,8 @@ yahoo.executives_info()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i21">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1196,41 +1233,34 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-The functions below help to retrieve daily historical price data from <code>Yahoo Finance</code> and <code>AlphaVantage</code> as well as intraday historical data from the <code>IEX Cloud</code> and <code>Tiingo</code>. Tiingo also gets their data from the IEX Cloud but their timeseries are sometimes longer although they only give OHLC data while the download from the IEX Cloud includes volume, number of trades etc..
+The functions below help to retrieve daily historical price data from <code>Yahoo Finance</code> as well as most recent option prices from Yahoo Finance or CBOE.
 
-For <a href="https://www.alphavantage.co/support/#api-key">AlphaVantage</a> and <a href="https://www.tiingo.com/">Tiingo</a> and <a href="https://iexcloud.io/cloud-login?r=https%3A%2F%2Fiexcloud.io%2Fconsole%2F#/register">IEX Cloud</a> free API keys are available. Note that IEX has a monthly free download limit unfortunately.
-
-The <code>yahoo\_option\_chain</code> function only retrives the option chain from the last available date from Yahoo Finance.
-
-The <code>historical\_futures\_contracts</code> function enables a bulk download of historical monthly futures contracts up to the year 2000 for currencies, indices, interest rates and commodities including energy, metals and agricultural contracts. The data is downloaded from <a href = "www.mrci.com">www.mrci.com</a> but the data is not completely cleaned (yet).
+Furthermore, the <code>historical\_futures\_contracts</code> function enables a bulk download of historical monthly futures contracts up to the year 2000 for currencies, indices, interest rates and commodities including energy, metals and agricultural contracts. The data is downloaded from <a href = "www.mrci.com">www.mrci.com</a> but the data is not completely cleaned (yet).
 
 ```python
 import finpie.price_data
 
-# Price data from Yahoo Finance, AlphaVantage, IEX Cloud or Tiingo 
-from finpie.price_data import price_data
-
-# Futures prices bulk-download..
-from finpie.price_data import futures_prices
+# Historical price data from Yahoo Finance, most recent option prices from Yahoo Finance and CBOE, and futures prices bulk-download...
+# from finpie.price_data import price_data
+import finpie
 ```
 
 ###	 <div id="A51"> <li> Stock and ETF prices <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 
-#### <div id="f22"><i>yahoo\_prices( ticker )</i></div>
+#### <div id="f22"><i>historical_prices( ticker )</i></div>
 
 <ul>
 <li>Returns dataframe with daily historical prices from Yahoo Finance.</li>
 
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
-yahoo_prices('AAPL')
+historical_prices('AAPL')
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -1245,106 +1275,11 @@ yahoo_prices('AAPL')
 
 </small></small></center>
 
+</details>
+
 <div align="right"> <a href="#i22">To index</a> </div>
 
 --------
-
-
-#### <div id="f24"><i>alpha\_vantage\_prices( ticker, api\_key, start_date = None )</i></div>
-
-<ul>
-<li>Returns dataframe with daily historical prices using the AlphaVantage API.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-alpha_vantage_prices('AAPL', <api_key>)
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-| date                |   open |   high |   low |   close |   adjusted_close |     volume |   dividend_amount |   split_coefficient |
-|:--------------------|-------:|-------:|------:|--------:|-----------------:|-----------:|------------------:|--------------------:|
-| 1999-11-01 00:00:00 |  80    |  80.69 | 77.37 |   77.62 |           0.5988 | 2.4873e+06 |                 0 |                   1 |
-| 1999-11-02 00:00:00 |  78    |  81.69 | 77.31 |   80.25 |           0.6191 | 3.5646e+06 |                 0 |                   1 |
-| 1999-11-03 00:00:00 |  81.62 |  83.25 | 81    |   81.5  |           0.6287 | 2.9327e+06 |                 0 |                   1 |
-| 1999-11-04 00:00:00 |  82.06 |  85.37 | 80.62 |   83.62 |           0.6451 | 3.3847e+06 |                 0 |                   1 |
-| 1999-11-05 00:00:00 |  84.62 |  88.37 | 84    |   88.31 |           0.6813 | 3.7215e+06 |                 0 |                   1 |
-| ... |  ... |  ... | ...    |   ... |           ... | ... |                 ... |                   ... |
-
-</small></small></center>
-
-
-<div align="right"> <a href="#i24">To index</a> </div>
-
-------
-
-#### <div id="f25"><i>iex\_intraday( ticker, api\_key, start\_date = None, end\_date = None )</i></div>
-
-<ul>
-<li>Returns dataframe with historical intraday price data from the IEX Cloud using the IEX Cloud API.</li>
-</ul>
-
-
-<i> Example </i>
-
-```python
-iex_intraday('AAPL', <api_key>)
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-|                     | date       | label    |   high |    low |   average |   volume |         notional |   numberOfTrades |   marketHigh |   marketLow |   marketAverage |   marketVolume |   marketNotional |   marketNumberOfTrades |    open |   close |   marketOpen |   marketClose |   changeOverTime |   marketChangeOverTime |
-|:--------------------|:-----------|:---------|-------:|-------:|----------:|---------:|-----------------:|-----------------:|-------------:|------------:|----------------:|---------------:|-----------------:|-----------------------:|--------:|--------:|-------------:|--------------:|-----------------:|-----------------------:|
-| 2019-04-02 11:34:00 | 2019-04-02 | 11:34 AM | 285.66 | 285.59 |   285.643 |     1303 | 372193           |               15 |       285.67 |     285.59  |         285.646 |          78564 |      2.24415e+07 |                    375 | 285.655 |  285.59 |      285.65  |        285.6  |     -0.00118888  |           -0.00129363  |
-| 2019-04-02 11:35:00 | 2019-04-02 | 11:35 AM | 285.62 | 285.56 |   285.599 |      755 | 215627           |                9 |       285.63 |     285.55  |         285.583 |          76670 |      2.18956e+07 |                    466 | 285.62  |  285.56 |      285.6   |        285.55 |     -0.00134274  |           -0.0015139   |
-| 2019-04-02 11:36:00 | 2019-04-02 | 11:36 AM | 285.53 | 285.49 |   285.512 |      784 | 223841           |               12 |       285.56 |     285.48  |         285.506 |          80973 |      2.31183e+07 |                    412 | 285.525 |  285.52 |      285.555 |        285.52 |     -0.00164695  |           -0.00178312  |
-| ... | ... | ... | ... | ... |   ... |      ... | ...           |               ... |       ... |    ...  |         ... |          ... |      ... |                    ... | ... | ... |      ... |        ... |     ...  |           ...  |
-
-</small></small></center>
-
-<div align="right"> <a href="#i25">To index</a> </div>
-
-
-
------
-
-
-#### <div id="f26"><i>tingo\_prices( ticker, api\_token, start\_date = None, end\_date = None, freq = '1min' )</i></div>
-
-<ul>
-<li>Returns dataframe with historical intraday prices using the Tiingo API. Concatenates API calls for given date range. If no date range is given all available data for the given ticker is returned.</li>
-</ul>
-
-<i> Example </i>
-
-```python
-tingo_prices('AAPL', <api_key>)
-```
-
-<i> Output </i>
-
-<center><small><small>
-
-| date                      |   close |    high |     low |    open |
-|:--------------------------|--------:|--------:|--------:|--------:|
-| 2017-01-03 14:30:00+00:00 | 115.885 | 115.9   | 115.58  | 115.8   |
-| 2017-01-03 14:31:00+00:00 | 116.24  | 116.24  | 115.9   | 115.9   |
-| 2017-01-03 14:32:00+00:00 | 116.3   | 116.3   | 116.26  | 116.26  |
-| 2017-01-03 14:33:00+00:00 | 116.06  | 116.165 | 116.05  | 116.16  |
-| 2017-01-03 14:34:00+00:00 | 116.14  | 116.18  | 116.115 | 116.115 |
-| ... | ...  | ...  | ... | ... |
-
-</small></small></center>
-
-<div align="right"> <a href="#i26">To index</a> </div>
-
-----
 
 <br>
 
@@ -1358,14 +1293,12 @@ tingo_prices('AAPL', <api_key>)
 <li>Returns two dataframes for current put and call options from Yahoo Finance.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 calls, puts = yahoo_option_chain('AAPL')
 ```
-
-<i> Output </i>
-
 
 <i>Call options chain</i>
 <center><small><small>
@@ -1393,7 +1326,7 @@ calls, puts = yahoo_option_chain('AAPL')
 
 </small></small></center>
 
-
+</details>
 
 <div align="right"> <a href="#i27">To index</a> </div>
 
@@ -1405,13 +1338,12 @@ calls, puts = yahoo_option_chain('AAPL')
 <li>Returns two dataframes for current put and call options from CBOE.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 calls, puts = cboe_option_chain('AAPL')
 ```
-
-<i> Output </i>
 
 
 <i>Call options chain</i>
@@ -1440,6 +1372,7 @@ calls, puts = cboe_option_chain('AAPL')
 
 </small></small></center>
 
+</details>
 
 <div align="right"> <a href="#i106">To index</a> </div>
 
@@ -1456,13 +1389,12 @@ Returns daily price data for a number of monthly future contracts including open
 </li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 historical_futures_contracts( pd.date_range('2020-01-01', '2020-09-01') )
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1477,7 +1409,7 @@ historical_futures_contracts( pd.date_range('2020-01-01', '2020-09-01') )
 
 </small></small></center>
 
-
+</details>
 
 <div align="right"> <a href="#i28">To index</a> </div>
 
@@ -1491,14 +1423,12 @@ historical_futures_contracts( pd.date_range('2020-01-01', '2020-09-01') )
 </li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 futures_prices('2020-01-06')
 ```
-
-<i> Output </i>
-
 
 
 <center><small><small>
@@ -1512,7 +1442,7 @@ futures_prices('2020-01-06')
 
 </small></small></center>
 
-
+</details>
 
 <div align="right"> <a href="#i29">To index</a> </div>
 
@@ -1581,15 +1511,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.cli(subject = 'amplitude')
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1603,6 +1531,9 @@ oecd.cli(subject = 'amplitude')
 
 </small></small></center>
 
+</details>
+
+
 <div align = "right">  <a href="#i30">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1613,14 +1544,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the OECD consumer confidence indicator. Only monthly data available.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.cci()
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1635,6 +1565,9 @@ oecd.cci()
 
 </small></small></center>
 
+</details>
+
+
 <div align = "right">  <a href="#i31">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1645,14 +1578,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the OECD business confidence indicator. Only monthly data available.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.bci()
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1666,6 +1598,9 @@ oecd.bci()
 
 
 </small></small></center>
+
+</details>
+
 
 <div align = "right">  <a href="#i32">To index</a> </div>
 
@@ -1702,14 +1637,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.monetary_aggregates_m1(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1722,6 +1656,8 @@ oecd.monetary_aggregates_m1(index = True, seasonally_adjusted = True)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i33">To index</a> </div>
 
@@ -1738,14 +1674,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.monetary_aggregates_m3( index = True, seasonally_adjuted = True )
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1759,6 +1694,8 @@ oecd.monetary_aggregates_m3( index = True, seasonally_adjuted = True )
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i34">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1769,14 +1706,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns interbank interest rates. Not available for all countries.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.interbank_rates()
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1790,6 +1726,8 @@ oecd.interbank_rates()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i35">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1800,14 +1738,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns short-term interest rates. Not avaialable for all countries.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.short_term_rates()
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -1821,6 +1758,8 @@ oecd.short_term_rates()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i36">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1831,15 +1770,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns long-term interest rates. Not available for all countries.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.long_term_rates()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1852,6 +1789,8 @@ oecd.long_term_rates()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i37">To index</a> </div>
 
 
@@ -1863,15 +1802,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns aggregate share prices of a given country. Not available for all countries.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.all_share_prices()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1884,6 +1821,8 @@ oecd.all_share_prices()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i38">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1894,15 +1833,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns aggregate share prices of industrial companies from a given country. Not available for all countries.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.share_prices_industrials()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1915,6 +1852,8 @@ oecd.share_prices_industrials()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i39">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1925,15 +1864,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns USD spot exchange rates at end of month/quarter.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 usd_exchange_rates_spot()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1947,6 +1884,8 @@ usd_exchange_rates_spot()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i41">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1957,15 +1896,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly/quarterly average USD exchange rates.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.usd_exchange_rates_average()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -1978,6 +1915,8 @@ oecd.usd_exchange_rates_average()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i42">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -1988,15 +1927,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns overall real exchange rates.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.rer_overall()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2008,6 +1945,8 @@ oecd.rer_overall()
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i43">To index</a> </div>
 
@@ -2032,15 +1971,13 @@ oecd.rer_overall()
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU', freq = 'M' )
 oecd.exports_value(growth = False, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2052,6 +1989,8 @@ oecd.exports_value(growth = False, seasonally_adjusted = True)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i44">To index</a> </div>
 
@@ -2069,15 +2008,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', currency_code = 'CXCU', freq = 'M' )
 oecd.imports_value(growth = False, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2089,6 +2026,8 @@ oecd.imports_value(growth = False, seasonally_adjusted = True)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i45">To index</a> </div>
 
@@ -2109,14 +2048,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns unemployment rates.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.unemployment_rate()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2128,6 +2066,8 @@ oecd.unemployment_rate()
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i46">To index</a> </div>
 
@@ -2152,14 +2092,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.cpi_total(growth = False, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2172,6 +2111,8 @@ oecd.cpi_total(growth = False, seasonally_adjusted = True)
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i47">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -2182,14 +2123,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the consumer price index for cities.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.cpi_city_total()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2201,6 +2141,8 @@ oecd.cpi_city_total()
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i48">To index</a> </div>
 
@@ -2218,14 +2160,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.cpi_non_food_non_energy(growth = False, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2237,6 +2178,8 @@ oecd.cpi_non_food_non_energy(growth = False, seasonally_adjusted = True)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i49">To index</a> </div>
 
@@ -2254,15 +2197,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.cpi_energy(growth = False, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2274,6 +2215,8 @@ oecd.cpi_energy(growth = False, seasonally_adjusted = True)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i50">To index</a> </div>
 
@@ -2300,14 +2243,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.business_tendency_survey('retail')
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2321,6 +2263,8 @@ oecd.business_tendency_survey('retail')
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i51">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -2331,14 +2275,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns national consumer opinion survey.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.consumer_opinion_survey()
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2351,6 +2294,8 @@ oecd.consumer_opinion_survey()
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i52">To index</a> </div>
 
@@ -2369,15 +2314,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the quarterly GDP deflator. Not available for all countries.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_deflator()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2389,6 +2332,8 @@ oecd.gdp_deflator()
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i53">To index</a> </div>
 
@@ -2406,15 +2351,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_total(growth = False, index = False)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2426,6 +2369,8 @@ oecd.gdp_total(growth = False, index = False)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i54">To index</a> </div>
 
@@ -2445,15 +2390,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_final_consumption(growth = False, index = False)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2465,6 +2408,8 @@ oecd.gdp_final_consumption(growth = False, index = False)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i55">To index</a> </div>
 
@@ -2484,14 +2429,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_government_consumption(growth = False, index = False)
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -2504,6 +2449,8 @@ oecd.gdp_government_consumption(growth = False, index = False)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i56">To index</a> </div>
 
@@ -2523,14 +2470,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_fixed_capital_formation(growth = False, index = False)
 ```
-
-<i> Output </i>
 
 
 <center><small><small>
@@ -2543,6 +2489,8 @@ oecd.gdp_fixed_capital_formation(growth = False, index = False)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i57">To index</a> </div>
 
@@ -2562,15 +2510,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_exports(growth = False, index = False)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2582,6 +2528,8 @@ oecd.gdp_exports(growth = False, index = False)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i58">To index</a> </div>
 
@@ -2601,15 +2549,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q' )
 oecd.gdp_imports(growth = False, index = False)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2621,6 +2567,8 @@ oecd.gdp_imports(growth = False, index = False)
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i59">To index</a> </div>
 
@@ -2647,14 +2595,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_manufacturing_index(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2666,6 +2613,8 @@ oecd.total_manufacturing_index(index = True, seasonally_adjusted = True)
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i60">To index</a> </div>
 
@@ -2682,15 +2631,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_industrial_production_ex_construction(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2703,6 +2650,8 @@ oecd.total_industrial_production_ex_construction(index = True, seasonally_adjust
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i61">To index</a> </div>
 
@@ -2719,15 +2668,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_construction(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2739,6 +2686,8 @@ oecd.total_construction(index = True, seasonally_adjusted = True)
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i62">To index</a> </div>
 
@@ -2755,15 +2704,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.total_retail_trade(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2775,6 +2722,8 @@ oecd.total_retail_trade(index = True, seasonally_adjusted = True)
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i63">To index</a> </div>
 
@@ -2792,15 +2741,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li> </li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.passenger_car_registrations(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2812,6 +2759,8 @@ oecd.passenger_car_registrations(index = True, seasonally_adjusted = True)
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i64">To index</a> </div>
 
@@ -2828,14 +2777,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'M' )
 oecd.construction_permits_issued(index = True, seasonally_adjusted = True)
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2847,6 +2795,8 @@ oecd.construction_permits_issued(index = True, seasonally_adjusted = True)
 | ... | ...    | ... | ... | ...           | ... | ...          |                ... |      ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i65">To index</a> </div>
 
@@ -2868,15 +2818,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns national economic situation survey.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.economic_situation_survey()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2889,6 +2837,8 @@ oecd.economic_situation_survey()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i66">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -2899,15 +2849,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns national consumer confidence survey.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.consumer_confidence_survey()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2920,6 +2869,8 @@ oecd.consumer_confidence_survey()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i67">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -2930,15 +2881,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns consumer price inflation survey.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M' )
 oecd.consumer_price_inflation_survey()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -2950,6 +2899,8 @@ oecd.consumer_price_inflation_survey()
 | ... | ...    | ... | ... | ...         | ...| ...          |                ... |     ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i68">To index</a> </div>
 
@@ -2975,14 +2926,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the current account as value or as percent of GDP.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q' )
 oecd.current_account(percent_of_gdp = True)
 ```
-
-<i> Output </i>
 
 <center><small><small>
 
@@ -2994,6 +2944,8 @@ oecd.current_account(percent_of_gdp = True)
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
+
+</details>
 
 <div align="right"> <a href="#i69">To index</a> </div>
 
@@ -3012,15 +2964,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q' )
 oecd.goods_balance(xm = 'exports')
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3034,6 +2984,8 @@ oecd.goods_balance(xm = 'exports')
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i70">To index</a> </div>
 
@@ -3052,15 +3004,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q' )
 oecd.goods_balance(xm = 'balance')
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3073,6 +3023,8 @@ oecd.goods_balance(xm = 'balance')
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i71">To index</a> </div>
 
@@ -3095,15 +3047,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.financial_account(assets_or_liabs = None)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3116,6 +3066,8 @@ oecd.financial_account(assets_or_liabs = None)
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i72">To index</a> </div>
 
@@ -3133,15 +3085,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.direct_investment(assets_or_liabs = None)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3153,6 +3103,8 @@ oecd.direct_investment(assets_or_liabs = None)
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i73">To index</a> </div>
 
@@ -3170,15 +3122,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.portfolio_investment(assets_or_liabs = None)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3190,6 +3140,8 @@ oecd.portfolio_investment(assets_or_liabs = None)
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i74">To index</a> </div>
 
@@ -3207,15 +3159,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.other_investment(assets_or_liabs = None)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3228,6 +3178,8 @@ oecd.other_investment(assets_or_liabs = None)
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i75">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -3239,15 +3191,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the net financial derivatives of the financial account.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.financial_derivatives()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3261,6 +3211,8 @@ oecd.financial_derivatives()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i76">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -3271,15 +3223,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the net reserve assets of the financial account.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'Q', currency = 'CXCU' )
 oecd.reserve_assets()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3291,6 +3241,8 @@ oecd.reserve_assets()
 | ... | ...  | ... | ... | ...      | ... | ...           | ... | ...         |                ... |    ... |
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i77">To index</a> </div>
 
@@ -3337,20 +3289,21 @@ eia.id = False # default, id = True returns EIA series id for column names
 <li><i><code>series</code> options: any EIA petroleum series id</i></li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
+
 
 ```python
 eia = eia_data.EiaData()
 eia.eia_petroleum_series( series_id, sheet_name = 'all')
 ```
 
-
 <center><small><small>
-
-
-
-
 </small></small></center>
+
+</details>
+
 
 <div align = "right">  <a href="#i107">To index</a> </div>
 
@@ -3394,15 +3347,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 eia = eia_data.EiaData()
 eia.weekly_balance(series = 'all')
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3418,9 +3370,10 @@ eia.weekly_balance(series = 'all')
 </tbody>
 </table>
 
-
-
 </small></small></center>
+
+</details>
+
 
 <div align = "right">  <a href="#i108">To index</a> </div>
 
@@ -3439,15 +3392,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 eia = eia_data.EiaData()
 eia.last_weekly_balance( breakdown = False )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3456,10 +3408,10 @@ eia.last_weekly_balance( breakdown = False )
 </tbody></table>
 
 
-
-
-
 </small></small></center>
+
+</details>
+
 
 <div align = "right">  <a href="#i109">To index</a> </div>
 
@@ -3484,7 +3436,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly crude production by PADD and state.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 eia = eia_data.EiaData()
@@ -3503,10 +3457,9 @@ eia.crude_production()
 
 </tbody></table>
 
-
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i110">To index</a> </div>
 
@@ -3530,15 +3483,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 	</ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.crude_supply_and_disposition(series = 'supply')
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3547,10 +3498,9 @@ eia.crude_supply_and_disposition(series = 'supply')
 </tbody></table>
 
 
-
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i111">To index</a> </div>
 
@@ -3564,15 +3514,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly rig counts.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.rig_count()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3582,6 +3530,8 @@ eia.rig_count()
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i112">To index</a> </div>
 
@@ -3595,7 +3545,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns annual proven crude reserves and discoveries (last data point is from 2018).</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
@@ -3614,6 +3565,8 @@ eia.crude_reserves()
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i113">To index</a> </div>
 
@@ -3644,15 +3597,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.weekly_refinery_inputs( series = 'inputs' )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3661,9 +3612,9 @@ eia.weekly_refinery_inputs( series = 'inputs' )
  
 </tbody></table>
 
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i118">To index</a> </div>
 
@@ -3678,15 +3629,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly refinery utilisation.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.refinery_utilisation()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3694,8 +3643,9 @@ eia.refinery_utilisation()
 <tr>      <th>...</th>      <td>...</td>     <td>...</td>     <td>...</td>      <td>...</td>      <td>...</td>    </tr>  
 </tbody></table>
 
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i119">To index</a> </div>
 
@@ -3709,15 +3659,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly refinery yield by product.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.refinery_yield()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3730,8 +3678,9 @@ eia.refinery_yield()
 <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>  </tr> 
 </tbody></table>
 
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i120">To index</a> </div>
 
@@ -3744,15 +3693,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly crude acquistion cost of refiners.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.crude_acquisition_cost()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3761,9 +3708,9 @@ eia.crude_acquisition_cost()
 </tbody></table>
 
 
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i121">To index</a> </div>
 
@@ -3777,15 +3724,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly crude inputs quality.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.crude_inputs_quality()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3795,9 +3740,10 @@ eia.crude_inputs_quality()
 </tbody></table>
 
 
-
-
 </small></small></center>
+
+</details>
+
 
 <div align = "right">  <a href="#i122">To index</a> </div>
 
@@ -3811,29 +3757,24 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns annual number of U.S. refineries and capacity by refinery unit.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.refineries()
 ```
 
-<i> Output </i>
-
-
 <center><small><small>
-
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Number of Operable Refineries as of January 1 (Count)</th>      <th>U.S. Number of Operating Refineries as of January 1 (Count)</th>      <th>U.S. Number of Idle Refineries as of January 1 (Count)</th>      <th>U.S. Refinery Annual Operable Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Calendar Day)</th>      <th>U.S. Refinery Annual Operating Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Calendar Day)</th>      <th>U.S. Refinery Annual Idle Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Calendar Day)</th>    <th>...</th> </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>   <th></th>  </tr>  </thead>  <tbody>    <tr>      <th>1982-06-30</th>      <td>301.0</td>      <td>254.0</td>      <td>47.0</td>      <td>17889734.0</td>      <td>16103579.0</td>      <td>1786155.0</td>   <td>...</td>  </tr>    <tr>      <th>1983-06-30</th>      <td>258.0</td>      <td>233.0</td>      <td>25.0</td>      <td>16859337.0</td>      <td>14960647.0</td>      <td>1898690.0</td>   <td>...</td>  </tr>    <tr>      <th>1984-06-30</th>      <td>247.0</td>      <td>214.0</td>      <td>33.0</td>      <td>16137141.0</td>      <td>14837685.0</td>      <td>1299456.0</td>   <td>...</td>  </tr>  
 <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>   </tr>  
 
 </tbody></table>
 
-
-
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i123">To index</a> </div>
 
@@ -3861,15 +3802,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.weekly_xm( padds = True )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3877,10 +3816,9 @@ eia.weekly_xm( padds = True )
 <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>  
 </tbody></table>
 
-
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i114">To index</a> </div>
 
@@ -3905,15 +3843,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.monthly_xm( net = True )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3921,9 +3857,9 @@ eia.monthly_xm( net = True )
  <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
 </tbody></table>
 
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i115">To index</a> </div>
 
@@ -3943,15 +3879,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.weekly_top_imports_by_country( sma = False )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3965,14 +3899,11 @@ eia.weekly_top_imports_by_country( sma = False )
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i116">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-
-
-
 
 
 #### <div id = "f117"><i>EiaData().crude\_imports\_quality()</i>
@@ -3982,15 +3913,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.crude_quality()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -3998,8 +3927,9 @@ eia.crude_quality()
 <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>       <td>...</td>       <td>...</td>       <td>...</td>       <td>...</td>    </tr>  
 </tbody></table>
 
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i117">To index</a> </div>
 
@@ -4030,15 +3960,15 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
+
 
 ```python
 eia = eia_data.EiaData()
 eia.weekly_stocks( padds = True )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4050,6 +3980,9 @@ eia.weekly_stocks( padds = True )
 
 
 </small></small></center>
+
+</details>
+
 
 <div align = "right">  <a href="#i124">To index</a> </div>
 
@@ -4067,15 +4000,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 eia = eia_data.EiaData()
 eia.monthly_product_stocks( padds = False )
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4084,8 +4016,9 @@ eia.monthly_product_stocks( padds = False )
 <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>   <td>...</td>    </tr>  
 </tbody></table>
 
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i125">To index</a> </div>
 
@@ -4100,15 +4033,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly refinery stocks.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.monthly_refinery_stocks()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4117,8 +4048,9 @@ eia.monthly_refinery_stocks()
 </tbody></table>
 
 
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i126">To index</a> </div>
 
@@ -4133,15 +4065,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly tank and pipeline stocks.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
+
 
 ```python
 eia = eia_data.EiaData()
 eia.monthly_tank_and_pipeline_stocks()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4152,9 +4083,9 @@ eia.monthly_tank_and_pipeline_stocks()
 </tbody></table>
 
 
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i127">To index</a> </div>
 
@@ -4183,15 +4114,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.weekly_product_supplied()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4201,9 +4130,9 @@ eia.weekly_product_supplied()
 
 </tbody></table>
 
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i128">To index</a> </div>
 
@@ -4217,15 +4146,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns monthly product supplied.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.monthly_product_supplied()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4235,10 +4162,9 @@ eia.monthly_product_supplied()
 
 </tbody></table>
 
-
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i129">To index</a> </div>
 
@@ -4260,15 +4186,13 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 </ul>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 eia = eia_data.EiaData()
 eia.product_prices_sales_and_stock('retail')
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4277,9 +4201,9 @@ eia.product_prices_sales_and_stock('retail')
 </tbody></table>
 
 
-
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i130">To index</a> </div>
 
@@ -4293,28 +4217,18 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
 
-
-
-
-
-
-
-
-
-
-
 ## <div id="A7">News data</div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-The functions below retrieve news headlines based on keyword searches from <code>Barrons</code>, <code>Bloomberg</code>, <code>CNBC</code>, the <code>Financial Times</code>, the <code>New York Times</code>, <code>Reuters</code>, <code>Seeking Alpha</code> and the <code>Wall Street Journal</code>. The keyword for Seeking Alpha is simply the relevant stock ticker.
+The functions below retrieve news headlines based on keyword searches from <code>Barrons</code>, <code>CNBC</code>, the <code>Financial Times</code>, the <code>New York Times</code>, <code>Reuters</code>, <code>Seeking Alpha</code> and the <code>Wall Street Journal</code>. The keyword for Seeking Alpha is simply the relevant stock ticker.
 
 
-The scrape is based on Selenium and may not be very stable if the website layouts change although I'll try to update asap if it does. 
+The scrape is based on Selenium and may not be very stable if the website layouts change. 
 
 Furthermore, some of the functions can run for a long-time so it is recommended to use a reasonable <code>datestop</code> value. 
 
-Some downloads may fail occasionally as access to the website could be blocked. Look at the function description of the failing functions below, e.g. for Bloomberg or Seeking Alpha or report the issue.
+Some downloads may fail occasionally as access to the website could be blocked. 
 
 ```python
 # Importing the NewsData class
@@ -4334,7 +4248,8 @@ news.verbose = True # default = False, prints total number of collected articles
 <li>Returns the news headlines from Barrons.com for the specified keywords.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4344,9 +4259,6 @@ df = news.barrons(datestop = '2020-06-01')
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4360,46 +4272,9 @@ df = news.filter_data(df)
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i78">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
-#### <div id = "f79" ><i>NewsData(ticker, keywords).bloomberg()</i></div>
-
-<ul>
-<li>Returns the news headlines from Bloomberg.com for the specified keywords.</li>
-<li>It can happen that access to Bloomberg requires you to solve a captcha (often when run for the first or second time in a program). I tried to limit this by including modified Chromedrivers and options but it still happens occassionally. For now, this needs to be fixed manually by setting <code>news.head = True</code> to solve the captcha...</li>
-</ul>
-
-<i> Example </i>
-
-```python
-# retrieve news article for a given search term
-news = NewsData('XOM', 'exxon mobil')
-# news.head = True # to use non-headless mode if captcha needs to be solved...
-df = news.bloomberg(datestop = '2020-06-01')
-# filter news headlines with a keyword list
-news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
-df = news.filter_data(df)
-```
-
-<i> Output </i>
-
-
-<center><small><small>
-
-| date                | link                                                                                                            | headline                                                        | description                                                                                                     | tag     |   author | date_retrieved             | ticker   |   comments | newspaper   | search_term   | id                                                                                                                                                                                      | source    |
-|:--------------------|:----------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------|:--------|---------:|:---------------------------|:---------|-----------:|:------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------|
-| 2020-09-14 00:00:00 | https://www.bloomberg.com/view/articles/2020-09-14/what-tesla-exxon-mobil-and-shale-have-in-common              | What Tesla, Exxon Mobil and Shale Have in Common                | Both share a revolutionary story, shaky profits and regular capital-raising. That didn’t end well for frackers. | opinion |      nan | 2020-09-16 14:09:38.411697 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergWhat Tesla, Exxon Mobil and Shale Have in Commonhttps://www.bloomberg.com/view/articles/2020-09-14/what-tesla-exxon-mobil-and-shale-have-in-common                             | bloomberg |
-| 2020-09-15 00:00:00 | https://www.bloomberg.com/view/articles/2020-09-15/bp-s-peak-oil-era-threatens-more-venezuela-like-collapses    | BP's Peak Oil Era Threatens More Venezuela-Like Collapses       | Producers that aren’t able to diversify in time will face economic collapse.                                    | opinion |      nan | 2020-09-16 14:09:38.411697 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergBP's Peak Oil Era Threatens More Venezuela-Like Collapseshttps://www.bloomberg.com/view/articles/2020-09-15/bp-s-peak-oil-era-threatens-more-venezuela-like-collapses          | bloomberg |
-| 2020-09-15 00:00:00 | https://www.bloomberg.com/news/articles/2020-09-15/peak-oil-bp-shell-eni-lead-big-oil-s-search-for-new-business | Peak Oil: BP, Shell, Eni Lead Big Oil’s Search for New Business | The supermajor business model that owned a century comes undone.                                                | green   |      nan | 2020-09-16 14:09:38.411697 | XOM      |        nan | Bloomberg   | exxon mobil   | BloombergPeak Oil: BP, Shell, Eni Lead Big Oil’s Search for New Businesshttps://www.bloomberg.com/news/articles/2020-09-15/peak-oil-bp-shell-eni-lead-big-oil-s-search-for-new-business | bloomberg |
-|...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
-
-
-</small></small></center>
-
-<div align = "right">  <a href="#i79">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
@@ -4410,7 +4285,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the news headlines from CNBC for the specified keywords.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4420,9 +4296,6 @@ df = news.cnbc(datestop = '2020-06-01')
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4436,6 +4309,8 @@ df = news.filter_data(df)
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i80">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -4447,7 +4322,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the news headlines from the Financial Times for the specified keywords.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4457,9 +4333,6 @@ df = news.ft(datestop = '2020-06-01')
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4473,6 +4346,8 @@ df = news.filter_data(df)
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i81">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -4484,7 +4359,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the news headlines from the New York Times for the specified keywords.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4494,9 +4370,6 @@ df = news.nyt(datestop = '2020-06-01')
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4510,6 +4383,8 @@ df = news.filter_data(df)
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i82">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -4521,7 +4396,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the news headlines from Reuters for the specified keywords.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4534,9 +4410,6 @@ df.drop_duplicates('headline', inplace = True) # Reuters returns duplicate artic
 
 ```
 
-<i> Output </i>
-
-
 <center><small><small>
 
 | date                | link                   | headline                                                           | description                                                           | date_retrieved             | ticker   |   comments |   author |   tag | newspaper   | search_term   | id                                                                                              | source   |
@@ -4547,6 +4420,8 @@ df.drop_duplicates('headline', inplace = True) # Reuters returns duplicate artic
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i83">To index</a> </div>
 
@@ -4560,7 +4435,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>It can happen that access to SeekingAlpha requires to solve a captcha by pressing and holding a button when run for the first time in a program. Will try to fix this in future versions.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4570,8 +4446,6 @@ df = news.seeking_alpha(datestop = '2020-06-01')
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4583,8 +4457,9 @@ df = news.filter_data(df)
 |...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
 
 
-
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i84">To index</a> </div>
 
@@ -4596,7 +4471,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns the news headlines from the Wall Street Journal for the specified keywords.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 # retrieve news article for a given search term
@@ -4606,9 +4482,6 @@ df = news.wsj(datestop = '2020-06-01')
 news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
 df = news.filter_data(df)
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4622,6 +4495,8 @@ df = news.filter_data(df)
 
 
 </small></small></center>
+
+</details>
 
 <div align = "right">  <a href="#i85">To index</a> </div>
 
@@ -4640,14 +4515,12 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns dataframe of tickers traded on the Nasdaq exchange.</li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 nasdaq_tickers()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4663,6 +4536,8 @@ nasdaq_tickers()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i86">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -4673,14 +4548,12 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Returns 100.000+ global tickers from Gurufocus.com. Note that companies are listed in different countries or exchanges with different ticker symbols. </li>
 </ul>
 
-<i> Example </i>
+<details>
+<summary><i> Example </i></summary>
 
 ```python
 global_tickers()
 ```
-
-<i> Output </i>
-
 
 <center><small><small>
 
@@ -4700,6 +4573,8 @@ global_tickers()
 
 </small></small></center>
 
+</details>
+
 <div align = "right">  <a href="#i87">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -4709,15 +4584,12 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 ## <div id="A9"> Sources </div>
 
-<li>Alpha-Vantage, www.alphavantage.co</li>
 <li>Barrons, www.barrons.com</li>
-<li>Bloomberg, www.bloomberg.com</li>
 <li>CBOE, www.cboe.com</li>
 <li>CNBC, www.cnbc.com</li>
 <li>Financial Times, www.ft.com</li>
 <li>Finviz, www.finviz.com</li>
 <li>Gurufocus, www.gurufocus.com</li>
-<li>IEX Cloud, www.iexcloud.io</li>
 <li>Investing.com, www.investing.com </li>
 <li>MarketWatch, www.marketwatch.com </li>
 <li>Macrotrends, www.macrotrends.net</li>
@@ -4726,7 +4598,6 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>OECD, www.oecd.org</li>
 <li>Reuters, www.reuters.com</li>
 <li>Seeking Alpha, www.seekingalpha.com</li>
-<li>Tiingo, www.tiingo.com</li>
 <li>Wall Street Journal, www.wsj.com</li>
 <li>Yahoo Finance, www.finance.yahoo.com </li>
 

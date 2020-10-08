@@ -23,10 +23,13 @@
 # SOFTWARE.
 #
 
+from .fundamentals import Fundamentals
+from .yahoo import YahooData
 from .finviz import FinvizData
+from .fool import Earnings
 from .macrotrends import MacrotrendsData
 from .mwatch import MwatchData
-from .yahoo import YahooData
-from .fool import Earnings
 
-__all__ = ['YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData', 'Earnings']
+__all__ = ['Fundamentals',
+            'YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData',
+            'Earnings' ]

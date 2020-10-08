@@ -25,6 +25,7 @@
 
 import numpy as np
 import pandas as pd
+import datetime as dt
 from finpie.base import DataBase
 
 class FinvizData(DataBase):
@@ -44,6 +45,8 @@ class FinvizData(DataBase):
         df = df[1:]
         df.reset_index(inplace = True, drop = True)
         df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('&', 'and').lower() for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
         return df
 
 
@@ -59,6 +62,8 @@ class FinvizData(DataBase):
         df.index = pd.to_datetime(df.date)
         df.drop('date', inplace = True, axis = 1)
         df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('&', 'and').lower() for col in df.columns ]
+        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
+        df.index.name = 'date'
         return df
 
 
@@ -75,4 +80,8 @@ class FinvizData(DataBase):
         values = np.array( [ df[i].values for i in values ] ).flatten()
         df = pd.DataFrame( values.reshape(1,-1), columns = columns, index = [0])
         df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('&', 'and').lower() for col in df.columns ]
+        df.index = [ pd.to_datetime(dt.datetime.today().date()) ]
+        df.index.name = 'date'
         return self._col_to_float(df)
+
+    

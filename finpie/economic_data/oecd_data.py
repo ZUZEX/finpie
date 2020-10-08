@@ -737,6 +737,7 @@ class OecdData(object):
             columns = ['SUBJECT', 'Subject', 'Country', 'FREQUENCY', 'TIME', 'Unit Code', 'PowerCode Code', 'Value' ]
         df = df[columns]
         df.index = pd.to_datetime(df.TIME)
+        df.index.name = 'date'
         return df
 
 
