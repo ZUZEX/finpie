@@ -3,7 +3,7 @@
 
 [![PyPi](https://img.shields.io/pypi/v/finpie)]()
 
-[![Status](https://img.shields.io/badge/status-work in progress-yellow)]()
+[![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)]()
 
 
 # finpie - a simple library to download some financial data
