@@ -26,7 +26,7 @@ jobs:
 install:
   - pip3 install -r requirements.txt
   - pip3 install .
-  - travis_wait 30 mvn install
+  #- travis_wait 30 mvn install
 
 script: python3 test.py || python test.py
 
@@ -36,7 +36,7 @@ notifications:
     - pe.lacour@gmail.com
     on_failure: always
 
-
+# /Users/travis/build/chrome
 
 
 # https://help.crossbrowsertesting.com/selenium-testing/continuous-integration/travis-ci/
