@@ -44,8 +44,8 @@ from finpie.other_data.stock_symbols import nasdaq_tickers
 from finpie.price_data.price_data import historical_prices
 from finpie.price_data.price_data import yahoo_option_chain
 from finpie.price_data.price_data import cboe_option_chain
-from finpie.price_data.futures_prices import historical_futures_contracts
-from finpie.price_data.futures_prices import futures_contracts
+from finpie.price_data.price_data import historical_futures_contracts
+from finpie.price_data.price_data import futures_contracts
 
 
 __all__ = [

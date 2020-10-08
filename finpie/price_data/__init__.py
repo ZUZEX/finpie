@@ -24,7 +24,7 @@
 #
 
 from .price_data import historical_prices, yahoo_option_chain, cboe_option_chain
-from .futures_prices import historical_futures_contracts, futures_contracts
+from .price_data import historical_futures_contracts, futures_contracts
 
 __all__ = [
             'historical_prices', 'yahoo_option_chain', 'cboe_option_chain'
