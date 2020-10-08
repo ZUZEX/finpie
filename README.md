@@ -1,7 +1,9 @@
 
+[![Build Status](https://travis-ci.org/peterlacour/finpie.svg?branch=master)](https://travis-ci.org/peterlacour/finpie)
 
--------------
+[![PyPi](https://img.shields.io/pypi/v/finpie)]()
 
+[![Status](https://img.shields.io/badge/status-work in progress-yellow)]()
 
 
 # finpie - a simple library to download some financial data
@@ -17,6 +19,14 @@
 
 <br>
 
+
+<p>
+<i>Changes for v0.13</i>
+<li> Restructured the fundamental data module to reduce the clutter and simplify the repository </li>
+<li> Excluded Bloomberg news headline scrape because of the automation detection  </li>
+<li> Debugged news headline scrape </li>
+<li> Removed third party price data API wrappers </li>
+<p>
 
 
 <p>
@@ -116,9 +126,7 @@ $ pip install finpie
 ### Requirements
 
 ```
-alpha_vantage>=2.1.0
 beautifulsoup4>=4.9.1
-iexfinance>=0.4.3
 dask>=2.11.0
 numpy>=1.18.2
 pandas>=1.0.1
@@ -134,11 +142,10 @@ tqdm>=4.32.1
 
 ## <div id="A3"> Index </div>
 
-
 |Output|Data Output|Runtime|
 |:-----|:-----|:-----:|
 |<b>Company Fundamentals</b>|||
-|<i>fd = Fundamentals( ticker, source, freq )</i>|||
+|<b>fd = Fundamentals( ticker, source, freq )</b>|||
 |<u>Financial statements</u>|||
 |<li> <a id='i7' href='#f7'>fd.income\_statement()</a> </li>|5 years / quarters|Fast|
 |<li> <a id='i8' href='#f8'>fd.balance\_sheet()</a> </li>|5 years / quarters|Fast|
@@ -170,7 +177,7 @@ tqdm>=4.32.1
 |<li> <a id='i29' href='#f29'>futures\_contracts(date)</a> </li>|Any date|Fast|
 |<b>Economic data</b>|||
 |<b><i>OECD Data</i></b>|||
-|<i>oecd = OecdData( country\_code, **args )</i>|||
+|<b>oecd = OecdData( country\_code, **args )</b>|||
 |<u>Composite leading indicators</u>|||
 |<li> <a id='i30' href='#f30'>oecd.cli(subject = 'amplitude)</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i31' href='#f31'>oecd.cci()</a> </li>|Timeseries|Not that slow|
@@ -231,7 +238,7 @@ tqdm>=4.32.1
 |<li> <a id='i76' href='#f76'>oecd.financial\_derivatives()</a> </li>|Timeseries|Not that slow|
 |<li> <a id='i77' href='#f77'>oecd.reserve\_assets()</a> </li>|Timeseries|Not that slow|
 |<b><i>EIA Data</i></b>|||
-|<i>eia = EiaData()</i>|||
+|<b>eia = EiaData()</b>|||
 |<li> <a id='i107' href='#f107'>eia.eia\_petroleum\_series()</a> </li>|Timeseries|Not that slow|
 |<u>Weekly balances</u>|||
 |<li> <a id='i108' href='#f108'>eia.weekly\_balance()</a> </li>|Timeseries|Not that slow|
@@ -274,7 +281,6 @@ tqdm>=4.32.1
 |<b>Other data</b>|||
 |<li> <a id='i86' href='#f86'>nasdaq\_tickers()</a> </li>|List of stock tickers|Fast|
 |<li> <a id='i87' href='#f87'>global\_tickers()</a> </li>|List of stock tickers|Slow|
-
 
 -----
 

@@ -1126,5 +1126,185 @@ class NewsData(CleanNews):
 
         return data
 
-#news = NewsData('AAPL', 'apple inc iphone')
-#news.seeking_alpha('2020-09-01')
+
+
+'''
+# Bloomberg data
+def bloomberg(self, datestop = False):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    #                            Bloomberg
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    source = 'bloomberg'
+    url = 'https://www.bloomberg.com/search?query='  + self.keywords.replace(' ', '%20')
+
+    driver = self._load_driver(caps = 'none')
+
+    try:
+        # Set and retrive url
+        driver.get(url)
+
+        time.sleep(2)
+
+        #
+        sec = len(driver.find_elements_by_xpath('//div[@id="px-captcha"]'))
+        if sec != 0 and self.head == False:
+            print('Failed. Run in non-headless (news.head = True) mode to solve captcha..\n')
+            return pd.DataFrame([1,1,1])
+            driver.quit()
+        else:
+            m = 0
+            while len(driver.find_elements_by_xpath('//div[@id="px-captcha"]')) > 0:
+                if m == 0:
+                    print('Please solve captcha...')
+                    m += 1
+                time.sleep(1)
+        time.sleep(5)
+
+
+        passed = False
+        try:
+            driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
+            time.sleep(1)
+            element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
+            ActionChains(driver).move_to_element( element).click().perform()
+            time.sleep(1)
+            driver.switch_to.default_content()
+            passed = True
+        except:
+            pass
+
+
+
+        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//button[@title="Load More Results"]')))
+
+        # click sorting thing
+        element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
+        ActionChains(driver).move_to_element( element).click().perform()
+
+        while len( driver.find_elements_by_xpath('//a[@class="link__a4d2830d active__b9e37c7f"][contains(text(), "By Newest")]') ) < 1:
+            passed = False
+            try:
+                driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
+                time.sleep(1)
+                element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
+                ActionChains(driver).move_to_element( element).click().perform()
+                time.sleep(1)
+                driver.switch_to.default_content()
+                passed = True
+            except:
+                pass
+            element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
+            ActionChains(driver).move_to_element( element).click().perform()
+            time.sleep(0.5)
+        time.sleep(3)
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        #driver.find_elements_by_class_name('link__a4d2830d ')[7].click()
+
+
+        k = 0
+        while k < 300:
+            bool = True
+            new_height = 0
+            while bool: #newnumber != oldnumber:
+                # do it with xpath
+                #oldnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
+                if not passed:
+                    try:
+                        driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
+                        time.sleep(1)
+                        element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
+                        ActionChains(driver).move_to_element( element).click().perform()
+                        time.sleep(1)
+                        driver.switch_to.default_content()
+                        passed = True
+                    except:
+                        pass
+
+                try:
+                    element = driver.find_element_by_xpath('//button[@title="Load More Results"]')
+                    driver.execute_script("arguments[0].scrollIntoView();", element)
+                    element.click()
+                    #ActionChains(driver).move_to_element( element).click().perform()
+                    #time.sleep(random.randint(1,2))
+                    time.sleep( 0.5 )
+                    k = 0
+                    if datestop:
+                        d = driver.find_elements_by_xpath( '//div[@class="publishedAt__79f8aaad"]' )[-1].text
+                        if pd.to_datetime( d ) < pd.to_datetime( datestop ):
+                            k = 1000
+                            bool = False
+                except:
+                    bool = False
+
+
+                    k += 1
+                    time.sleep(0.5)
+
+
+        content = driver.page_source
+
+        driver.close()
+        driver.quit()
+    except:
+        print('Failed to load data...\n')
+        driver.quit()
+        return None
+
+    headline, link, date, description, author, tag = [], [], [], [], [], []
+
+    soup  = bs( content, "lxml" )
+    articles  = soup.find_all('div', class_ = 'storyItem__192ee8af' )
+
+    for article in articles:
+        link.append( article.find('a').get('href') )
+        headline.append( article.find('a', class_ = 'headline__55bd5397').text )
+        date.append( article.find('div', class_ = 'publishedAt__79f8aaad' ).text )
+        tag.append( article.find('div', class_ = 'eyebrow__4b7f0542').text )
+        try:
+            description.append( article.find('a', class_ = 'summary__bbda15b4' ).text )
+        except:
+            description.append( 'nan' )
+        try:
+            author.append( article.find('div', class_ = 'summary__bbda15b4').text.replace('By ', '') )
+        except:
+            author.append( 'nan' )
+
+
+    data = pd.DataFrame(
+            {
+                'link': link,
+                'headline': headline,
+                'date': date,
+                'description': description,
+                'tag': tag,
+                'author': author
+            }
+        )
+
+    data['date_retrieved'] = dt.datetime.today()
+    data['ticker'] = self.ticker
+    data['comments'] = 'nan'
+    data['newspaper'] = 'Bloomberg'
+
+    data['search_term'] = self.keywords
+
+    data['id'] = data['newspaper'] +  data['headline'] + data['link']
+    columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
+    for col in columns:
+        if col not in data.columns:
+            data[col] = 'nan'
+
+    data['source'] = source
+
+    data = self._clean_dates(data)
+
+
+    if self.verbose:
+        print('-' * 78)
+        print(source.upper(), 'done.', len(data), 'articles collected.')
+        print('-' * 78)
+
+    return data
+'''
