@@ -144,7 +144,7 @@ class Earnings(DataBase):
             except:
                 pattern = re.compile('(Q\d\\xa0\d{4})')
                 temp['quarter'] = pattern.search(text)[0].replace(u'\xa0', u' ')
-            temp['link'] = link
+            temp['link'] = link  # need to add this to access in browser?
 
             df.append( pd.DataFrame( temp, index = [date] ) )
 
