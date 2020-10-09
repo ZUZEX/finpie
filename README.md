@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/peterlacour/finpie.svg?branch=master)](https://travis-ci.org/peterlacour/finpie) [![PyPi](https://img.shields.io/pypi/v/finpie)]() [![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)]()
+[![Build Status](https://travis-ci.org/peterlacour/finpie.svg?branch=master)](https://travis-ci.org/peterlacour/finpie) [![PyPi](https://img.shields.io/pypi/v/finpie)](https://pypi.org/project/finpie/) [![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)]()
 
 
 # finpie - a simple library to download some financial data
@@ -18,7 +18,7 @@
 
 <p>
 <i>Changes for v0.13</i>
-<li> Restructured the fundamental data module to reduce the clutter and simplify the repository </li>
+<li> Restructured the fundamental data module to reduce clutter and simplify the repository </li>
 <li> Excluded Bloomberg news headline scrape because of the automation detection  </li>
 <li> Debugged news headline scrape </li>
 <li> Removed third party price data API wrappers </li>
@@ -163,7 +163,7 @@ tqdm>=4.32.1
 |<li> <a id='i19' href='#f19'>fd.corporate\_governance\_score()</a> </li>|Most recent data|Fast|
 |<u>Company profile</u>|||
 |<li> <a id='i20' href='#f20'>fd.profile()</a> </li>|Most recent data|Fast|
-|<li> <a id='i21' href='#f21'>fd.exceutives\_info()</a> </li>|Most recent data|Fast|
+|<li> <a id='i21' href='#f21'>fd.executives\_info()</a> </li>|Most recent data|Fast|
 |<b>Price data</b>|||
 |<li> <a id='i22' href='#f22'>historical\_prices(ticker)</a> </li>|Timeseries|Fast|
 |<li> <a id='i24' href='#f24'>alpha\_vantage\_prices(ticker,api\_token)</a> </li>|Timeseries|Fast|
@@ -312,12 +312,13 @@ fd = finpie.Fundamentals(ticker, source = 'macrotrends', freq = 'A')
 
 
 
-###	 <div id="A42"> <li> Financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
+##	 <div id="A42"> <li> Financial statements <hr style="border:0.5px solid gray"> </hr> </li> </div>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-#### <div id="f7"><i>Fundamentals(ticker, source, freq).income\_statement()</i></div>
+
+#### <div id="f7"><i>Fundamentals(ticker, source, freq)<b>.income_statement()</b></i></div>
 
 
 <ul>
