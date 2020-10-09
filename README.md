@@ -168,7 +168,6 @@ tqdm>=4.32.1
 |<li> <a id='i21' href='#f21'>fd.executives\_info()</a> </li>|Most recent data|Fast|
 |<b>Price data</b>|||
 |<li> <a id='i22' href='#f22'>historical\_prices(ticker)</a> </li>|Timeseries|Fast|
-|<li> <a id='i24' href='#f24'>alpha\_vantage\_prices(ticker,api\_token)</a> </li>|Timeseries|Fast|
 |<li> <a id='i27' href='#f27'>yahoo\_option\_chain(ticker)</a> </li>|Most recent data|Fast|
 |<li> <a id='i106' href='#f106'>cboe\_option\_chain(ticker)</a> </li>|Most recent data|Fast|
 |<li> <a id='i28' href='#f28'>historical\_futures\_contracts(date\_range)</a> </li>|Timeseries|Very slow|
