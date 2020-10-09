@@ -143,9 +143,9 @@ tqdm>=4.32.1
 |<b>Company Fundamentals</b>|||
 |<b>fd = Fundamentals( ticker, source, freq )</b>|||
 |<u>Financial statements</u>|||
-|<li> <a id='i7' href='#f7'>fd.income\_statement()</a> </li>|5 years / quarters|Fast|
-|<li> <a id='i8' href='#f8'>fd.balance\_sheet()</a> </li>|5 years / quarters|Fast|
-|<li> <a id='i9' href='#f9'>fd.cashflow\_statement()</a> </li>|5 years / quarters|Fast|
+|<li> <a id='i7' href='#f7'>fd.income\_statement()</a> </li>|up to 2005|Slow, depends on source|
+|<li> <a id='i8' href='#f8'>fd.balance\_sheet()</a> </li>|up to 2005|Slow, depends on source|
+|<li> <a id='i9' href='#f9'>fd.cashflow\_statement()</a> </li>|up to 2005|Slow, depends on source|
 |<u>Financial ratios and key metrics</u>|||
 |<li> <a id='i102' href='#f102'>fd.ratios()</a> </li>|up to 2005|Slow|
 |<li> <a id='i2' href='#f2'>fd.key_metrics()</a> </li>|Most recent data|Fast|
@@ -155,8 +155,10 @@ tqdm>=4.32.1
 |<li> <a id='i13' href='#f13'>fd.earnings\_history()</a> </li>|4 quarters|Fast|
 |<li> <a id='i14' href='#f14'>fd.revenue\_estimates()</a> </li>|Most recent data|Fast|
 |<li> <a id='i15' href='#f15'>fd.growth\_estimates()</a> </li>|Most recent data|Fast|
+|<u>Earnings call transcripts</u>|||
+|<li> <a id='i131' href='#f131'>fd.transcripts()</a> </li>|up to 2018|Slow|
 |<u>Insider transactions and analyst ratings</u>|||
-|<li> <a id='i16' href='#f16'>fd.insider\_transactions()</a> </li>|Last year|Fast|
+|<li> <a id='i16' href='#f16'>fd.insider\_transactions()</a> </li>|Most recent data|Fast|
 |<li> <a id='i17' href='#f17'>fd.analyst\_ratings()</a> </li>|Most recent data|Fast|
 |<u>ESG data</u>|||
 |<li> <a id='i18' href='#f18'>fd.esg\_score()</a> </li>|Most recent data|Fast|
