@@ -259,7 +259,7 @@ class YahooData( DataBase ):
         'environment_risk_score': np.float(section.find('div', string = 'Environment Risk Score').find_next('div').find_next('div').text),
         'social_risk_score': np.float(section.find('div', string = 'Social Risk Score').find_next('div').find_next('div').text),
         'governance_risk_score': np.float(section.find('div', string = 'Governance Risk Score').find_next('div').find_next('div').text),
-        'controversy_level': np.float(section.find('span', string = 'Controversy Level').find_next('div', class_ = 'Mt(15px)').find_next('div').find_next('div').find_next('div').find_next('div').find_next('div').text),
+        #'controversy_level': np.float(section.find('span', string = 'Controversy Level').find_next('div', class_ = 'Mt(15px)').find_next('div').find_next('div').find_next('div').find_next('div').find_next('div').text),
         'ticker' : self.ticker }, index = [0] )
       df.index = [pd.to_datetime( dt.datetime.today().date() )]
       df.index.name = 'date'

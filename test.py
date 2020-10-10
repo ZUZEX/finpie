@@ -5,6 +5,7 @@ import unittest
 import time
 import finpie
 
+
 class CommonTest(object):
 
     def __init__(self):
