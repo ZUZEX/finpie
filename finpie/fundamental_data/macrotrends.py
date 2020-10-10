@@ -43,13 +43,13 @@ class MacrotrendsData( DataBase ):
         self.verbose = False
 
     def income_statement(self):
-        return self._download_wrapper('financial-ratios')
+        return self._download_wrapper('income-statement')
 
     def balance_sheet(self):
-        return self._download_wrapper('financial-ratios')
+        return self._download_wrapper('balance-sheet')
 
     def cashflow_statement(self):
-        return self._download_wrapper('financial-ratios')
+        return self._download_wrapper('cash-flow-statement')
 
     def ratios(self):
         return self._download_wrapper('financial-ratios')
