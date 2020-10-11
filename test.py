@@ -84,11 +84,11 @@ class PriceDataTest(unittest.TestCase, CommonTest):
 
         print('Test passed.\n')
 
-    def test_cboe_option_chain(self):
+    #def test_cboe_option_chain(self):
 
-        print('Testing CBOE option chain.')
+        #print('Testing CBOE option chain.')
 
-        data1, data2 = finpie.cboe_option_chain(self.ticker)
+        #data1, data2 = finpie.cboe_option_chain(self.ticker)
         #self.df_helper(data1)
         #self.df_helper(data2)
 
@@ -100,7 +100,7 @@ class PriceDataTest(unittest.TestCase, CommonTest):
         #self.assertTrue( data1.net.dtypes  == 'float' )
         #self.assertTrue( data2.net.dtypes  == 'float' )
 
-        print('Test passed.\n')
+    #    print('Test passed.\n')
 
     # def test_tingo_prices(self)
 
