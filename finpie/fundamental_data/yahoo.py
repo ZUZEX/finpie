@@ -314,21 +314,10 @@ class YahooData( DataBase ):
 
        df = pd.read_html( str( soup.find('table') ) )[0]
        df['Gender'] = [ 'male' if 'Mr.' in n else 'female' for n in df.Name ]
-       df['Age_at_end_of_year'] = [ dt.datetime.today().year - np.int(y) for y in df['Year Born'] ]
+       df['Age_at_end_of_year'] = [ dt.datetime.today().year - np.int(y) if not pd.isnull(y) else 'NaN' for y in df['Year Born'] ]
        col = 'Pay'
        df[col] = df[col].astype('str')
-       df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
-                                              .replace('T', '', regex = True) \
-                                              .astype('float') * 1000000000000).astype('str')
-       df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
-                                              .replace('B', '', regex = True) \
-                                              .astype('float') * 1000000000).astype('str')
-       df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
-                                              .replace('M', '', regex = True) \
-                                              .astype('float') * 1000000).astype('str')
-       df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
-                                              .replace('k', '', regex = True) \
-                                              .astype('float') * 1000).astype('str')
+       df = self._col_to_float(df)
        df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
        df.index = [pd.to_datetime( dt.datetime.today().date() )] * len(df)
        df.index.name = 'date'

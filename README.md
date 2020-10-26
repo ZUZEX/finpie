@@ -22,6 +22,7 @@
 <li> Excluded Bloomberg news headline scrape because of the automation detection  </li>
 <li> Debugged news headline scrape </li>
 <li> Removed third party price data API wrappers </li>
+<li> v0.1312: added option to get press releases from Seeking Alpha, updated WSJ script and Yahoo executive info 
 <p>
 
 
@@ -4413,11 +4414,11 @@ df.drop_duplicates('headline', inplace = True) # Reuters returns duplicate artic
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f84" ><i>NewsData(ticker, keywords).seeking\_alpha()</i></div>
+#### <div id = "f84" ><i>NewsData(ticker, keywords).seeking\_alpha(datestop, press_release = False)</i></div>
 
 <ul>
 <li>Returns the news headlines from Seeking Alpha for the specified keywords.</li>
-<li>It can happen that access to SeekingAlpha requires to solve a captcha by pressing and holding a button when run for the first time in a program. Will try to fix this in future versions.</li>
+<li>It can happen that access to SeekingAlpha requires to solve a captcha by pressing and holding a button when run for the first time in a program. Will try to fix this in future versions. <code>press_release = True</code> will get press releases instead of news headlines.</li>
 </ul>
 
 <details>

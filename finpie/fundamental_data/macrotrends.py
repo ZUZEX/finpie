@@ -36,11 +36,15 @@ from finpie.base import DataBase
 
 class MacrotrendsData( DataBase ):
 
-    def __init__( self, ticker, freq = 'A' ):
+    def __init__( self, ticker, freq = 'A', bulk_option = False ):
         DataBase.__init__(self)
         self.ticker = ticker
         self.freq = freq
         self.verbose = False
+        self.bulk_option = bulk_option
+        self.bulk_bool = bulk_option
+        if type(self.bulk_bool) != type(True):
+            self.bulk_bool = True
 
     def income_statement(self):
         return self._download_wrapper('income-statement')
@@ -94,11 +98,15 @@ class MacrotrendsData( DataBase ):
 
     def _download(self, sheet):
 
-        caps = DesiredCapabilities().CHROME
-        caps["pageLoadStrategy"] = "none"
-        driver = self._load_driver(caps = caps)
-        if self.head == True:
-            driver.minimize_window()
+        if self.bulk_bool:
+            driver = self.bulk_option
+        else:
+            caps = DesiredCapabilities().CHROME
+            caps["pageLoadStrategy"] = "none"
+            driver = self._load_driver(caps = caps)
+            if self.head == True:
+                driver.minimize_window()
+
         url = f'https://www.macrotrends.net/stocks/charts/{self.ticker}'
 
         try:
@@ -112,7 +120,8 @@ class MacrotrendsData( DataBase ):
         except:
             if self.verbose:
                 print('Failed to load page...')
-            driver.quit()
+            if not self.bulk_bool:
+                driver.quit()
             return 1
 
         try:
@@ -134,7 +143,7 @@ class MacrotrendsData( DataBase ):
                 element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
                 driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
                 ActionChains(driver).click_and_hold(element).perform()
-                time.sleep(2)
+                time.sleep(0.75)
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
                 ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
 
@@ -150,10 +159,13 @@ class MacrotrendsData( DataBase ):
                 check = first #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text
             df = pd.concat(dfs, axis = 1)
             df = df.loc[:,~df.columns.duplicated()]
-            driver.quit()
+
+            if not self.bulk_bool:
+                driver.quit()
 
             return df
 
         except:
-            driver.quit()
+            if not self.bulk_bool:
+                driver.quit()
             return 1
