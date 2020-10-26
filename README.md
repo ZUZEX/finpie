@@ -4414,11 +4414,11 @@ df.drop_duplicates('headline', inplace = True) # Reuters returns duplicate artic
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f84" ><i>NewsData(ticker, keywords).seeking\_alpha(datestop, press_release = False)</i></div>
+#### <div id = "f84" ><i>NewsData(ticker, keywords).seeking\_alpha(datestop, press_releases = False)</i></div>
 
 <ul>
 <li>Returns the news headlines from Seeking Alpha for the specified keywords.</li>
-<li>It can happen that access to SeekingAlpha requires to solve a captcha by pressing and holding a button when run for the first time in a program. Will try to fix this in future versions. <code>press_release = True</code> will get press releases instead of news headlines.</li>
+<li>It can happen that access to SeekingAlpha requires to solve a captcha by pressing and holding a button when run for the first time in a program. Will try to fix this in future versions. <code>press_releases = True</code> will get press releases instead of news headlines.</li>
 </ul>
 
 <details>
