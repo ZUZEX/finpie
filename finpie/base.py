@@ -56,6 +56,8 @@ class DataBase(object):
 			return filepath + 'chromedriver_mac'
 		elif 'win' in sys.platform:
 			return filepath + 'chromedriver_windows.exe'
+		else:
+			return 'chromedriver'
 
 
 	def _load_driver(self, caps = 'none'):
