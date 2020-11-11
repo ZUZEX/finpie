@@ -92,8 +92,9 @@ class Earnings(DataBase):
 
             links = [ l.get_attribute('href') for l in driver.find_elements_by_xpath('//div[@id="quote_page_earnings_listing"]//a[@data-id="article-list-hl"]') ]
             driver.quit()
-        except:
+        except BaseException as e:
             print('Failed..')
+            print(str(e))
             driver.quit()
             return None
 
