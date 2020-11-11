@@ -1156,7 +1156,6 @@ class NewsData(CleanNews):
 
 
 
-
 #news = NewsData('AAPL', 'apple inc. iphone')
 #datestop = '2010-09-09'
 #news.head = True
