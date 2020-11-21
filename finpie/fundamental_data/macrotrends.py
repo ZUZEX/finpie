@@ -23,7 +23,6 @@
 # SOFTWARE.
 #
 
-
 import time
 import pandas as pd
 from bs4 import BeautifulSoup as bs
@@ -34,10 +33,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from finpie.base import DataBase
 
+
+
 class MacrotrendsData( DataBase ):
 
     def __init__( self, ticker, freq = 'A', bulk_option = False ):
         DataBase.__init__(self)
+        #self.head = True
         self.ticker = ticker
         self.freq = freq
         self.verbose = False
@@ -104,68 +106,79 @@ class MacrotrendsData( DataBase ):
             caps = DesiredCapabilities().CHROME
             caps["pageLoadStrategy"] = "none"
             driver = self._load_driver(caps = caps)
-            if self.head == True:
-                driver.minimize_window()
+            #if self.head == True:
+            #    driver.minimize_window()
 
         url = f'https://www.macrotrends.net/stocks/charts/{self.ticker}'
 
-        try:
-            driver.get(url)
-            time.sleep(2)
-            url = driver.current_url + f'{sheet}?freq={self.freq.upper()}'
-            #url += f'/{sheet}?freq={self.freq.upper()}'
-            driver.get(url)
-            #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
-            element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
-        except:
-            if self.verbose:
-                print('Failed to load page...')
-            if not self.bulk_bool:
-                driver.quit()
-            return 1
+        #try:
+        driver.get(url)
+        time.sleep(2)
+        url = driver.current_url + f'{sheet}?freq={self.freq.upper()}'
+        #url += f'/{sheet}?freq={self.freq.upper()}'
+        driver.get(url)
+        #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
+        element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
+        #except:
+        #    if self.verbose:
+        #        print('Failed to load page...')
+        #    if not self.bulk_bool:
+        #        driver.quit()
+        #    return 1
 
-        try:
+        #try:
+        if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
+            element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
+        dfs = [ self._get_table(driver.page_source) ]
+        bool, check, double_check = True, '', 0
+        first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
+
+        while bool:
+
             if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
                 element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
-            dfs = [ self._get_table(driver.page_source) ]
-            bool, check, double_check = True, '', 0
-            first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
-
-            while bool:
-
-                if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
-                    element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
-                    ActionChains(driver).move_to_element(element).click().perform()
-                    time.sleep(0.75)
-                    dfs.append( self._get_table(driver.page_source) )
-
-                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
-                element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
-                driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
-                ActionChains(driver).click_and_hold(element).perform()
+                ActionChains(driver).move_to_element(element).click().perform()
                 time.sleep(0.75)
+                dfs.append( self._get_table(driver.page_source) )
+
+            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
+            element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
+            driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
+            ActionChains(driver).click_and_hold(element).perform()
+            #while check == first:
+            # click and hold wait
+            time.sleep(3)
+            ActionChains(driver).release(element).move_by_offset(50, 50).perform()
+            try:
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
-                ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
+            except:
+                first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
+            ActionChains(driver).release(element).move_by_offset(50, 50).perform()
 
-                if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) == 0:
-                    dfs.append( self._get_table(driver.page_source) )
+            if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) == 0:
+                dfs.append( self._get_table(driver.page_source) )
 
 
-                if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
-                    if double_check == 5:
-                        bool = False
-                    double_check += 1
+            if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
+                if double_check == 3:
+                    bool = False
+                double_check += 1
 
-                check = first #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text
-            df = pd.concat(dfs, axis = 1)
-            df = df.loc[:,~df.columns.duplicated()]
+            check = first #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text
+        df = pd.concat(dfs, axis = 1)
+        df = df.loc[:,~df.columns.duplicated()]
 
-            if not self.bulk_bool:
-                driver.quit()
+        if not self.bulk_bool:
+            driver.quit()
+            #return 1
 
-            return df
+        return df
 
-        except:
-            if not self.bulk_bool:
-                driver.quit()
-            return 1
+
+# quick test
+
+# m = MacrotrendsData('NFLX', freq = 'Q')
+# m.income_statement()
+# m.cashflow_statement()
+# m.ratios()
+# m.balance_sheet()

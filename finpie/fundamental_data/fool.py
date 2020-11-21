@@ -163,5 +163,7 @@ class Earnings(DataBase):
     def _scroll_to_element(self, driver, element):
         driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
 
-e = Earnings('NFLX')
-e.transcripts()
+# quick test
+# e = Earnings('AAPL')
+#e.head = True
+# e.transcripts()
