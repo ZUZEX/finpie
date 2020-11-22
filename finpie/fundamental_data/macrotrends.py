@@ -118,7 +118,7 @@ class MacrotrendsData( DataBase ):
         #url += f'/{sheet}?freq={self.freq.upper()}'
         driver.get(url)
         #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
-        element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
+        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
         #except:
         #    if self.verbose:
         #        print('Failed to load page...')
@@ -148,12 +148,12 @@ class MacrotrendsData( DataBase ):
             #while check == first:
             # click and hold wait
             time.sleep(3)
-            ActionChains(driver).release(element).move_by_offset(50, 50).perform()
+            ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
             try:
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
             except:
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
-            ActionChains(driver).release(element).move_by_offset(50, 50).perform()
+            ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
 
             if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) == 0:
                 dfs.append( self._get_table(driver.page_source) )
