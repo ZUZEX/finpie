@@ -24,5 +24,6 @@
 #
 
 from .stock_symbols import global_tickers, nasdaq_tickers
+from .cftc import cftc
 
-__all__ = ['global_tickers', 'nasdaq_tickers']
+__all__ = ['global_tickers', 'nasdaq_tickers', 'cftc']

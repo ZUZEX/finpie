@@ -39,6 +39,8 @@ from finpie.news_data.news import NewsData
 # Other data
 from finpie.other_data.stock_symbols import global_tickers
 from finpie.other_data.stock_symbols import nasdaq_tickers
+from finpie.other_data.cftc import cftc
+
 # Price data
 # from finpie.price_data.price_data import alpha_vantage_prices
 from finpie.price_data.price_data import historical_prices
@@ -51,7 +53,7 @@ from finpie.price_data.price_data import futures_contracts
 __all__ = [
             'historical_prices', 'yahoo_option_chain', 'cboe_option_chain',
             'historical_futures_contracts', 'futures_contracts',
-            'nasdaq_tickers', 'global_tickers', 'Fundamentals',
+            'nasdaq_tickers', 'global_tickers', 'cftc', 'Fundamentals',
             'YahooData', 'MwatchData', 'FinvizData', 'MacrotrendsData',
             'OecdData', 'EiaData', 'NewsData', 'Earnings' ]
 

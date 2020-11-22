@@ -23,9 +23,13 @@
 # SOFTWARE.
 #
 
+import io
 import os
 import sys
 import time
+import requests
+import zipfile
+import pandas as pd
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
 from requests_html import HTMLSession
@@ -154,3 +158,11 @@ class DataBase(object):
 			except:
 				continue
 		return df
+
+
+	def _load_zip_file(self, url, text_file_index = 0):
+	    r = requests.get(url, stream=True)
+	    #pd.read_csv(z.open(zipfile.ZipFile.namelist(z)[0]), header = None)
+	    z = zipfile.ZipFile(io.BytesIO(r.content), 'r')
+	    text_files = z.infolist()
+	    return pd.read_csv(z.open(text_files[text_file_index].filename) )
