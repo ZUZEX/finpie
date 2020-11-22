@@ -141,7 +141,7 @@ class MacrotrendsData( DataBase ):
                 time.sleep(0.75)
                 dfs.append( self._get_table(driver.page_source) )
 
-            element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
             element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
             driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
             ActionChains(driver).click_and_hold(element).perform()
