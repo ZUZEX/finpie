@@ -96,7 +96,10 @@ def cftc( report_type = 'futures_traders', year = 2000 ):
 
     df = pd.concat( [ db._load_zip_file(url) for url in url_list ] )
     df.iloc[:,2] = [ i.split(' ')[0] for i in df.iloc[:,2] ]
-    df.index = pd.to_datetime(df.iloc[:,2], format = '%Y-%m-%d')
+    try:
+        df.index = pd.to_datetime(df.iloc[:,2], format = '%Y-%m-%d')
+    except:
+        df.index = [ pd.to_datetime(i, format = '%Y-%m-%d') if '/' not in i else pd.to_datetime(i, format = '%m/%d/%Y')  for i in df.iloc[:,2] ]
     df.index.name = 'date'
     df.drop(df.columns[2], axis = 1, inplace = True)
     df.drop(df.columns[1], axis = 1, inplace = True)
@@ -110,8 +113,10 @@ def cftc( report_type = 'futures_traders', year = 2000 ):
 
 '''
 # quick test
-prod = 'futures_traders_combined'
-year = 2000
-df = get_cftc(prod, year)
+prod = 'futures'
+year = 2020
+df = cftc(prod, year)
 df.head()
+
+df = cftc()
 '''

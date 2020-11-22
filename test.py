@@ -177,7 +177,7 @@ class OtherDataTest(unittest.TestCase, CommonTest):
         print('Test passed.\n')
 
     def test_cftc(self):
-        print('Testing Nasdaq tickers')
+        print('Testing CFTC')
         data = finpie.cftc()
         self.df_helper(data)
         print('Test passed.\n')
