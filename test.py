@@ -176,7 +176,7 @@ class OtherDataTest(unittest.TestCase, CommonTest):
         print('Testing CFTC')
         data = finpie.cftc()
         self.df_helper(data)
-        print('Test passed.\n')'''
+        print('Test passed.\n')
 
     # def test_global_tickers()
 
