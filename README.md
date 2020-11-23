@@ -6,7 +6,7 @@
 
 <p><b>For recreational and educational purposes. Creating easier access to some financial and economic data.</b></p>
 
-<p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p> 
+<p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p>
 
 <p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>The Motley Fool</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and <code>CBOE</code>. The economic data is collected from the <code>OECD database</code> at this point and the news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
@@ -17,7 +17,7 @@
 
 
 <p>
-<i>Changes for v0.132</i>
+<i>Changes for v0.133</i>
 <li> Updated the Windows and Mac Chromedrivers to <code>86.\*.\*\*\*\*.\*\*\*</code> </li>
 <li> Updated code for data from Macrotrends </li>
 <li> Added function to retrive CFTC data to other data section</li>
@@ -119,10 +119,10 @@
 
 ## <div id="A2">Installation</div>
 
-Python3 is required. Google Chrome version <code>85.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>). 
+Python3 is required. Google Chrome version <code>85.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>).
 
 Note that Selenium may not be able to use Chrome in combination with Firewalls and the functions may fail to execute..
- 
+
 ```python
 $ pip install finpie
 ```
@@ -306,9 +306,9 @@ The data is pulled from <code>Yahoo Finance</code>, <code>Marketwatch.com</code>
 import finpie # or import finpie.fundamental_data
 
 # default:
-# source = 'macrotrends' 
+# source = 'macrotrends'
 # freq = 'A'
-fd = finpie.Fundamentals(ticker, source = 'macrotrends', freq = 'A') 
+fd = finpie.Fundamentals(ticker, source = 'macrotrends', freq = 'A')
 
 # source options for financial statements and key metrics:
 # 'yahoo', 'marketwatch', 'macrotrends'
@@ -924,7 +924,7 @@ fd.transcripts(html = True)
 <center><small><small>
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>prepared_remarks</th>      <th>questions_and_answers</th>      <th>call_participants</th>      <th>ticker</th>      <th>html</th>      <th>date</th>     <th>time</th>      <th>quarter</th>      <th>link</th>    </tr>  </thead>  <tbody>    <tr>      <th>2020-07-31</th>      <td>Operator  Good day, everyone. Welcome to the Apple Inc. third-quarter fiscal year 2020 earnings con ...</td>    <td>Operator  [Operator instructions]  Luca Maestri -- Chief Financial Officer  Operator, may we plea ...</td>      <td>Tejas Gala -- Senior Manager, Corporate Finance, and Investor Relations  Tim Cook -- Chief Executiv ...</td>    <td>AAPL</td>     <td>&lt;h2&gt;Prepared Remarks:&lt;/h2&gt; &lt;p&gt;&lt;strong&gt;Operator&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;Good day, everyone. Welcome to the Ap ...</td>      <td>2020/07/31</td>      <td>5:00 p.m. ET</td>      <td>Q3 2020</td>      <td>https://www.fool.com/earnings/call-transcripts/2020/07/31/apple-aapl-q3-2020-earnings-call-transcrip ...</td>    </tr>   <tr>     <th>2020-04-30</th>      <td>Operator  Good day, everyone. Welcome to the Apple Inc. Second Quarter Fiscal Year 2020 Earnings Co ...</td>      <td>Operator  Yes. That will come from Shannon Cross, Cross Research.  Shannon Cross -- Cross Research ...</td>     <td>Tejas Gala -- Senior Manager, Corporate Finance and Investor Relations  Tim Cook -- Chief Executive ...</td>      <td>AAPL</td>     <td>&lt;h2&gt;Prepared Remarks:&lt;/h2&gt; &lt;p&gt;&lt;strong&gt;Operator&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;Good day, everyone. Welcome to the Ap ...</td>     <td>2020/04/30</td>      <td>5:00 p.m. ET</td>      <td>Q2 2020</td>      <td>https://www.fool.com/earnings/call-transcripts/2020/04/30/apple-inc-aapl-q2-2020-earnings-call-trans ...</td>    </tr>    <tr>      <th>2020-01-28</th>      <td>Operator  Good day everyone. Welcome to the Apple Incorporated First Quarter Fiscal Year 2020 Earni ...</td>      <td>Operator  Yes. That will be from Amit Daryanani with Evercore.  Amit Daryanani -- Evercore ISI --  ...</td>      <td>Tejas Gala -- Senior Analyst, Corporate Finance and Investor Relations  Tim Cook -- Chief Executive ...</td>      <td>AAPL</td>      <td>&lt;h2&gt;Prepared Remarks:&lt;/h2&gt; &lt;p&gt;&lt;strong&gt;Operator&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;Good day everyone. Welcome to the App ...</td>      <td>2020/01/28</td>      <td>5:00 p.m. ET</td>      <td>Q1 2020</td>      <td>https://www.fool.com/earnings/call-transcripts/2020/01/28/apple-inc-aapl-q1-2020-earnings-call-trans ...</td>    </tr>  
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>
 </tbody></table>
 
 </center></small></small>
@@ -1076,7 +1076,7 @@ fd.esg_score()
 
 |    | date       |   total\_esg\_risk_score | risk\_category   | risk\_percentile   |   environment\_risk_score |   social\_risk\_score |   ... |
 |---:|:-----------|-----------------------:|:----------------|:------------------|-------------------------:|--------------------:|------------------------:|
-|  0 | 2020-08-25 |                     24 | Medium          | 33rd              |                      0.5 |                  13 |                    ... | 
+|  0 | 2020-08-25 |                     24 | Medium          | 33rd              |                      0.5 |                  13 |                    ... |
 
 </small></small></center>
 
@@ -1447,7 +1447,7 @@ futures_prices('2020-01-06')
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-The functions below retrieve economic data from the OECD nad EIA database. 
+The functions below retrieve economic data from the OECD nad EIA database.
 
 <br>
 
@@ -1457,7 +1457,7 @@ The functions below retrieve economic data from the OECD nad EIA database.
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
-The available OECD timeseries so far include the OECD composite leading indicators, OECD business surveys, OECD main economic indicators and OECD balance of payments. 
+The available OECD timeseries so far include the OECD composite leading indicators, OECD business surveys, OECD main economic indicators and OECD balance of payments.
 
 The data can be accessed by country or for list of countries and for timeseries specific keyword arguments. Not all timeseries are available for all countries at all frequencies.
 
@@ -1468,11 +1468,11 @@ from finpie.economic_data import oecd_data # or import finpie
 
 # Example for instantiating class for Australia and the USA at monthly frequency with national currencies
 oecd = oecd_data.OecdData( country_code = 'USA', freq = 'M', currency_code = 'NXCU')
-# or oecd = finpie.OecdData(...) 
+# or oecd = finpie.OecdData(...)
 
 # Example for instantiating class for all available countries at quarterly frequency with dollar converted currencies
 oecd = oecd_data.OecdData( country_code = 'all', freq = 'Q', currency_code = 'CXCU')
-# or oecd = finpie.OecdData(...) 
+# or oecd = finpie.OecdData(...)
 
 ```
 
@@ -1613,7 +1613,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 <br>
 
-### 
+###
 
 ###	 <div id="A621"> <li> <i> Financial indicators </i> <hr style="border:0.5px solid gray"> </hr> </li> </div>
 <div align="right"><a href="#0">Back to top</a> </div>
@@ -1779,7 +1779,7 @@ oecd.long_term_rates()
 |:--------------------|:----------|:-----------------------------------------------------------------------------------------|:----------|:------------|:--------|:------------|-----------------:|--------:|
 | 1969-07-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-07 | PC          |                0 |    5.8  |
 | 1969-08-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main (including benchmark) | Australia | M           | 1969-08 | PC          |                0 |    5.79 |
-| 1969-09-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main 
+| 1969-09-01 00:00:00 | IRLTLT01  | Interest Rates > Long-term government bond yields > 10-year > Main
 | ... | ...  | ... | ... | ...           | ...| ...         |                ... |   ... |
 
 </small></small></center>
@@ -2221,7 +2221,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <br>
 
 ###	 <div id="A625"> <li> <i>Business tendency and consumer opinion </i><hr style="border:0.5px solid gray"> </hr> </li> </div>
- 
+
 <div align="right"><a href="#0">Back to top</a> </div>
 
 
@@ -2295,7 +2295,7 @@ oecd.consumer_opinion_survey()
 <div align = "right">  <a href="#i52">To index</a> </div>
 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
- 
+
 <br>
 
 ###	 <div id="A626"> <li> <i>National accounts</i><hr style="border:0.5px solid gray"> </hr> </li> </div>
@@ -3264,7 +3264,7 @@ from finpie.economic_data import eia_data # or import finpie
 
 # Example for instantiating class for Australia and the USA at monthly frequency with national currencies
 eia = eia_data.EiaData()
-# or eia = finpie.EiaData(...) 
+# or eia = finpie.EiaData(...)
 eia.freq = 'm' # for monthly frequency if available (default)
 # eia.freq = 'a' for annual frequency if available
 eia.barrels = 'mbblpd' # (default)
@@ -3399,7 +3399,7 @@ eia.last_weekly_balance( breakdown = False )
 <center><small><small>
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>supply</th>      <th>9/11/20</th>      <th>9/4/20</th>      <th>difference_week_ago</th>      <th>percent_change_week_ago</th>      <th>9/13/19</th>      <th>difference_year_ago</th>      <th>percent_change_year_ago</th>    </tr>  </thead>  <tbody>    <tr>      <th>0</th>      <td>Crude Oil</td>      <td>1141.778</td>      <td>1148.294</td>      <td>-6.516</td>      <td>-0.6</td>      <td>1061.944</td>      <td>79.833</td>      <td>7.5</td>    </tr>    <tr>      <th>1</th>      <td>Commercial (Excluding SPR)</td>      <td>496.045</td>      <td>500.434</td>      <td>-4.389</td>      <td>-0.9</td>      <td>417.126</td>      <td>78.918</td>      <td>18.9</td>    </tr>    <tr>      <th>2</th>      <td>Strategic Petroleum Reserve (SPR)</td>      <td>645.733</td>      <td>647.860</td>      <td>-2.127</td>      <td>-0.3</td>      <td>644.818</td>      <td>0.915</td>      <td>0.1</td>    </tr>    <tr>      <th>3</th>      <td>Total Motor Gasoline</td>      <td>231.524</td>      <td>231.905</td>      <td>-0.381</td>      <td>-0.2</td>      <td>229.685</td>      <td>1.840</td>      <td>0.8</td>    </tr>  
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>
 </tbody></table>
 
 
@@ -3446,8 +3446,8 @@ eia.crude_production()
 <center><small><small>
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Field Production of Crude Oil (Thousand Barrels per Day)</th>      <th>East Coast (PADD 1) Field Production of Crude Oil (Thousand Barrels per Day)</th>      <th>Florida Field Production of Crude Oil (Thousand Barrels per Day)</th>      <th>New York Field Production of Crude Oil (Thousand Barrels per Day)</th>      <th>Pennsylvania Field Production of Crude Oil (Thousand Barrels per Day)</th>      <th>Virginia Field Production of Crude Oil (Thousand Barrels per Day)</th>   <th>...</th>   </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>  <th>...</th>   </tr>  </thead>  <tbody>    <tr>      <th>1920-01-15</th>      <td>1097.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    <td>...</td>  </tr>    <tr>      <th>1920-02-15</th>      <td>1145.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>   <td>...</td>   </tr>    <tr>      <th>1920-03-15</th>      <td>1167.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>   <td>...</td>   </tr>  
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>   </tr> 
- 
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>   </tr>
+
 </tbody></table>
 
 </tbody></table>
@@ -3602,9 +3602,9 @@ eia.weekly_refinery_inputs( series = 'inputs' )
 
 <center><small><small>
 
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Refiner Net Input of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Gross Inputs into Refineries  (Thousand Barrels per Day)</th>      <th>Weekly U. S. Operable Crude Oil Distillation Capacity   (Thousand Barrels per Calendar Day)</th>      <th>Weekly U.S. Percent Utilization of Refinery Operable Capacity (Percent)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1982-08-20</th>      <td>11722.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1982-08-27</th>      <td>11918.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1982-09-24</th>      <td>12375.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1982-10-01</th>      <td>12303.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr> 
- <tr>      <th>...</th>       <td>...</td>      <td>...</td>       <td>...</td>      <td>...</td>    </tr> 
- 
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Refiner Net Input of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Gross Inputs into Refineries  (Thousand Barrels per Day)</th>      <th>Weekly U. S. Operable Crude Oil Distillation Capacity   (Thousand Barrels per Calendar Day)</th>      <th>Weekly U.S. Percent Utilization of Refinery Operable Capacity (Percent)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1982-08-20</th>      <td>11722.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1982-08-27</th>      <td>11918.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1982-09-24</th>      <td>12375.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1982-10-01</th>      <td>12303.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>
+ <tr>      <th>...</th>       <td>...</td>      <td>...</td>       <td>...</td>      <td>...</td>    </tr>
+
 </tbody></table>
 
 </small></small></center>
@@ -3669,8 +3669,8 @@ eia.refinery_yield()
 <tbody>    
 <tr>      <th>1993-01-15</th>      <td>NaN</td>      <td>47.5</td>      <td>0.1</td>      <td>9.7</td>      <td>0.5</td>      <td>21.6</td>   <td>...</td>  </tr>    
 <tr>      <th>1993-02-15</th>      <td>NaN</td>      <td>47.1</td>      <td>0.1</td>      <td>9.7</td>      <td>0.5</td>      <td>20.8</td>   <td>...</td>  </tr>    
-<tr>      <th>1993-03-15</th>      <td>NaN</td>      <td>45.4</td>      <td>0.2</td>      <td>9.7</td>      <td>0.4</td>      <td>21.3</td>   <td>...</td>  </tr> 
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>  </tr> 
+<tr>      <th>1993-03-15</th>      <td>NaN</td>      <td>45.4</td>      <td>0.2</td>      <td>9.7</td>      <td>0.4</td>      <td>21.3</td>   <td>...</td>  </tr>
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>   <td>...</td>  </tr>
 </tbody></table>
 
 </small></small></center>
@@ -3807,7 +3807,7 @@ eia.weekly_xm( padds = True )
 
 <center><small><small>
 
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly East Coast (PADD 1) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Midwest (PADD 2) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Gulf Coast (PADD 3) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Rocky Mountain (PADD 4) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly West Coast (PADD 5) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1991-02-08</th>      <td>6877.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-15</th>      <td>6573.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-22</th>      <td>6221.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-03-01</th>      <td>6188.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr> 
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly East Coast (PADD 1) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Midwest (PADD 2) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Gulf Coast (PADD 3) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly Rocky Mountain (PADD 4) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>      <th>Weekly West Coast (PADD 5) Imports of Crude Oil and Petroleum Products  (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1991-02-08</th>      <td>6877.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-15</th>      <td>6573.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-02-22</th>      <td>6221.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1991-03-01</th>      <td>6188.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>
 <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>  
 </tbody></table>
 
@@ -3849,7 +3849,7 @@ eia.monthly_xm( net = True )
 <center><small><small>
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Net Imports of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Persian Gulf Countries of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from OPEC Countries of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Algeria of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Angola of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>      <th>U.S. Net Imports from Congo (Brazzaville) of Crude Oil and Petroleum Products (Thousand Barrels per Day)</th>    </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>1973-01-15</th>      <td>5646.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1973-02-15</th>      <td>6246.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>    <tr>      <th>1973-03-15</th>      <td>6386.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>    </tr>  
- <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr> 
+ <tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>    </tr>
 </tbody></table>
 
 </small></small></center>
@@ -3885,9 +3885,9 @@ eia.weekly_top_imports_by_country( sma = False )
 <center><small><small>
 
 
-<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports from Canada of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Saudi Arabia of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Mexico of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Iraq of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Venezuela of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Colombia of Crude Oil  (Thousand Barrels per Day)</th>  <th>...</th>   </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>   <th></th>   <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>2010-06-04</th>      <td>1869.0</td>      <td>1230.0</td>      <td>1284.0</td>      <td>538.0</td>      <td>638.0</td>      <td>259.0</td>   <td>...</td>  </tr>    <tr>      <th>2010-06-11</th>      <td>2320.0</td>      <td>488.0</td>      <td>871.0</td>      <td>369.0</td>      <td>630.0</td>      <td>243.0</td>  <td>...</td>   </tr>    <tr>      <th>2010-06-18</th>      <td>1875.0</td>      <td>1048.0</td>      <td>1289.0</td>      <td>1069.0</td>      <td>542.0</td>      <td>448.0</td>   <td>...</td>  </tr> 
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Weekly U.S. Imports from Canada of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Saudi Arabia of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Mexico of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Iraq of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Venezuela of Crude Oil  (Thousand Barrels per Day)</th>      <th>Weekly U.S. Imports from Colombia of Crude Oil  (Thousand Barrels per Day)</th>  <th>...</th>   </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>   <th></th>   <th></th>      <th></th>    </tr>  </thead>  <tbody>    <tr>      <th>2010-06-04</th>      <td>1869.0</td>      <td>1230.0</td>      <td>1284.0</td>      <td>538.0</td>      <td>638.0</td>      <td>259.0</td>   <td>...</td>  </tr>    <tr>      <th>2010-06-11</th>      <td>2320.0</td>      <td>488.0</td>      <td>871.0</td>      <td>369.0</td>      <td>630.0</td>      <td>243.0</td>  <td>...</td>   </tr>    <tr>      <th>2010-06-18</th>      <td>1875.0</td>      <td>1048.0</td>      <td>1289.0</td>      <td>1069.0</td>      <td>542.0</td>      <td>448.0</td>   <td>...</td>  </tr>
 
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>     <td>...</td>       <td>...</td>   <td>...</td>   </tr> 
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>     <td>...</td>       <td>...</td>   <td>...</td>   </tr>
 
 
 </tbody></table>
@@ -4039,7 +4039,7 @@ eia.monthly_refinery_stocks()
 <center><small><small>
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>U.S. Crude Oil and Petroleum Products Stocks at Refineries (Thousand Barrels)</th>      <th>U.S. Crude Oil Stocks at Refineries (Thousand Barrels)</th>      <th>U.S. Total Petroleum Products Stocks at Refineries (Thousand Barrels)</th>      <th>U.S. Hydrocarbon Gas Liquids Stocks at Refineries (Thousand Barrels)</th>      <th>U.S. Refinery Stocks of Natural Gas Liquids (Thousand Barrels)</th>      <th>U.S. Refinery Stocks of Ethane (Thousand Barrels)</th>      <th>U.S. Refinery Stocks of Propane (Thousand Barrels)</th>      <th>U.S. Refinery Stocks of Normal Butane (Thousand Barrels)</th>  <th>...</th>  </tr>    <tr>      <th>date</th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>      <th></th>  <th></th>  </tr>  </thead>  <tbody>    <tr>      <th>1981-01-15</th>      <td>NaN</td>      <td>119156.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>  <td>...</td>  </tr>    <tr>      <th>1981-02-15</th>      <td>NaN</td>      <td>125167.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>  <td>...</td>  </tr>    <tr>      <th>1981-03-15</th>      <td>NaN</td>      <td>128448.0</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>      <td>NaN</td>  <td>...</td>  </tr>  
-<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>  <td>...</td>  </tr> 
+<tr>      <th>...</th>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>      <td>...</td>  <td>...</td>  </tr>
 </tbody></table>
 
 
@@ -4219,15 +4219,15 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 The functions below retrieve news headlines based on keyword searches from <code>Barrons</code>, <code>CNBC</code>, the <code>Financial Times</code>, the <code>New York Times</code>, <code>Reuters</code>, <code>Seeking Alpha</code> and the <code>Wall Street Journal</code>. The keyword for Seeking Alpha is simply the relevant stock ticker.
 
 
-The scrape is based on Selenium and may not be very stable if the website layouts change. 
+The scrape is based on Selenium and may not be very stable if the website layouts change.
 
-Furthermore, some of the functions can run for a long-time so it is recommended to use a reasonable <code>datestop</code> value. 
+Furthermore, some of the functions can run for a long-time so it is recommended to use a reasonable <code>datestop</code> value.
 
-Some downloads may fail occasionally as access to the website could be blocked. 
+Some downloads may fail occasionally as access to the website could be blocked.
 
 ```python
 # Importing the NewsData class
-from finpie import NewsData # 
+from finpie import NewsData #
 news = NewsData('XOM', 'exxon mobil')
 news.head = False # default = false, ensures selenium headless mode
 news.verbose = True # default = False, prints total number of collected articles
