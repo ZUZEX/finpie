@@ -118,7 +118,7 @@ class MacrotrendsData( DataBase ):
         #url += f'/{sheet}?freq={self.freq.upper()}'
         driver.get(url)
         #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
-        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
+        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@role="columnheader"]')))
         #except:
         #    if self.verbose:
         #        print('Failed to load page...')
@@ -126,9 +126,13 @@ class MacrotrendsData( DataBase ):
         #        driver.quit()
         #    return 1
 
-        #try:
+
         if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
             element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
+            driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
+            ActionChains(driver).move_to_element(element).click().perform()
+            time.sleep(0.75)
+
         dfs = [ self._get_table(driver.page_source) ]
         bool, check, double_check = True, '', 0
         first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
@@ -137,10 +141,12 @@ class MacrotrendsData( DataBase ):
 
             if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
                 element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
+                driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
                 ActionChains(driver).move_to_element(element).click().perform()
                 time.sleep(0.75)
                 dfs.append( self._get_table(driver.page_source) )
 
+            #ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
             element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
             element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
             driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
@@ -177,8 +183,8 @@ class MacrotrendsData( DataBase ):
 
 # quick test
 
-# m = MacrotrendsData('NFLX', freq = 'Q')
-# m.income_statement()
-# m.cashflow_statement()
-# m.ratios()
-# m.balance_sheet()
+#m = MacrotrendsData('NFLX', freq = 'Q')
+#m.income_statement()
+#m.cashflow_statement()
+#m.ratios()
+#m.balance_sheet()
