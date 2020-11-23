@@ -9,9 +9,9 @@ class CommonTest(object):
 
     def __init__(self):
         # test ticker
-        self.ticker = 'NFLX'
-        self.date = '2020-10-14'
-        self.date2 = '2020-10-29'
+        self.ticker = 'AAPL'
+        self.date = '2020-11-03'
+        self.date2 = '2020-11-11'
 
     def df_helper(self, data):
         # simple test to see if dataframe is returned
@@ -225,7 +225,7 @@ class NewsDataTest(unittest.TestCase, CommonTest):
         unittest.TestCase.__init__(self, *args, **kwargs)
         CommonTest.__init__(self)
         #self.news = finpie.NewsData('XOM', 'exxon mobil')
-        self.news = finpie.NewsData('AAPL', 'apple inc. iphone')
+        self.news = finpie.NewsData('XOM', 'exxon oil')
         #self.news.head = True
 
     def setUp(self):
@@ -307,3 +307,8 @@ if __name__ == '__main__':
 #        print( f'Testing {name} {func}' )
 #        data = getattr(cl, func)()
 #        print(data.head())
+
+#date = '2020-11-03'
+#n = finpie.NewsData('XOM', 'exxon oil')
+#n = finpie.NewsData('NFLX', 'netflix nflx')
+#n.cnbc(datestop = date)
