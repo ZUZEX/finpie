@@ -9,7 +9,7 @@ class CommonTest(object):
 
     def __init__(self):
         # test ticker
-        self.ticker = 'AAPL'
+        self.ticker = 'NFLX'
         self.date = '2020-10-14'
         self.date2 = '2020-10-29'
 
