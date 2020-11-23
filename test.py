@@ -78,7 +78,7 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
 
         self.class_test(e, 'Motley Fool Earnings Calls')
 
-'''class PriceDataTest(unittest.TestCase, CommonTest):
+class PriceDataTest(unittest.TestCase, CommonTest):
 
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
@@ -155,9 +155,9 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
         self.assertTrue( data1.net.dtypes  == 'float' )
         self.assertTrue( data2.net.dtypes  == 'float' )
 
-        print('Test passed.\n')'''
+        print('Test passed.\n')
 
-'''class OtherDataTest(unittest.TestCase, CommonTest):
+class OtherDataTest(unittest.TestCase, CommonTest):
 
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
@@ -181,8 +181,7 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
     # def test_global_tickers()
 
 
-
-'''class EconomicDataTest(unittest.TestCase, CommonTest):
+class EconomicDataTest(unittest.TestCase, CommonTest):
 
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
@@ -217,9 +216,9 @@ class FundamentalDataTest(unittest.TestCase, CommonTest):
     def test_eia(self):
 
         eia = finpie.EiaData()
-        self.class_test(eia, 'EIA data')'''
+        self.class_test(eia, 'EIA data')
 
-'''
+
 class NewsDataTest(unittest.TestCase, CommonTest):
 
     def __init__(self, *args, **kwargs):
@@ -293,7 +292,7 @@ class NewsDataTest(unittest.TestCase, CommonTest):
         data = self.news.ft( datestop = self.date )
         self.df_helper(data)
         self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
-        print('Test passed. \n')'''
+        print('Test passed. \n')
 
 
 if __name__ == '__main__':
