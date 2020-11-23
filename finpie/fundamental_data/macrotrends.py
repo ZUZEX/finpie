@@ -118,7 +118,7 @@ class MacrotrendsData( DataBase ):
         #url += f'/{sheet}?freq={self.freq.upper()}'
         driver.get(url)
         #print(driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text)
-        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@role="columnheader"]')))
+        #element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@role="columnheader"]')))
         #except:
         #    if self.verbose:
         #        print('Failed to load page...')
@@ -126,7 +126,10 @@ class MacrotrendsData( DataBase ):
         #        driver.quit()
         #    return 1
 
-
+        try:
+            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//button[contains(text(), "Accept all")]')))
+        except:
+            pass
         if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) != 0:
             element = driver.find_element_by_xpath('//button[contains(text(), "Accept all")]')
             driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
@@ -147,6 +150,8 @@ class MacrotrendsData( DataBase ):
                 dfs.append( self._get_table(driver.page_source) )
 
             #ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
+            element = driver.find_elements_by_xpath('//div[@role="gridcell"]')[-1]
+            driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
             element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//div[@class="jqx-reset jqx-icon-arrow-right"]')))
             element = driver.find_element_by_xpath('//div[@class="jqx-reset jqx-icon-arrow-right"]')
             driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});", element)
@@ -159,14 +164,14 @@ class MacrotrendsData( DataBase ):
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
             except:
                 first = driver.find_elements_by_xpath( '//div[@role="columnheader"]')[2].text
-            ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
-
+            #ActionChains(driver).release(element).move_by_offset(-50, -50).perform()
+            time.sleep(1)
             if len(driver.find_elements_by_xpath('//button[contains(text(), "Accept all")]')) == 0:
                 dfs.append( self._get_table(driver.page_source) )
 
 
             if check == first: #driver.find_elements_by_xpath( '//div[@role="columnheader"]')[-1].text:
-                if double_check == 3:
+                if double_check == 5:
                     bool = False
                 double_check += 1
 
@@ -184,7 +189,9 @@ class MacrotrendsData( DataBase ):
 # quick test
 
 #m = MacrotrendsData('NFLX', freq = 'Q')
+#m.head = True
 #m.income_statement()
+
 #m.cashflow_statement()
 #m.ratios()
 #m.balance_sheet()
