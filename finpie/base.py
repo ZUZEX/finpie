@@ -42,7 +42,6 @@ class DataBase(object):
 		self.download_path = os.getcwd()
 		self.chromedriver_path = os.path.dirname(__file__)
 
-
 	def _get_chromedriver_path(self):
 
 		filepath = self.chromedriver_path
@@ -62,7 +61,7 @@ class DataBase(object):
 			return filepath + 'chromedriver_windows.exe'
 
 
-	def _load_driver(self, caps = 'none'):
+	def _load_driver(self, caps = 'none', accept_insecure = False):
 
 		options = webdriver.ChromeOptions()
 		prefs = {}
@@ -76,6 +75,9 @@ class DataBase(object):
 		options.add_argument('--no-sandbox')
 		options.add_argument('--disable-setuid-sandbox')
 		options.add_argument('--start-maximized')
+		if accept_insecure:
+			options.add_argument('--ignore-ssl-errors=yes')
+			options.add_argument('--ignore-certificate-errors')
 
 		user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'
 		options.add_argument(f'user-agent={user_agent}')
