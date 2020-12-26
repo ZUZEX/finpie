@@ -100,7 +100,7 @@ def yahoo_option_chain( ticker ):
 
 def cboe_option_chain( ticker, head = False):
 
-    db = DataBase()
+    '''db = DataBase()
     db.head = head
     url = 'http://www.cboe.com/delayedquote/quote-table-download'
     try:
@@ -130,7 +130,9 @@ def cboe_option_chain( ticker, head = False):
     calls = df.loc[:, [ col for col in df.columns if '.1' not in col ] ]
     calls.drop('puts', inplace = True, axis = 1)
 
-    return calls, puts
+    return calls, puts'''
+
+    raise ValueError('This function is depreciated due to a change in the CBOE website. Will try to replace this soon.')
 
 
 

@@ -454,6 +454,7 @@ class NewsData(CleanNews):
 
             time.sleep(5)
 
+
             passed = False
             try:
                 xpath = '//div[@id="px-captcha"]'
@@ -465,6 +466,19 @@ class NewsData(CleanNews):
                 passed = True
             except:
                 pass
+
+            try:
+                xpath = '//div[@id="px-captcha"]'
+                element = driver.find_element_by_xpath(xpath)
+                ActionChains(driver).click_and_hold(element).perform()
+                time.sleep(7)
+                ActionChains(driver).release(element).perform()
+                passed = True
+            except:
+                pass
+
+            time.sleep(10)
+            driver.switch_to.window(driver.window_handles[0])
 
             element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//article')))
             k = 0
@@ -721,7 +735,15 @@ class NewsData(CleanNews):
             except:
                 pass
             #_evidon-barrier-wrapper
-
+            try:
+                xpath = '//div[@id="onetrust-consent-sdk"]'
+                element = driver.find_element_by_xpath(xpath)
+                driver.execute_script("""
+                var element = arguments[0];
+                element.parentNode.removeChild(element);
+                """, element)
+            except:
+                pass
 
             bool = True
             while bool: #newnumber != oldnumber:
@@ -1155,12 +1177,15 @@ class NewsData(CleanNews):
 
 
 
-
-#news = NewsData('AAPL', 'apple inc. iphone')
-#datestop = '2010-09-09'
-#news.head = True
+'''
+news = NewsData('AAPL', 'apple inc. iphone')
+datestop = '2020-12-09'
+news.head = True
 #news.wsj(datestop = datestop)
-#df = news.seeking_alpha()
+df = news.reuters(datestop = datestop)
+'''
+
+
 
 
 '''
