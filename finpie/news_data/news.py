@@ -757,7 +757,7 @@ class NewsData(CleanNews):
                     time.sleep(2)
 
                     if datestop:
-                        d = driver.find_elements_by_xpath('//h5[@class="search-result-timestamp"]')[-1].text.split(' ')
+                        d = driver.find_elements_by_xpath('//h5[@class="search-result-timestamp"]')[-1].get_attribute('innerHTML').split(' ')
 
                         if dt.datetime(int(d[2]), int(self.months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
                             bool = False
@@ -848,7 +848,14 @@ class NewsData(CleanNews):
             # Set and retrive url
             driver.get(url)
 
-            # close popup
+            try:
+                xpath = '//button[@id="onetrust-accept-btn-handler"]'
+                element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, xpath)))
+                driver.find_element_by_xpath(xpath).click()
+            except:
+                pass
+
+            #
             try:
                 element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//span[@class="SearchResult-publishedDate"]')))
             except:
@@ -869,11 +876,11 @@ class NewsData(CleanNews):
             except:
                 pass
 
-            element = driver.find_element_by_tag_name('head')
-            driver.execute_script("""
-            var element = arguments[0];
-            element.parentNode.removeChild(element);
-            """, element)
+            #element = driver.find_element_by_tag_name('head')
+            #driver.execute_script("""
+            #var element = arguments[0];
+            #element.parentNode.removeChild(element);
+            #""", element)
 
             k = 0
             t = 100
@@ -1182,8 +1189,13 @@ news = NewsData('AAPL', 'apple inc. iphone')
 datestop = '2020-12-09'
 news.head = True
 #news.wsj(datestop = datestop)
-df = news.reuters(datestop = datestop)
+df = news.cnbc(datestop = datestop)
+
 '''
+
+
+
+
 
 
 
