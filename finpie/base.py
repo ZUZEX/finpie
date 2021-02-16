@@ -137,28 +137,14 @@ class DataBase(object):
 		Converts string columns to floats replacing percentage signs and T, B, M, k
 		to trillions, billions, millions and thousands.
 		'''
+		df = df.replace({'T': 'E12', 'B': 'E9', 'M': 'E6', 'K': 'E3', 'k': 'E3', '%': 'E-2', ',': ''}, regex=True)
+
 		for col in df.columns:
 			try:
-				df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
-					.replace('T', '', regex = True).replace(',', '', regex = True) \
-					.astype('float') * 1000000000000) #.astype('str')
-				df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
-					.replace('B', '', regex = True).replace(',', '', regex = True) \
-					.astype('float') * 1000000000) #.astype('str')
-				df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
-					.replace('M', '', regex = True).replace(',', '', regex = True) \
-					.astype('float') * 1000000) #.astype('str')
-				df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
-					.replace('k', '', regex = True).replace(',', '', regex = True) \
-					.astype('float') * 1000) #.astype('str')
-				df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
-					.replace('%', '', regex = True).replace(',', '', regex = True) \
-					.astype('float') / 100) #.astype('str')
-				df.loc[df[col].str.contains('K'), col] = (df[col][df[col].str.contains('K', case=True)] \
-					.replace('K', '', regex = True) \
-					.astype('float') * 1000) #.astype('str')
+				df[col] = df[col].astype(float)
 			except:
 				continue
+
 		return df
 
 

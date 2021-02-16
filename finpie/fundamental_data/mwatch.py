@@ -47,10 +47,10 @@ class MwatchData( DataBase ):
             print('Please specify annual or quartlery frequency.')
             return None
         soup = self._get_session(url)
-        df = pd.concat( [ pd.read_html(str(s))[0] for s in soup.find('div', class_ = 'financials').find_all('table') ] )
+        df = pd.concat( [ pd.read_html(str(s.find('table')))[0] for s in soup.find_all('div', class_='financials') ] )
         df = df.astype(str)
         df.iloc[:,0][ df.iloc[:,0] == 'nan' ]= df[ df.iloc[:,0] == 'nan' ].iloc[:,-1]
-        df = df.iloc[:,:-2]
+        df = df.iloc[:,:-1]
         df = df.transpose()
         df.index.name = 'date'
         df.columns = df.iloc[0]
@@ -65,27 +65,9 @@ class MwatchData( DataBase ):
         columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
         df.columns = [ str(col).replace('\xa0', ' ') for col in columns ]
         df = df.astype('str')
-        '''for col in df.columns:
-            try:
-                df.loc[df[col].str.contains('T'), col] = (df[col][df[col].str.contains('T')] \
-                                                        .replace('T', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000000000).astype('str')
-                df.loc[df[col].str.contains('B'), col] = (df[col][df[col].str.contains('B', case=True)] \
-                                                        .replace('B', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000000).astype('str')
-                df.loc[df[col].str.contains('M'), col] = (df[col][df[col].str.contains('M', case=True)] \
-                                                        .replace('M', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000000).astype('str')
-                df.loc[df[col].str.contains('k'), col] = (df[col][df[col].str.contains('k', case=True)] \
-                                                        .replace('k', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') * 1000).astype('str')
-                df.loc[df[col].str.contains('%'), col] = (df[col][df[col].str.contains('%', case=True)] \
-                                                        .replace('%', '', regex = True).replace(',', '', regex = True) \
-                                                        .astype('float') / 100).astype('str')
-            except:
-                continue'''
+
         df.replace(',', '', regex = True, inplace = True)
-        df.columns = [ col.replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
+        df.columns = [ col.split(' ', 1)[0].replace(' ', '_').replace('/','_').replace('.', '').replace(',', '').replace('&', 'and').lower() for col in df.columns ]
         return self._col_to_float( df )
 
 
