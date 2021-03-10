@@ -141,16 +141,18 @@ class CleanNews(DataBase):
         data.reset_index(drop = True, inplace = True)
         return data
 
-    def filter_data(self, data):
+    def filter_data(self, data, filter = 'both'):
         '''
+        filter options = 'headline', 'description', 'both'
 
         '''
+
         filtered = []
         for i, n in enumerate(data.headline):
             for f in self.filterz:
-                if f in n.lower():
+                if f in n.lower() and filter in ['headline', 'both']:
                     filtered.append( data.id.iloc[i] )
-                elif f in data.description.iloc[i].lower():
+                elif f in data.description.iloc[i].lower() and filter in ['description', 'both']:
                     filtered.append( data.id.iloc[i] )
                 else:
                     continue

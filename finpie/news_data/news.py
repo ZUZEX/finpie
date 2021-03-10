@@ -609,104 +609,180 @@ class NewsData(CleanNews):
         return data
 
 
-    def barrons(self, datestop = False):
+    def barrons(self, datestop = False, companyNews = False):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         #                            Barrons
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # problem with older data having concatenated strings in their headlines
-        source = 'barrons'
-        url = 'https://www.barrons.com/search?keyword=' + self.keywords + '&numResults=75&sort=date-desc&author=&searchWindow=0&minDate=&maxDate=&source=barrons&source=other&source=press'
-
         driver = self._load_driver(caps = 'normal')
+        source = 'barrons'
 
-        try:
-            # Set and retrive url
-            driver.get(url)
+        if companyNews:
 
-            # close popup
-            contents = []
+            url = f'https://www.barrons.com/quote/stock/{self.ticker}'
+
+
             try:
-                contents.append( bs( driver.page_source, "lxml" ).find('div', class_ = 'section-content').find_all('li' ) )
-            except:
-                pass
-            bool = True
-            while bool:
-                try:
-                    driver.get(driver.find_element_by_xpath('//a[@class="pull-right pageLink pageLink--next"]').get_attribute('href'))
-                    contents.append( bs( driver.page_source, "lxml" ).find('div', class_ = 'section-content').find_all('li' ) )
-                    if len(driver.find_elements_by_class_name('headline')) == 0 :
-                        bool = False
+                # Set and retrive url
+                driver.get(url)
+
+                xpath = '//div[@class="news bgNews more-news-capable"]'
+                element = driver.find_element_by_xpath(xpath)
+
+                bool = True
+                while bool:
+                    driver.execute_script('arguments[0].scrollTop += 1000', element)
                     if datestop:
-                        d = driver.find_elements_by_xpath('//span[@class="date"]')[-1].text
+                        d = driver.find_elements_by_xpath('//span[@class="date"]')[0].text
                         if pd.to_datetime( d ) < pd.to_datetime( datestop ):
                             bool = False
-                except:
-                    bool = False
+                    try:
+                        xpath = '//div[@class="no-more-news"][contains(@style,"display: block")]'
+                        driver.find_element_by_xpath(xpath)
+                        bool = False
+                    except:
+                        pass
 
-            driver.close()
-            driver.quit()
-        except:
-            print('Failed to load data...\n')
-            driver.quit()
-            return None
+                articles = bs( driver.page_source, "lxml" ).find('ul', class_ = 'news-columns').find_all('li' )
 
-        headline, link, date, description, author, tag, newspaper = [], [], [], [], [], [], []
+                driver.close()
+                driver.quit()
+            except:
+                print('Failed to load data...\n')
+                driver.quit()
+                return None
 
-        for articles in contents:
-            #soup  = bs( content, "lxml" )
-            #articles  = soup.find('div', class_ = 'section-content').find_all('li' )
+            headline, link, date, description, author, tag, newspaper = [], [], [], [], [], [], []
             for article in articles:
                 link.append( article.find('a').get('href') )
-                headline.append( article.find('span', class_ = 'headline' ).text )
+                headline.append( article.find('a').text )
                 date.append( article.find('span', class_ = 'date' ).text )
-                author.append( article.find('span', class_ = 'author' ).text )
                 newspaper.append( article.find('span', class_ = 'provider').text )
+
+            data = pd.DataFrame(
+                    {
+                        'link': link,
+                        'headline': headline,
+                        'date': date,
+                        'newspaper': newspaper,
+                    }
+                )
+
+            headline, link, date, description, author, tag = [], [], [], [], [], []
+            contents = None
+
+            data['date_retrieved'] = dt.datetime.today()
+            data['ticker'] = self.ticker
+            data['comments'] = 'nan'
+            data['tag'] = 'nan'
+            data['search_term'] = 'nan'
+
+            data['id'] = data['newspaper'] +  data['headline'] + data['link']
+            columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
+            for col in columns:
+                if col not in data.columns:
+                    data[col] = 'nan'
+            data['source'] = source
+            data = self._clean_dates(data)
+
+            if self.verbose:
+                print('-' * 78)
+                print(source.upper(), 'done.', len(data), 'articles collected.')
+                print('-' * 78)
+
+            return data
+
+        else:
+            url = 'https://www.barrons.com/search?keyword=' + self.keywords + '&numResults=75&sort=date-desc&author=&searchWindow=0&minDate=&maxDate=&source=barrons&source=other&source=press'
+
+            try:
+                # Set and retrive url
+                driver.get(url)
+
+                # close popup
+                contents = []
                 try:
-                    description.append( article.find('p').text )
+                    contents.append( bs( driver.page_source, "lxml" ).find('div', class_ = 'section-content').find_all('li' ) )
                 except:
-                    description.append( 'nan' )
+                    pass
+                bool = True
+                while bool:
+                    try:
+                        driver.get(driver.find_element_by_xpath('//a[@class="pull-right pageLink pageLink--next"]').get_attribute('href'))
+                        contents.append( bs( driver.page_source, "lxml" ).find('div', class_ = 'section-content').find_all('li' ) )
+                        if len(driver.find_elements_by_class_name('headline')) == 0 :
+                            bool = False
+                        if datestop:
+                            d = driver.find_elements_by_xpath('//span[@class="date"]')[-1].text
+                            if pd.to_datetime( d ) < pd.to_datetime( datestop ):
+                                bool = False
+                    except:
+                        bool = False
+
+                driver.close()
+                driver.quit()
+            except:
+                print('Failed to load data...\n')
+                driver.quit()
+                return None
+
+            headline, link, date, description, author, tag, newspaper = [], [], [], [], [], [], []
+
+            for articles in contents:
+                #soup  = bs( content, "lxml" )
+                #articles  = soup.find('div', class_ = 'section-content').find_all('li' )
+                for article in articles:
+                    link.append( article.find('a').get('href') )
+                    headline.append( article.find('span', class_ = 'headline' ).text )
+                    date.append( article.find('span', class_ = 'date' ).text )
+                    author.append( article.find('span', class_ = 'author' ).text )
+                    newspaper.append( article.find('span', class_ = 'provider').text )
+                    try:
+                        description.append( article.find('p').text )
+                    except:
+                        description.append( 'nan' )
 
 
-        data = pd.DataFrame(
-                {
-                    'link': link,
-                    'headline': headline,
-                    'date': date,
-                    'description': description,
-                    'newspaper': newspaper,
-                    'author': author
-                }
-            )
+            data = pd.DataFrame(
+                    {
+                        'link': link,
+                        'headline': headline,
+                        'date': date,
+                        'description': description,
+                        'newspaper': newspaper,
+                        'author': author
+                    }
+                )
 
-        headline, link, date, description, author, tag = [], [], [], [], [], []
-        contents = None
+            headline, link, date, description, author, tag = [], [], [], [], [], []
+            contents = None
 
-        data['date_retrieved'] = dt.datetime.today()
-        data['ticker'] = self.ticker
-        data['comments'] = 'nan'
-        data['tag'] = 'nan'
+            data['date_retrieved'] = dt.datetime.today()
+            data['ticker'] = self.ticker
+            data['comments'] = 'nan'
+            data['tag'] = 'nan'
 
-        data['search_term'] = self.keywords
-
-
-        data['id'] = data['newspaper'] +  data['headline'] + data['link']
-        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
-        for col in columns:
-            if col not in data.columns:
-                data[col] = 'nan'
-        data['source'] = source
-
-        data = self._clean_dates(data)
+            data['search_term'] = self.keywords
 
 
-        if self.verbose:
-            print('-' * 78)
-            print(source.upper(), 'done.', len(data), 'articles collected.')
-            print('-' * 78)
+            data['id'] = data['newspaper'] +  data['headline'] + data['link']
+            columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
+            for col in columns:
+                if col not in data.columns:
+                    data[col] = 'nan'
+            data['source'] = source
 
-        return data
+            data = self._clean_dates(data)
+
+
+            if self.verbose:
+                print('-' * 78)
+                print(source.upper(), 'done.', len(data), 'articles collected.')
+                print('-' * 78)
+
+            return data
 
 
     def reuters(self, datestop = False):
@@ -1185,388 +1261,13 @@ class NewsData(CleanNews):
 
 
 '''
-news = NewsData('AAPL', 'apple inc. iphone')
-datestop = '2020-12-09'
+news = NewsData('SCHN', '')
+#datestop = '2020-12-09'
 news.head = True
 #news.wsj(datestop = datestop)
-df = news.cnbc(datestop = datestop)
+df = news.seeking_alpha(datestop = datestop)
+df = news.seeking_alpha(press_releases = True)
 
-'''
 
-
-
-
-
-
-
-
-'''
-source = 'wsj'
-
-# change to date today
-td_1 = dt.datetime.today() - dt.timedelta(days = 320)
-y, m, d = news._format_date(td_1)
-start_date = y + '/' + m + '/' + d
-td_2 = dt.datetime.today()
-y, m, d = news._format_date(td_2)
-end_date = y + '/' + m + '/' + d
-
-url = 'https://www.wsj.com/search?&query=' + news.keywords.replace(' ', '%20')  + '&min-date=' + start_date + '&max-date=' + end_date + '&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
-
-driver = news._load_driver(caps = 'none')
-
-try:
-    # Set and retrive url
-    driver.get(url)
-    time.sleep(3)
-    element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-    bool2 = True
-    contents = []
-    #max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
-    max = int(driver.find_element_by_xpath('//div[@class="WSJTheme--dropdown--3cxtZgDl "]/following::span[contains(text(), "of")]').text.replace('of ', ''))
-    contents.append(driver.page_source)
-    for i in range(max-1):
-        try:
-            time.sleep(random.randint(0,2))
-            driver.get(url + f'&page={i+2}')
-            element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-            driver.find_element_by_xpath('//a[contains(text(), "next")]').click()
-            contents.append(driver.page_source)
-        except:
-            try:
-                #driver.get(url)
-                driver.get(url + f'&page={i+2}')
-                #driver.find_element_by_xpath('//a[contains(text(), "next")]').click()
-                element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-                contents.append(driver.page_source)
-            except:
-                driver.get(url + f'&page={i+2}')
-                #element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-                time.sleep(5)
-                contents.append(driver.page_source)
-
-        if datestop:
-            try:
-                #d = driver.find_elements_by_xpath('//time[@class="date-stamp-container"]')[-1].text
-                d = driver.find_elements_by_xpath('//p[contains(@class, "WSJTheme--timestamp")]')[-1].text
-                d = pd.to_datetime(' '.join( d.split(' ')[:3] ))
-                if d < pd.to_datetime(datestop):
-                    bool2 = False
-                    break
-            except:
-                #d = driver.find_elements_by_xpath('//time[@class="date-stamp-container highlight"]')[-1].text
-                d = driver.find_elements_by_xpath('//p[contains(@class, "WSJTheme--timestamp")]')[-1].text
-
-                pass
-
-
-    if bool2:
-        bool = True
-    else:
-        bool = False
-        # Record progress
-        #_print_progress(i, max-1)
-    contents.append(driver.page_source)
-
-    while bool:
-        try:
-            td_2 = td_1
-            y, m, d = news._format_date(td_2)
-            start_date = y + '/' + m + '/' + d
-            td_1 = td_1 - dt.timedelta(days = 320)
-            y, m, d = news._format_date(td_1)
-            end_date = y + '/' + m + '/' + d
-
-            url = 'https://www.wsj.com/search?&query=' + news.keywords.replace(' ', '%20')  + '&min-date=' + start_date + '&max-date=' + end_date + '&sort=date-desc&source=wsjarticle,wsjblogs,wsjvideo,interactivemedia,sitesearch,press,newswire,wsjpro'
-
-            driver.get(url)
-
-            element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-
-            #driver.switch_to.frame(0)
-            #driver.find_elements_by_xpath('//article')
-
-
-            #max = int( driver.find_element_by_xpath('//div[@class="results-menu-wrapper bottom"]//li[@class="results-count"]').text.replace('of ', '') )
-            max = int(driver.find_element_by_xpath('//div[@class="WSJTheme--dropdown--3cxtZgDl "]/following::span[contains(text(), "of")]').text.replace('of ', ''))
-            contents.append(driver.page_source)
-
-            for i in range(max-1):
-                try:
-                    time.sleep(random.randint(0,2))
-                    driver.get(url + f'&page={i+2}')
-                    #driver.find_element_by_xpath('//a[contains(text(), "next")]').click()
-                    element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-                    contents.append(driver.page_source)
-                except:
-                    try:
-                        driver.get(url + f'&page={i+2}')
-                        #driver.get(url)
-                        #driver.find_element_by_xpath('//a[contains(text(), "next")]').click()
-                        element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "next")]')))
-                        contents.append(driver.page_source)
-                    except:
-                        driver.get(url + f'&page={i+2}')
-                        contents.append(driver.page_source)
-
-                if datestop:
-                    #d = driver.find_elements_by_xpath('//time[@class="date-stamp-container"]')[-1].text
-                    d = driver.find_elements_by_xpath('//p[contains(@class, "WSJTheme--timestamp")]')[-1].text
-                    d = pd.to_datetime(' '.join( d.split(' ')[:3] ))
-                    if d > pd.to_datetime(datestop):
-                        bool = False
-        except:
-            bool = False
-
-    driver.close()
-    driver.quit()
-except:
-    print('Failed to load data...\n')
-    driver.quit()
-    return None
-
-headline, link, date, description, author, tag = [], [], [], [], [], []
-
-
-
-for content in contents:
-    soup  = bs( content, "lxml" )
-    #articles  = soup.find_all('div', class_ = 'headline-item' )
-    articles  = soup.find_all('article')
-
-    for article in articles:
-
-        try:
-            date.append( article.find('p', class_ = re.compile('^WSJTheme--timestamp') ).text )
-        except:
-            continue
-
-        headline.append( article.find('h3').text.strip() )
-        link.append( article.find('h3').find('a').get('href') )
-        try:
-            tag.append( article.find('li', class_ = re.compile('^WSJTheme--type') ).text )
-        except:
-            tag.append( 'nan' )
-        #date.append( article.find('time').text )
-
-        try:
-            #author.append( article.find('li', class_ = 'byline').text.replace('By', '').strip() )
-            author.append( article.find('p', class_ = re.compile('^WSJTheme--byline') ).text.strip() )
-        except:
-            author.append( 'nan' )
-        try:
-            description.append( article.find('p', class_ = re.compile('^WSJTheme--summary') ).text.strip() )
-        except:
-            description.append( 'nan' )
-
-data = pd.DataFrame(
-        {
-            'link': link,
-            'headline': headline,
-            'date': date,
-            'description': description,
-            'author': author,
-            'tag': tag
-        }
-    )
-data
-data['date_retrieved'] = dt.datetime.today()
-data['ticker'] = news.ticker
-data['newspaper'] = 'WSJ'
-data['search_term'] = news.keywords
-
-data['id'] = data['newspaper'] +  data['headline'] + data['link']
-columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
-for col in columns:
-    if col not in data.columns:
-        data[col] = 'nan'
-
-data['source'] = source
-
-data = news._clean_dates(data)
-
-
-data
-'''
-
-
-'''
-# Bloomberg data
-def bloomberg(self, datestop = False):
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    #                            Bloomberg
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    source = 'bloomberg'
-    url = 'https://www.bloomberg.com/search?query='  + self.keywords.replace(' ', '%20')
-
-    driver = self._load_driver(caps = 'none')
-
-    try:
-        # Set and retrive url
-        driver.get(url)
-
-        time.sleep(2)
-
-        #
-        sec = len(driver.find_elements_by_xpath('//div[@id="px-captcha"]'))
-        if sec != 0 and self.head == False:
-            print('Failed. Run in non-headless (news.head = True) mode to solve captcha..\n')
-            return pd.DataFrame([1,1,1])
-            driver.quit()
-        else:
-            m = 0
-            while len(driver.find_elements_by_xpath('//div[@id="px-captcha"]')) > 0:
-                if m == 0:
-                    print('Please solve captcha...')
-                    m += 1
-                time.sleep(1)
-        time.sleep(5)
-
-
-        passed = False
-        try:
-            driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-            time.sleep(1)
-            element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
-            ActionChains(driver).move_to_element( element).click().perform()
-            time.sleep(1)
-            driver.switch_to.default_content()
-            passed = True
-        except:
-            pass
-
-
-
-        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//button[@title="Load More Results"]')))
-
-        # click sorting thing
-        element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
-        ActionChains(driver).move_to_element( element).click().perform()
-
-        while len( driver.find_elements_by_xpath('//a[@class="link__a4d2830d active__b9e37c7f"][contains(text(), "By Newest")]') ) < 1:
-            passed = False
-            try:
-                driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-                time.sleep(1)
-                element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
-                ActionChains(driver).move_to_element( element).click().perform()
-                time.sleep(1)
-                driver.switch_to.default_content()
-                passed = True
-            except:
-                pass
-            element = driver.find_element_by_xpath('//a[contains(text(), "By Newest")]')
-            ActionChains(driver).move_to_element( element).click().perform()
-            time.sleep(0.5)
-        time.sleep(3)
-
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        #driver.find_elements_by_class_name('link__a4d2830d ')[7].click()
-
-
-        k = 0
-        while k < 300:
-            bool = True
-            new_height = 0
-            while bool: #newnumber != oldnumber:
-                # do it with xpath
-                #oldnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
-                if not passed:
-                    try:
-                        driver.switch_to.frame(driver.find_element_by_id('sp_message_iframe_244702'))
-                        time.sleep(1)
-                        element = driver.find_element_by_xpath('//button[@title="Yes, I Accept"]')
-                        ActionChains(driver).move_to_element( element).click().perform()
-                        time.sleep(1)
-                        driver.switch_to.default_content()
-                        passed = True
-                    except:
-                        pass
-
-                try:
-                    element = driver.find_element_by_xpath('//button[@title="Load More Results"]')
-                    driver.execute_script("arguments[0].scrollIntoView();", element)
-                    element.click()
-                    #ActionChains(driver).move_to_element( element).click().perform()
-                    #time.sleep(random.randint(1,2))
-                    time.sleep( 0.5 )
-                    k = 0
-                    if datestop:
-                        d = driver.find_elements_by_xpath( '//div[@class="publishedAt__79f8aaad"]' )[-1].text
-                        if pd.to_datetime( d ) < pd.to_datetime( datestop ):
-                            k = 1000
-                            bool = False
-                except:
-                    bool = False
-
-
-                    k += 1
-                    time.sleep(0.5)
-
-
-        content = driver.page_source
-
-        driver.close()
-        driver.quit()
-    except:
-        print('Failed to load data...\n')
-        driver.quit()
-        return None
-
-    headline, link, date, description, author, tag = [], [], [], [], [], []
-
-    soup  = bs( content, "lxml" )
-    articles  = soup.find_all('div', class_ = 'storyItem__192ee8af' )
-
-    for article in articles:
-        link.append( article.find('a').get('href') )
-        headline.append( article.find('a', class_ = 'headline__55bd5397').text )
-        date.append( article.find('div', class_ = 'publishedAt__79f8aaad' ).text )
-        tag.append( article.find('div', class_ = 'eyebrow__4b7f0542').text )
-        try:
-            description.append( article.find('a', class_ = 'summary__bbda15b4' ).text )
-        except:
-            description.append( 'nan' )
-        try:
-            author.append( article.find('div', class_ = 'summary__bbda15b4').text.replace('By ', '') )
-        except:
-            author.append( 'nan' )
-
-
-    data = pd.DataFrame(
-            {
-                'link': link,
-                'headline': headline,
-                'date': date,
-                'description': description,
-                'tag': tag,
-                'author': author
-            }
-        )
-
-    data['date_retrieved'] = dt.datetime.today()
-    data['ticker'] = self.ticker
-    data['comments'] = 'nan'
-    data['newspaper'] = 'Bloomberg'
-
-    data['search_term'] = self.keywords
-
-    data['id'] = data['newspaper'] +  data['headline'] + data['link']
-    columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
-    for col in columns:
-        if col not in data.columns:
-            data[col] = 'nan'
-
-    data['source'] = source
-
-    data = self._clean_dates(data)
-
-
-    if self.verbose:
-        print('-' * 78)
-        print(source.upper(), 'done.', len(data), 'articles collected.')
-        print('-' * 78)
-
-    return data
+df
 '''
