@@ -14,6 +14,14 @@
 
 <br>
 
+
+<p>
+<i>Changes for v0.1361</i>
+<li> Added chromedriver versions 89.0.4389.23</li>
+<li> Added a linux driver </li>
+<li> Added a country code option for market watch tickers </li>
+<p>
+
 <p>
 <i>Changes for v0.136</i>
 <li> Updated NewsData.barrons() to enable article collection from Barrons' company site</li>

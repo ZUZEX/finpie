@@ -253,13 +253,13 @@ class YahooData( DataBase ):
 
       section = soup.find(attrs = {'data-test': 'qsp-sustainability'})
       df = pd.DataFrame( {
-        'total_esg_risk_score': np.float(section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').text),
+        'total_esg_risk_score': float(section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').text),
         'risk_category': section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').find_next('div').find_next('div').text,
         'risk_percentile': section.find('div', string = 'Total ESG Risk score').find_next('div').find_next('div').find_next('span').text.replace(' percentile', ''),
-        'environment_risk_score': np.float(section.find('div', string = 'Environment Risk Score').find_next('div').find_next('div').text),
-        'social_risk_score': np.float(section.find('div', string = 'Social Risk Score').find_next('div').find_next('div').text),
-        'governance_risk_score': np.float(section.find('div', string = 'Governance Risk Score').find_next('div').find_next('div').text),
-        #'controversy_level': np.float(section.find('span', string = 'Controversy Level').find_next('div', class_ = 'Mt(15px)').find_next('div').find_next('div').find_next('div').find_next('div').find_next('div').text),
+        'environment_risk_score': float(section.find('div', string = 'Environment Risk Score').find_next('div').find_next('div').text),
+        'social_risk_score': float(section.find('div', string = 'Social Risk Score').find_next('div').find_next('div').text),
+        'governance_risk_score': float(section.find('div', string = 'Governance Risk Score').find_next('div').find_next('div').text),
+        #'controversy_level': float(section.find('span', string = 'Controversy Level').find_next('div', class_ = 'Mt(15px)').find_next('div').find_next('div').find_next('div').find_next('div').find_next('div').text),
         'ticker' : self.ticker }, index = [0] )
       df.index = [pd.to_datetime( dt.datetime.today().date() )]
       df.index.name = 'date'
@@ -291,7 +291,7 @@ class YahooData( DataBase ):
        soup = self._get_session(url)
 
        try:
-           no_of_employees = np.int( soup.find('span', string = 'Full Time Employees').find_next('span').text.replace(',', '') )
+           no_of_employees = int( soup.find('span', string = 'Full Time Employees').find_next('span').text.replace(',', '') )
        except:
            no_of_employees = np.nan
        df = pd.DataFrame( { 'company_name': soup.find_all('section')[1].find('h3').text,
@@ -314,7 +314,7 @@ class YahooData( DataBase ):
 
        df = pd.read_html( str( soup.find('table') ) )[0]
        df['Gender'] = [ 'male' if 'Mr.' in n else 'female' for n in df.Name ]
-       df['Age_at_end_of_year'] = [ dt.datetime.today().year - np.int(y) if not pd.isnull(y) else 'NaN' for y in df['Year Born'] ]
+       df['Age_at_end_of_year'] = [ dt.datetime.today().year - int(y) if not pd.isnull(y) else 'NaN' for y in df['Year Born'] ]
        col = 'Pay'
        df[col] = df[col].astype('str')
        df = self._col_to_float(df)
