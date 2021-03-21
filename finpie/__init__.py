@@ -23,9 +23,6 @@
 # SOFTWARE.
 #
 
-# Economic data
-from finpie.economic_data.oecd_data import OecdData
-from finpie.economic_data.eia_data import EiaData
 # Fundamental data
 from finpie.fundamental_data.finviz import FinvizData
 from finpie.fundamental_data.macrotrends import MacrotrendsData
