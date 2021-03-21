@@ -181,44 +181,6 @@ class OtherDataTest(unittest.TestCase, CommonTest):
     # def test_global_tickers()
 
 
-class EconomicDataTest(unittest.TestCase, CommonTest):
-
-    def __init__(self, *args, **kwargs):
-        unittest.TestCase.__init__(self, *args, **kwargs)
-        CommonTest.__init__(self)
-
-    def setUp(self):
-        warnings.simplefilter("ignore", ResourceWarning)
-
-    def class_test( self, cl, name ):
-
-        for func in dir(cl):
-            if callable(getattr(cl, func)) and '_' != func[0]:
-                if func in 'eia_petroleum_series':
-                    # requires series_id and is tested in all other functions
-                    pass
-                else:
-                    print( f'Testing {name} {func}' )
-                    data = getattr(cl, func)()
-                    if type( data ) == type((1,1)):
-                        for d in data:
-                            self.df_helper(d)
-                    else:
-                        self.df_helper(data)
-                    print( 'Test passed. \n')
-                    time.sleep(1)
-
-    def test_oecd(self):
-
-        oecd = finpie.OecdData()
-        self.class_test(oecd, 'OECD data')
-
-    def test_eia(self):
-
-        eia = finpie.EiaData()
-        self.class_test(eia, 'EIA data')
-
-
 class NewsDataTest(unittest.TestCase, CommonTest):
 
     def __init__(self, *args, **kwargs):

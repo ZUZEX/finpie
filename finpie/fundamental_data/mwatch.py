@@ -29,20 +29,27 @@ from finpie.base import DataBase
 
 class MwatchData( DataBase ):
 
-    def __init__(self, ticker, freq = 'A'):
+    def __init__(self, ticker, freq = 'A', countryCode = ''):
         DataBase.__init__(self)
         self.ticker = ticker
+        self.countryCode = countryCode
         self.freq = freq
 
     def _download(self, sheet):
         '''
 
-
         '''
         if self.freq.lower() == 'annual' or self.freq.lower() == 'a':
-            url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}'
+            if self.countryCode != '':
+                url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}?countrycode={self.countryCode}'
+            else:
+                url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}'
         elif self.freq.lower() == 'quarterly' or self.freq.lower() == 'q':
-            url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}/quarter'
+            if self.countryCode != '':
+                url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}/quarter?countrycode={self.countryCode}'
+            else:
+                url = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/{sheet}/quarter'
+
         else:
             print('Please specify annual or quartlery frequency.')
             return None

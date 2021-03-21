@@ -31,7 +31,7 @@ from .fool import Earnings
 
 class FundamentalsClassA(FinvizData, MacrotrendsData, YahooData, Earnings):
 
-    def __init__(self, ticker, freq = 'A', source = 'macrotrends'):
+    def __init__(self, ticker, freq = 'A'):
         self.ticker = ticker
         self.freq = freq
         FinvizData.__init__(self, self.ticker)
@@ -51,19 +51,20 @@ class FundamentalsClassB(YahooData, FinvizData, Earnings):
 
 class FundamentalsClassC(FinvizData, MwatchData, YahooData, Earnings):
 
-    def __init__(self, ticker, freq = 'A', source = 'macrotrends'):
+    def __init__(self, ticker, freq = 'A', countryCode = ''):
         self.ticker = ticker
         self.freq = freq
+        self.countryCode = countryCode
         FinvizData.__init__(self, self.ticker)
         YahooData.__init__(self, self.ticker)
         Earnings.__init__(self, self.ticker)
-        MwatchData.__init__(self, self.ticker, self.freq)
+        MwatchData.__init__(self, self.ticker, self.freq, self.countryCode)
 
 
-def Fundamentals( ticker, source = 'macrotrends', freq = 'A' ):
+def Fundamentals( ticker, source = 'macrotrends', freq = 'A', countryCode = '' ):
     if source == 'macrotrends':
         return FundamentalsClassA(ticker, freq)
     elif source == 'yahoo':
         return FundamentalsClassB(ticker, freq)
     elif source == 'marketwatch':
-        return FundamentalsClassC(ticker, freq)
+        return FundamentalsClassC(ticker, freq, countryCode)
