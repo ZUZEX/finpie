@@ -218,13 +218,12 @@ class NewsDataTest(unittest.TestCase, CommonTest):
             print('Test passed. \n')
 
 
-    def test_reuters(self):
+    '''def test_reuters(self):
         print('Testing Reuters.')
         data = self.news.reuters( datestop = self.date )
         self.df_helper(data)
         self.assertTrue( self.date2 in pd.date_range( data.index[-1].strftime('%Y-%m-%d'), data.index[0].strftime('%Y-%m-%d') ) )
-        print('Test passed. \n')
-
+        print('Test passed.')'''
 
     def test_cnbc(self):
         print('Testing CNBC.')

@@ -8,7 +8,7 @@
 
 <p>This library is an ongoing project designed to facilitate access to financial and economic data. It tries to cover potentially useful or interesting data points but unfortunately some functions will only return single point data which however could be aggregated over time to construct a limited time series. On the other hand, some functions that retrieve large amounts of data or depending on the data source will take some time to run. See the <a href="#A3">function index </a> for more information on issues of data availability and relative run time.</p>
 
-<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>The Motley Fool</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and <code>CBOE</code>. The news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code>, <code>Seeking Alpha</code> and <code>Reuters</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
+<p>The company fundamentals module includes functions to retrive data from <code>Yahoo Finance</code>, <code>MarketWatch</code>, <code>The Motley Fool</code>, <code>Finviz</code> and <code>Macrotrends</code>. The price data module retrieves data from <code>Yahoo Finance</code> and <code>CBOE</code>. The news module enables historical news headline collection from the <code>FT</code>, <code>NYT</code>, <code>WSJ</code>, <code>Barrons</code> and <code>Seeking Alpha</code> based on keyword searches. The library also provides a function to get all Nasdaq-listed stock tickers as well as worldwide stock symbols (these need some cleaning still once retrieved).</p>
 
 <p>If there are any issues, ideas or recommendations please feel free to reach out.</p>
 
@@ -20,6 +20,8 @@
 <li> Added chromedriver versions 89.0.4389.23</li>
 <li> Added a linux driver </li>
 <li> Added a country code option for market watch tickers </li>
+<li> Removed Reuters news as they started limiting their search results. </li>
+
 <p>
 
 <p>
@@ -180,7 +182,6 @@ tqdm>=4.32.1
 |<li> <a id='i80' href='#f80'>news.cnbc()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i81' href='#f81'>news.ft()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i82' href='#f82'>news.nyt()</a> </li>|Timeseries|Very slow|
-|<li> <a id='i83' href='#f83'>news.reuters()</a> </li>|Timeseries|Very slow|
 |<li> <a id='i84' href='#f84'>news.seeking\_alpha()</a> </li>|Timeseries|Slow|
 |<li> <a id='i85' href='#f85'>news.wsj()</a> </li>|Timeseries|Very slow|
 |<b>Other data</b>|||
@@ -1525,44 +1526,6 @@ df = news.filter_data(df)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 
-#### <div id = "f83" ><i>NewsData(ticker, keywords).reuters()</i></div>
-
-<ul>
-<li>Returns the news headlines from Reuters for the specified keywords.</li>
-</ul>
-
-<details>
-<summary><i> Example </i></summary>
-
-```python
-# retrieve news article for a given search term
-news = NewsData('XOM', 'exxon mobil')
-df = news.reuters()
-# filter news headlines with a keyword list
-news.filterz = [ 'exxon', 'mobil', 'oil', 'energy' ]
-df = news.filter_data(df)
-df.drop_duplicates('headline', inplace = True) # Reuters returns duplicate articles if articles were updated after publication...
-
-```
-
-<center><small><small>
-
-| date                | link                   | headline                                                           | description                                                           | date_retrieved             | ticker   |   comments |   author |   tag | newspaper   | search_term   | id                                                                                              | source   |
-|:--------------------|:-----------------------|:-------------------------------------------------------------------|:----------------------------------------------------------------------|:---------------------------|:---------|-----------:|---------:|------:|:------------|:--------------|:------------------------------------------------------------------------------------------------|:---------|
-| 2020-09-16 00:00:00 | /article/idUSL4N2GD12G | FACTBOX-Oil refiners shut plants as demand losses may never return | Plc, Exxon Mobil Corp,Viva Energy Group and Ampol Ltd - all welcomed  | 2020-09-16 15:37:54.994138 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersFACTBOX-Oil refiners shut plants as demand losses may never return/article/idUSL4N2GD12G | reuters  |
-| 2020-09-15 00:00:00 | /article/idUSKBN26707N | U.S. presidential candidate Biden rips Trump's record on ethanol   | Exxon Mobil Corp and billionaire investor Carl Icahn.Biden's team has | 2020-09-16 15:37:54.994138 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersU.S. presidential candidate Biden rips Trump's record on ethanol/article/idUSKBN26707N   | reuters  |
-| 2020-09-15 00:00:00 | /article/idUSKBN2660I3 | Column: Australia still addicted to fossil fuel with oil, gas subsidies - Russell | for subsidising the four oil refineries, owned by BP Plc, Exxon Mobil | 2020-09-16 15:37:54.994138 | XOM      |        nan |      nan |   nan | Reuters     | exxon mobil   | ReutersColumn: Australia still addicted to fossil fuel with oil, gas subsidies - Russell/article/idUSKBN2660I3 | reuters  |
-|...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
-
-</small></small></center>
-
-</details>
-
-<div align = "right">  <a href="#i83">To index</a> </div>
-
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-
 #### <div id = "f84" ><i>NewsData(ticker, keywords).seeking\_alpha(datestop, press_releases = False)</i></div>
 
 <ul>
@@ -1775,8 +1738,6 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 <li>Moore Research Center, www.mrci.com </li>
 <li>Motley Fool, www.fool.com</li>
 <li>NASDAQ, www.nasdaq.com</li>
-<li>OECD, www.oecd.org</li>
-<li>Reuters, www.reuters.com</li>
 <li>Seeking Alpha, www.seekingalpha.com</li>
 <li>Wall Street Journal, www.wsj.com</li>
 <li>Yahoo Finance, www.finance.yahoo.com </li>

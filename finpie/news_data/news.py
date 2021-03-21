@@ -785,128 +785,6 @@ class NewsData(CleanNews):
             return data
 
 
-    def reuters(self, datestop = False):
-
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        #                            Reuters
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        source = 'reuters'
-        url =  'https://www.reuters.com/search/news?blob=' + self.keywords.replace(' ', '+' ) +  '&sortBy=date&dateRange=all'
-
-        driver = self._load_driver(caps = 'normal')
-
-        try:
-            # Set and retrive url
-            driver.get(url)
-
-            time.sleep(5)
-            try:
-                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="_evidon-barrier-wrapper"]')))
-                element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
-                driver.execute_script("""
-                var element = arguments[0];
-                element.parentNode.removeChild(element);
-                """, element)
-            except:
-                pass
-            #_evidon-barrier-wrapper
-            try:
-                xpath = '//div[@id="onetrust-consent-sdk"]'
-                element = driver.find_element_by_xpath(xpath)
-                driver.execute_script("""
-                var element = arguments[0];
-                element.parentNode.removeChild(element);
-                """, element)
-            except:
-                pass
-
-            bool = True
-            while bool: #newnumber != oldnumber:
-                # do it with xpath
-                #oldnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
-                try:
-                    element = driver.find_element_by_xpath('//div[@class="search-result-more-txt"]')
-                    driver.execute_script("arguments[0].scrollIntoView();", element)
-                    ActionChains(driver).move_to_element( element).click().perform()
-                    time.sleep(random.randint(1,2))
-                    time.sleep(2)
-
-                    if datestop:
-                        d = driver.find_elements_by_xpath('//h5[@class="search-result-timestamp"]')[-1].get_attribute('innerHTML').split(' ')
-
-                        if dt.datetime(int(d[2]), int(self.months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
-                            bool = False
-                    # delete late pop up
-                    try:
-                        element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
-                        driver.execute_script("""
-                        var element = arguments[0];
-                        element.parentNode.removeChild(element);
-                        """, element)
-                    except:
-                        pass
-
-                except:
-                    bool = False
-                #newnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
-            content = driver.page_source
-            driver.close()
-            driver.quit()
-        except:
-            print('Failed to load data...\n')
-            driver.quit()
-            return None
-
-        headline, link, date, description, author, tag = [], [], [], [], [], []
-
-        soup  = bs( content, "lxml" )
-        articles  = soup.find_all('div', class_ = 'search-result-content' )
-
-        for article in articles:
-            link.append(article.find('h3').find('a').get('href'))
-            headline.append(article.find('h3').text)
-            description.append( article.find('div', class_ = 'search-result-excerpt').text.replace('...', '').replace('\n', '').replace('  ', '').strip() )
-            date.append( article.find('h5', class_ = "search-result-timestamp").text )
-
-        data = pd.DataFrame(
-                {
-                    'link': link,
-                    'headline': headline,
-                    'date': date,
-                    'description': description,
-                }
-            )
-
-        data['date_retrieved'] = dt.datetime.today()
-        data['ticker'] = self.ticker
-        data['comments'] = 'nan'
-        data['author'] = 'nan'
-        data['tag'] = 'nan'
-        data['comments'] = 'nan'
-        data['newspaper'] = 'Reuters'
-
-        data['search_term'] = self.keywords
-
-        data['id'] = data['newspaper'] +  data['headline'] + data['link']
-        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
-        for col in columns:
-            if col not in data.columns:
-                data[col] = 'nan'
-
-
-        data['source'] = source
-
-        data = self._clean_dates(data)
-
-        if self.verbose:
-            print('-' * 78)
-            print(source.upper(), 'done.', len(data), 'articles collected.')
-            print('-' * 78)
-
-        return data
-
-
     def cnbc(self, datestop = False):
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1260,14 +1138,138 @@ class NewsData(CleanNews):
 
 
 
-'''
-news = NewsData('SCHN', '')
-#datestop = '2020-12-09'
+
+'''news = NewsData('XOM', 'exxon energy')
+datestop = '2020-12-09'
 news.head = True
 #news.wsj(datestop = datestop)
-df = news.seeking_alpha(datestop = datestop)
-df = news.seeking_alpha(press_releases = True)
+df = news.reuters(datestop = datestop)'''
 
 
-df
+
+
+'''
+    def reuters(self, datestop = False):
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        #                            Reuters
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        source = 'reuters'
+        url =  'https://www.reuters.com/search/news?blob=' + self.keywords.replace(' ', '+' ) +  '&sortBy=date&dateRange=all'
+
+        driver = self._load_driver(caps = 'normal')
+
+
+        try:
+            # Set and retrive url
+            driver.get(url)
+
+            time.sleep(5)
+            try:
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//div[@id="_evidon-barrier-wrapper"]')))
+                element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
+                driver.execute_script("""
+                var element = arguments[0];
+                element.parentNode.removeChild(element);
+                """, element)
+            except:
+                pass
+            #_evidon-barrier-wrapper
+            try:
+                xpath = '//div[@id="onetrust-consent-sdk"]'
+                element = driver.find_element_by_xpath(xpath)
+                driver.execute_script("""
+                var element = arguments[0];
+                element.parentNode.removeChild(element);
+                """, element)
+            except:
+                pass
+
+            bool = True
+            while bool: #newnumber != oldnumber:
+                # do it with xpath
+                #oldnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
+                try:
+                    element = driver.find_element_by_xpath('//div[@class="search-result-more-txt"]')
+                    driver.execute_script("arguments[0].scrollIntoView();", element)
+                    ActionChains(driver).move_to_element( element).click().perform()
+                    time.sleep(random.randint(1,2))
+                    time.sleep(2)
+
+                    if datestop:
+                        d = driver.find_elements_by_xpath('//h5[@class="search-result-timestamp"]')[-1].get_attribute('innerHTML').split(' ')
+
+                        if dt.datetime(int(d[2]), int(self.months[d[0][:3].lower()]),int(d[1].replace(',',''))) < pd.to_datetime(datestop):
+                            bool = False
+                    # delete late pop up
+                    try:
+                        element = driver.find_element_by_xpath('//div[@id="_evidon-barrier-wrapper"]')
+                        driver.execute_script("""
+                        var element = arguments[0];
+                        element.parentNode.removeChild(element);
+                        """, element)
+                    except:
+                        pass
+
+                except:
+                    bool = False
+                #newnumber =  len( driver.find_elements_by_xpath('//div[@class="search-result-content"]') )
+            content = driver.page_source
+            driver.close()
+            driver.quit()
+        except:
+            print('Failed to load data...\n')
+            driver.quit()
+            return None
+
+        headline, link, date, description, author, tag = [], [], [], [], [], []
+
+        soup  = bs( content, "lxml" )
+        articles  = soup.find_all('div', class_ = 'search-result-content' )
+
+        for article in articles:
+            link.append(article.find('h3').find('a').get('href'))
+            headline.append(article.find('h3').text)
+            description.append( article.find('div', class_ = 'search-result-excerpt').text.replace('...', '').replace('\n', '').replace('  ', '').strip() )
+            date.append( article.find('h5', class_ = "search-result-timestamp").text )
+
+        data = pd.DataFrame(
+                {
+                    'link': link,
+                    'headline': headline,
+                    'date': date,
+                    'description': description,
+                }
+            )
+
+        data['date_retrieved'] = dt.datetime.today()
+        data['ticker'] = self.ticker
+        data['comments'] = 'nan'
+        data['author'] = 'nan'
+        data['tag'] = 'nan'
+        data['comments'] = 'nan'
+        data['newspaper'] = 'Reuters'
+
+        data['search_term'] = self.keywords
+
+        data['id'] = data['newspaper'] +  data['headline'] + data['link']
+        columns = [ 'link', 'headline', 'date', 'description', 'date_retrieved', 'author', 'tag', 'newspaper', 'comments', 'ticker', 'search_term', 'id' ]
+        for col in columns:
+            if col not in data.columns:
+                data[col] = 'nan'
+
+
+        data['source'] = source
+
+        data = self._clean_dates(data)
+
+        if self.verbose:
+            print('-' * 78)
+            print(source.upper(), 'done.', len(data), 'articles collected.')
+            print('-' * 78)
+
+        return data
+
+
 '''
