@@ -115,7 +115,7 @@
 
 ## <div id="A2">Installation</div>
 
-Python3 is required. Google Chrome version <code>86.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>).
+Python3 is required. Google Chrome version <code>89.\*.\*\*\*\*.\*\*\*</code> or higher is required for some functions involving Selenium (can be found <a href="https://chromereleases.googleblog.com/">here</a>).
 
 Note that Selenium may not be able to use Chrome in combination with Firewalls and the functions may fail to execute..
 
