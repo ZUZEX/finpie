@@ -24,6 +24,7 @@
 #
 
 import time
+import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 from selenium.webdriver.common.by import By
@@ -87,10 +88,12 @@ class MacrotrendsData( DataBase ):
                 return None
 
         df.replace('\$', '', regex = True, inplace = True)
-        df.replace(',', '', regex = True, inplace = True)
-        df.replace('-', '', regex = True, inplace = True)
+        df.replace(',', '', regex = True, inplace = True)        
         df = df.transpose()
-        df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('__', '_').replace('-', '').replace('&', 'and').lower() for col in df.columns ]
+        df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('__', '_').replace('&', 'and').lower() for col in df.columns ]
+        for col in df.columns:
+            df[col] = [ 0 if i == "-" else i for i in df[col] ]
+
         df.replace('', 'nan', inplace = True)
         df.index = pd.to_datetime(df.index, format = '%Y-%m-%d')
         df.index.name = 'date'
@@ -188,9 +191,12 @@ class MacrotrendsData( DataBase ):
 
 # quick test
 
-#m = MacrotrendsData('NFLX', freq = 'Q')
+#m = MacrotrendsData('TSLA', freq = 'Q')
 #m.head = True
-#m.income_statement()
+#df = m.income_statement()
+
+#df
+
 
 #m.cashflow_statement()
 #m.ratios()

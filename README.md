@@ -14,6 +14,11 @@
 
 <br>
 
+<p>
+<i>Changes for v0.1362</i>
+<li> Fixed macrotrends </li>
+
+<p>
 
 <p>
 <i>Changes for v0.1361</i>

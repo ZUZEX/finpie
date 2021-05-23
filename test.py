@@ -10,8 +10,8 @@ class CommonTest(object):
     def __init__(self):
         # test ticker
         self.ticker = 'AAPL'
-        self.date = '2020-12-03'
-        self.date2 = '2020-12-11'
+        self.date = '2021-02-03'
+        self.date2 = '2021-03-11'
 
     def df_helper(self, data):
         # simple test to see if dataframe is returned
