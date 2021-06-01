@@ -14,6 +14,14 @@
 
 <br>
 
+
+<p>
+<i>Changes for v0.1362</i>
+<li> Added chromedriver versions 91.0.4472.19 </li>
+<li> Updated macrotrends </li>
+
+<p>
+
 <p>
 <i>Changes for v0.1362</i>
 <li> Fixed macrotrends </li>
