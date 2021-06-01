@@ -69,7 +69,8 @@ class MacrotrendsData( DataBase ):
         for row in rows:
             temp.append( [ cell.text for cell in row.find_all('div', attrs = { 'role': 'gridcell' } ) ] )
         df = pd.DataFrame( temp, columns = [ col.text for col in soup.find_all('div', attrs = { 'role': 'columnheader' } ) ] )
-        df.drop('', axis = 1, inplace = True)
+        if '' in df.columns:
+            df.drop('', axis = 1, inplace = True)
         df.columns = ['Item'] + df.columns[1:].to_list()
         df.index = df.Item
         df.drop('Item', axis = 1, inplace = True)
@@ -88,7 +89,7 @@ class MacrotrendsData( DataBase ):
                 return None
 
         df.replace('\$', '', regex = True, inplace = True)
-        df.replace(',', '', regex = True, inplace = True)        
+        df.replace(',', '', regex = True, inplace = True)
         df = df.transpose()
         df.columns = [ col.replace(' ', '_').replace('/','_to_').replace('.', '').replace('__', '_').replace('&', 'and').lower() for col in df.columns ]
         for col in df.columns:
@@ -193,10 +194,9 @@ class MacrotrendsData( DataBase ):
 
 #m = MacrotrendsData('TSLA', freq = 'Q')
 #m.head = True
-#df = m.income_statement()
+#df = m.ratios()
 
 #df
-
 
 #m.cashflow_statement()
 #m.ratios()
