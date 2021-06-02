@@ -487,6 +487,18 @@ class NewsData(CleanNews):
 
             while k < t:
                 k = 0
+
+                if not passed:
+                    try:
+                        xpath = '//div[@id="px-captcha"]'
+                        if len(driver.find_elements_by_xpath(xpath)) > 0:
+                            element = driver.find_element_by_tag_name('iframe')
+                            ActionChains(driver).click_and_hold(element).perform()
+                            time.sleep(5)
+                            ActionChains(driver).release(element).perform()
+                            passed = False
+                    except:
+                        pass
                 #last_height       = driver.execute_script( 'return document.documentElement.scrollHeight' )
                 #last_number = len(driver.find_elements_by_class_name('symbol_item'))
                 last_number =  len(driver.find_elements_by_xpath('//article'))
@@ -1138,12 +1150,11 @@ class NewsData(CleanNews):
 
 
 
-
 '''news = NewsData('XOM', 'exxon energy')
-datestop = '2020-12-09'
+datestop = '2021-03-09'
 news.head = True
 #news.wsj(datestop = datestop)
-df = news.reuters(datestop = datestop)'''
+df = news.seeking_alpha(datestop = datestop)'''
 
 
 
