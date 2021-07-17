@@ -23,6 +23,8 @@
 # SOFTWARE.
 #
 
+
+# import re as _re
 import os
 import re
 import time
@@ -45,11 +47,11 @@ from finpie.base import DataBase
 #from base import DataBase
 
 
-
 def historical_prices( ticker, start = None, end = None):
     '''
 
     '''
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
     if start == None:
         start = -2208988800
@@ -59,7 +61,7 @@ def historical_prices( ticker, start = None, end = None):
         end = int(time.mktime(time.strptime(f'{last_close} 00:00:00', '%Y-%m-%d %H:%M:%S')))
 
     url = f'https://query2.finance.yahoo.com/v7/finance/download/{ticker}?period1={start}&period2={end}&interval=1d'
-    r = requests.get(url).text
+    r = requests.get(url, headers = headers).text
     df = pd.read_csv(StringIO(r))
     df.columns = [ col.lower().replace(' ', '_') for col in df.columns ]
     df.index = pd.to_datetime(df.date, format = '%Y-%m-%d')
@@ -72,9 +74,10 @@ def yahoo_option_chain( ticker ):
     '''
 
     '''
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
     url = f'https://query2.finance.yahoo.com/v7/finance/options/{ticker}?getAllData=True'
-    r = requests.get(url).json()
+    r = requests.get(url, headers = headers).json()
     calls = []
     puts = []
     for o in r['optionChain']['result'][0]['options']:
