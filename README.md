@@ -14,6 +14,13 @@
 
 <br>
 
+<p>
+<i>Changes for v0.1364</i>
+<li> Added chromedriver versions 93.0.4577.15 </li>
+<li> Fixed yahoo price data </li>
+<li> Updated news scrapes </li>
+
+<p>
 
 <p>
 <i>Changes for v0.1362</i>
